@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using PMFightAcademy.Client.Authorization;
 
+
 namespace PMFightAcademy.Client.Contract
 {
     /// <summary>

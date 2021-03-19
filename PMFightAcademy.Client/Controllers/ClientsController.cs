@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -86,11 +86,13 @@ namespace PMFightAcademy.Client.Controllers
 
             _logger.LogInformation("RegModel is not valid");
             return BadRequest();
+
         }
 
         /// <summary>
         /// Loggs in a registered client.
         /// </summary>
+
         /// <param name="model">Contract for login action.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
