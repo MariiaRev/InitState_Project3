@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client
 {
+#pragma warning disable 1591
     public class Program
     {
         public static void Main(string[] args)
@@ -23,4 +24,5 @@ namespace PMFightAcademy.Client
                     webBuilder.UseStartup<Startup>();
                 });
     }
+#pragma warning restore 1591
 }

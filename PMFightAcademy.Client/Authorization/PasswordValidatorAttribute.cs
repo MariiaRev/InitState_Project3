@@ -4,8 +4,17 @@ using System.Text.RegularExpressions;
 
 namespace PMFightAcademy.Client.Authorization
 {
+    /// <summary>
+    /// Validator for password
+    /// </summary>
+    /// <remarks>
+    /// Password must have at least 8 chars
+    /// At least 1 upper char
+    /// and at least 1 number
+    /// </remarks> 
     public class PasswordValidatorAttribute : ValidationAttribute
     {
+#pragma warning disable CS1591 
         public override bool IsValid(object input)
         {
             var password = input.ToString();
@@ -19,5 +28,6 @@ namespace PMFightAcademy.Client.Authorization
 
             return hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMinimum8Chars.IsMatch(password);
         }
+#pragma warning restore CS1591 
     }
 }

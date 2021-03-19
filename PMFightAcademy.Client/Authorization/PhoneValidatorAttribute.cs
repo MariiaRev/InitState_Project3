@@ -4,8 +4,19 @@ using System.Linq;
 
 namespace PMFightAcademy.Client.Authorization
 {
+    /// <summary>
+    /// Validator for phone number
+    /// </summary>
+    /// <remarks>
+    /// Formats of phone number:
+    /// +38067 111 1111
+    /// 067 111 1111
+    /// Available country codes:
+    /// 039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+    /// </remarks>
     public class PhoneValidatorAttribute : ValidationAttribute
     {
+#pragma warning disable CS1591 
         public override bool IsValid(object input)
         {
             var phone = input.ToString();
@@ -30,5 +41,6 @@ namespace PMFightAcademy.Client.Authorization
 
             return countryCodes.Any(x => x.Equals(String.Concat(phone.Take(3))));
         }
+#pragma warning restore CS1591
     }
 }
