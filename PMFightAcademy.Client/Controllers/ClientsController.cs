@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
@@ -51,6 +52,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
+        [AllowAnonymous]
         public IActionResult Register([FromBody] Models.Client model)
         {
             if (model == null)
@@ -89,7 +91,6 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Loggs in a registered client.
         /// </summary>
-
         /// <param name="model">Contract for login action.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
@@ -102,6 +103,7 @@ namespace PMFightAcademy.Client.Controllers
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [AllowAnonymous]
         public IActionResult Login([FromBody] LoginContract model)
         {
             if (model == null)

@@ -1,13 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Swashbuckle.AspNetCore.Annotations;
-using PMFightAcademy.Client.Models;
-using PMFightAcademy.Client.Contract.Dto;
 using System.Net;
-using PMFightAcademy.Client.Contract;
+using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -17,6 +16,7 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for working with booking and getting active booking list or booking history.")]
+    [Authorize]
     public class BookingController : ControllerBase
     {
         /// <summary>

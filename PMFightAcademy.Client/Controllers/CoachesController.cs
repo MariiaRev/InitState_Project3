@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Net;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
+using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Net;
+using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -16,6 +15,7 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for getting data about coaches.")]
+    [Authorize]
     public class CoachesController: ControllerBase
     {
         /// <summary>
