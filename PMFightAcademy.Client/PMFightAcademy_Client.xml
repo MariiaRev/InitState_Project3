@@ -1,0 +1,563 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PMFightAcademy.Client</name>
+    </assembly>
+    <members>
+        <member name="T:PMFightAcademy.Client.Authorization.AuthOptions">
+            <summary>
+            Jwt Options for server settings 
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Issuer">
+            <summary>
+            Token issuer (producer).
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Audience">
+            <summary>
+            Token audience (consumer).
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Key">
+            <summary>
+            Token secret part.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Lifetime">
+            <summary>
+            Token life time.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PasswordHashGenerator">
+            <summary>
+            Static class with extension method
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Authorization.PasswordHashGenerator.GenerateHash(System.String)">
+            <summary>
+            Method for generate hash for password (HMACSHA256)
+            </summary>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PasswordValidatorAttribute">
+            <summary>
+            Validator for password
+            </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
+        </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PhoneValidatorAttribute">
+            <summary>
+            Validator for phone number
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
+        <member name="T:PMFightAcademy.Client.Contract.Dto.BookingDto">
+            <summary>
+            Booking a service dto model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Id">
+            <summary>
+            Booking id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Date">
+            <summary>
+            The date for the service to be provided.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Time">
+            <summary>
+            The time for the service to be provided.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.ServiceId">
+            <summary>
+            Service id to be provided.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.CoachId">
+            <summary>
+            Coach id to provide the service.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Contract.Dto.CoachDto">
+            <summary>
+            Coach dto model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.Id">
+            <summary>
+            Coach id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.FirstName">
+            <summary>
+            Coach first name.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.LastName">
+            <summary>
+            Coach last name.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.Age">
+            <summary>
+            Coach age.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.Description">
+            <summary>
+            Description about coach.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.PhoneNumber">
+            <summary>
+            Coach phone number.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Contract.Dto.DataForBookingDto">
+            <summary>
+            Data for booking dto model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.Services">
+            <summary>
+            Services available for a booking.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.Coaches">
+            <summary>
+            Coaches available for a booking.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.Dates">
+            <summary>
+            Dates available for a booking.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.TimeSlots">
+             <summary>
+            Time slots available for a booking.
+             </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Contract.Dto.HistoryDto">
+            <summary>
+            History dto model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.ServiceName">
+            <summary>
+            Name of provided service.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Date">
+            <summary>
+            Date of provided service.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Time">
+            <summary>
+            Time of provided service.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.CoachFirstName">
+            <summary>
+            First name of the coach that provided the service
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.CoachLastName">
+            <summary>
+            Last name of the coach that provided the service
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Contract.GetDataContract`1">
+            <summary>
+            Contract for getting data with paggination.
+            </summary>
+            <typeparam name="T">The type of result data.</typeparam>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.GetDataContract`1.Data">
+            <summary>
+            The array of <typeparamref name="T"/> elements.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.GetDataContract`1.Paggination">
+            <summary>
+            Paggination state.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Contract.LoginContract">
+            <summary>
+            Contract for log in action.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.LoginContract.Login">
+            <summary>
+            Phone number (login).
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.LoginContract.Password">
+            <summary>
+            Password.
+            </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
+        </member>
+        <member name="T:PMFightAcademy.Client.Controllers.BookingController">
+            <summary>
+            Service controller for signup for a service/workout.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetMissingDataForBooking(PMFightAcademy.Client.Contract.Dto.BookingDto)">
+            <summary>
+            Gets missing in <paramref name="booking"/> data for a booking depending on set filters in <paramref name="booking"/>.
+            </summary>
+            <param name="booking">Booking filters.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and there is at least one element that corresponds set filters.
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if user is authorized and there is no element that corresponds set filters.
+            </returns>
+            <remarks>
+            Returns Unauthorized if user is unauthorized.
+            Returns OK if user is authorized and there is at least one element that corresponds set filters.
+            Returns NotFound if user is authorized and there is no element that corresponds set filters.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto)">
+            <summary>
+            Adds a booking.
+            </summary>
+            <param name="booking">Booking filters.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and a booking was successfully added.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if user is authorized 
+            and there is at least one missing filter or booking time is not available anymore.
+            </returns>
+            <remarks>
+            Returns Unauthorized if user is unauthorized.
+            Returns OK if user is authorized and a booking was successfully added.
+            Returns BadRequest if user is authorized and there is at least one missing filter
+            and there is at least one missing filter or booking time is not available anymore.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetActiveBookings(System.Int32,System.Int32)">
+            <summary>
+            Gets active bookings of services.
+            </summary>
+            <param name="pageSize">The count of active booking records to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and there is at least one record in the active booking list.
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if user is authorized and there is no record in the active booking list.
+            </returns>
+            <remarks>
+            Returns Unauthorized if user is unauthorized.
+            Returns OK if user is authorized and there is at least one record in the active booking list.
+            Returns NotFound if user is authorized and there is no record in the active booking list.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetHistory(System.Int32,System.Int32)">
+            <summary>
+            Gets booking history.
+            </summary>
+            <param name="pageSize">The count of history records to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and there is at least one record in the history.
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if user is authorized and there is no record in the history.
+            </returns>
+            <remarks>
+            Returns Unauthorized if user is unauthorized.
+            Returns OK if user is authorized and there is at least one record in the history.
+            Returns NotFound if user is authorized and there is no record in the history.
+            </remarks>
+        </member>
+        <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
+            <summary>
+            Client controller.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client)">
+            <summary>
+            Registers a new client.
+            </summary>
+            <param name="model">Client to register.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
+            </returns>
+            <remarks>
+            Returns OK if client was successfully registered.
+            Returns BadRequest if <paramref name="model"/> data is invalid.
+            Returns Conflict if <paramref name="model"/> login already exists.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract)">
+            <summary>
+            Loggs in a registered client.
+            </summary>
+            <param name="model">Contract for login action.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
+            </returns>
+            <remarks>
+            Returns OK if client was successfully logged in.
+            Returns BadRequest if login or password are invalid.
+            </remarks>
+        </member>
+        <member name="T:PMFightAcademy.Client.Controllers.CoachesController">
+            <summary>
+            Coach controller.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String)">
+            <summary>
+            Portioned return of coaches data.
+            </summary>
+            <param name="pageSize">The count of coaches to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <param name="filter">Optional <c>string</c> filter parameter.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one coach for the corresponding request.
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no coach for the corresponding request.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and there is at least one coach for the corresponding request.
+            Returns NotFound if client is authorized and there is no coach for the corresponding request.
+            </remarks>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Booking">
+            <summary>
+            Booking a service model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.Id">
+            <summary>
+            Booking id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.SlotId">
+            <summary>
+            Slot id for the booking.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.ServiceId">
+            <summary>
+            Service id for the booking.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.ClientId">
+            <summary>
+            Client id  for the booking.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.ResultPrice">
+            <summary>
+            Result price of the booking.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Client">
+            <summary>
+            Client model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Id">
+            <summary>
+            User id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Login">
+            <summary>
+            User login represented by his/her phone number.
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Password">
+            <summary>
+            User password.
+            </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Name">
+            <summary>
+            User name.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Coach">
+            <summary>
+            Coach model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.Id">
+            <summary>
+            Coach id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.FirstName">
+            <summary>
+            Coach first name.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.LastName">
+            <summary>
+            Coach last name.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.BirthDate">
+            <summary>
+            Coach date of birth.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.Description">
+            <summary>
+            Description about coach.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.PhoneNumber">
+            <summary>
+            Coach phone number.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Paggination">
+            <summary>
+            Paggination model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Paggination.Page">
+            <summary>
+            Current page number.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Paggination.TotalPages">
+            <summary>
+            Total pages count.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Paggination.HasPreviousPage">
+            <summary>
+            Indicates if the current page has a previous one.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Paggination.HasNextPage">
+            <summary>
+            Indicates if the current page has a next one.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Qualification">
+            <summary>
+            Coach qualification. 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Qualification.Id">
+            <summary>
+            Qualification id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Qualification.CoachId">
+            <summary>
+            Coach id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Qualification.ServiceId">
+            <summary>
+            Service id.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Service">
+            <summary>
+            Service model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Service.Id">
+            <summary>
+            Service id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Service.Name">
+            <summary>
+            Service title.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Service.Description">
+            <summary>
+            Service description.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Service.Price">
+            <summary>
+            Service price per hour.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Slot">
+            <summary>
+            Slot model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.Id">
+            <summary>
+            Slot id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.Date">
+            <summary>
+            Date of slot.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.StartTime">
+            <summary>
+            Slot start time.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.Duration">
+            <summary>
+            Duration of slot.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.CoachId">
+            <summary>
+            Coach of slot.
+            </summary>
+        </member>
+    </members>
+</doc>

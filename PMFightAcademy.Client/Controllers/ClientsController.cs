@@ -1,19 +1,16 @@
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Text.Json;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.Contract;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net;
+using System.Security.Claims;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -138,24 +135,26 @@ namespace PMFightAcademy.Client.Controllers
             return BadRequest();
         }
 
-        /// <summary>
-        /// Loggs out a registered, logged in client.
-        /// </summary>
-        /// <returns>
-        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged out.
-        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if cannot log out client because (s)he was not logged in.
-        /// </returns>
-        /// <remarks>
-        /// Returns OK if client was successfully logged out.
-        /// Returns BadRequest if cannot log out client because (s)he was not logged in.
-        /// </remarks>
-        [HttpPost("[action]")]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Logout()
-        {
-            return Ok();
-        }
+        #region useless logout
+        ///// <summary>
+        ///// Loggs out a registered, logged in client.
+        ///// </summary>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged out.
+        ///// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if cannot log out client because (s)he was not logged in.
+        ///// </returns>
+        ///// <remarks>
+        ///// Returns OK if client was successfully logged out.
+        ///// Returns BadRequest if cannot log out client because (s)he was not logged in.
+        ///// </remarks>
+        //[HttpPost("[action]")]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        //public async Task<IActionResult> Logout()
+        //{
+        //    return Ok();
+        //}
+        #endregion
 
         private static string Authenticate(string userName, int id)
         {
