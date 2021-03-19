@@ -3,17 +3,24 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net;
 using System.Security.Claims;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
+using PMFightAcademy.Client.Contract;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Client.Controllers
 {
+    /// <summary>
+    /// Client controller.
+    /// </summary>
     [ApiController]
-    [Route("account")]
+    [Route("[controller]")]
+    [SwaggerTag("This controller is for registration, login and logout a client.")]
     public class AuthController : ControllerBase
     {
         private readonly ILogger<AuthController> _logger;
@@ -25,8 +32,25 @@ namespace PMFightAcademy.Client.Controllers
             _bagUsers = new ConcurrentBag<User>();
         }
 
-        [HttpPost("register")]
-        public IActionResult Register([FromBody] RegModel model)
+        /// <summary>
+        /// Registers a new client.
+        /// </summary>
+        /// <param name="client">Client to register.</param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was succesffully registered.
+        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if <paramref name="client"/> data is invalid.
+        /// <see cref="HttpStatusCode.Conflict"/> with <c>string</c> result message if <see cref="Models.Client.Login"/> already exists.
+        /// </returns>
+        /// <remarks>
+        /// Returns OK if client was succesffully registered.
+        /// Returns BadRequest if <paramref name="client"/> data is invalid.
+        /// Returns Conflict if <paramref name="client"/> login already exists.
+        /// </remarks>
+        [HttpPost("[action]")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
+        public IActionResult Register([FromBody] LoginContract model)
         {
             if (model == null)
             {
@@ -36,28 +60,42 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _bagUsers.FirstOrDefault(m => m.PhoneNumber == model.PhoneNumber);
+                var user = _bagUsers.FirstOrDefault(m => m.PhoneNumber == model.Login);
 
                 if (user == null)
                 {
                     _bagUsers.Add(new User
                     {
-                        PhoneNumber = model.PhoneNumber,
+                        PhoneNumber = model.Login,
                         Password = model.Password.GenerateHash()
                     });
 
-                    return Ok(Authenticate(model.PhoneNumber));
+                    return Ok(Authenticate(model.Login));
                 }
 
-                _logger.LogInformation($"{model.PhoneNumber}:\tIncorrect login or password");
+                _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
             }
 
             _logger.LogInformation("RegModel is not valid");
             return BadRequest();
         }
 
-        [HttpPost("login")]
-        public IActionResult Login([FromBody] RegModel model)
+        /// <summary>
+        /// Loggs in a registered client.
+        /// </summary>
+        /// <param name="loginContract">Contract for login action.</param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
+        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if login or password are invalid.
+        /// </returns>
+        /// <remarks>
+        /// Returns OK if client was successfully logged in.
+        /// Returns BadRequest if login or password are invalid.
+        /// </remarks>
+        [HttpPost("[action]")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public IActionResult Login([FromBody] LoginContract model)
         {
             if (model == null)
             {
@@ -67,7 +105,7 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _bagUsers.FirstOrDefault(m => m.PhoneNumber == model.PhoneNumber);
+                var user = _bagUsers.FirstOrDefault(m => m.PhoneNumber == model.Login);
 
                 if (user == null)
                 {
@@ -76,9 +114,9 @@ namespace PMFightAcademy.Client.Controllers
                 }
 
                 if (model.Password.GenerateHash().Equals(user.Password)) 
-                    return Ok(Authenticate(model.PhoneNumber));
+                    return Ok(Authenticate(model.Login));
 
-                _logger.LogInformation($"{model.PhoneNumber}:\tIncorrect login or password");
+                _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
                 return BadRequest();
             }
 
