@@ -4,6 +4,65 @@
         <name>PMFightAcademy.Client</name>
     </assembly>
     <members>
+        <member name="T:PMFightAcademy.Client.Authorization.AuthOptions">
+            <summary>
+            Jwt Options for server settings 
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Issuer">
+            <summary>
+            Token issuer (producer).
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Audience">
+            <summary>
+            Token audience (consumer).
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Key">
+            <summary>
+            Token secret part.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Authorization.AuthOptions.Lifetime">
+            <summary>
+            Token life time.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PasswordHashGenerator">
+            <summary>
+            Static class with extension method
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Authorization.PasswordHashGenerator.GenerateHash(System.String)">
+            <summary>
+            Method for generate hash for password (HMACSHA256)
+            </summary>
+            <param name="password"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PasswordValidatorAttribute">
+            <summary>
+            Validator for password
+            </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
+        </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PhoneValidatorAttribute">
+            <summary>
+            Validator for phone number
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
         <member name="T:PMFightAcademy.Client.Contract.LoginContract">
             <summary>
             Contract for log in action.
@@ -13,11 +72,23 @@
             <summary>
             Phone number (login).
             </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.LoginContract.Password">
             <summary>
             Password.
             </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
             <summary>
@@ -81,11 +152,23 @@
             <summary>
             User login represented by his/her phone number.
             </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
         </member>
         <member name="P:PMFightAcademy.Client.Models.Client.Password">
             <summary>
             User password.
             </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
         </member>
         <member name="P:PMFightAcademy.Client.Models.Client.Name">
             <summary>

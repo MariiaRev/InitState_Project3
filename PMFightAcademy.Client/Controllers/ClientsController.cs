@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -74,7 +75,9 @@ namespace PMFightAcademy.Client.Controllers
                         Name = model.Name
                     });
 
-                    return Ok(Authenticate(model.Login));
+                    _bagUsers.TryPeek(out var m);
+
+                    return Ok(Authenticate(m.Login, m.Id));
                 }
 
                 _logger.LogInformation($"{model.Login} is already exist");
@@ -118,8 +121,12 @@ namespace PMFightAcademy.Client.Controllers
                     return BadRequest();
                 }
 
-                if (model.Password.GenerateHash().Equals(user.Password)) 
-                    return Ok(Authenticate(model.Login));
+                if (model.Password.GenerateHash().Equals(user.Password))
+                {
+                    _bagUsers.TryPeek(out var m);
+
+                    return Ok(Authenticate(m.Login, m.Id));
+                }
 
                 _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
                 return BadRequest();
@@ -148,11 +155,12 @@ namespace PMFightAcademy.Client.Controllers
             return Ok();
         }
 
-        private static string Authenticate(string userName)
+        private static string Authenticate(string userName, int id)
         {
             var claims = new List<Claim>
             {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimTypes.UserData,  id.ToString())
             };
 
             var identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);

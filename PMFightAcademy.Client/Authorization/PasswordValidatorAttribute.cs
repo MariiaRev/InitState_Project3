@@ -24,7 +24,7 @@ namespace PMFightAcademy.Client.Authorization
 
             var hasNumber = new Regex(@"[0-9]+");
             var hasUpperChar = new Regex(@"[A-Z]+");
-            var hasMinimum8Chars = new Regex(@".{6,64}");
+            var hasMinimum8Chars = new Regex(@".{8,64}");
 
             return hasNumber.IsMatch(password) && hasUpperChar.IsMatch(password) && hasMinimum8Chars.IsMatch(password);
         }
