@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -16,6 +17,7 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for getting data about coaches.")]
+    [Authorize]
     public class CoachesController: ControllerBase
     {
         /// <summary>
