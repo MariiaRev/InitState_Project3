@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PMFightAcademy.Client</name>
+    </assembly>
+    <members>
+        <member name="T:PMFightAcademy.Client.Contract.LoginContract">
+            <summary>
+            Contract for log in action.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.LoginContract.Login">
+            <summary>
+            Phone number (login).
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.LoginContract.Password">
+            <summary>
+            Password.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
+            <summary>
+            Client controller.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client)">
+            <summary>
+            Registers a new client.
+            </summary>
+            <param name="model">Client to register.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
+            </returns>
+            <remarks>
+            Returns OK if client was successfully registered.
+            Returns BadRequest if <paramref name="model"/> data is invalid.
+            Returns Conflict if <paramref name="model"/> login already exists.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract)">
+            <summary>
+            Loggs in a registered client.
+            </summary>
+            <param name="model">Contract for login action.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
+            </returns>
+            <remarks>
+            Returns OK if client was successfully logged in.
+            Returns BadRequest if login or password are invalid.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Logout">
+            <summary>
+            Loggs out a registered, logged in client.
+            </summary>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged out.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> with <c>string</c> result message if cannot log out client because (s)he was not logged in.
+            </returns>
+            <remarks>
+            Returns OK if client was successfully logged out.
+            Returns BadRequest if cannot log out client because (s)he was not logged in.
+            </remarks>
+        </member>
+        <member name="T:PMFightAcademy.Client.Models.Client">
+            <summary>
+            Client model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Id">
+            <summary>
+            User id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Login">
+            <summary>
+            User login represented by his/her phone number.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Password">
+            <summary>
+            User password.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Client.Name">
+            <summary>
+            User name.
+            </summary>
+        </member>
+    </members>
+</doc>

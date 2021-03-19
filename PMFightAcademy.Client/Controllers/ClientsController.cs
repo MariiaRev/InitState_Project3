@@ -28,7 +28,7 @@ namespace PMFightAcademy.Client.Controllers
         private readonly ConcurrentBag<Models.Client> _bagUsers;
 
 #pragma warning disable 1591
-        public ClientsController(ILogger<ClientsController> logger, ConcurrentBag<Models.Client> _bagUsers)
+        public ClientsController(ILogger<ClientsController> logger)
         {
             _logger = logger;
             _bagUsers = new ConcurrentBag<Models.Client>();
