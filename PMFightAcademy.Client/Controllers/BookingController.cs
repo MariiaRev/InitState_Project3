@@ -8,6 +8,7 @@ using PMFightAcademy.Client.Models;
 using PMFightAcademy.Client.Contract.Dto;
 using System.Net;
 using PMFightAcademy.Client.Contract;
+using Microsoft.AspNetCore.Authorization;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -17,6 +18,7 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for working with booking and getting active booking list or booking history.")]
+    [Authorize]
     public class BookingController : ControllerBase
     {
         /// <summary>
