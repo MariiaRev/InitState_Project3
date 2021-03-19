@@ -25,13 +25,13 @@ namespace PMFightAcademy.Client.Controllers
     public class ClientsController : ControllerBase
     {
         private readonly ILogger<ClientsController> _logger;
-        //private readonly ConcurrentBag<User> _bagUsers;
+        private readonly ConcurrentBag<Models.Client> _bagUsers;
 
 #pragma warning disable 1591
-        public ClientsController(ILogger<ClientsController> logger)
+        public ClientsController(ILogger<ClientsController> logger, ConcurrentBag<Models.Client> _bagUsers)
         {
             _logger = logger;
-            //_bagUsers = new ConcurrentBag<User>();
+            _bagUsers = new ConcurrentBag<Models.Client>();
         }
 #pragma warning restore 1591
 
@@ -41,8 +41,8 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="model">Client to register.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
-        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if <paramref name="model"/> data is invalid.
-        /// <see cref="HttpStatusCode.Conflict"/> with <c>string</c> result message if <see cref="Models.Client.Login"/> already exists.
+        /// <see cref="HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
+        /// <see cref="HttpStatusCode.Conflict"/> if <see cref="Models.Client.Login"/> already exists.
         /// </returns>
         /// <remarks>
         /// Returns OK if client was successfully registered.
@@ -53,7 +53,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
-        public IActionResult Register([FromBody] LoginContract model)
+        public IActionResult Register([FromBody] Models.Client model)
         {
             if (model == null)
             {
@@ -63,20 +63,22 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _bagUsers.FirstOrDefault(m => m.PhoneNumber == model.Login);
+                var user = _bagUsers.FirstOrDefault(m => m.Login == model.Login);
 
                 if (user == null)
                 {
-                    _bagUsers.Add(new User
+                    _bagUsers.Add(new Models.Client
                     {
-                        PhoneNumber = model.Login,
-                        Password = model.Password.GenerateHash()
+                        Login = model.Login,
+                        Password = model.Password.GenerateHash(),
+                        Name = model.Name
                     });
 
                     return Ok(Authenticate(model.Login));
                 }
 
-                _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
+                _logger.LogInformation($"{model.Login} is already exist");
+                return Conflict();
             }
 
             _logger.LogInformation("RegModel is not valid");
@@ -86,10 +88,10 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Loggs in a registered client.
         /// </summary>
-        /// <param name="loginContract">Contract for login action.</param>
+        /// <param name="model">Contract for login action.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
-        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if login or password are invalid.
+        /// <see cref="HttpStatusCode.BadRequest"/> if login or password are invalid.
         /// </returns>
         /// <remarks>
         /// Returns OK if client was successfully logged in.
@@ -97,7 +99,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </remarks>
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult Login([FromBody] LoginContract model)
         {
             if (model == null)
@@ -108,7 +110,7 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _bagUsers.FirstOrDefault(m => m.PhoneNumber == model.Login);
+                var user = _bagUsers.FirstOrDefault(m => m.Login == model.Login);
 
                 if (user == null)
                 {

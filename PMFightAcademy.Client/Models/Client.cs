@@ -28,6 +28,7 @@ namespace PMFightAcademy.Client.Models
         [MinLength(8)]
         [RegularExpression("")]
         public string Password { get; set; }
+
         /// <summary>
         /// User name.
         /// </summary>
