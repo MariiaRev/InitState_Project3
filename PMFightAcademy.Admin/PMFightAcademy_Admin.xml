@@ -1,0 +1,602 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PMFightAcademy.Admin</name>
+    </assembly>
+    <members>
+        <member name="T:PMFightAcademy.Admin.Contract.BookingContract">
+            <summary>
+            Dto for create Workout
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.CoachId">
+            <summary>
+            Coach id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ServiceId">
+            <summary>
+            Service id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.Date">
+            <summary>
+            Date 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.TimeToStart">
+            <summary>
+            Time to start
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.Id">
+            <summary>
+            Personal Id , key
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.FirstName">
+            <summary>
+            Coach first name
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.LastName">
+            <summary>
+            Coach Last Name 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.Age">
+            <summary>
+            Date of birth 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.Description">
+            <summary>
+            Description about coach
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.PhoneNumber">
+            <summary>
+            Coach phone
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Contract.GetDataContract`1">
+            <summary>
+            Contract for getting data with paggination.
+            </summary>
+            <typeparam name="T">The type of result data.</typeparam>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.GetDataContract`1.Data">
+            <summary>
+            The array of <typeparamref name="T"/> elements.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.GetDataContract`1.Paggination">
+            <summary>
+            Paggination state.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Contract.QualificationContract">
+            <summary>
+            Qualification contract
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.QualificationContract.Service">
+            <summary>
+            Service
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.QualificationContract.Coach">
+            <summary>
+            Coach
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Contract.SlotsCreateContract">
+            <summary>
+            Dto
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.CoachId">
+            <summary>
+            Coach Id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.TimeStart">
+            <summary>
+            Time start
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.TimeEnd">
+            <summary>
+            Time End
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Controllers.BookingController">
+            <summary>
+            Booking controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.#ctor">
+            <summary>
+            Constructor for booking
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServices(System.Int32,System.Int32)">
+            <summary>
+            Return all booked services
+            </summary>
+             <param name="pageSize">The count of books to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what can be  booked
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
+            <remarks>
+            Return all booked services 
+            if notFounded return NF
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForClient(System.Int32)">
+            <summary>
+            select booked services on person
+            </summary>
+            <param name="client"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            </returns>
+            <remarks>
+            Return list about booked info for Client
+            not founded if no Client 
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForCoach(System.Int32)">
+            <summary>
+            Select booked services on coach
+            </summary>
+            <param name="id"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            </returns>
+            <remarks>
+            Return list about booked info for coach
+            not founded if no coaches 
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.DeleteBook(PMFightAcademy.Admin.Contract.BookingContract)">
+            <summary>
+            Delete a book
+            </summary>
+            <param name="bookId"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
+            <remarks>
+            Use for delete book , using post method
+            return ok if successes
+            return Not found if not founded 
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.UpdateBook(PMFightAcademy.Admin.Contract.BookingContract)">
+            <summary>
+            Update file
+            </summary>
+            <param name="newBook"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
+            <remarks>
+            Send with the same Id new values
+            and they will be updated
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Controllers.ClientController">
+            <summary>
+            Client controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.#ctor">
+            <summary>
+            Constructor of client controller 
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.GetAllClients(System.Int32,System.Int32)">
+            <summary>
+            return list of clients
+            </summary>
+            <param name="pageSize">The count of coaches to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return list of clients
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no any clients
+            </returns>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.GetClient(System.Int32)">
+            <summary>
+            return a client what admin need
+            </summary>
+            <param name="name"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return a clients
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no client with this Name
+            </returns>
+            <remarks>
+            For get one client 
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Controllers.CoachController">
+            <summary>
+            Coach controller 
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor">
+            <summary>
+            Constructor for controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetCoaches(System.Int32,System.Int32)">
+            <summary>
+            Get list of Coaches
+            </summary>
+            <returns>
+            <param name="pageSize">The count of coaches to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> Get list of coaches
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+            </returns>
+            <remarks>
+            Use for get all coach , if successes must return a list of coaches
+            if not,  return Not Found
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetCoach(System.Int32)">
+             <summary>
+             Return chosen coach
+             </summary>
+             <para>
+            <param coachId="coachId"></param>
+             </para>
+             <returns>
+             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+             </returns>
+             <remarks>
+             Use for get one coach , if successes must return a coach
+             if not return Not Found
+             </remarks>
+             <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract)">
+            <summary>
+            Add qualification
+            </summary>
+            <param name="qualification"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if qualification is already added
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <remarks>
+            You can use this 2 times
+            in coach screen and service screen
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception> 
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.CreateCoach(PMFightAcademy.Admin.Models.Coach)">
+            <summary>
+            Create coach
+            </summary>
+            <param name="coach"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if this coach is already registered 
+            </returns>
+            <remarks>
+            Use for create coach, send a coach
+            if it will be added return ok else  return conflict
+            if it is already added
+            if not,  return Not Found
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Controllers.ServicesController">
+            <summary>
+            Service Controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.#ctor">
+            <summary>
+            Service Controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.GetAllServices(System.Int32,System.Int32)">
+            <summary>
+            Get all services 
+            </summary>
+            <param name="pageSize">The count of services to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> return lit of services</returns>
+            <remarks> Use to Get all service, return services if  all is fine
+            NotFound if its is already registered
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.GetService(System.Int32)">
+            <summary>
+            Get needed service 
+            </summary>
+            <param name="serviceId"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
+            </returns>
+            <remarks> Use to Get Service, return service if  all is fine
+            NotFound if its is already registered
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.CreateService(PMFightAcademy.Admin.Models.Service)">
+            <summary>
+            Add services 
+            </summary>
+            <param name="service"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> add service 
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if services is added
+            </returns>
+            <remarks>
+            Use to create Service, return ok if all is fine
+            Conflict if its is already registered</remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.CreateServiceList(System.Collections.Generic.List{PMFightAcademy.Admin.Models.Service})">
+            <summary>
+            Create list of services
+            </summary>
+            <param name="listServices"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> add list of services
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if something not founded
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if services is added</returns>
+            <remarks>
+            Use to create ServiceList, return ok if all is fine
+            Conflict if its is already registered
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Controllers.SlotsController">
+            <summary>
+            Slots controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor">
+            <summary>
+            Slots controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetAllSlots(System.Int32,System.Int32)">
+            <summary>
+            Show all slots
+            </summary>
+            <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if service not founded</returns>
+            <remarks>
+            Return list of  slots
+            return if NotFound
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.CreateSlots(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+            <summary>
+            Create Slots
+            </summary>
+            <param name="createSlots"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if service not founded</returns>
+            <remarks>
+            Use for create slots , return ok if added
+            and conflict if already added
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Models.Booking">
+            <summary>
+            Booking WorkOut
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.Id">
+            <summary>
+            Personal key , id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.SlotId">
+            <summary>
+            Slot of workout
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.ServiceId">
+            <summary>
+            Type of Workout(Service)
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.ClientId">
+            <summary>
+            Client 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.ResultPrice">
+            <summary>
+            result price add of coach and service 
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Models.Client">
+            <summary>
+            Client Model
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Client.Id">
+            <summary>
+            Id , Key
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Client.Login">
+            <summary>
+            User Login , phone number
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Client.Password">
+            <summary>
+            Password
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Client.Name">
+            <summary>
+            User First Name
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Models.Coach">
+            <summary>
+            Coach 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.Id">
+            <summary>
+            Personal Id , key
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.FirstName">
+            <summary>
+            Coach first name
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.LastName">
+            <summary>
+            Coach Last Name 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.BirthDate">
+            <summary>
+            Date of birth 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.Description">
+            <summary>
+            Description about coach
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.PhoneNumber">
+            <summary>
+            Coach phone
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Models.Paggination">
+            <summary>
+            Paggination model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Paggination.Page">
+            <summary>
+            Current page number.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Paggination.TotalPages">
+            <summary>
+            Total pages count.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Paggination.HasPreviousPage">
+            <summary>
+            Indicates if the current page has a previous one.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Paggination.HasNextPage">
+            <summary>
+            Indicates if the current page has a next one.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Models.Qualification">
+            <summary>
+            Coach Qualification 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Qualification.Id">
+            <summary>
+            Personal Id , key
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Qualification.CoachId">
+            <summary>
+            Coach 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Qualification.ServiceId">
+            <summary>
+            Service
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Models.Service">
+            <summary>
+            Service, workout 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Service.Id">
+            <summary>
+            Personal id , key
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Service.Name">
+            <summary>
+            Service Title 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Service.Description">
+            <summary>
+            Description of Workout
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Service.Price">
+            <summary>
+            Workout price per hour 
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Models.Slot">
+            <summary>
+            Slot 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.Id">
+            <summary>
+            Personal key , id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.Date">
+            <summary>
+            Date of slot 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.StartTime">
+            <summary>
+            Start time 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.Duration">
+            <summary>
+            Duration of slot 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.CoachId">
+            <summary>
+            Coach of slot
+            </summary>
+        </member>
+    </members>
+</doc>
