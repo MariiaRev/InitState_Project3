@@ -1,9 +1,19 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Security.Claims;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
+using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.Contract;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Net;
-using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -13,38 +23,80 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for registration, login and logout a client.")]
-    public class ClientsController: ControllerBase
+    public class ClientsController : ControllerBase
     {
+        private readonly ILogger<ClientsController> _logger;
+        private readonly ConcurrentBag<Models.Client> _bagUsers;
+
+#pragma warning disable 1591
+        public ClientsController(ILogger<ClientsController> logger)
+        {
+            _logger = logger;
+            _bagUsers = new ConcurrentBag<Models.Client>();
+        }
+#pragma warning restore 1591
+
         /// <summary>
         /// Registers a new client.
         /// </summary>
-        /// <param name="client">Client to register.</param>
+        /// <param name="model">Client to register.</param>
         /// <returns>
-        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was succesffully registered.
-        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if <paramref name="client"/> data is invalid.
-        /// <see cref="HttpStatusCode.Conflict"/> with <c>string</c> result message if <see cref="Models.Client.Login"/> already exists.
+        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
+        /// <see cref="HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
+        /// <see cref="HttpStatusCode.Conflict"/> if <see cref="Models.Client.Login"/> already exists.
         /// </returns>
         /// <remarks>
-        /// Returns OK if client was succesffully registered.
-        /// Returns BadRequest if <paramref name="client"/> data is invalid.
-        /// Returns Conflict if <paramref name="client"/> login already exists.
+        /// Returns OK if client was successfully registered.
+        /// Returns BadRequest if <paramref name="model"/> data is invalid.
+        /// Returns Conflict if <paramref name="model"/> login already exists.
         /// </remarks>
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> Register([FromBody]Models.Client client)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        [ProducesResponseType((int)HttpStatusCode.Conflict)]
+        public IActionResult Register([FromBody] Models.Client model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+            {
+                _logger.LogInformation("RegModel is null");
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = _bagUsers.FirstOrDefault(m => m.Login == model.Login);
+
+                if (user == null)
+                {
+                    _bagUsers.Add(new Models.Client
+                    {
+                        Login = model.Login,
+                        Password = model.Password.GenerateHash(),
+                        Name = model.Name
+                    });
+
+                    _bagUsers.TryPeek(out var m);
+
+                    return Ok(Authenticate(m.Login, m.Id));
+                }
+
+                _logger.LogInformation($"{model.Login} is already exist");
+                return Conflict();
+            }
+
+            _logger.LogInformation("RegModel is not valid");
+            return BadRequest();
+
         }
 
         /// <summary>
         /// Loggs in a registered client.
         /// </summary>
-        /// <param name="loginContract">Contract for login action.</param>
+
+        /// <param name="model">Contract for login action.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
-        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if login or password are invalid.
+        /// <see cref="HttpStatusCode.BadRequest"/> if login or password are invalid.
         /// </returns>
         /// <remarks>
         /// Returns OK if client was successfully logged in.
@@ -52,10 +104,38 @@ namespace PMFightAcademy.Client.Controllers
         /// </remarks>
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Login([FromBody]LoginContract loginContract)
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public IActionResult Login([FromBody] LoginContract model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+            {
+                _logger.LogInformation("RegModel is null");
+                return BadRequest();
+            }
+
+            if (ModelState.IsValid)
+            {
+                var user = _bagUsers.FirstOrDefault(m => m.Login == model.Login);
+
+                if (user == null)
+                {
+                    _logger.LogInformation("User not found");
+                    return BadRequest();
+                }
+
+                if (model.Password.GenerateHash().Equals(user.Password))
+                {
+                    _bagUsers.TryPeek(out var m);
+
+                    return Ok(Authenticate(m.Login, m.Id));
+                }
+
+                _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
+                return BadRequest();
+            }
+
+            _logger.LogInformation("RegModel is not valid");
+            return BadRequest();
         }
 
         /// <summary>
@@ -74,7 +154,30 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Logout()
         {
-            throw new NotImplementedException();
+            return Ok();
+        }
+
+        private static string Authenticate(string userName, int id)
+        {
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
+                new Claim(ClaimTypes.UserData,  id.ToString())
+            };
+
+            var identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+
+            var now = DateTime.UtcNow;
+
+            var jwt = new JwtSecurityToken(
+                issuer: AuthOptions.Issuer,
+                audience: AuthOptions.Audience,
+                notBefore: now,
+                claims: identity.Claims,
+                expires: now.Add(TimeSpan.FromDays(AuthOptions.Lifetime)),
+                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
+
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
         }
     }
 }
