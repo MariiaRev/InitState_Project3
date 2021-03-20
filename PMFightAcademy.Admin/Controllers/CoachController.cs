@@ -132,6 +132,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CreateCoach([FromBody] CoachContract coach)
         {
+            // for test , not implemented method
             try
             {
                 Coach newCoach = new Coach()

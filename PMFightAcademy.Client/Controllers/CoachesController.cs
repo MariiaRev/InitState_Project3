@@ -18,7 +18,7 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for getting data about coaches.")]
-    //[Authorize]
+    [Authorize]
     public class CoachesController: ControllerBase
     {
         private readonly ClientContext _dbContext;
@@ -53,11 +53,13 @@ namespace PMFightAcademy.Client.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet("{coachId}")]
-        public async Task<IActionResult> GetCoach(int coachId)
-        {
-           var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachId);
-           return Ok(coach);
-        }
+
+        //Test method for take one coach
+        //[HttpGet("{coachId}")]
+        //public async Task<IActionResult> GetCoach(int coachId)
+        //{
+        //   var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachId);
+        //   return Ok(coach);
+        //}
     }
 }
