@@ -11,19 +11,17 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Coach id
         /// </summary>
-        public int CoachId { get; set; }
+        public int SlotId { get; set; }
         /// <summary>
         /// Service id
         /// </summary>
         public int ServiceId { get; set; }
+
         /// <summary>
-        /// Date 
+        /// Client 
         /// </summary>
-        public string Date { get; set; }
-        /// <summary>
-        /// Time to start
-        /// </summary>
-        public string TimeToStart { get; set; }
+        public int ClientId { get; set; }
+        
 
     }
 }
