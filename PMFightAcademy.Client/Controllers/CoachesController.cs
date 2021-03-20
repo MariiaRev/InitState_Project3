@@ -2,10 +2,13 @@
 using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
+using Microsoft.AspNetCore.Authorization;
+using PMFightAcademy.Client.DataBase;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Net;
 using System.Threading.Tasks;
+
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -18,6 +21,13 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class CoachesController: ControllerBase
     {
+        private readonly ClientContext _dbContext;
+
+
+        public CoachesController(ClientContext dbContext)
+        {
+            _dbContext = dbContext;
+        }
         /// <summary>
         /// Portioned return of coaches data.
         /// </summary>
@@ -42,5 +52,14 @@ namespace PMFightAcademy.Client.Controllers
         {
             throw new NotImplementedException();
         }
+
+
+        //Test method for take one coach
+        //[HttpGet("{coachId}")]
+        //public async Task<IActionResult> GetCoach(int coachId)
+        //{
+        //   var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachId);
+        //   return Ok(coach);
+        //}
     }
 }

@@ -15,7 +15,8 @@ namespace PMFightAcademy.Client.Models
         /// Service id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// Service title.

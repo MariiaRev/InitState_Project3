@@ -14,7 +14,8 @@ namespace PMFightAcademy.Admin.Models
         /// Personal key , id
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// Slot of workout

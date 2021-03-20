@@ -15,7 +15,8 @@ namespace PMFightAcademy.Admin.Models
         /// Personal id , key
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get;  }
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// Service Title 

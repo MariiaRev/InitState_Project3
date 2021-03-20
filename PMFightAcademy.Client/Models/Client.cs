@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using PMFightAcademy.Client.Authorization;
 
 namespace PMFightAcademy.Client.Models
@@ -14,7 +15,8 @@ namespace PMFightAcademy.Client.Models
         /// User id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// User login represented by his/her phone number.
