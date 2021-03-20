@@ -1,23 +1,28 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PMFightAcademy.Client.Models
 {
     /// <summary>
     /// Service model.
     /// </summary>
+    [Table("Services")]
     public class Service
     {
         /// <summary>
         /// Service id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// Service title.
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings = false)]
+        [StringLength(64, MinimumLength = 2)]
         public string Name { get; set; }
 
         /// <summary>
@@ -30,5 +35,17 @@ namespace PMFightAcademy.Client.Models
         /// </summary>
         [Required]
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public ICollection<Qualification> Qualifications { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

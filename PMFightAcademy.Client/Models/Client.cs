@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using PMFightAcademy.Client.Authorization;
 
 namespace PMFightAcademy.Client.Models
@@ -7,13 +8,15 @@ namespace PMFightAcademy.Client.Models
     /// <summary>
     /// Client model.
     /// </summary>
+    [Table("Clients")]
     public class Client
     {
         /// <summary>
         /// User id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// User login represented by his/her phone number.
@@ -48,7 +51,7 @@ namespace PMFightAcademy.Client.Models
         /// User name.
         /// </summary>
         [Required]
-        [MinLength(2)]
+        [StringLength(64, MinimumLength = 2)]
         public string Name { get; set; }
     }
 }
