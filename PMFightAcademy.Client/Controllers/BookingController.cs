@@ -50,13 +50,13 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available service.
-        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available service.
+        /// Returns <see cref="HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available service.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK if client is authorized and there is at least one available service.
-        /// Returns NotFound if client is authorized and there is no available service.
+        /// Returns OK with services list if client is authorized and there is at least one available service.
+        /// Returns NotFound with <c>string</c> message if client is authorized and there is no available service.
         /// </remarks>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -72,13 +72,13 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available coach.
-        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available coach.
+        /// Returns <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available coach.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK if client is authorized and there is at least one available coach.
-        /// Returns NotFound if client is authorized and there is no available coach.
+        /// Returns OK with coaches list if client is authorized and there is at least one available coach.
+        /// Returns NotFound with <c>string</c> message if client is authorized and there is no available coach.
         /// </remarks>
         [HttpGet("{serviceId}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -94,13 +94,13 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available date.
-        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available date.
+        /// Returns <see cref="HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available date.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK if client is authorized and there is at least one available date.
-        /// Returns NotFound if client is authorized and there is no available date.
+        /// Returns OK with dates list if client is authorized and there is at least one available date.
+        /// Returns NotFound with <c>string</c> message if client is authorized and there is no available date.
         /// </remarks>
         [HttpGet("{serviceId}/{coachId}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -117,13 +117,13 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available time slot.
-        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available time slot.
+        /// Returns <see cref="HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available time slot.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK if client is authorized and there is at least one available time slot.
-        /// Returns NotFound if client is authorized and there is no available time slot.
+        /// Returns OK with time slots list if client is authorized and there is at least one available time slot.
+        /// Returns NotFound with <c>string</c> message if client is authorized and there is no available time slot.
         /// </remarks>
         [HttpGet("{serviceId}/{coachId}/{date}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -140,13 +140,13 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="booking">Booking filters.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> if client is authorized and a booking was successfully added.
-        /// <see cref="HttpStatusCode.BadRequest"/> if client is authorized and booking time is not available anymore.
+        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
+        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK if client is authorized and a booking was successfully added.
-        /// Returns BadRequest if client is authorized and booking time is not available anymore.
+        /// Returns OK with <c>string</c> message if client is authorized and a booking was successfully added.
+        /// Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore.
         /// </remarks>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -164,13 +164,13 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="page">The current page number.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one record in the active booking list.
-        /// <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no record in the active booking list.
+        /// <see cref="HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
+        /// <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no record in the active booking list.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK if client is authorized and there is at least one record in the active booking list.
-        /// Returns NotFound if client is authorized and there is no record in the active booking list.
+        /// Returns OK with active booking list if client is authorized and there is at least one record in the active booking list.
+        /// Returns NotFound with <c>string</c> message if client is authorized and there is no record in the active booking list.
         /// </remarks>
         [HttpGet("{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -188,13 +188,13 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="page">The current page number.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one record in the history.
-        /// <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no record in the history.
+        /// <see cref="HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.
+        /// <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no record in the history.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK if client is authorized and there is at least one record in the history.
-        /// Returns NotFound if client is authorized and there is no record in the history.
+        /// Returns OK with booking history if client is authorized and there is at least one record in the history.
+        /// Returns NotFound with <c>string</c> message if client is authorized and there is no record in the history.
         /// </remarks>
         [HttpGet("history/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
