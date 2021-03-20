@@ -71,11 +71,6 @@ namespace PMFightAcademy.Admin.Controllers
             throw new NotImplementedException();
         }
 
-
-
-
-
-
         /// <summary>
         /// Select booked services on coach
         /// </summary>
@@ -97,7 +92,6 @@ namespace PMFightAcademy.Admin.Controllers
             throw new NotImplementedException();
         }
 
-
         /// <summary>
         /// Delete a book
         /// </summary>
@@ -111,7 +105,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// return Not found if not founded 
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpPost("delete")]
+        [HttpDelete]
         [ProducesResponseType( (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteBook([FromBody]BookingContract bookId)
