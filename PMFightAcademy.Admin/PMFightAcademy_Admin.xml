@@ -428,14 +428,29 @@
             Slot of workout
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.Slot">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Admin.Models.Booking.ServiceId">
             <summary>
             Type of Workout(Service)
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.Service">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Admin.Models.Booking.ClientId">
             <summary>
             Client 
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Booking.Client">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Booking.ResultPrice">
@@ -455,13 +470,25 @@
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Client.Login">
             <summary>
-            User Login , phone number
+            User login represented by his/her phone number.
             </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Client.Password">
             <summary>
-            Password
+            User password.
             </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Client.Name">
             <summary>
@@ -501,6 +528,16 @@
         <member name="P:PMFightAcademy.Admin.Models.Coach.PhoneNumber">
             <summary>
             Coach phone
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.Slots">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Coach.Qualifications">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:PMFightAcademy.Admin.Models.Paggination">
@@ -543,9 +580,19 @@
             Coach 
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Models.Qualification.Coach">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Admin.Models.Qualification.ServiceId">
             <summary>
             Service
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Qualification.Service">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:PMFightAcademy.Admin.Models.Service">
@@ -573,35 +620,67 @@
             Workout price per hour 
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Models.Service.Qualifications">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Service.Bookings">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Models.Slot">
             <summary>
-            Slot 
+            Slot model.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.Id">
             <summary>
-            Personal key , id
+            Slot id.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.Date">
             <summary>
-            Date of slot 
+            Date of slot.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.StartTime">
             <summary>
-            Start time 
+            Slot start time.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.Duration">
             <summary>
-            Duration of slot 
+            Duration of slot.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.CoachId">
             <summary>
-            Coach of slot
+            Coach of slot.
             </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.Coach">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.Bookings">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Validation.PhoneValidatorAttribute">
+            <summary>
+            Validator for phone number
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
         </member>
     </members>
 </doc>
