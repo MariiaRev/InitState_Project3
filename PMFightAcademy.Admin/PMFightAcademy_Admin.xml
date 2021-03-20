@@ -235,7 +235,7 @@
             Coach controller 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
             Constructor for controller
             </summary>
@@ -288,7 +288,7 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception> 
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.CreateCoach(PMFightAcademy.Admin.Models.Coach)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.CreateCoach(PMFightAcademy.Admin.Contract.CoachContract)">
             <summary>
             Create coach
             </summary>

@@ -377,14 +377,29 @@
             Slot id for the booking.
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.Slot">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Client.Models.Booking.ServiceId">
             <summary>
             Service id for the booking.
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.Service">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Client.Models.Booking.ClientId">
             <summary>
             Client id  for the booking.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Booking.Client">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Models.Booking.ResultPrice">
@@ -464,6 +479,16 @@
             Coach phone number.
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.Slots">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Coach.Qualifications">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Models.Paggination">
             <summary>
             Paggination model.
@@ -504,9 +529,19 @@
             Coach id.
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Models.Qualification.Coach">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Client.Models.Qualification.ServiceId">
             <summary>
             Service id.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Qualification.Service">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Models.Service">
@@ -532,6 +567,16 @@
         <member name="P:PMFightAcademy.Client.Models.Service.Price">
             <summary>
             Service price per hour.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Service.Qualifications">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Service.Bookings">
+            <summary>
+            
             </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Models.Slot">
@@ -562,6 +607,16 @@
         <member name="P:PMFightAcademy.Client.Models.Slot.CoachId">
             <summary>
             Coach of slot.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.Coach">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.Bookings">
+            <summary>
+            
             </summary>
         </member>
     </members>

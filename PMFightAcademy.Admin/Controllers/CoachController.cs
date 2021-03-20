@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -19,12 +20,14 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Controller for work with coach ")]
     public class CoachController : ControllerBase
     {
-       /// <summary>
+        private readonly AdminContext _dbContext;
+
+        /// <summary>
        /// Constructor for controller
        /// </summary>
-       public CoachController()
+       public CoachController(AdminContext dbContext)
         {
-
+            _dbContext = dbContext;
         }
 
        ///// <summary>
@@ -127,9 +130,25 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> CreateCoach([FromBody] Coach coach)
+        public async Task<IActionResult> CreateCoach([FromBody] CoachContract coach)
         {
-            throw new NotImplementedException();
+            try
+            {
+                Coach newCoach = new Coach()
+                {
+                    FirstName = coach.FirstName,
+                    LastName = coach.LastName,
+                };
+                await _dbContext.AddAsync(newCoach);
+                await _dbContext.SaveChangesAsync();
+            }
+            catch
+            {
+                return Conflict();
+            }
+
+            return Ok();
+
         }
 
 

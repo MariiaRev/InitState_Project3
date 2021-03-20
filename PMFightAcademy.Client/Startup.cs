@@ -14,9 +14,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
+using PMFightAcademy.Client.DataBase;
 
 namespace PMFightAcademy.Client
 {
@@ -66,6 +68,10 @@ namespace PMFightAcademy.Client
             });
 
             services.AddControllers();
+
+            services.AddDbContext<ClientContext>(options =>
+                options.UseNpgsql(
+                    Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
 
             services.AddSwaggerGen(c =>
             {
