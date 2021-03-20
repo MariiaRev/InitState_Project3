@@ -358,9 +358,9 @@
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
             </returns>
             <remarks>
-            Returns OK if client was successfully registered.
+            Returns OK with <c>string</c> message if client was successfully registered.
             Returns BadRequest if <paramref name="model"/> data is invalid.
-            Returns Conflict if <paramref name="model"/> login already exists.
+            Returns Conflict if login already exists.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract)">
@@ -369,11 +369,11 @@
             </summary>
             <param name="model">Contract for login action.</param>
             <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> jwt-token if client was successfully logged in.
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
             </returns>
             <remarks>
-            Returns OK if client was successfully logged in.
+            Returns OK with <c>string</c> jwt-token if client was successfully logged in.
             Returns BadRequest if login or password are invalid.
             </remarks>
         </member>
