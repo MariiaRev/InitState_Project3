@@ -357,6 +357,11 @@
             Returns NotFound if client is authorized and there is no coach for the corresponding request.
             </remarks>
         </member>
+        <member name="T:PMFightAcademy.Client.Controllers.ValuesController">
+            <summary>
+            Just information about service.
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Models.Booking">
             <summary>
             Booking a service model.
