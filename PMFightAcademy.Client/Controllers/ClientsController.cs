@@ -20,7 +20,7 @@ namespace PMFightAcademy.Client.Controllers
     /// </summary>
     [ApiController]
     [Route("[controller]")]
-    [SwaggerTag("This controller is for registration, login and logout a client.")]
+    [SwaggerTag("This controller is for registration and login a client.")]
     public class ClientsController : ControllerBase
     {
         private readonly ILogger<ClientsController> _logger;
@@ -44,9 +44,9 @@ namespace PMFightAcademy.Client.Controllers
         /// <see cref="HttpStatusCode.Conflict"/> if <see cref="Models.Client.Login"/> already exists.
         /// </returns>
         /// <remarks>
-        /// Returns OK if client was successfully registered.
+        /// Returns OK with <c>string</c> message if client was successfully registered.
         /// Returns BadRequest if <paramref name="model"/> data is invalid.
-        /// Returns Conflict if <paramref name="model"/> login already exists.
+        /// Returns Conflict if login already exists.
         /// </remarks>
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
@@ -91,14 +91,13 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Loggs in a registered client.
         /// </summary>
-
         /// <param name="model">Contract for login action.</param>
         /// <returns>
-        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged in.
+        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> jwt-token if client was successfully logged in.
         /// <see cref="HttpStatusCode.BadRequest"/> if login or password are invalid.
         /// </returns>
         /// <remarks>
-        /// Returns OK if client was successfully logged in.
+        /// Returns OK with <c>string</c> jwt-token if client was successfully logged in.
         /// Returns BadRequest if login or password are invalid.
         /// </remarks>
         [HttpPost("[action]")]
