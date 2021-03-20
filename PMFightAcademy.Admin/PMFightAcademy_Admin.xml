@@ -80,12 +80,12 @@
             Qualification contract
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.QualificationContract.Service">
+        <member name="P:PMFightAcademy.Admin.Contract.QualificationContract.ServiceId">
             <summary>
             Service
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.QualificationContract.Coach">
+        <member name="P:PMFightAcademy.Admin.Contract.QualificationContract.CoachId">
             <summary>
             Coach
             </summary>
