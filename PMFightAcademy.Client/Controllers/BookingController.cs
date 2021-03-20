@@ -1,14 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
+using PMFightAcademy.Client.Models;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Swashbuckle.AspNetCore.Annotations;
-using PMFightAcademy.Client.Models;
-using PMFightAcademy.Client.Contract.Dto;
 using System.Net;
-using PMFightAcademy.Client.Contract;
-using Microsoft.AspNetCore.Authorization;
+using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -21,25 +20,116 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class BookingController : ControllerBase
     {
+        #region Old version for returning booking data
+        ///// <summary>
+        ///// Gets missing in <paramref name="booking"/> data for a booking depending on set filters in <paramref name="booking"/>.
+        ///// </summary>
+        ///// <param name="booking">Booking filters.</param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        ///// <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one element that corresponds set filters.
+        ///// <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no element that corresponds set filters.
+        ///// </returns>
+        ///// <remarks>
+        ///// Returns Unauthorized if client is unauthorized.
+        ///// Returns OK if client is authorized and there is at least one element that corresponds set filters.
+        ///// Returns NotFound if client is authorized and there is no element that corresponds set filters.
+        ///// </remarks>
+        //[HttpPost("getMissingData")]
+        //[ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        //[ProducesResponseType(typeof(IEnumerable<DataForBookingDto>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public Task<IActionResult> GetMissingDataForBooking([FromBody] BookingDto booking)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        #endregion
+
         /// <summary>
-        /// Gets missing in <paramref name="booking"/> data for a booking depending on set filters in <paramref name="booking"/>.
+        /// Get available services for client booking.
         /// </summary>
-        /// <param name="booking">Booking filters.</param>
         /// <returns>
-        /// <see cref="HttpStatusCode.Unauthorized"/> if user is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> if user is authorized and there is at least one element that corresponds set filters.
-        /// <see cref="HttpStatusCode.NotFound"/> if user is authorized and there is no element that corresponds set filters.
+        /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available service.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available service.
         /// </returns>
         /// <remarks>
-        /// Returns Unauthorized if user is unauthorized.
-        /// Returns OK if user is authorized and there is at least one element that corresponds set filters.
-        /// Returns NotFound if user is authorized and there is no element that corresponds set filters.
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized and there is at least one available service.
+        /// Returns NotFound if client is authorized and there is no available service.
         /// </remarks>
-        [HttpPost("getMissingData")]
+        [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(IEnumerable<DataForBookingDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetMissingDataForBooking([FromBody] BookingDto booking)
+        public Task<IActionResult> GetServicesForBooking()
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get available coaches which can provide service with id <paramref name="serviceId"/>.
+        /// </summary>
+        /// <returns>
+        /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available coach.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available coach.
+        /// </returns>
+        /// <remarks>
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized and there is at least one available coach.
+        /// Returns NotFound if client is authorized and there is no available coach.
+        /// </remarks>
+        [HttpGet("{serviceId}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(IEnumerable<CoachDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public Task<IActionResult> GetCoachesforBooking([FromRoute] int serviceId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
+        /// </summary>
+        /// <returns>
+        /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available date.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available date.
+        /// </returns>
+        /// <remarks>
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized and there is at least one available date.
+        /// Returns NotFound if client is authorized and there is no available date.
+        /// </remarks>
+        [HttpGet("{serviceId}/{coachId}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public Task<IActionResult> GetDatesForBooking([FromRoute] int serviceId, [FromRoute] int coachId)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Get available time slots to provide a service with id <paramref name="serviceId"/> 
+        /// by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
+        /// </summary>
+        /// <returns>
+        /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one available time slot.
+        /// Returns <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no available time slot.
+        /// </returns>
+        /// <remarks>
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized and there is at least one available time slot.
+        /// Returns NotFound if client is authorized and there is no available time slot.
+        /// </remarks>
+        [HttpGet("{serviceId}/{coachId}/{date}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public Task<IActionResult> GetTimeSlotsForBooking([FromRoute] int serviceId, [FromRoute] int coachId, [FromRoute] string date)
         {
             throw new NotImplementedException();
         }
@@ -49,16 +139,14 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <param name="booking">Booking filters.</param>
         /// <returns>
-        /// <see cref="HttpStatusCode.Unauthorized"/> if user is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> if user is authorized and a booking was successfully added.
-        /// <see cref="HttpStatusCode.BadRequest"/> if user is authorized 
-        /// and there is at least one missing filter or booking time is not available anymore.
+        /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// <see cref="HttpStatusCode.OK"/> if client is authorized and a booking was successfully added.
+        /// <see cref="HttpStatusCode.BadRequest"/> if client is authorized and booking time is not available anymore.
         /// </returns>
         /// <remarks>
-        /// Returns Unauthorized if user is unauthorized.
-        /// Returns OK if user is authorized and a booking was successfully added.
-        /// Returns BadRequest if user is authorized and there is at least one missing filter
-        /// and there is at least one missing filter or booking time is not available anymore.
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized and a booking was successfully added.
+        /// Returns BadRequest if client is authorized and booking time is not available anymore.
         /// </remarks>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -75,14 +163,14 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="pageSize">The count of active booking records to return at one time.</param>
         /// <param name="page">The current page number.</param>
         /// <returns>
-        /// <see cref="HttpStatusCode.Unauthorized"/> if user is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> if user is authorized and there is at least one record in the active booking list.
-        /// <see cref="HttpStatusCode.NotFound"/> if user is authorized and there is no record in the active booking list.
+        /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one record in the active booking list.
+        /// <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no record in the active booking list.
         /// </returns>
         /// <remarks>
-        /// Returns Unauthorized if user is unauthorized.
-        /// Returns OK if user is authorized and there is at least one record in the active booking list.
-        /// Returns NotFound if user is authorized and there is no record in the active booking list.
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized and there is at least one record in the active booking list.
+        /// Returns NotFound if client is authorized and there is no record in the active booking list.
         /// </remarks>
         [HttpGet("{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -99,14 +187,14 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="pageSize">The count of history records to return at one time.</param>
         /// <param name="page">The current page number.</param>
         /// <returns>
-        /// <see cref="HttpStatusCode.Unauthorized"/> if user is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> if user is authorized and there is at least one record in the history.
-        /// <see cref="HttpStatusCode.NotFound"/> if user is authorized and there is no record in the history.
+        /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// <see cref="HttpStatusCode.OK"/> if client is authorized and there is at least one record in the history.
+        /// <see cref="HttpStatusCode.NotFound"/> if client is authorized and there is no record in the history.
         /// </returns>
         /// <remarks>
-        /// Returns Unauthorized if user is unauthorized.
-        /// Returns OK if user is authorized and there is at least one record in the history.
-        /// Returns NotFound if user is authorized and there is no record in the history.
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized and there is at least one record in the history.
+        /// Returns NotFound if client is authorized and there is no record in the history.
         /// </remarks>
         [HttpGet("history/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]

@@ -231,20 +231,65 @@
             Service controller for signup for a service/workout.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetMissingDataForBooking(PMFightAcademy.Client.Contract.Dto.BookingDto)">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetServicesForBooking">
             <summary>
-            Gets missing in <paramref name="booking"/> data for a booking depending on set filters in <paramref name="booking"/>.
+            Get available services for client booking.
             </summary>
-            <param name="booking">Booking filters.</param>
             <returns>
-            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and there is at least one element that corresponds set filters.
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if user is authorized and there is no element that corresponds set filters.
+            Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one available service.
+            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no available service.
             </returns>
             <remarks>
-            Returns Unauthorized if user is unauthorized.
-            Returns OK if user is authorized and there is at least one element that corresponds set filters.
-            Returns NotFound if user is authorized and there is no element that corresponds set filters.
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and there is at least one available service.
+            Returns NotFound if client is authorized and there is no available service.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetCoachesforBooking(System.Int32)">
+            <summary>
+            Get available coaches which can provide service with id <paramref name="serviceId"/>.
+            </summary>
+            <returns>
+            Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one available coach.
+            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no available coach.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and there is at least one available coach.
+            Returns NotFound if client is authorized and there is no available coach.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetDatesForBooking(System.Int32,System.Int32)">
+            <summary>
+            Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
+            </summary>
+            <returns>
+            Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one available date.
+            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no available date.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and there is at least one available date.
+            Returns NotFound if client is authorized and there is no available date.
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get available time slots to provide a service with id <paramref name="serviceId"/> 
+            by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
+            </summary>
+            <returns>
+            Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one available time slot.
+            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no available time slot.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and there is at least one available time slot.
+            Returns NotFound if client is authorized and there is no available time slot.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto)">
@@ -253,16 +298,14 @@
             </summary>
             <param name="booking">Booking filters.</param>
             <returns>
-            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and a booking was successfully added.
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if user is authorized 
-            and there is at least one missing filter or booking time is not available anymore.
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and a booking was successfully added.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if client is authorized and booking time is not available anymore.
             </returns>
             <remarks>
-            Returns Unauthorized if user is unauthorized.
-            Returns OK if user is authorized and a booking was successfully added.
-            Returns BadRequest if user is authorized and there is at least one missing filter
-            and there is at least one missing filter or booking time is not available anymore.
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and a booking was successfully added.
+            Returns BadRequest if client is authorized and booking time is not available anymore.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetActiveBookings(System.Int32,System.Int32)">
@@ -272,14 +315,14 @@
             <param name="pageSize">The count of active booking records to return at one time.</param>
             <param name="page">The current page number.</param>
             <returns>
-            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and there is at least one record in the active booking list.
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if user is authorized and there is no record in the active booking list.
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one record in the active booking list.
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no record in the active booking list.
             </returns>
             <remarks>
-            Returns Unauthorized if user is unauthorized.
-            Returns OK if user is authorized and there is at least one record in the active booking list.
-            Returns NotFound if user is authorized and there is no record in the active booking list.
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and there is at least one record in the active booking list.
+            Returns NotFound if client is authorized and there is no record in the active booking list.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetHistory(System.Int32,System.Int32)">
@@ -289,14 +332,14 @@
             <param name="pageSize">The count of history records to return at one time.</param>
             <param name="page">The current page number.</param>
             <returns>
-            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if user is unauthorized.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> if user is authorized and there is at least one record in the history.
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if user is authorized and there is no record in the history.
+            <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one record in the history.
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no record in the history.
             </returns>
             <remarks>
-            Returns Unauthorized if user is unauthorized.
-            Returns OK if user is authorized and there is at least one record in the history.
-            Returns NotFound if user is authorized and there is no record in the history.
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized and there is at least one record in the history.
+            Returns NotFound if client is authorized and there is no record in the history.
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
