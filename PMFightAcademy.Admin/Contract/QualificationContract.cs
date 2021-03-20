@@ -10,10 +10,10 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Service
         /// </summary>
-        public Service Service { get; set; }
+        public int ServiceId { get; set; }
         /// <summary>
         /// Coach
         /// </summary>
-        public Coach Coach { get; set; }
+        public int CoachId { get; set; }
     }
 }
