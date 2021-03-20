@@ -347,11 +347,12 @@
             Client controller.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
             <param name="model">Client to register.</param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
@@ -363,11 +364,12 @@
             Returns Conflict if login already exists.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract)">
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
             Loggs in a registered client.
             </summary>
             <param name="model">Contract for login action.</param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> jwt-token if client was successfully logged in.
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.

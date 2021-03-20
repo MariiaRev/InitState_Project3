@@ -12,6 +12,10 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using PMFightAcademy.Client.DataBase;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -24,13 +28,13 @@ namespace PMFightAcademy.Client.Controllers
     public class ClientsController : ControllerBase
     {
         private readonly ILogger<ClientsController> _logger;
-        private readonly ConcurrentBag<Models.Client> _bagUsers;
+        private readonly ClientContext _context;
 
 #pragma warning disable 1591
-        public ClientsController(ILogger<ClientsController> logger)
+        public ClientsController(ILogger<ClientsController> logger, ClientContext context)
         {
             _logger = logger;
-            _bagUsers = new ConcurrentBag<Models.Client>();
+            _context = context;
         }
 #pragma warning restore 1591
 
@@ -38,6 +42,7 @@ namespace PMFightAcademy.Client.Controllers
         /// Registers a new client.
         /// </summary>
         /// <param name="model">Client to register.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
         /// <see cref="HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
@@ -53,7 +58,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         [AllowAnonymous]
-        public IActionResult Register([FromBody] Models.Client model)
+        public async Task<IActionResult> Register([FromBody] Models.Client model, CancellationToken cancellationToken)
         {
             if (model == null)
             {
@@ -63,20 +68,26 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _bagUsers.FirstOrDefault(m => m.Login == model.Login);
+                if (model.Login.StartsWith("+38"))
+                    model.Login = new string(model.Login.Skip(3).ToArray());
 
+                var user = _context.Clients.FirstOrDefault(m => m.Login == model.Login);
                 if (user == null)
                 {
-                    _bagUsers.Add(new Models.Client
+                    user = new Models.Client
                     {
                         Login = model.Login,
                         Password = model.Password.GenerateHash(),
                         Name = model.Name
-                    });
+                    };
 
-                    _bagUsers.TryPeek(out var m);
+                    await _context.Clients.AddAsync(user, cancellationToken);
 
-                    return Ok(Authenticate(m.Login, m.Id));
+                    await _context.SaveChangesAsync(cancellationToken);
+
+                    user = _context.Clients.FirstOrDefault(m => m.Login == user.Login);
+
+                    return Ok(Authenticate(user.Login, user.Id));
                 }
 
                 _logger.LogInformation($"{model.Login} is already exist");
@@ -92,6 +103,7 @@ namespace PMFightAcademy.Client.Controllers
         /// Loggs in a registered client.
         /// </summary>
         /// <param name="model">Contract for login action.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> jwt-token if client was successfully logged in.
         /// <see cref="HttpStatusCode.BadRequest"/> if login or password are invalid.
@@ -104,7 +116,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] LoginContract model)
+        public IActionResult Login([FromBody] LoginContract model, CancellationToken cancellationToken)
         {
             if (model == null)
             {
@@ -114,7 +126,10 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = _bagUsers.FirstOrDefault(m => m.Login == model.Login);
+                if (model.Login.StartsWith("+38"))
+                    model.Login = new string(model.Login.Skip(3).ToArray());
+
+                var user = _context.Clients.FirstOrDefault(m => m.Login == model.Login);
 
                 if (user == null)
                 {
@@ -124,9 +139,7 @@ namespace PMFightAcademy.Client.Controllers
 
                 if (model.Password.GenerateHash().Equals(user.Password))
                 {
-                    _bagUsers.TryPeek(out var m);
-
-                    return Ok(Authenticate(m.Login, m.Id));
+                    return Ok(Authenticate(user.Login, user.Id));
                 }
 
                 _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
@@ -158,8 +171,14 @@ namespace PMFightAcademy.Client.Controllers
         //}
         #endregion
 
-        private static string Authenticate(string userName, int id)
+        private string Authenticate(string userName, int id)
         {
+            if (string.IsNullOrEmpty(userName))
+            {
+                _logger.LogInformation("userName in Authenticate can not be null");
+                throw new ArgumentNullException(nameof(userName));
+            }
+
             var claims = new List<Claim>
             {
                 new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
