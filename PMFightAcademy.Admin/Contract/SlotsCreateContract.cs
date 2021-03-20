@@ -19,6 +19,6 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Time End
         /// </summary>
-        public string TimeEnd { get; set; }
+        public string Duration { get; set; }
     }
 }
