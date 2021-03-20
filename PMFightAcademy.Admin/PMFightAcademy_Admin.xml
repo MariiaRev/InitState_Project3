@@ -408,6 +408,11 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="T:PMFightAcademy.Admin.Controllers.ValuesController">
+            <summary>
+            Just information about service.
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Models.Booking">
             <summary>
             Booking WorkOut
