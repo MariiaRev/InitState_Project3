@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace PMFightAcademy.Client.Models
 {
     /// <summary>
     /// Booking a service model.
     /// </summary>
+    [Table("Bookings")]
     public class Booking
     {
         /// <summary>
@@ -19,18 +21,36 @@ namespace PMFightAcademy.Client.Models
         /// </summary>
         [Required]
         public int SlotId { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public Slot Slot { get; set; }
 
         /// <summary>
         /// Service id for the booking.
         /// </summary>
         [Required]        
         public int ServiceId { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public Service Service { get; set; }
 
         /// <summary>
         /// Client id  for the booking.
         /// </summary>
         [Required]
         public int ClientId { get; set; }
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public Client Client { get; set; }
 
         /// <summary>
         /// Result price of the booking.

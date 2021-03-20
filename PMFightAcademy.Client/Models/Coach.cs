@@ -1,12 +1,15 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PMFightAcademy.Client.Models
 {
     /// <summary>
     /// Coach model.
     /// </summary>
+    [Table("Coaches")]
     public class Coach
     {
         /// <summary>
@@ -18,13 +21,15 @@ namespace PMFightAcademy.Client.Models
         /// <summary>
         /// Coach first name.
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings = false)]
+        [StringLength(64, MinimumLength = 2)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Coach last name.
         /// </summary>
-        [Required]
+        [Required(AllowEmptyStrings = false)]
+        [StringLength(64, MinimumLength = 2)]
         public string LastName { get; set; }
 
         /// <summary>
@@ -42,5 +47,17 @@ namespace PMFightAcademy.Client.Models
         /// </summary>
         [Phone]
         public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public ICollection<Slot> Slots { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public ICollection<Qualification> Qualifications { get; set; }
     }
 }

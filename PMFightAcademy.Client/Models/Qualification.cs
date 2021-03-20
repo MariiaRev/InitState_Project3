@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PMFightAcademy.Client.Models
 {
     /// <summary>
     /// Coach qualification. 
     /// </summary>
+    [Table("Qualifications")]
     public class Qualification
     {
         /// <summary>
@@ -21,9 +23,21 @@ namespace PMFightAcademy.Client.Models
         public int CoachId { get; set; }
 
         /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public Coach Coach { get; set; }
+
+        /// <summary>
         /// Service id.
         /// </summary>
         [Required]
         public int ServiceId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public Service Service { get; set; }
     }
 }

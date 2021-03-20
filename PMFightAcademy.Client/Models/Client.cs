@@ -7,6 +7,7 @@ namespace PMFightAcademy.Client.Models
     /// <summary>
     /// Client model.
     /// </summary>
+    [Table("Clients")]
     public class Client
     {
         /// <summary>
@@ -48,7 +49,7 @@ namespace PMFightAcademy.Client.Models
         /// User name.
         /// </summary>
         [Required]
-        [MinLength(2)]
+        [StringLength(64, MinimumLength = 2)]
         public string Name { get; set; }
     }
 }
