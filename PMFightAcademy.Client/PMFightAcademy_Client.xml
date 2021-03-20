@@ -391,13 +391,13 @@
             <param name="filter">Optional <c>string</c> filter parameter.</param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and there is at least one coach for the corresponding request.
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if client is authorized and there is no coach for the corresponding request.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
-            Returns OK if client is authorized and there is at least one coach for the corresponding request.
-            Returns NotFound if client is authorized and there is no coach for the corresponding request.
+            Returns OK with coaches list if client is authorized and there is at least one coach for the corresponding request.
+            Returns NotFound with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Client.Models.Booking">
