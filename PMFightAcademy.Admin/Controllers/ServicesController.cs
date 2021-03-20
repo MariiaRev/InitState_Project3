@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -39,7 +40,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(List<Service>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetDataContract<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllServices([FromRoute] int pageSize, [FromRoute] int page)
         {

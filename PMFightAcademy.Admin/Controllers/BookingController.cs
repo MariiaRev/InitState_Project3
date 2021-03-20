@@ -43,7 +43,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(List<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetDataContract<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServices([FromRoute] int pageSize,[FromRoute] int page)
         {

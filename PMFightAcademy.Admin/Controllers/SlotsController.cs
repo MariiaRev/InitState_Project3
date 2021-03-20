@@ -40,7 +40,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(List<Slot>),(int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>),(int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllSlots([FromRoute] int pageSize, [FromRoute] int page)
         {

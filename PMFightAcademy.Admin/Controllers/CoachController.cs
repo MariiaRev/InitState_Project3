@@ -55,7 +55,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(List<CoachContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetDataContract<CoachContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetCoaches([FromRoute] int pageSize, [FromRoute] int page)
        {
