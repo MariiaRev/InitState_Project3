@@ -26,7 +26,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Date of birth 
         /// </summary>
-        public int Age { get; set; }
+        public int DateBirth { get; set; }
         /// <summary>
         /// Description about coach
         /// </summary>

@@ -12,6 +12,12 @@ namespace PMFightAcademy.Admin.Contract
         /// Coach Id
         /// </summary>
         public int CoachId { get; set; }
+
+        /// <summary>
+        /// Date start
+        /// </summary>
+        public string DateStart { get; set; }
+
         /// <summary>
         /// Time start
         /// </summary>
@@ -20,5 +26,6 @@ namespace PMFightAcademy.Admin.Contract
         /// Time End
         /// </summary>
         public string Duration { get; set; }
+
     }
 }
