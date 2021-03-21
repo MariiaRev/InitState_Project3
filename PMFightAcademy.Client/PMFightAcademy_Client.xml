@@ -771,5 +771,13 @@
             <param name="date"></param>
             <returns></returns>
         </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
+            <summary>
+            Adds a booking for Booking Controller
+            </summary>
+            <param name="bookingDto"></param>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>
