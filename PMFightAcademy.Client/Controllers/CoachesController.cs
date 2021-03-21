@@ -2,10 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
-using Microsoft.AspNetCore.Authorization;
 using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Models;
+using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -18,22 +20,27 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for getting data about coaches.")]
-    [Authorize]
+    //[Authorize]
     public class CoachesController: ControllerBase
     {
-        private readonly ClientContext _dbContext;
+        private readonly ICoachesStorageService _coachesService;
+        private readonly ClientContext _clientContext;
 
-
-        public CoachesController(ClientContext dbContext)
+        /// <summary>
+        /// Constructor with DI.
+        /// </summary>
+        public CoachesController(ICoachesStorageService coachesService, ClientContext clientContext)
         {
-            _dbContext = dbContext;
+            _coachesService = coachesService;
+            _clientContext = clientContext;
         }
+
         /// <summary>
         /// Portioned return of coaches data.
         /// </summary>
         /// <param name="pageSize">The count of coaches to return at one time.</param>
         /// <param name="page">The current page number.</param>
-        /// <param name="filter">Optional <c>string</c> filter parameter.</param>
+        /// <param name="filter">Optional <c>string</c> filter parameter - searching by coach's first or last name.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
@@ -48,18 +55,40 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> Get([FromRoute] int pageSize, [FromRoute]int page, [FromQuery] string filter)
+        public IActionResult Get([FromRoute] int pageSize, [FromRoute] int page, [FromQuery] string filter)
         {
-            throw new NotImplementedException();
+            var coaches = _coachesService.GetCoaches((page - 1) * pageSize, pageSize, filter).ToList();
+
+            if (coaches.Count == 0)
+            {
+                string message = $"There is no coach on page {page}";
+
+                if (filter == null)
+                {
+                    message += $" matched the filter {filter}";
+                }
+
+                return NotFound(message);
+            }
+
+            return Ok(coaches);
         }
 
+        /// <summary>
+        /// Temporary
+        /// </summary>
+        [HttpPost]
+        public IActionResult Post(Coach coach)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
 
-        //Test method for take one coach
-        //[HttpGet("{coachId}")]
-        //public async Task<IActionResult> GetCoach(int coachId)
-        //{
-        //   var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachId);
-        //   return Ok(coach);
-        //}
+            _clientContext.Coaches.Add(coach);
+            _clientContext.SaveChanges();
+
+            return Ok();
+        }
     }
 }
