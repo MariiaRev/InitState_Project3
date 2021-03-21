@@ -128,6 +128,7 @@
         <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.Services">
             <summary>
             Services which can be provided by the coach.
+            Could be empty if no service is assigned to this coach.
             </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.DataForBookingDto">
@@ -439,11 +440,6 @@
             Returns NotFound with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Post(PMFightAcademy.Client.Models.Coach)">
-            <summary>
-            Temporary
-            </summary>
-        </member>
         <member name="T:PMFightAcademy.Client.Controllers.ValuesController">
             <summary>
             Just information about service.
@@ -464,6 +460,14 @@
             Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
             </summary>
             <param name="coach"><paramref name="coach"/> to convert.</param>
+            <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachWithServicesToCoachDto(PMFightAcademy.Client.Models.Coach,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
+            </summary>
+            <param name="coach"><paramref name="coach"/> to convert.</param>
+            <param name="services">Services which can be provided by the coach.</param>
             <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
         </member>
         <member name="T:PMFightAcademy.Client.Models.Booking">
