@@ -1,4 +1,6 @@
-﻿using PMFightAcademy.Admin.Models;
+﻿using System.Runtime.InteropServices.ComTypes;
+using System.Text.Json.Serialization;
+using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Contract
 {
@@ -7,6 +9,8 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class QualificationContract
     {
+        
+        public int Id { get; set; }
         /// <summary>
         /// Service
         /// </summary>

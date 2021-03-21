@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.Json.Serialization;
 
 namespace PMFightAcademy.Admin.Contract
 {
@@ -7,7 +8,7 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class SlotsCreateContract
     {
-        public int Id { get; }
+        public int Id { get; set; }
         /// <summary>
         /// Coach Id
         /// </summary>

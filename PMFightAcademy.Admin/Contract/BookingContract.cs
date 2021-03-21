@@ -7,7 +7,7 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class BookingContract
     {
-        public int Id { get; }
+        public int Id { get; set; }
         /// <summary>
         /// Coach id
         /// </summary>
