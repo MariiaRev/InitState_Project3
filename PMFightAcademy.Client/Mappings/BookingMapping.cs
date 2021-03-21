@@ -1,7 +1,7 @@
 ﻿using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Models;
 
-namespace PMFightAcademy.Client.Mapping
+namespace PMFightAcademy.Client.Mappings
 {
     /// <summary>
     /// Mapping for Book
