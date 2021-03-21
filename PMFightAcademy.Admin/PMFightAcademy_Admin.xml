@@ -105,7 +105,7 @@
             Time start
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.Duration">
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.TimeEnd">
             <summary>
             Time End
             </summary>
@@ -235,7 +235,7 @@
             Coach controller 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.DataBase.AdminContext,PMFightAcademy.Admin.Services.CoachService)">
             <summary>
             Constructor for controller
             </summary>
@@ -247,6 +247,20 @@
             <returns>
             <param name="pageSize">The count of coaches to return at one time.</param>
             <param name="page">The current page number.</param>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> Get list of coaches
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+            </returns>
+            <remarks>
+            Use for get all coach , if successes must return a list of coaches
+            if not,  return Not Found
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetAllCoaches">
+            <summary>
+            Get list of Coaches
+            </summary>
+            <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> Get list of coaches
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
             </returns>
@@ -479,12 +493,12 @@
             Slots controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor(PMFightAcademy.Admin.Services.SlotService)">
             <summary>
             Slots controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetAllSlots(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetAllSlots(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Show all slots
             </summary>
@@ -872,7 +886,7 @@
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.Duration">
             <summary>
-            Duration of slot.
+            TimeEnd of slot.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.CoachId">
@@ -919,6 +933,78 @@
             <summary>
             Update file for BookingController
             </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeCoach(System.Int32)">
+            <summary>
+            Take Coaches
+            </summary>
+            <param name="coachId"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+            <summary>
+            Add coach
+            </summary>
+            <param name="coachContract"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.SlotService">
+            <summary>
+            Slot Service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+            <summary>
+            Constructor 
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+            <summary>
+            Creation slots 
+            </summary>
+            <param name="slotContract"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+            <summary>
+            Remove slots 
+            </summary>
+            <param name="slotContract"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllSlots(System.Int32,System.Int32)">
+            <summary>
+            Take all slots 
+            </summary>
+            <param name="pageSize"></param>
+            <param name="page"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoach(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Take list of slots for coach 
+            </summary>
+            <param name="coachId"></param>
+            <param name="pageSize"></param>
+            <param name="page"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllOnDate(System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Take all slots on date
+            </summary>
+            <param name="date"></param>
+            <param name="pageSize"></param>
+            <param name="page"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Validation.PhoneValidatorAttribute">
             <summary>

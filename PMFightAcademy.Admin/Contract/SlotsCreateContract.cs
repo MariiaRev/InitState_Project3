@@ -23,7 +23,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Time End
         /// </summary>
-        public string Duration { get; set; }
+        public string TimeEnd { get; set; }
 
     }
 }

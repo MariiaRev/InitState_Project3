@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Contract.Dto
 {
@@ -40,5 +41,27 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// </summary>
         [Required]
         public string CoachLastName { get; set; }
+
+        /// <summary>
+        /// Parameterless constructor.
+        /// </summary>
+        public HistoryDto() { }
+
+        /// <summary>
+        /// Constructor with parameters.
+        /// </summary>
+        /// <param name="serviceName">name of the provided service.</param>
+        /// <param name="date">Date when the service is/was provided.</param>
+        /// <param name="time">Time when the service is/was provided.</param>
+        /// <param name="coachFirstName">First name of the coach who provided the service.</param>
+        /// <param name="coachLastName">Last name of the coach who provided the service.</param>
+        public HistoryDto(string serviceName, DateTime date, DateTime time, string coachFirstName, string coachLastName)
+        {
+            ServiceName = serviceName;
+            Date = date.ToString("MM/dd/yyyy");
+            Time = time.ToString("HH:mm");
+            CoachFirstName = coachFirstName;
+            CoachLastName = coachLastName;
+        }
     }
 }

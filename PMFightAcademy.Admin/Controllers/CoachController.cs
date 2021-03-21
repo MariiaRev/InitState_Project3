@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -18,13 +20,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class CoachController : ControllerBase
     {
         private readonly AdminContext _dbContext;
+        private readonly CoachService _coachService;
 
         /// <summary>
        /// Constructor for controller
        /// </summary>
-       public CoachController(AdminContext dbContext)
+       public CoachController(AdminContext dbContext,CoachService coachService)
         {
             _dbContext = dbContext;
+            _coachService = coachService;
         }
 
 
@@ -49,6 +53,37 @@ namespace PMFightAcademy.Admin.Controllers
        {
            throw new NotImplementedException();
        }
+
+        /// <summary>
+        /// Get list of Coaches
+        /// </summary>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> Get list of coaches
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches yet is empty
+        /// </returns>
+        /// <remarks>
+        /// Use for get all coach , if successes must return a list of coaches
+        /// if not,  return Not Found
+        /// </remarks>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpGet]
+        [ProducesResponseType(typeof(List<CoachContract>), (int) HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetAllCoaches()
+        {
+            List<CoachContract> coaches;
+            try
+            {
+                coaches = await _coachService.TakeAllCoaches();
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok(coaches);
+
+        }
 
         /// <summary>
         /// Return chosen coach
@@ -94,24 +129,16 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CreateCoach([FromBody] CoachContract coach)
         {
-            // for test , not implemented method
             try
             {
-                Coach newCoach = new Coach()
-                {
-                    FirstName = coach.FirstName,
-                    LastName = coach.LastName,
-                };
-                await _dbContext.AddAsync(newCoach);
-                await _dbContext.SaveChangesAsync();
+                await _coachService.AddCoach(coach);
             }
-            catch
+            catch (ArgumentException e)
             {
-                return Conflict();
+                return Conflict(e.Message);
             }
 
             return Ok();
-
         }
 
         /// <summary>

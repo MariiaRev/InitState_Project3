@@ -68,11 +68,6 @@
             Booking a service dto model.
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Id">
-            <summary>
-            Booking id.
-            </summary>
-        </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Date">
             <summary>
             The date for the service to be provided.
@@ -191,6 +186,21 @@
             <summary>
             Last name of the coach that provided the service
             </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor">
+            <summary>
+            Parameterless constructor.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.DateTime,System.String,System.String)">
+            <summary>
+            Constructor with parameters.
+            </summary>
+            <param name="serviceName">name of the provided service.</param>
+            <param name="date">Date when the service is/was provided.</param>
+            <param name="time">Time when the service is/was provided.</param>
+            <param name="coachFirstName">First name of the coach who provided the service.</param>
+            <param name="coachLastName">Last name of the coach who provided the service.</param>
         </member>
         <member name="T:PMFightAcademy.Client.Contract.GetDataContract`1">
             <summary>
@@ -423,6 +433,18 @@
             Returns OK with coaches list if client is authorized and there is at least one coach for the corresponding request.
             Returns NotFound with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
             </remarks>
+        </member>
+        <member name="T:PMFightAcademy.Client.Mappings.CoachMapping">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/>.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachToCoachDto(PMFightAcademy.Client.Models.Coach)">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
+            </summary>
+            <param name="coach"><paramref name="coach"/> to convert.</param>
+            <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ValuesController">
             <summary>

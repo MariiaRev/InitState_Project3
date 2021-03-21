@@ -164,7 +164,7 @@ namespace PMFightAcademy.Admin.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<TimeSpan>("Duration")
+                    b.Property<TimeSpan>("TimeEnd")
                         .HasColumnType("interval");
 
                     b.Property<TimeSpan>("StartTime")

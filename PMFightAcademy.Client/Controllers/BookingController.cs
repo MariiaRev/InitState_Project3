@@ -182,6 +182,7 @@ namespace PMFightAcademy.Client.Controllers
         /// Adds a booking.
         /// </summary>
         /// <param name="booking">Booking filters.</param>
+        /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
@@ -209,6 +210,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <param name="pageSize">The count of active booking records to return at one time.</param>
         /// <param name="page">The current page number.</param>
+        /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
@@ -235,6 +237,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <param name="pageSize">The count of history records to return at one time.</param>
         /// <param name="page">The current page number.</param>
+        /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.

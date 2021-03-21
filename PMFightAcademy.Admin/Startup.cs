@@ -34,6 +34,7 @@ namespace PMFightAcademy.Admin
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
             });
+            services.AddTransient<SlotService>();
 
             services.AddDbContext<AdminContext>(options =>
                 options.UseNpgsql(
