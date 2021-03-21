@@ -36,7 +36,7 @@ namespace PMFightAcademy.Client.Mappings
         /// <param name="time"></param>
         /// <param name="coachId"></param>
         /// <returns></returns>
-        public static BookingDto CoachMapFromModelTToContract(Booking model, string date, string time, int coachId)
+        public static BookingDto CoachMapFromModelToContract(Booking model, string date, string time, int coachId)
         {
             return new BookingDto()
             {

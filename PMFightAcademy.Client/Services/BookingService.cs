@@ -26,10 +26,10 @@ namespace PMFightAcademy.Client.Services
         /// <summary>
         /// Get available services for client booking for Booking Controller
         /// </summary>
-        public Task<List<Service>> GetServicesForBooking()
+        public Task<IEnumerable<Service>> GetServicesForBooking()
         {
-            var result = _context.Services.ToList();
-            if (result.Count != 0)
+            var result = _context.Services.AsEnumerable();
+            if (!result.Any())
                 return Task.FromResult(result);
 
             throw new ArgumentException("Service Collection is empty");
@@ -40,7 +40,7 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         /// <param name="serviceId"></param>
         /// <returns></returns>
-        public Task<List<CoachDto>> GetCoachesForBooking(int serviceId)
+        public Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId)
         {
             if (!_context.Services.Any(x => x.Id == serviceId))
                 throw new ArgumentException("Incorrect service id");
@@ -69,7 +69,7 @@ namespace PMFightAcademy.Client.Services
                 listResult.Add(coachDto);
             }
 
-            return Task.FromResult(listResult);
+            return Task.FromResult(listResult.AsEnumerable());
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace PMFightAcademy.Client.Services
         /// <param name="serviceId"></param>
         /// <param name="coachId"></param>
         /// <returns></returns>
-        public Task<List<string>> GetDatesForBooking(int serviceId, int coachId)
+        public Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId)
         {
             if (!_context.Qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
                 throw new ArgumentException("No same qualification");
@@ -96,7 +96,7 @@ namespace PMFightAcademy.Client.Services
             if (result.Count == 0)
                 throw new ArgumentException("Available Slot Collection is already booked");
 
-            return Task.FromResult(result);
+            return Task.FromResult(result.AsEnumerable());
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace PMFightAcademy.Client.Services
         /// <param name="coachId"></param>
         /// <param name="date"></param>
         /// <returns></returns>
-        public Task<List<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
+        public Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
         {
             if (!_context.Qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
                 throw new ArgumentException("No same qualification");
@@ -129,7 +129,44 @@ namespace PMFightAcademy.Client.Services
             if (result.Count == 0)
                 throw new ArgumentException("Available Slot Collection on your date is already booked");
 
-            return Task.FromResult(result);
+            return Task.FromResult(result.AsEnumerable());
+        }
+
+        public async Task AddBooking(BookingDto bookingDto, int clientId)
+        {
+            if (bookingDto == null)
+                throw new ArgumentException("BookingDTO can not be null");
+
+            if (!_context.Slots
+                .Any(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date 
+                          && x.StartTime.ToString("HH:mm") == bookingDto.Time))
+                throw new ArgumentException("Available Slot Collection on your time is empty");
+
+            var slots = _context.Slots
+                .Where(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date 
+                            && x.StartTime.ToString("HH:mm") == bookingDto.Time).ToList();
+
+            var freeSlots = slots
+                .Where(x => _context.Bookings.All(y => y.SlotId != x.Id)).ToList();
+
+            if (freeSlots.Count == 0)
+                throw new ArgumentException("Available Slot Collection  on your time is already booked");
+
+            var yourSlot = freeSlots.FirstOrDefault(x => x.CoachId == bookingDto.CoachId);
+
+            if (yourSlot == null)
+                throw new ArgumentException("No same slot on your time with your coach");
+
+            var price = _context.Services.FirstOrDefault(x => x.Id == bookingDto.ServiceId);
+
+            if (price == null)
+                throw new ArgumentException("No same service in Service Collection");
+
+            var booking = BookingMapping.BookingMapFromContractToModel(bookingDto, yourSlot.Id, clientId, price.Price);
+
+           await _context.Bookings.AddAsync(booking);
+
+           await _context.SaveChangesAsync();
         }
     }
 }

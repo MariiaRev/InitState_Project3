@@ -8,8 +8,10 @@ using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -207,10 +209,22 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public Task<IActionResult> AddBooking([FromBody] BookingDto booking, 
+        public async Task<IActionResult> AddBooking([FromBody] BookingDto booking, 
             CancellationToken token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var claim = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.UserData);
+                if (claim == null)
+                    return BadRequest("No UserData in JWT-token for authorization");
+                var clientId = int.Parse(claim.Value);
+                await _service.AddBooking(booking, clientId);
+                return Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         /// <summary>
