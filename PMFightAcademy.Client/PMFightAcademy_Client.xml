@@ -76,11 +76,13 @@
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Date">
             <summary>
             The date for the service to be provided.
+            Should be in format "MM/dd/yyyy" but as a string.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Time">
             <summary>
             The time for the service to be provided.
+            Should be in format "HH:mm" but as a string.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.ServiceId">
@@ -171,11 +173,13 @@
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Date">
             <summary>
             Date of provided service.
+            Date is in format "MM/dd/yyyy".
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Time">
             <summary>
             Time of provided service.
+            Time is in format "HH:mm".
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.CoachFirstName">
@@ -276,6 +280,7 @@
             Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available date.
             </returns>
             <remarks>
+            Dates will be returned in format "MM/dd/yyyy" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
             Returns OK with dates list if client is authorized and there is at least one available date.
             Returns NotFound with <c>string</c> message if client is authorized and there is no available date.
@@ -292,6 +297,8 @@
             Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available time slot.
             </returns>
             <remarks>
+            Date should be in format "MM/dd/yyyy" as a <c>string</c>.
+            Time will be returned in format "HH:mm" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
             Returns OK with time slots list if client is authorized and there is at least one available time slot.
             Returns NotFound with <c>string</c> message if client is authorized and there is no available time slot.
@@ -305,12 +312,14 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore
+             or booking model is invalid.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
             Returns OK with <c>string</c> message if client is authorized and a booking was successfully added.
-            Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore.
+            Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore
+             or booking model is invalid.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetActiveBookings(System.Int32,System.Int32)">
