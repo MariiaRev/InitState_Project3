@@ -76,6 +76,21 @@ namespace PMFightAcademy.Client
                 var filePath = Path.Combine(AppContext.BaseDirectory, "PMFightAcademy_Client.xml");
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
+                c.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                },
+                            },
+                            new string[0]
+                        }
+                    });
             });
         }
 

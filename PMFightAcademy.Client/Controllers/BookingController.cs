@@ -225,6 +225,10 @@ namespace PMFightAcademy.Client.Controllers
             {
                 return BadRequest(e.Message);
             }
+            catch (NullReferenceException)
+            {
+                return BadRequest("No Identity in JWT-token for authorization");
+            }
         }
 
         /// <summary>
