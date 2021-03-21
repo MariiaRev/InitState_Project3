@@ -1,6 +1,3 @@
-﻿using System;
-using System.Text.Json.Serialization;
-
 namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>

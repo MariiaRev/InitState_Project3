@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
 using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Mapping
