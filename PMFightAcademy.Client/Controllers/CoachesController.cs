@@ -1,15 +1,13 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.DataBase;
-using PMFightAcademy.Client.Models;
 using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 
 
 namespace PMFightAcademy.Client.Controllers
@@ -55,40 +53,26 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public IActionResult Get([FromRoute] int pageSize, [FromRoute] int page, [FromQuery] string filter)
+        public IActionResult Get(
+            [FromRoute, Range(1, int.MaxValue)] int pageSize,
+            [FromRoute, Range(1, int.MaxValue)] int page,
+            [FromQuery] string filter)
         {
-            var coaches = _coachesService.GetCoaches((page - 1) * pageSize, pageSize, filter).ToList();
+            var coaches = _coachesService.GetCoaches(pageSize, page, filter);
 
-            if (coaches.Count == 0)
+            if (!coaches.Data.Any())
             {
                 string message = $"There is no coach on page {page}";
 
-                if (filter == null)
+                if (filter != null)
                 {
-                    message += $" matched the filter {filter}";
+                    message += $" matched the filter '{filter}'";
                 }
 
-                return NotFound(message);
+                return NotFound($"{message}.");
             }
 
             return Ok(coaches);
-        }
-
-        /// <summary>
-        /// Temporary
-        /// </summary>
-        [HttpPost]
-        public IActionResult Post(Coach coach)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            _clientContext.Coaches.Add(coach);
-            _clientContext.SaveChanges();
-
-            return Ok();
         }
     }
 }
