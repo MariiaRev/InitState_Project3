@@ -481,7 +481,7 @@
         </member>
         <member name="P:PMFightAcademy.Client.Models.Client.Id">
             <summary>
-            User id.
+            User id  
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Models.Client.Login">

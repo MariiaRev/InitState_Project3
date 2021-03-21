@@ -63,7 +63,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Select booked services on person
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="clientId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what is booked
@@ -76,12 +76,12 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("client/{clientId}")]
         [ProducesResponseType(typeof(List<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetBookedServiceForClient(int id, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookedServiceForClient(int clientId, CancellationToken cancellationToken)
         {
             try
             {
-                var result = 
-                    await _bookingService.GetBookedServiceForClient(id, cancellationToken);
+                var result =
+                    await _bookingService.GetBookedServiceForClient(clientId, cancellationToken);
 
                 return Ok(result);
             }
