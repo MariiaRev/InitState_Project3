@@ -6,7 +6,6 @@ using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.Contract;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -14,14 +13,21 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Client.DataBase;
 
 namespace PMFightAcademy.Client.Controllers
 {
     /// <summary>
     /// Client controller.
-    /// </summary>
+    /// Formats of phone number:
+    /// +38067 111 1111
+    /// 067 111 1111
+    /// Available country codes:
+    /// 039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+    /// Password must have at least 8 chars
+    /// At least 1 upper char
+    /// and at least 1 number
+    /// </summary> 
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for registration and login a client.")]
