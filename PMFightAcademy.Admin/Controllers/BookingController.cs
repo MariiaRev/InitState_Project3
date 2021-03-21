@@ -51,15 +51,25 @@ namespace PMFightAcademy.Admin.Controllers
             CancellationToken cancellationToken)
         {
             if (page < 1 || pageSize < 1)
-                return NotFound();
+                return NotFound("Incorrect page or page size");
 
-            var bookings = _context.Bookings;
-            var bookingPerPages = bookings.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var bookings = _context.Bookings.ToArray();
+            var bookingPerPages = bookings.Skip((page - 1) * pageSize).Take(pageSize).ToArray();
 
-            if (bookingPerPages.Count == 0)
-                return NotFound();
+            if (bookingPerPages.Length == 0)
+                return NotFound("");
 
-            return Ok(bookingPerPages);
+            var pagination = new Paggination()
+            {
+                Page = page,
+                TotalPages = (int)Math.Ceiling((decimal)bookings.Length /pageSize)
+            };
+
+            return Ok(new GetDataContract<Booking>()
+            {
+                Data = bookingPerPages,
+                Paggination = pagination
+            });
         }
 
         /// <summary>
