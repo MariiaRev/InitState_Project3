@@ -71,7 +71,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </remarks>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(List<Service>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetServicesForBooking(CancellationToken token)
         {
@@ -170,12 +170,20 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetTimeSlotsForBooking([FromRoute] int serviceId, 
+        public async Task<IActionResult> GetTimeSlotsForBooking([FromRoute] int serviceId, 
             [FromRoute] int coachId,
             [FromRoute] string date, 
             CancellationToken token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _service.GetTimeSlotsForBooking(serviceId, coachId, date);
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>

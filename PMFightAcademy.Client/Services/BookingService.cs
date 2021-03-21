@@ -91,10 +91,43 @@ namespace PMFightAcademy.Client.Services
 
             var result = slots
                 .Where(x => _context.Bookings.All(y => y.SlotId != x.Id))
-                .Select(x => x.Date.ToString()).ToList();
+                .Select(x => x.Date.ToString("MM/dd/yyyy")).ToList();
 
             if (result.Count == 0)
                 throw new ArgumentException("Available Slot Collection is already booked");
+
+            return Task.FromResult(result);
+        }
+
+        /// <summary>
+        /// Get available time slots to provide a service with id <paramref name="serviceId"/> for Booking Controller
+        /// </summary>
+        /// <param name="serviceId"></param>
+        /// <param name="coachId"></param>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public Task<List<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
+        {
+            if (!_context.Qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
+                throw new ArgumentException("No same qualification");
+
+            var slots = _context.Slots.Where(x => x.CoachId == coachId).ToList();
+
+            if (slots.Count == 0)
+                throw new ArgumentException("Available Slot Collection is empty");
+
+            var freeSlots = slots
+                .Where(x => _context.Bookings.All(y => y.SlotId != x.Id)).ToList();
+
+            if (freeSlots.Count == 0)
+                throw new ArgumentException("Available Slot Collection is already booked");
+
+            var result = freeSlots
+                .Where(x => x.Date.ToString("MM/dd/yyyy") == date)
+                .Select(x => x.StartTime.ToString("HH:mm")).ToList();
+
+            if (result.Count == 0)
+                throw new ArgumentException("Available Slot Collection on your date is already booked");
 
             return Task.FromResult(result);
         }
