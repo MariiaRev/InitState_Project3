@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
-using Microsoft.AspNetCore.Authorization;
 using PMFightAcademy.Client.DataBase;
 using Swashbuckle.AspNetCore.Annotations;
 using System;

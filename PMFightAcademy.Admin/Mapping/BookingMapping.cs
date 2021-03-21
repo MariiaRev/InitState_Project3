@@ -1,5 +1,4 @@
-﻿using System;
-using PMFightAcademy.Admin.Contract;
+﻿using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Mapping
@@ -7,7 +6,7 @@ namespace PMFightAcademy.Admin.Mapping
     /// <summary>
     /// Mapping for Book
     /// </summary>
-    public class BookingMapping
+    public static class BookingMapping
     {
         /// <summary>
         /// From Contract to model
