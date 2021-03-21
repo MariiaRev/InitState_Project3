@@ -32,7 +32,7 @@ namespace PMFightAcademy.Admin.Models
         public TimeSpan StartTime { get; set; }
 
         /// <summary>
-        /// Duration of slot.
+        /// TimeEnd of slot.
         /// </summary>
         [Required]
         public TimeSpan Duration { get; set; }
