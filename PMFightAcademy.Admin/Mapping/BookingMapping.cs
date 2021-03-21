@@ -1,5 +1,4 @@
-﻿using System;
-using PMFightAcademy.Admin.Contract;
+﻿using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Mapping

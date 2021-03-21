@@ -1,14 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -22,15 +18,13 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("BookingController for check books for admin and remove some")]
     public class BookingController : ControllerBase
     {
-        private readonly AdminContext _context;
         private readonly BookingService _bookingService;
 
         /// <summary>
         /// Constructor for booking
         /// </summary>
-        public BookingController(AdminContext context, BookingService bookingService)
+        public BookingController(BookingService bookingService)
         {
-            _context = context;
             _bookingService = bookingService;
         }
 
@@ -64,11 +58,10 @@ namespace PMFightAcademy.Admin.Controllers
             {
                 return NotFound(e.Message);
             }
-
         }
 
         /// <summary>
-        /// select booked services on person
+        /// Select booked services on person
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
@@ -116,19 +109,17 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServiceForCoach(int coachId, CancellationToken cancellationToken)
         {
-            if (coachId < 1)
-                return NotFound("Incorrect id");
+            try
+            {
+                var result =
+                    await _bookingService.GetBookedServiceForCoach(coachId, cancellationToken);
 
-            var slots = _context.Slots.Where(x => x.CoachId == coachId).ToList();
-
-            //todo: check linq logic
-            var bookings = _context.Bookings
-                .Where(x => slots.Any(y => y.Id == x.SlotId)).ToList();
-
-            if (bookings.Count == 0)
-                return NotFound("Booking Collection is empty");
-
-            return Ok(bookings.Select(BookingMapping.CoachMapFromModelTToContract).ToList());
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -149,21 +140,16 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteBook([FromBody] BookingContract bookId, CancellationToken cancellationToken)
         {
-            if (bookId == null)
-                return NotFound("Contract can not be null");
+            try
+            {
+                await _bookingService.DeleteBook(bookId, cancellationToken);
 
-            var booking = BookingMapping.BookingMapFromContractToModel(bookId);
-
-            var checkBooking = _context.Bookings.FirstOrDefault(p => p.Id == booking.Id);
-
-            if (checkBooking == null)
-                return NotFound("No same booking in db");
-
-            _context.Remove(checkBooking);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Ok();
+                return Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -183,21 +169,16 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> UpdateBook(BookingContract newBook, CancellationToken cancellationToken)
         {
-            if (newBook == null)
-                return NotFound("Contract can not be null");
+            try
+            {
+                await _bookingService.UpdateBook(newBook, cancellationToken);
 
-            var booking = BookingMapping.BookingMapFromContractToModel(newBook);
-
-            var checkBooking = _context.Bookings.FirstOrDefault(p => p.Id == booking.Id);
-
-            if (checkBooking == null)
-                return NotFound("No same booking in db");
-
-            _context.Update(checkBooking);
-
-            await _context.SaveChangesAsync(cancellationToken);
-
-            return Ok();
+                return Ok();
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
 

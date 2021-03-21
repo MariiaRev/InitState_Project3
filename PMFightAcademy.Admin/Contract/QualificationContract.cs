@@ -1,7 +1,3 @@
-using System.Runtime.InteropServices.ComTypes;
-using System.Text.Json.Serialization;
-using PMFightAcademy.Admin.Models;
-
 namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
