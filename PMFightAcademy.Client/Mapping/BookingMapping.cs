@@ -14,14 +14,17 @@ namespace PMFightAcademy.Client.Mapping
         /// <param name="contract"></param>
         /// <param name="slotId"></param>
         /// <param name="clientId"></param>
+        /// <param name="price"></param>
         /// <returns></returns>
-        public static Booking BookingMapFromContractToModel(BookingDto contract, int slotId, int clientId)
+        public static Booking BookingMapFromContractToModel(BookingDto contract, 
+            int slotId, int clientId, decimal price)
         {
             return new Booking()
             {
-               ServiceId = contract.ServiceId,
-               SlotId = slotId,
-               ClientId = clientId
+                ServiceId = contract.ServiceId,
+                SlotId = slotId,
+                ClientId = clientId,
+                ResultPrice = price
             };
         }
 

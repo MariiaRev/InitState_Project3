@@ -10,12 +10,6 @@ namespace PMFightAcademy.Client.Contract.Dto
     public class BookingDto
     {
         /// <summary>
-        /// Id in db
-        /// </summary>
-        [Required]
-        public int Id { get; set; }
-
-        /// <summary>
         /// The date for the service to be provided.
         /// Should be in format "MM/dd/yyyy" but as a string.
         /// </summary>

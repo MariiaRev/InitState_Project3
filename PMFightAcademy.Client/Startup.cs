@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client
 {
@@ -65,6 +66,8 @@ namespace PMFightAcademy.Client
             services.AddDbContext<ClientContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
+
+            services.AddTransient<BookingService>();
 
             services.AddSwaggerGen(c =>
             {

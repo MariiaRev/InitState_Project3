@@ -6,8 +6,12 @@ using PMFightAcademy.Client.Models;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
+using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -20,6 +24,15 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class BookingController : ControllerBase
     {
+        private readonly BookingService _service;
+
+#pragma warning disable 1591
+        public BookingController(BookingService service)
+        {
+            _service = service;
+        }
+#pragma warning restore 1591
+
         #region Old version for returning booking data
         ///// <summary>
         ///// Gets missing in <paramref name="booking"/> data for a booking depending on set filters in <paramref name="booking"/>.
@@ -60,11 +73,19 @@ namespace PMFightAcademy.Client.Controllers
         /// </remarks>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(List<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetServicesForBooking()
+        public async Task<IActionResult> GetServicesForBooking(CancellationToken token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _service.GetServicesForBooking();
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
