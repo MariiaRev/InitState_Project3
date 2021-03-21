@@ -551,6 +551,82 @@
             Just information about service.
             </summary>
         </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.BookingMapping">
+            <summary>
+            Mapping for Book
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromContractToModel(PMFightAcademy.Admin.Contract.BookingContract)">
+            <summary>
+            From Contract to model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.CoachMapFromModelTToContract(PMFightAcademy.Admin.Models.Booking)">
+            <summary>
+            From model to contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.CoachMapping">
+            <summary>
+            Coach Mapping
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.CoachMapping.CoachMapFromContractToModel(PMFightAcademy.Admin.Contract.CoachContract)">
+            <summary>
+            From contract to model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.CoachMapping.CoachMapFromModelToContract(PMFightAcademy.Admin.Models.Coach)">
+            <summary>
+            From model to Contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.QualificationMapping">
+            <summary>
+            QualificationMapping
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.QualificationMapping.QualificationMapFromContractToModel(PMFightAcademy.Admin.Contract.QualificationContract)">
+            <summary>
+            From Contract to Model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.QualificationMapping.QualificationMapFromModelToContract(PMFightAcademy.Admin.Models.Qualification)">
+            <summary>
+            From model to contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.SlotsMapping">
+            <summary>
+            Slots mapping 
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.SlotsMapping.SlotMapFromContractToModel(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+            <summary>
+            from contract to model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.SlotsMapping.SlotMapFromModelToContract(PMFightAcademy.Admin.Models.Slot)">
+            <summary>
+            From model to Contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Admin.Models.Booking">
             <summary>
             Booking WorkOut

@@ -398,13 +398,18 @@
             Coach controller.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.#ctor(PMFightAcademy.Client.Services.ICoachesStorageService,PMFightAcademy.Client.DataBase.ClientContext)">
+            <summary>
+            Constructor with DI.
+            </summary>
+        </member>
         <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String)">
             <summary>
             Portioned return of coaches data.
             </summary>
             <param name="pageSize">The count of coaches to return at one time.</param>
             <param name="page">The current page number.</param>
-            <param name="filter">Optional <c>string</c> filter parameter.</param>
+            <param name="filter">Optional <c>string</c> filter parameter - searching by coach's first or last name.</param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
@@ -415,6 +420,11 @@
             Returns OK with coaches list if client is authorized and there is at least one coach for the corresponding request.
             Returns NotFound with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
             </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Post(PMFightAcademy.Client.Models.Coach)">
+            <summary>
+            Temporary
+            </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ValuesController">
             <summary>
@@ -677,6 +687,33 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.CoachesEFService">
+            <summary>
+            Service for getting coaches from database with Entity Framework.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.CoachesEFService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
+            <summary>
+            Constructor with DI.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.CoachesEFService.GetCoaches(System.Int32,System.Int32,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
+            <summary>
+            Coaches storage service abstraction.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ICoachesStorageService.GetCoaches(System.Int32,System.Int32,System.String)">
+            <summary>
+            Gets coaches list with paggination.
+            </summary>
+            <param name="skipCount">How many coaches to skip.</param>
+            <param name="takeCount">How many coaches to take.</param>
+            <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
+            <returns>Returns list of found coaches or empty list if there is no coach.</returns>
         </member>
     </members>
 </doc>
