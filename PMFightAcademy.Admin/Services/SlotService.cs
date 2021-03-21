@@ -28,11 +28,13 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Creation slots 
         /// </summary>
-        /// <param name="slot"></param>
+        /// <param name="slotContract"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task AddSlot(Slot slot)
+        public async Task AddSlot(SlotsCreateContract slotContract)
         {
+            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+
             List<Slot> slots = new List<Slot>();
             while (slot.StartTime<=slot.Duration)
             {
@@ -61,11 +63,12 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Remove slots 
         /// </summary>
-        /// <param name="slot"></param>
+        /// <param name="slotContract"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task RemoveSlot(Slot slot)
+        public async Task RemoveSlot(SlotsCreateContract slotContract)
         {
+            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
             try
             {
                 _dbContext.Slots.Remove(slot);

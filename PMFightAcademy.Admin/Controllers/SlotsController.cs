@@ -4,6 +4,8 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Mapping;
+using PMFightAcademy.Admin.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -131,7 +133,7 @@ namespace PMFightAcademy.Admin.Controllers
             
             try
             {
-                await _slotService.AddSlot(SlotsMapping.SlotMapFromContractToModel(createSlots));
+                await _slotService.AddSlot(createSlots);
             }
             catch (ArgumentException e)
             {
@@ -161,7 +163,7 @@ namespace PMFightAcademy.Admin.Controllers
         {
             try
             {
-                await _slotService.RemoveSlot(SlotsMapping.SlotMapFromContractToModel(createSlots));
+                await _slotService.RemoveSlot(createSlots);
             }
             catch (ArgumentException e)
             {
