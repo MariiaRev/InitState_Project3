@@ -7,7 +7,7 @@ namespace PMFightAcademy.Admin.Mapping
     /// <summary>
     /// Mapping for Book
     /// </summary>
-    public class BookingMapping
+    public static class BookingMapping
     {
         /// <summary>
         /// From Contract to model

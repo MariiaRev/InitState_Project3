@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -65,9 +66,9 @@ namespace PMFightAcademy.Admin.Controllers
                 TotalPages = (int)Math.Ceiling((decimal)bookings.Length / pageSize)
             };
 
-            return Ok(new GetDataContract<Booking>()
+            return Ok(new GetDataContract<BookingContract>()
             {
-                Data = bookingPerPages,
+                Data = bookingPerPages.Select(BookingMapping.CoachMapFromModelTToContract).ToArray(),
                 Paggination = pagination
             });
         }
@@ -98,7 +99,7 @@ namespace PMFightAcademy.Admin.Controllers
             if (bookings.Count == 0)
                 return NotFound("Booking Collection is empty");
 
-            return Ok(bookings);
+            return Ok(bookings.Select(BookingMapping.CoachMapFromModelTToContract).ToList());
         }
 
         /// <summary>
@@ -124,19 +125,21 @@ namespace PMFightAcademy.Admin.Controllers
 
             var slots = _context.Slots.Where(x => x.CoachId == coachId).ToList();
 
+            //todo: check linq logic
             var bookings = _context.Bookings
                 .Where(x => slots.Any(y => y.Id == x.SlotId)).ToList();
 
             if (bookings.Count == 0)
                 return NotFound("Booking Collection is empty");
 
-            return Ok(bookings);
+            return Ok(bookings.Select(BookingMapping.CoachMapFromModelTToContract).ToList());
         }
 
         /// <summary>
         /// Delete a book
         /// </summary>
         /// <param name="bookId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return if book is successful deleted
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
@@ -145,13 +148,26 @@ namespace PMFightAcademy.Admin.Controllers
         /// return ok if successes
         /// return Not found if not founded 
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteBook([FromBody] BookingContract bookId)
+        public async Task<IActionResult> DeleteBook([FromBody] BookingContract bookId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (bookId == null)
+                return NotFound("Contract can not be null");
+
+            var booking = BookingMapping.BookingMapFromContractToModel(bookId);
+
+            var checkBooking = _context.Bookings.FirstOrDefault(p => p.Id == booking.Id);
+
+            if (checkBooking == null)
+                return NotFound(NotFound("No same booking in db"));
+
+            _context.Remove(booking);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Ok();
         }
 
         /// <summary>
@@ -159,7 +175,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </summary>
         /// <param name="newBook"></param>
         /// <returns>
-        /// <see cref="HttpStatusCode.OK"/>return if book is successful deleted
+        /// <see cref="HttpStatusCode.OK"/>return if book is successful updated
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
         /// <remarks>
         /// Send with the same Id new values
