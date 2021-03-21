@@ -5,10 +5,9 @@ using System;
 namespace PMFightAcademy.Client.Mappings
 {
     /// <summary>
-    /// Converts models from <see cref="Models"/> to  their other
-    /// matching models from <see cref="Contract.Dto"/>.
+    /// Converts <see cref="Coach"/> to <see cref="CoachDto"/>.
     /// </summary>
-    public static class ModelsMapper
+    public static class CoachMapping
     {
         /// <summary>
         /// Converts <see cref="Coach"/> model to the <see cref="CoachDto"/> one.
