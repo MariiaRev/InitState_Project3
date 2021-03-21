@@ -182,7 +182,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// Send with the same Id new values
         /// and they will be updated
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
