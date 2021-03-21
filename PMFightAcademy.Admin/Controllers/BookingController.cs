@@ -37,7 +37,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="page">The current page number.</param>
         /// <param name="cancellationToken"></param>
         /// <returns>
-        /// <see cref="HttpStatusCode.OK"/>return list of slots what can be  booked
+        /// <see cref="HttpStatusCode.OK"/>return list of slots what can be booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
         /// <remarks>
         /// Return all booked services 
@@ -47,7 +47,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(GetDataContract<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServices([FromRoute] int pageSize,
-            [FromRoute] int page, 
+            [FromRoute] int page,
             CancellationToken cancellationToken)
         {
             if (page < 1 || pageSize < 1)
@@ -57,12 +57,12 @@ namespace PMFightAcademy.Admin.Controllers
             var bookingPerPages = bookings.Skip((page - 1) * pageSize).Take(pageSize).ToArray();
 
             if (bookingPerPages.Length == 0)
-                return NotFound("");
+                return NotFound("Booking Collection is empty");
 
             var pagination = new Paggination()
             {
                 Page = page,
-                TotalPages = (int)Math.Ceiling((decimal)bookings.Length /pageSize)
+                TotalPages = (int)Math.Ceiling((decimal)bookings.Length / pageSize)
             };
 
             return Ok(new GetDataContract<Booking>()
@@ -75,7 +75,8 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// select booked services on person
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what is booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots
@@ -84,19 +85,27 @@ namespace PMFightAcademy.Admin.Controllers
         /// Return list about booked info for Client
         /// not founded if no Client 
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet("client/{clientId}")]
-        [ProducesResponseType(typeof(List<BookingContract>), (int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetBookedServiceForClient(int id)
+        [ProducesResponseType(typeof(List<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetBookedServiceForClient(int id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (id < 1)
+                return NotFound("Incorrect id");
+
+            var bookings = _context.Bookings.Where(x => x.ClientId == id).ToList();
+
+            if (bookings.Count == 0)
+                return NotFound("Booking Collection is empty");
+
+            return Ok(bookings);
         }
 
         /// <summary>
         /// Select booked services on coach
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="coachId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots
@@ -105,13 +114,23 @@ namespace PMFightAcademy.Admin.Controllers
         /// Return list about booked info for coach
         /// not founded if no coaches 
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(List<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetBookedServiceForCoach(int coachId)
+        public async Task<IActionResult> GetBookedServiceForCoach(int coachId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (coachId < 1)
+                return NotFound("Incorrect id");
+
+            var slots = _context.Slots.Where(x => x.CoachId == coachId).ToList();
+
+            var bookings = _context.Bookings
+                .Where(x => slots.Any(y => y.Id == x.SlotId)).ToList();
+
+            if (bookings.Count == 0)
+                return NotFound("Booking Collection is empty");
+
+            return Ok(bookings);
         }
 
         /// <summary>
@@ -128,9 +147,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpDelete]
-        [ProducesResponseType( (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteBook([FromBody]BookingContract bookId)
+        public async Task<IActionResult> DeleteBook([FromBody] BookingContract bookId)
         {
             throw new NotImplementedException();
         }
@@ -154,7 +173,6 @@ namespace PMFightAcademy.Admin.Controllers
         {
             throw new NotImplementedException();
         }
-
 
 
         ///// <Not useble part for create book>

@@ -350,7 +350,15 @@
         <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
             <summary>
             Client controller.
-            </summary>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </summary> 
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client,System.Threading.CancellationToken)">
             <summary>

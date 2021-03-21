@@ -19,8 +19,6 @@ namespace PMFightAcademy.Client.Controllers
 {
     /// <summary>
     /// Client controller.
-    /// </summary>
-    /// <remarks>
     /// Formats of phone number:
     /// +38067 111 1111
     /// 067 111 1111
@@ -29,7 +27,7 @@ namespace PMFightAcademy.Client.Controllers
     /// Password must have at least 8 chars
     /// At least 1 upper char
     /// and at least 1 number
-    /// </remarks> 
+    /// </summary> 
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for registration and login a client.")]
