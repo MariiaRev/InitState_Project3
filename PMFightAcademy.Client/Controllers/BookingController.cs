@@ -98,6 +98,7 @@ namespace PMFightAcademy.Client.Controllers
         /// Returns <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available date.
         /// </returns>
         /// <remarks>
+        /// Dates will be returned in format "MM/dd/yyyy" as a <c>string</c>.
         /// Returns Unauthorized if client is unauthorized.
         /// Returns OK with dates list if client is authorized and there is at least one available date.
         /// Returns NotFound with <c>string</c> message if client is authorized and there is no available date.
@@ -121,6 +122,8 @@ namespace PMFightAcademy.Client.Controllers
         /// Returns <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available time slot.
         /// </returns>
         /// <remarks>
+        /// Date should be in format "MM/dd/yyyy" as a <c>string</c>.
+        /// Time will be returned in format "HH:mm" as a <c>string</c>.
         /// Returns Unauthorized if client is unauthorized.
         /// Returns OK with time slots list if client is authorized and there is at least one available time slot.
         /// Returns NotFound with <c>string</c> message if client is authorized and there is no available time slot.
@@ -141,12 +144,14 @@ namespace PMFightAcademy.Client.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
-        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore.
+        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore
+        ///  or booking model is invalid.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
         /// Returns OK with <c>string</c> message if client is authorized and a booking was successfully added.
-        /// Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore.
+        /// Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore
+        ///  or booking model is invalid.
         /// </remarks>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]

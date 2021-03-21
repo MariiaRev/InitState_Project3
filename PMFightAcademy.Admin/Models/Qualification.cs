@@ -29,7 +29,6 @@ namespace PMFightAcademy.Admin.Models
         [JsonIgnore]
         public Coach Coach { get; set; }
 
-
         /// <summary>
         /// Service
         /// </summary>

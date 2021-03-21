@@ -1,11 +1,14 @@
-﻿namespace PMFightAcademy.Admin.Contract
+using System;
+using System.Text.Json.Serialization;
+
+namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto
     /// </summary>
     public class SlotsCreateContract
     {
-        public int Id { get; }
+        public int Id { get; set; }
         /// <summary>
         /// Coach Id
         /// </summary>

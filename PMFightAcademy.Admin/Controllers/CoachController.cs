@@ -54,7 +54,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// Return chosen coach
         /// </summary>
         /// <para>
-        ///<param coachId="coachId"></param>
+        ///<param name="coachId"></param>
         /// </para>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name

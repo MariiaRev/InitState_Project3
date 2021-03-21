@@ -261,7 +261,7 @@
              Return chosen coach
              </summary>
              <para>
-            <param coachId="coachId"></param>
+            <param name="coachId"></param>
              </para>
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
