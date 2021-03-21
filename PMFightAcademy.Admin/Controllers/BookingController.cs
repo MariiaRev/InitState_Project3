@@ -50,7 +50,7 @@ namespace PMFightAcademy.Admin.Controllers
         {
             try
             {
-                var result = await _bookingService.GetBookedServices(pageSize, page, cancellationToken);
+                var result = await _bookingService.GetBookedServices(pageSize, page);
 
                 return Ok(result);
             }
@@ -81,7 +81,7 @@ namespace PMFightAcademy.Admin.Controllers
             try
             {
                 var result =
-                    await _bookingService.GetBookedServiceForClient(clientId, cancellationToken);
+                    await _bookingService.GetBookedServiceForClient(clientId);
 
                 return Ok(result);
             }
@@ -112,7 +112,7 @@ namespace PMFightAcademy.Admin.Controllers
             try
             {
                 var result =
-                    await _bookingService.GetBookedServiceForCoach(coachId, cancellationToken);
+                    await _bookingService.GetBookedServiceForCoach(coachId);
 
                 return Ok(result);
             }

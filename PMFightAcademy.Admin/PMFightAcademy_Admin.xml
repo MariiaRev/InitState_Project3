@@ -895,17 +895,17 @@
             Service for booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServices(System.Int32,System.Int32,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServices(System.Int32,System.Int32)">
             <summary>
             Return all booked services for BookingController
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForClient(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForClient(System.Int32)">
             <summary>
             Select booked services on person for BookingController
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForCoach(System.Int32,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForCoach(System.Int32)">
             <summary>
             Select booked services on coach for BookingController
             </summary>

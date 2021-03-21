@@ -27,8 +27,7 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Return all booked services for BookingController
         /// </summary>
-        public Task<GetDataContract<BookingContract>> GetBookedServices(int pageSize, int page,
-            CancellationToken cancellationToken)
+        public Task<GetDataContract<BookingContract>> GetBookedServices(int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Incorrect page or page size");
@@ -56,7 +55,7 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Select booked services on person for BookingController
         /// </summary>
-        public Task<List<BookingContract>> GetBookedServiceForClient(int id, CancellationToken cancellationToken)
+        public Task<List<BookingContract>> GetBookedServiceForClient(int id)
         {
             if (id < 1)
                 throw new ArgumentException("Incorrect id");
@@ -72,12 +71,15 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Select booked services on coach for BookingController
         /// </summary>
-        public Task<List<BookingContract>> GetBookedServiceForCoach(int coachId, CancellationToken cancellationToken)
+        public Task<List<BookingContract>> GetBookedServiceForCoach(int coachId)
         {
             if (coachId < 1)
                 throw new ArgumentException("Incorrect id");
 
             var slots = _context.Slots.Where(x => x.CoachId == coachId).ToList();
+
+            if (slots.Count == 0)
+                throw new ArgumentException("Slot Collection is empty");
 
             //todo: check linq logic
             var bookings = _context.Bookings
