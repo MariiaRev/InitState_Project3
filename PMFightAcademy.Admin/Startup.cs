@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Services;
 
 namespace PMFightAcademy.Admin
 {
@@ -37,6 +38,8 @@ namespace PMFightAcademy.Admin
             services.AddDbContext<AdminContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
+
+            services.AddTransient<BookingService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

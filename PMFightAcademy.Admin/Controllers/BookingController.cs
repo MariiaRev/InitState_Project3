@@ -9,6 +9,7 @@ using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -22,13 +23,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class BookingController : ControllerBase
     {
         private readonly AdminContext _context;
+        private readonly BookingService _bookingService;
 
         /// <summary>
         /// Constructor for booking
         /// </summary>
-        public BookingController(AdminContext context)
+        public BookingController(AdminContext context, BookingService bookingService)
         {
             _context = context;
+            _bookingService = bookingService;
         }
 
         /// <summary>
@@ -51,26 +54,17 @@ namespace PMFightAcademy.Admin.Controllers
             [FromRoute] int page,
             CancellationToken cancellationToken)
         {
-            if (page < 1 || pageSize < 1)
-                return NotFound("Incorrect page or page size");
-
-            var bookings = _context.Bookings.ToArray();
-            var bookingPerPages = bookings.Skip((page - 1) * pageSize).Take(pageSize).ToArray();
-
-            if (bookingPerPages.Length == 0)
-                return NotFound("Booking Collection is empty");
-
-            var pagination = new Paggination()
+            try
             {
-                Page = page,
-                TotalPages = (int)Math.Ceiling((decimal)bookings.Length / pageSize)
-            };
+                var result = await _bookingService.GetBookedServices(pageSize, page, cancellationToken);
 
-            return Ok(new GetDataContract<BookingContract>()
+                return Ok(result);
+            }
+            catch (ArgumentException e)
             {
-                Data = bookingPerPages.Select(BookingMapping.CoachMapFromModelTToContract).ToArray(),
-                Paggination = pagination
-            });
+                return NotFound(e.Message);
+            }
+
         }
 
         /// <summary>
@@ -91,15 +85,17 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServiceForClient(int id, CancellationToken cancellationToken)
         {
-            if (id < 1)
-                return NotFound("Incorrect id");
+            try
+            {
+                var result = 
+                    await _bookingService.GetBookedServiceForClient(id, cancellationToken);
 
-            var bookings = _context.Bookings.Where(x => x.ClientId == id).ToList();
-
-            if (bookings.Count == 0)
-                return NotFound("Booking Collection is empty");
-
-            return Ok(bookings.Select(BookingMapping.CoachMapFromModelTToContract).ToList());
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
