@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PMFightAcademy.Admin.Contract
 {
@@ -9,7 +10,8 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Personal Id , key
         /// </summary>
-        public int Id { get; }
+        
+        public int Id { get; set; }
         /// <summary>
         /// Coach first name
         /// </summary>

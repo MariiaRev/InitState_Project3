@@ -12,7 +12,7 @@ namespace PMFightAcademy.Client.Models
     public class Client
     {
         /// <summary>
-        /// User id.
+        /// User id  
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [JsonIgnore]
