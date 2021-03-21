@@ -6,7 +6,6 @@ using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.Contract;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
@@ -14,7 +13,6 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Client.DataBase;
 
 namespace PMFightAcademy.Client.Controllers

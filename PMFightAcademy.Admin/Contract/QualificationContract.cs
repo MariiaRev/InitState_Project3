@@ -1,6 +1,4 @@
-﻿using PMFightAcademy.Admin.Models;
-
-namespace PMFightAcademy.Admin.Contract
+﻿namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Qualification contract

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PMFightAcademy.Admin.Contract
+﻿namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto
