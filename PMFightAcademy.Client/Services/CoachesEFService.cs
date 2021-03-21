@@ -1,7 +1,11 @@
-﻿using PMFightAcademy.Client.DataBase;
+﻿using PMFightAcademy.Client.Contract.Dto;
+using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.DataBase;
 using PMFightAcademy.Client.Models;
 using System.Collections.Generic;
 using System.Linq;
+using static PMFightAcademy.Client.Mappings.CoachMapping;
+using System;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -21,17 +25,35 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Coach> GetCoaches(int skipCount, int takeCount, string filter = null)
-        {            
+        public GetDataContract<CoachDto> GetCoaches(int pageSize, int page, string filter = null)
+        {
+            IEnumerable<Coach> coaches = _dbContext.Coaches;
+
+            // filter coaches
             if (!string.IsNullOrWhiteSpace(filter))
             {
-                return _dbContext.Coaches.
-                    Where(coach => coach.FirstName.Contains(filter) || coach.LastName.Contains(filter))
-                    .Skip(skipCount).Take(takeCount);
+                coaches = coaches
+                   .Where(coach => coach.FirstName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
+                                   coach.LastName.Contains(filter, StringComparison.OrdinalIgnoreCase));
             };
 
-            var coaches = _dbContext.Coaches.Skip(skipCount).Take(takeCount).ToList();
-            return coaches;
+            // get total coaches count
+            var coachesCount = (decimal)coaches.Count();
+
+            // skip and take coaches
+            coaches = coaches.Skip((page - 1) * pageSize).Take(pageSize);
+
+            // return intricate data object
+            return new GetDataContract<CoachDto>()
+            {
+                Data = coaches.Select(coach => CoachWithServicesToCoachDto(coach,
+                    coach.Qualifications?.Select(q => q.Service?.Name))),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(coachesCount / pageSize)
+                }
+            };
         }
     }
 }

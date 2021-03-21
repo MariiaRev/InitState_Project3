@@ -1,6 +1,6 @@
-﻿using PMFightAcademy.Client.Models;
+﻿using PMFightAcademy.Client.Contract.Dto;
+using PMFightAcademy.Client.Contract;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -16,6 +16,6 @@ namespace PMFightAcademy.Client.Services
         /// <param name="takeCount">How many coaches to take.</param>
         /// <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
         /// <returns>Returns list of found coaches or empty list if there is no coach.</returns>
-        IEnumerable<Coach> GetCoaches(int skipCount, int takeCount, string filter = null);
+        GetDataContract<CoachDto> GetCoaches(int skipCount, int takeCount, string filter = null);
     }
 }
