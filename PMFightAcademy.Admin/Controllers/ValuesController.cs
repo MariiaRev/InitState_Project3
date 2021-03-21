@@ -9,6 +9,10 @@ namespace PMFightAcademy.Admin.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        /// <summary>
+        /// Just information about service.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("")]
         public IActionResult GetInfo()
         {

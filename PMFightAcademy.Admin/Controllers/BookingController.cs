@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -16,12 +20,14 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("BookingController for check books for admin and remove some")]
     public class BookingController : ControllerBase
     {
+        private readonly AdminContext _context;
+
         /// <summary>
         /// Constructor for booking
         /// </summary>
-        public BookingController()
+        public BookingController(AdminContext context)
         {
-
+            _context = context;
         }
 
         /// <summary>
@@ -29,6 +35,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </summary>
         ///  <param name="pageSize">The count of books to return at one time.</param>
         /// <param name="page">The current page number.</param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what can be  booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
@@ -36,13 +43,23 @@ namespace PMFightAcademy.Admin.Controllers
         /// Return all booked services 
         /// if notFounded return NF
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{pageSize}/{page}")]
         [ProducesResponseType(typeof(GetDataContract<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetBookedServices([FromRoute] int pageSize,[FromRoute] int page)
+        public async Task<IActionResult> GetBookedServices([FromRoute] int pageSize,
+            [FromRoute] int page, 
+            CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (page < 1 || pageSize < 1)
+                return NotFound();
+
+            var bookings = _context.Bookings;
+            var bookingPerPages = bookings.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+            if (bookingPerPages.Count == 0)
+                return NotFound();
+
+            return Ok(bookingPerPages);
         }
 
         /// <summary>
