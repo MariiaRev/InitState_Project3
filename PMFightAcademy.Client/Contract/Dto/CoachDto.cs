@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace PMFightAcademy.Client.Contract.Dto
 {
@@ -41,5 +42,10 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// </summary>
         [Phone]
         public string PhoneNumber { get; set; }
+
+        /// <summary>
+        /// Services which can be provided by the coach.
+        /// </summary>
+        public List<string> Services { get; set; }
     }
 }

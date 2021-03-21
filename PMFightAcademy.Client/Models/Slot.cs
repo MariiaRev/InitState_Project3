@@ -1,19 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PMFightAcademy.Client.Models
 {
     /// <summary>
     /// Slot model.
     /// </summary>
+    [Table("Slots")]
     public class Slot
     {
         /// <summary>
         /// Slot id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        [JsonIgnore]
+        public int Id { get; set; }
 
         /// <summary>
         /// Date of slot.
@@ -38,5 +42,17 @@ namespace PMFightAcademy.Client.Models
         /// </summary>
         [Required]                              //coach is required for service and slot?
         public int CoachId { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public Coach Coach { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        [JsonIgnore]
+        public ICollection<Booking> Bookings { get; set; }
     }
 }

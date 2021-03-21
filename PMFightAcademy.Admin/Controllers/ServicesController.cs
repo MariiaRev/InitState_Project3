@@ -1,10 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -39,7 +38,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(List<Service>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(GetDataContract<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllServices([FromRoute] int pageSize, [FromRoute] int page)
         {
@@ -87,6 +86,27 @@ namespace PMFightAcademy.Admin.Controllers
         }
 
         /// <summary>
+        /// Add services 
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> add service 
+        /// <see cref="HttpStatusCode.NotFound"/> if services is added
+        /// </returns>
+        /// <remarks>
+        /// Use to update service, send service with the same id
+        /// and new fields, and it will be update
+        /// Conflict if its is already registered</remarks>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpPost("update")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> UpdateService([FromBody] Service service)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         /// Create list of services
         /// </summary>
         /// <param name="listServices"></param>
@@ -104,6 +124,27 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> CreateServiceList([FromBody] List<Service> listServices)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Add services 
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> add service 
+        /// <see cref="HttpStatusCode.NotFound"/> if services is added
+        /// </returns>
+        /// <remarks>
+        /// Use to delete service
+        /// Return ok if deleted and not found if BD have not this service
+        /// Conflict if its is already registered</remarks>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpDelete]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> DeleteService([FromBody] Service service)
         {
             throw new NotImplementedException();
         }
