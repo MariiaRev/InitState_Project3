@@ -9,7 +9,7 @@
             Dto for create Workout
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.CoachId">
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.SlotId">
             <summary>
             Coach id
             </summary>
@@ -19,14 +19,9 @@
             Service id
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.Date">
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ClientId">
             <summary>
-            Date 
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.TimeToStart">
-            <summary>
-            Time to start
+            Client 
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Contract.CoachContract.Id">
@@ -44,7 +39,7 @@
             Coach Last Name 
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.Age">
+        <member name="P:PMFightAcademy.Admin.Contract.CoachContract.DateBirth">
             <summary>
             Date of birth 
             </summary>
@@ -98,6 +93,11 @@
         <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.CoachId">
             <summary>
             Coach Id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.DateStart">
+            <summary>
+            Date start
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.TimeStart">
@@ -273,21 +273,6 @@
              </remarks>
              <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract)">
-            <summary>
-            Add qualification
-            </summary>
-            <param name="qualification"></param>
-            <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if qualification is already added
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
-            <remarks>
-            You can use this 2 times
-            in coach screen and service screen
-            </remarks>
-            <exception cref="T:System.NotImplementedException"></exception> 
-        </member>
         <member name="M:PMFightAcademy.Admin.Controllers.CoachController.CreateCoach(PMFightAcademy.Admin.Contract.CoachContract)">
             <summary>
             Create coach
@@ -304,6 +289,93 @@
             if not,  return Not Found
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+            <summary>
+            update coach
+            </summary>
+            <param name="coach"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if this coach is already registered 
+            </returns>
+            <remarks>
+            Use for update info about coach
+            Send coach with id , and new fields what need to be updated
+            if not, return Not Found
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.DeleteCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+             <summary>
+             Delete coach
+             </summary>
+             <para>
+            <param coachId="coachId"></param>
+             </para>
+             <returns>
+             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+             </returns>
+             <remarks>
+             Use for delete coach
+             </remarks>
+             <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract)">
+            <summary>
+            Add qualification
+            </summary>
+            <param name="qualification"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if qualification is already added
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <remarks>
+            Use for add Qualification
+            Usable 2 time is Coach and Service screen
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception> 
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.DeleteQualification(PMFightAcademy.Admin.Contract.QualificationContract)">
+            <summary>
+            Delete qualification
+            </summary>
+            <param name="qualification"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <remarks>
+            Use for delete Qualification
+            Usable 2 time is Coach and Service screen
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception> 
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForCoach(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            get list  qualifications  for Coach
+            </summary>
+            <param name="coachId"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <remarks>
+            Return qualifications for coach
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception> 
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForService(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            get list of  qualifications for Service
+            </summary>
+            <param name="serviceId"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <remarks>
+            Return qualifications for services
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception> 
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.ServicesController">
             <summary>
@@ -357,6 +429,21 @@
             Conflict if its is already registered</remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.UpdateService(PMFightAcademy.Admin.Models.Service)">
+            <summary>
+            Add services 
+            </summary>
+            <param name="service"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> add service 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if services is added
+            </returns>
+            <remarks>
+            Use to update service, send service with the same id
+            and new fields, and it will be update
+            Conflict if its is already registered</remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.CreateServiceList(System.Collections.Generic.List{PMFightAcademy.Admin.Models.Service})">
             <summary>
             Create list of services
@@ -370,6 +457,21 @@
             Use to create ServiceList, return ok if all is fine
             Conflict if its is already registered
             </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.DeleteService(PMFightAcademy.Admin.Models.Service)">
+            <summary>
+            Add services 
+            </summary>
+            <param name="service"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> add service 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if services is added
+            </returns>
+            <remarks>
+            Use to delete service
+            Return ok if deleted and not found if BD have not this service
+            Conflict if its is already registered</remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.SlotsController">
@@ -387,10 +489,33 @@
             Show all slots
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
-            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if service not founded</returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
             <remarks>
             Return list of  slots
             return if NotFound
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForCoach(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Show slots for coach
+            </summary>
+            <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <remarks>
+            Return list of  slots for coach
+            return if NotFound
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForDates(System.String,System.Int32,System.Int32)">
+            <summary>
+            Show slots on date
+            </summary>
+            <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <remarks>
+            Return list of  slots for chosen date
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
@@ -405,6 +530,19 @@
             <remarks>
             Use for create slots , return ok if added
             and conflict if already added
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+            <summary>
+            Create Slots
+            </summary>
+            <param name="createSlots"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <remarks>
+            Use for delete slots
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
