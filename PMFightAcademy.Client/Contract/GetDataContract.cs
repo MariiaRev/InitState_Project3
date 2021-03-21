@@ -1,4 +1,5 @@
 ﻿using PMFightAcademy.Client.Models;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Contract
@@ -13,7 +14,7 @@ namespace PMFightAcademy.Client.Contract
         /// The array of <typeparamref name="T"/> elements.
         /// </summary>
         [Required]
-        public T[] Data { get; set; }
+        public IEnumerable<T> Data { get; set; }
 
         /// <summary>
         /// Paggination state.

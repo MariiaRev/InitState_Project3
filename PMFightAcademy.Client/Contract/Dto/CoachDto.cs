@@ -44,7 +44,8 @@ namespace PMFightAcademy.Client.Contract.Dto
 
         /// <summary>
         /// Services which can be provided by the coach.
+        /// Could be empty if no service is assigned to this coach.
         /// </summary>
-        public List<string> Services { get; set; }
+        public IEnumerable<string> Services { get; set; }
     }
 }

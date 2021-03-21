@@ -36,6 +36,9 @@ namespace PMFightAcademy.Client
             services.AddTransient<PasswordValidatorAttribute>();
             services.AddTransient<PhoneValidatorAttribute>();
 
+            // add services
+            services.AddTransient<ICoachesStorageService, CoachesEFService>();
+
             ////add authentication by jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
