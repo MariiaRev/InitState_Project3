@@ -3,15 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Models;
+using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Client.DataBase;
-using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -105,9 +103,18 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<CoachDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetCoachesForBooking([FromRoute] int serviceId)
+        public async Task<IActionResult> GetCoachesForBooking([FromRoute] int serviceId
+            , CancellationToken token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _service.GetCoachesForBooking(serviceId);
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -128,9 +135,19 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetDatesForBooking([FromRoute] int serviceId, [FromRoute] int coachId)
+        public async Task<IActionResult> GetDatesForBooking([FromRoute] int serviceId
+            , [FromRoute] int coachId
+            , CancellationToken token)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var result = await _service.GetDatesForBooking(serviceId, coachId);
+                return Ok(result);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
         }
 
         /// <summary>
@@ -153,7 +170,10 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetTimeSlotsForBooking([FromRoute] int serviceId, [FromRoute] int coachId, [FromRoute] string date)
+        public Task<IActionResult> GetTimeSlotsForBooking([FromRoute] int serviceId, 
+            [FromRoute] int coachId,
+            [FromRoute] string date, 
+            CancellationToken token)
         {
             throw new NotImplementedException();
         }
@@ -178,7 +198,8 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public Task<IActionResult> AddBooking([FromBody] BookingDto booking)
+        public Task<IActionResult> AddBooking([FromBody] BookingDto booking, 
+            CancellationToken token)
         {
             throw new NotImplementedException();
         }
@@ -202,7 +223,9 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetActiveBookings([FromRoute] int pageSize, [FromRoute] int page)
+        public Task<IActionResult> GetActiveBookings([FromRoute] int pageSize, 
+            [FromRoute] int page, 
+            CancellationToken token)
         {
             throw new NotImplementedException();
         }
@@ -226,7 +249,9 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetHistory([FromRoute] int pageSize, [FromRoute] int page)
+        public Task<IActionResult> GetHistory([FromRoute] int pageSize,
+            [FromRoute] int page, 
+            CancellationToken token)
         {
             throw new NotImplementedException();
         }
