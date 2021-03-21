@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client
 {
@@ -34,6 +35,9 @@ namespace PMFightAcademy.Client
             ////add transient
             services.AddTransient<PasswordValidatorAttribute>();
             services.AddTransient<PhoneValidatorAttribute>();
+
+            // add services
+            services.AddTransient<ICoachesStorageService, CoachesEFService>();
 
             ////add authentication by jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
