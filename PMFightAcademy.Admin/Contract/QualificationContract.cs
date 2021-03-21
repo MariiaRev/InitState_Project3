@@ -1,5 +1,3 @@
-﻿using PMFightAcademy.Admin.Models;
-
 namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
@@ -7,6 +5,8 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class QualificationContract
     {
+        
+        public int Id { get; set; }
         /// <summary>
         /// Service
         /// </summary>

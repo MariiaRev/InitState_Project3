@@ -1,29 +1,25 @@
-﻿using System;
-
-namespace PMFightAcademy.Admin.Contract
+﻿namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto for create Workout
     /// </summary>
     public class BookingContract
     {
-        public int Id { get; }
+        public int Id { get; set; }
         /// <summary>
         /// Coach id
         /// </summary>
-        public int CoachId { get; set; }
+        public int SlotId { get; set; }
         /// <summary>
         /// Service id
         /// </summary>
         public int ServiceId { get; set; }
+
         /// <summary>
-        /// Date 
+        /// Client 
         /// </summary>
-        public string Date { get; set; }
-        /// <summary>
-        /// Time to start
-        /// </summary>
-        public string TimeToStart { get; set; }
+        public int ClientId { get; set; }
+        
 
     }
 }

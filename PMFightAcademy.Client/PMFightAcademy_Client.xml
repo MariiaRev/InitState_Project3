@@ -68,19 +68,16 @@
             Booking a service dto model.
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Id">
-            <summary>
-            Booking id.
-            </summary>
-        </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Date">
             <summary>
             The date for the service to be provided.
+            Should be in format "MM/dd/yyyy" but as a string.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Time">
             <summary>
             The time for the service to be provided.
+            Should be in format "HH:mm" but as a string.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.ServiceId">
@@ -128,6 +125,11 @@
             Coach phone number.
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.Services">
+            <summary>
+            Services which can be provided by the coach.
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.DataForBookingDto">
             <summary>
             Data for booking dto model.
@@ -166,11 +168,13 @@
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Date">
             <summary>
             Date of provided service.
+            Date is in format "MM/dd/yyyy".
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Time">
             <summary>
             Time of provided service.
+            Time is in format "HH:mm".
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.CoachFirstName">
@@ -182,6 +186,21 @@
             <summary>
             Last name of the coach that provided the service
             </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor">
+            <summary>
+            Parameterless constructor.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.DateTime,System.String,System.String)">
+            <summary>
+            Constructor with parameters.
+            </summary>
+            <param name="serviceName">name of the provided service.</param>
+            <param name="date">Date when the service is/was provided.</param>
+            <param name="time">Time when the service is/was provided.</param>
+            <param name="coachFirstName">First name of the coach who provided the service.</param>
+            <param name="coachLastName">Last name of the coach who provided the service.</param>
         </member>
         <member name="T:PMFightAcademy.Client.Contract.GetDataContract`1">
             <summary>
@@ -271,6 +290,7 @@
             Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available date.
             </returns>
             <remarks>
+            Dates will be returned in format "MM/dd/yyyy" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
             Returns OK with dates list if client is authorized and there is at least one available date.
             Returns NotFound with <c>string</c> message if client is authorized and there is no available date.
@@ -287,6 +307,8 @@
             Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available time slot.
             </returns>
             <remarks>
+            Date should be in format "MM/dd/yyyy" as a <c>string</c>.
+            Time will be returned in format "HH:mm" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
             Returns OK with time slots list if client is authorized and there is at least one available time slot.
             Returns NotFound with <c>string</c> message if client is authorized and there is no available time slot.
@@ -300,12 +322,14 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore
+             or booking model is invalid.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
             Returns OK with <c>string</c> message if client is authorized and a booking was successfully added.
-            Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore.
+            Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore
+             or booking model is invalid.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetActiveBookings(System.Int32,System.Int32)">
@@ -345,13 +369,22 @@
         <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
             <summary>
             Client controller.
-            </summary>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </summary> 
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
             <param name="model">Client to register.</param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
@@ -363,11 +396,12 @@
             Returns Conflict if login already exists.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract)">
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
             Loggs in a registered client.
             </summary>
             <param name="model">Contract for login action.</param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> jwt-token if client was successfully logged in.
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
@@ -404,6 +438,18 @@
             <summary>
             Just information about service.
             </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Mappings.CoachMapping">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/>.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachToCoachDto(PMFightAcademy.Client.Models.Coach)">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
+            </summary>
+            <param name="coach"><paramref name="coach"/> to convert.</param>
+            <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
         </member>
         <member name="T:PMFightAcademy.Client.Models.Booking">
             <summary>
@@ -457,7 +503,7 @@
         </member>
         <member name="P:PMFightAcademy.Client.Models.Client.Id">
             <summary>
-            User id.
+            User id  
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Models.Client.Login">

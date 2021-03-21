@@ -1,6 +1,4 @@
-﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PMFightAcademy.Admin.Contract
 {
@@ -9,7 +7,8 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Personal Id , key
         /// </summary>
-        public int Id { get; }
+        
+        public int Id { get; set; }
         /// <summary>
         /// Coach first name
         /// </summary>
@@ -26,7 +25,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Date of birth 
         /// </summary>
-        public int Age { get; set; }
+        public string DateBirth { get; set; }
         /// <summary>
         /// Description about coach
         /// </summary>

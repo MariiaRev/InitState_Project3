@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 
 namespace PMFightAcademy.Client.Authorization
@@ -15,9 +16,11 @@ namespace PMFightAcademy.Client.Authorization
         /// <returns></returns>
         public static string GenerateHash(this string password)
         {
+            var salt = Encoding.ASCII.GetBytes("AJSD21i1AJFafka");
+            
             var hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
-                salt: new byte[128 / 8],
+                salt: salt,
                 prf: KeyDerivationPrf.HMACSHA256/*.HMACSHA1*/,
                 iterationCount: 10000,
                 numBytesRequested: 256 / 8));

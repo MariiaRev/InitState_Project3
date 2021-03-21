@@ -1,11 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 using Swashbuckle.AspNetCore.Annotations;
@@ -17,7 +13,7 @@ namespace PMFightAcademy.Admin.Controllers
     /// </summary>
     [Route("[controller]")]
     [ApiController]
-    [SwaggerTag("Show info about clients ")]
+    [SwaggerTag("Show info about clients , Clients Login its his PhoneNumber ")]
     public class ClientController : ControllerBase
     {
         /// <summary>
@@ -61,9 +57,10 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<Client> GetClient(int name)
+        public async Task<IActionResult> GetClient(int name)
         {
             throw new NotImplementedException();
         }
+
     }
 }

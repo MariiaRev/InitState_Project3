@@ -1,5 +1,3 @@
-﻿using System;
-
 namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
@@ -7,11 +5,17 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class SlotsCreateContract
     {
-        public int Id { get; }
+        public int Id { get; set; }
         /// <summary>
         /// Coach Id
         /// </summary>
         public int CoachId { get; set; }
+
+        /// <summary>
+        /// Date start
+        /// </summary>
+        public string DateStart { get; set; }
+
         /// <summary>
         /// Time start
         /// </summary>
@@ -19,6 +23,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Time End
         /// </summary>
-        public string Duration { get; set; }
+        public string TimeEnd { get; set; }
+
     }
 }
