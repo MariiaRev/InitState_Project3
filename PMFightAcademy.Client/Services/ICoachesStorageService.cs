@@ -14,7 +14,8 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         /// <param name="skipCount">How many coaches to skip.</param>
         /// <param name="takeCount">How many coaches to take.</param>
+        /// <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
         /// <returns>Returns list of found coaches or empty list if there is no coach.</returns>
-        IEnumerable<Coach> GetCoaches(int skipCount, int takeCount);
+        IEnumerable<Coach> GetCoaches(int skipCount, int takeCount, string filter = null);
     }
 }

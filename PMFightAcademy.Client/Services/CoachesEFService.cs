@@ -1,9 +1,7 @@
-﻿using PMFightAcademy.Client.Models;
-using System;
+﻿using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Models;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using PMFightAcademy.Client.DataBase;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -23,9 +21,17 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
-        public IEnumerable<Coach> GetCoaches(int skipCount, int takeCount)
-        {
-            return _dbContext.Coaches.Skip(skipCount).Take(takeCount);
+        public IEnumerable<Coach> GetCoaches(int skipCount, int takeCount, string filter = null)
+        {            
+            if (!string.IsNullOrWhiteSpace(filter))
+            {
+                return _dbContext.Coaches.
+                    Where(coach => coach.FirstName.Contains(filter) || coach.LastName.Contains(filter))
+                    .Skip(skipCount).Take(takeCount);
+            };
+
+            var coaches = _dbContext.Coaches.Skip(skipCount).Take(takeCount).ToList();
+            return coaches;
         }
     }
 }
