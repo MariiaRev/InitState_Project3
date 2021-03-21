@@ -161,9 +161,9 @@ namespace PMFightAcademy.Admin.Controllers
             var checkBooking = _context.Bookings.FirstOrDefault(p => p.Id == booking.Id);
 
             if (checkBooking == null)
-                return NotFound(NotFound("No same booking in db"));
+                return NotFound("No same booking in db");
 
-            _context.Remove(booking);
+            _context.Remove(checkBooking);
 
             await _context.SaveChangesAsync(cancellationToken);
 
@@ -174,6 +174,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// Update file
         /// </summary>
         /// <param name="newBook"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return if book is successful updated
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
@@ -185,9 +186,23 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> UpdateBook(BookingContract newBook)
+        public async Task<IActionResult> UpdateBook(BookingContract newBook, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (newBook == null)
+                return NotFound("Contract can not be null");
+
+            var booking = BookingMapping.BookingMapFromContractToModel(newBook);
+
+            var checkBooking = _context.Bookings.FirstOrDefault(p => p.Id == booking.Id);
+
+            if (checkBooking == null)
+                return NotFound("No same booking in db");
+
+            _context.Update(checkBooking);
+
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return Ok();
         }
 
 
