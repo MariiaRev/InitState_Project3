@@ -14,6 +14,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Services;
 
 namespace PMFightAcademy.Admin
 {
@@ -39,6 +40,7 @@ namespace PMFightAcademy.Admin
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
             });
+            services.AddTransient<SlotService>();
 
             services.AddDbContext<AdminContext>(options =>
                 options.UseNpgsql(

@@ -4,9 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -19,12 +22,14 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Controller for creations slots for coaches ")]
     public class SlotsController : ControllerBase
     {
+        private readonly SlotService _slotService;
+
         /// <summary>
         /// Slots controller
         /// </summary>
-        public SlotsController()
+        public SlotsController(SlotService slotService)
         {
-
+            _slotService = slotService;
         }
 
         /// <summary>
@@ -40,9 +45,19 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{pageSize}/{page}")]
         [ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>),(int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetAllSlots([FromRoute] int pageSize, [FromRoute] int page)
+        public async Task<IActionResult> GetAllSlots([FromRoute] int pageSize, [FromRoute] int page, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            GetDataContract<SlotsCreateContract> slots;
+            try
+            {
+                slots = await _slotService.TakeAllSlots(pageSize, page);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+            
+            return Ok(slots);
         }
 
         /// <summary>
@@ -55,12 +70,22 @@ namespace PMFightAcademy.Admin.Controllers
         /// return if NotFound
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpGet("{coachId}/{pageSize}/{page}")]
+        [HttpGet("coach/{coachId}/{pageSize}/{page}")]
         [ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetSlotsForCoach([FromRoute] int coachId, [FromRoute] int pageSize, [FromRoute] int page)
         {
-            throw new NotImplementedException();
+            GetDataContract<SlotsCreateContract> slots;
+            try
+            {
+                slots = await _slotService.TakeSlotsForCoach(coachId,pageSize, page);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok(slots);
         }
 
         /// <summary>
@@ -72,12 +97,23 @@ namespace PMFightAcademy.Admin.Controllers
         /// Return list of  slots for chosen date
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpGet("{date}/{pageSize}/{page}")]
+        [HttpGet("date/{date}/{pageSize}/{page}")]
         [ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetSlotsForDates([FromRoute] string date, [FromRoute] int pageSize, [FromRoute] int page)
         {
-            throw new NotImplementedException();
+            GetDataContract<SlotsCreateContract> slots;
+            var dateToSend = DateTime.Parse(date);
+            try
+            {
+                slots = await _slotService.TakeAllOnDate(dateToSend, pageSize, page);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok(slots);
         }
 
         /// <summary>
@@ -97,7 +133,18 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CreateSlots([FromBody] SlotsCreateContract createSlots)
         {
-            throw new NotImplementedException();
+            
+            
+            try
+            {
+                await _slotService.AddSlot(SlotsMapping.SlotMapFromContractToModel(createSlots));
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok();
         }
 
 
@@ -118,7 +165,15 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteSlots([FromBody] SlotsCreateContract createSlots)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await _slotService.RemoveSlot(SlotsMapping.SlotMapFromContractToModel(createSlots));
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+            return Ok();
         }
     }
 }

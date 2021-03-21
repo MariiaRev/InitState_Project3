@@ -105,7 +105,7 @@
             Time start
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.Duration">
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsCreateContract.TimeEnd">
             <summary>
             Time End
             </summary>
@@ -479,12 +479,12 @@
             Slots controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor(PMFightAcademy.Admin.Services.SlotService)">
             <summary>
             Slots controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetAllSlots(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetAllSlots(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Show all slots
             </summary>
@@ -550,6 +550,82 @@
             <summary>
             Just information about service.
             </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.BookingMapping">
+            <summary>
+            Mapping for Book
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromContractToModel(PMFightAcademy.Admin.Contract.BookingContract)">
+            <summary>
+            From Contract to model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.CoachMapFromModelTToContract(PMFightAcademy.Admin.Models.Booking)">
+            <summary>
+            From model to contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.CoachMapping">
+            <summary>
+            Coach Mapping
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.CoachMapping.CoachMapFromContractToModel(PMFightAcademy.Admin.Contract.CoachContract)">
+            <summary>
+            From contract to model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.CoachMapping.CoachMapFromModelToContract(PMFightAcademy.Admin.Models.Coach)">
+            <summary>
+            From model to Contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.QualificationMapping">
+            <summary>
+            QualificationMapping
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.QualificationMapping.QualificationMapFromContractToModel(PMFightAcademy.Admin.Contract.QualificationContract)">
+            <summary>
+            From Contract to Model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.QualificationMapping.QualificationMapFromModelToContract(PMFightAcademy.Admin.Models.Qualification)">
+            <summary>
+            From model to contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.SlotsMapping">
+            <summary>
+            Slots mapping 
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.SlotsMapping.SlotMapFromContractToModel(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+            <summary>
+            from contract to model
+            </summary>
+            <param name="contract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.SlotsMapping.SlotMapFromModelToContract(PMFightAcademy.Admin.Models.Slot)">
+            <summary>
+            From model to Contract
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Models.Booking">
             <summary>
@@ -790,7 +866,7 @@
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.Duration">
             <summary>
-            Duration of slot.
+            TimeEnd of slot.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Slot.CoachId">
@@ -807,6 +883,62 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.SlotService">
+            <summary>
+            Slot Service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+            <summary>
+            Constructor 
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Models.Slot)">
+            <summary>
+            Creation slots 
+            </summary>
+            <param name="slot"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(PMFightAcademy.Admin.Models.Slot)">
+            <summary>
+            Remove slots 
+            </summary>
+            <param name="slot"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllSlots(System.Int32,System.Int32)">
+            <summary>
+            Take all slots 
+            </summary>
+            <param name="pageSize"></param>
+            <param name="page"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoach(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Take list of slots for coach 
+            </summary>
+            <param name="coachId"></param>
+            <param name="pageSize"></param>
+            <param name="page"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllOnDate(System.DateTime,System.Int32,System.Int32)">
+            <summary>
+            Take all slots on date
+            </summary>
+            <param name="date"></param>
+            <param name="pageSize"></param>
+            <param name="page"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Validation.PhoneValidatorAttribute">
             <summary>
