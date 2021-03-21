@@ -235,7 +235,7 @@
             Coach controller 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.DataBase.AdminContext,PMFightAcademy.Admin.Services.CoachService)">
             <summary>
             Constructor for controller
             </summary>
@@ -247,6 +247,20 @@
             <returns>
             <param name="pageSize">The count of coaches to return at one time.</param>
             <param name="page">The current page number.</param>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> Get list of coaches
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+            </returns>
+            <remarks>
+            Use for get all coach , if successes must return a list of coaches
+            if not,  return Not Found
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetAllCoaches">
+            <summary>
+            Get list of Coaches
+            </summary>
+            <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> Get list of coaches
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
             </returns>
@@ -920,6 +934,22 @@
             Update file for BookingController
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeCoach(System.Int32)">
+            <summary>
+            Take Coaches
+            </summary>
+            <param name="coachId"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+            <summary>
+            Add coach
+            </summary>
+            <param name="coachContract"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
         <member name="T:PMFightAcademy.Admin.Services.SlotService">
             <summary>
             Slot Service
@@ -931,19 +961,19 @@
             </summary>
             <param name="dbContext"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Models.Slot)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
             <summary>
             Creation slots 
             </summary>
-            <param name="slot"></param>
+            <param name="slotContract"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(PMFightAcademy.Admin.Models.Slot)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
             <summary>
             Remove slots 
             </summary>
-            <param name="slot"></param>
+            <param name="slotContract"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
