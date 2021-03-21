@@ -128,6 +128,11 @@
             Coach phone number.
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.Services">
+            <summary>
+            Services which can be provided by the coach.
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.DataForBookingDto">
             <summary>
             Data for booking dto model.
