@@ -76,6 +76,7 @@ namespace PMFightAcademy.Client
                 var filePath = Path.Combine(AppContext.BaseDirectory, "PMFightAcademy_Client.xml");
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
+
                 c.AddSecurityRequirement(
                     new OpenApiSecurityRequirement
                     {
@@ -90,6 +91,18 @@ namespace PMFightAcademy.Client
                             },
                             new string[0]
                         }
+                    });
+
+                c.AddSecurityDefinition(
+                    "Bearer",
+                    new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.ApiKey,
+                        In = ParameterLocation.Header,
+                        Scheme = "Bearer",
+                        Name = "Authorization",
+                        Description = "JWT token",
+                        BearerFormat = "JWT"
                     });
             });
         }
