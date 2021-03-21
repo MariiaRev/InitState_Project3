@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace PMFightAcademy.Client.Controllers
 {
     /// <summary>
-    /// Service controller for signup for a service/workout.
+    /// Service controller for sign up for a service/workout.
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -84,7 +84,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<CoachDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetCoachesforBooking([FromRoute] int serviceId)
+        public Task<IActionResult> GetCoachesForBooking([FromRoute] int serviceId)
         {
             throw new NotImplementedException();
         }

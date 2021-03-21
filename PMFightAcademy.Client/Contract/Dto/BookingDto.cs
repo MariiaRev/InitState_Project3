@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PMFightAcademy.Client.Contract.Dto
@@ -9,10 +10,10 @@ namespace PMFightAcademy.Client.Contract.Dto
     public class BookingDto
     {
         /// <summary>
-        /// Booking id.
+        /// Id in db
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        [Required]
+        public int Id { get; set; }
 
         /// <summary>
         /// The date for the service to be provided.
