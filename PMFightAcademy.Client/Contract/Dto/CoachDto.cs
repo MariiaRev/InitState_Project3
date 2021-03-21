@@ -12,8 +12,7 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// <summary>
         /// Coach id.
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Coach first name.

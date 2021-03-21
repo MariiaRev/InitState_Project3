@@ -9,9 +9,14 @@
             Dto for create Workout
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.Id">
+            <summary>
+            Id in db
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Admin.Contract.BookingContract.SlotId">
             <summary>
-            Coach id
+            Slot id
             </summary>
         </member>
         <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ServiceId">

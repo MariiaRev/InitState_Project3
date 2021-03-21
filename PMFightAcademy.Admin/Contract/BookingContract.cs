@@ -5,9 +5,12 @@
     /// </summary>
     public class BookingContract
     {
+        /// <summary>
+        /// Id in db
+        /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Coach id
+        /// Slot id
         /// </summary>
         public int SlotId { get; set; }
         /// <summary>

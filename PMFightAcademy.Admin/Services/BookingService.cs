@@ -82,8 +82,12 @@ namespace PMFightAcademy.Admin.Services
                 throw new ArgumentException("Slot Collection is empty");
 
             //todo: check linq logic
-            var bookings = _context.Bookings
-                .Where(x => slots.Any(y => y.Id == x.SlotId)).ToList();
+            var bookings = new List<Booking>();
+            foreach (var item in _context.Bookings)
+            {
+                if (slots.Any(x => x.Id == item.SlotId))
+                    bookings.Add(item);
+            }
 
             if (bookings.Count == 0)
                 throw new ArgumentException("Booking Collection is empty");
