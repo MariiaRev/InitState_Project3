@@ -12,14 +12,14 @@ namespace PMFightAcademy.Client.Services
     /// <summary>
     /// Service for getting coaches from database with Entity Framework.
     /// </summary>
-    public class CoachesEFService : ICoachesStorageService
+    public class CoachesService : ICoachesService
     {
         private readonly ClientContext _dbContext;
 
         /// <summary>
         /// Constructor with DI.
         /// </summary>
-        public CoachesEFService(ClientContext dbContext)
+        public CoachesService(ClientContext dbContext)
         {
             _dbContext = dbContext;
         }
