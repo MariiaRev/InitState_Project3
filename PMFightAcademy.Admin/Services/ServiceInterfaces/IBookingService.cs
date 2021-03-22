@@ -16,7 +16,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<bool> RemoveBooking(BookingContract slotContract, CancellationToken cancellationToken);
+        public Task<bool> RemoveBooking(int  id, CancellationToken cancellationToken);
         
         /// <summary>
         /// Take all bookings

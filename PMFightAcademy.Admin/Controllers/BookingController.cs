@@ -145,8 +145,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Delete a book
         /// </summary>
-        
-        /// <param name="booking"></param>
+        /// <param name="bookingId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return if book is successful deleted
@@ -159,9 +158,9 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteBook([FromBody] BookingContract booking, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteBook( int bookingId, CancellationToken cancellationToken)
         {
-            var deleted = await _bookingService.RemoveBooking(booking, cancellationToken);
+            var deleted = await _bookingService.RemoveBooking(bookingId, cancellationToken);
 
             if (deleted)
             {
@@ -188,7 +187,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> UpdateBook(BookingContract newBooking, CancellationToken cancellationToken)
         {
-            var update = await _bookingService.RemoveBooking(newBooking, cancellationToken);
+            var update = await _bookingService.UpdateBooking(newBooking, cancellationToken);
 
             if (update)
             {

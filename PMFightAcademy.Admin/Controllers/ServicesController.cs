@@ -188,7 +188,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Add services 
         /// </summary>
-        /// <param name="service"></param>
+        /// <param name="serviceId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add service 
@@ -202,9 +202,9 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteService([FromBody] Service service, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteService(int serviceId, CancellationToken cancellationToken)
         {
-            var deleted = await _serviceService.DeleteService(service, cancellationToken);
+            var deleted = await _serviceService.DeleteService(serviceId, cancellationToken);
 
             if (deleted)
             {

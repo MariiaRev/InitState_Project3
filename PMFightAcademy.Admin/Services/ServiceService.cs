@@ -73,8 +73,13 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="service"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<bool> DeleteService(Service service, CancellationToken cancellationToken)
+        public async Task<bool> DeleteService(int id, CancellationToken cancellationToken)
         {
+            var service = _dbContext.Services.FirstOrDefault(x => x.Id == id);
+            if (service == null)
+            {
+                return false;
+            }
             try
             {
                 _dbContext.Remove(service);

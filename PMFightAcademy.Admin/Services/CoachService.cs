@@ -78,10 +78,13 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachContract"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<bool> DeleteCoach(CoachContract coachContract, CancellationToken cancellationToken)
+        public async Task<bool> DeleteCoach(int id, CancellationToken cancellationToken)
         {
-            var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
-
+            var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == id);
+            if (coach == null)
+            {
+                return false;
+            }
             try
             { 
                 _dbContext.Remove(coach); 

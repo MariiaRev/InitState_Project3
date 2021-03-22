@@ -22,7 +22,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <param name="slotContract"></param>
         /// <returns></returns>
-        public  Task<bool> RemoveSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken);
+        public  Task<bool> RemoveSlot(int id, CancellationToken cancellationToken);
         /// <summary>
         /// Take all slots
         /// </summary>

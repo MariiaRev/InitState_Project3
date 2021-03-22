@@ -71,9 +71,13 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<bool> RemoveSlot(SlotsCreateContract slotContract,CancellationToken cancellationToken)
+        public async Task<bool> RemoveSlot(int id, CancellationToken cancellationToken)
         {
-            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+            var slot = _dbContext.Slots.FirstOrDefault(x => x.Id == id);
+            if (slot == null)
+            {
+                return false;
+            }
             try
             {
                 _dbContext.Remove(slot);
