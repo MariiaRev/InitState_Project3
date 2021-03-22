@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Client.DataBase;
@@ -55,7 +56,9 @@ namespace PMFightAcademy.Client.Controllers
         /// <see cref="HttpStatusCode.Conflict"/> if <see cref="Models.Client.Login"/> already exists.
         /// </returns>
         /// <remarks>
-        /// Returns OK with <c>string</c> message if client was successfully registered.
+        /// Returns OK with
+        /// <strong>json = new { token = new JwtSecurityTokenHandler().WriteToken(jwt)}</strong>
+        /// if client was successfully registered.
         /// Returns BadRequest if <paramref name="model"/> data is invalid.
         /// Returns Conflict if login already exists.
         /// </remarks>
@@ -115,7 +118,9 @@ namespace PMFightAcademy.Client.Controllers
         /// <see cref="HttpStatusCode.BadRequest"/> if login or password are invalid.
         /// </returns>
         /// <remarks>
-        /// Returns OK with <c>string</c> jwt-token if client was successfully logged in.
+        /// Returns OK with
+        /// <strong>json = new { token = new JwtSecurityTokenHandler().WriteToken(jwt)}</strong>
+        /// if client was successfully logged in.
         /// Returns BadRequest if login or password are invalid.
         /// </remarks>
         [HttpPost("[action]")]
@@ -203,7 +208,12 @@ namespace PMFightAcademy.Client.Controllers
                 expires: now.Add(TimeSpan.FromDays(AuthOptions.Lifetime)),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
-            return new JwtSecurityTokenHandler().WriteToken(jwt);
+            var json = new
+            {
+                token = new JwtSecurityTokenHandler().WriteToken(jwt)
+            };
+
+            return JsonSerializer.Serialize(json);
         }
     }
 }

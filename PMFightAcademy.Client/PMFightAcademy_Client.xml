@@ -271,7 +271,7 @@
             <summary>
             Get available coaches which can provide service with id <paramref name="serviceId"/>.
             </summary>
-            <param name="serviceId"></param>Service id
+            <param name="serviceId">Service id</param>
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
@@ -288,8 +288,8 @@
             <summary>
             Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
             </summary>
-            <param name="serviceId"></param>Service id
-            <param name="coachId"></param>Coach id
+            <param name="serviceId">Service id</param>
+            <param name="coachId">Coach id</param>
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
@@ -308,9 +308,9 @@
             Get available time slots to provide a service with id <paramref name="serviceId"/> 
             by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
             </summary>
-            <param name="serviceId"></param>Service id
-            <param name="coachId"></param>Coach id
-            <param name="date"></param>Date
+            <param name="serviceId">Service id</param>
+            <param name="coachId">Coach id</param>
+            <param name="date">Date</param>
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
@@ -405,7 +405,9 @@
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
             </returns>
             <remarks>
-            Returns OK with <c>string</c> message if client was successfully registered.
+            Returns OK with
+            <strong>json = new { token = new JwtSecurityTokenHandler().WriteToken(jwt)}</strong>
+            if client was successfully registered.
             Returns BadRequest if <paramref name="model"/> data is invalid.
             Returns Conflict if login already exists.
             </remarks>
@@ -421,7 +423,9 @@
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
             </returns>
             <remarks>
-            Returns OK with <c>string</c> jwt-token if client was successfully logged in.
+            Returns OK with
+            <strong>json = new { token = new JwtSecurityTokenHandler().WriteToken(jwt)}</strong>
+            if client was successfully logged in.
             Returns BadRequest if login or password are invalid.
             </remarks>
         </member>

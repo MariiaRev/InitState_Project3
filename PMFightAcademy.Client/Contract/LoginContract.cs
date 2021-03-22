@@ -22,7 +22,7 @@ namespace PMFightAcademy.Client.Contract
         [Required(ErrorMessage = "Incorrect phone number!")]
         [StringLength(13, MinimumLength = 10)]
         [PhoneValidator]
-        //[RegularExpression("")]
+        //[RegularExpression(@"^(\\+38|38)?0(39|50|63|66|67|68|91|92|93|94|95|96|97|98|99)\\d{7}$")]
         public string Login { get; set; }
 
         /// <summary>
