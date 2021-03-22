@@ -153,16 +153,14 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> UpdateService([FromBody] Service service, CancellationToken cancellationToken)
         {
-            try
+            var update = await _serviceService.UpdateService(service, cancellationToken);
+            
+            if (update)
             {
-                await _serviceService.UpdateService(service, cancellationToken);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
+                return Ok();
             }
 
-            return Ok();
+            return NotFound();
         }
 
         ///// <List BUt question to front (Not needed method)>

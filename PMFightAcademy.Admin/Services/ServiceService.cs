@@ -52,7 +52,6 @@ namespace PMFightAcademy.Admin.Services
         /// add
         /// </summary>
         /// <param name="service"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public async Task AddService(Service service, CancellationToken cancellationToken)
@@ -72,7 +71,6 @@ namespace PMFightAcademy.Admin.Services
         /// Delete
         /// </summary>
         /// <param name="service"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public async Task<bool> DeleteService(Service service, CancellationToken cancellationToken)
@@ -94,20 +92,21 @@ namespace PMFightAcademy.Admin.Services
         /// Update
         /// </summary>
         /// <param name="service"></param>
-        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task UpdateService(Service service, CancellationToken cancellationToken)
+        public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
             try
             {
-                _dbContext.Services.Update(service);
+                _dbContext.Update(service);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
             {
-                throw new ArgumentException("No Service");
+                return false;
             }
+
+            return true;
 
         }
 
