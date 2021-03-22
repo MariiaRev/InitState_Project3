@@ -235,7 +235,7 @@ namespace PMFightAcademy.Client.Controllers
         /// Returns OK with active booking list if client is authorized and there is at least one record in the active booking list.
         /// Returns NotFound with <c>string</c> message if client is authorized and there is no record in the active booking list.
         /// </remarks>
-        [HttpGet("{pageSize}/{page}")]
+        [HttpGet("active/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]

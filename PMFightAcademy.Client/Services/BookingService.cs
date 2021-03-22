@@ -101,7 +101,7 @@ namespace PMFightAcademy.Client.Services
                 return ReturnResult<string>();
 
             //Check if the coach owns the services
-            if (qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
+            if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
                 return ReturnResult<string>();
 
             //Find our coaches slots which is not already booked
@@ -109,7 +109,9 @@ namespace PMFightAcademy.Client.Services
             var result = slots
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
-                .Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
+                .Select(x => x.Date.ToString("MM/dd/yyyy"))
+                .Distinct()
+                .ToArray();
 
             return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
         }
@@ -139,7 +141,7 @@ namespace PMFightAcademy.Client.Services
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
                 .Where(x => DateTime.Parse(date) == x.Date)
-                .Select(x => x.StartTime.ToString("HH:mm"))
+                .Select(x => (new DateTime(1,1,1) + x.StartTime).ToString("HH:mm"))
                 .ToArray();
 
             return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
