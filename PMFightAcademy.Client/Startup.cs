@@ -70,7 +70,7 @@ namespace PMFightAcademy.Client
                 options.UseNpgsql(
                     Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
 
-            services.AddTransient<BookingService>();
+            services.AddTransient<IBookingService, BookingService>();
 
             services.AddSwaggerGen(c =>
             {
