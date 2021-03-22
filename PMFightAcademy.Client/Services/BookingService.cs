@@ -28,12 +28,12 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         public Task<IEnumerable<Service>> GetServicesForBooking()
         {
-            var result = _context.Services?.AsEnumerable();
+            var result = _context.Services?.ToArray();
 
             if (result == null || !result.Any())
                 return null;
 
-            return Task.FromResult(result);
+            return Task.FromResult(result.AsEnumerable());
         }
 
         /// <summary>
@@ -93,22 +93,25 @@ namespace PMFightAcademy.Client.Services
         /// <returns></returns>
         public Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId)
         {
-            if (!_context.Qualifications.AsEnumerable().Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
-                throw new ArgumentException("No same qualification");
+            var qualifications = _context.Qualifications?.ToArray();
+            var slots = _context.Slots?.ToArray();
+            var bookings = _context.Bookings?.ToArray();
 
-            var slots = _context.Slots.AsEnumerable().Where(x => x.CoachId == coachId).ToList();
+            if (qualifications == null || slots == null || bookings == null)
+                return null;
 
-            if (slots.Count == 0)
-                throw new ArgumentException("Available Slot Collection is empty");
+            //Check if the coach owns the services
+            if (qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
+                return null;
 
+            //Find our coaches slots which is not already booked
+            //and select only date 
             var result = slots
-                .Where(x => _context.Bookings.AsEnumerable().All(y => y.SlotId != x.Id))
-                .Select(x => x.Date.ToString("MM/dd/yyyy")).ToList();
+                .Where(x => x.CoachId == coachId)
+                .Where(x => bookings.All(y => y.SlotId != x.Id))
+                .Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
 
-            if (result.Count == 0)
-                throw new ArgumentException("Available Slot Collection is already booked");
-
-            return Task.FromResult(result.AsEnumerable());
+            return result.Any()? Task.FromResult(result.AsEnumerable()) : null;
         }
 
         /// <summary>
