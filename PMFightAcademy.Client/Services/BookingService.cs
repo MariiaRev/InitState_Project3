@@ -138,7 +138,7 @@ namespace PMFightAcademy.Client.Services
             var result = slots
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
-                .Where(x => x.Date.ToString("MM/dd/yyyy") == date)
+                .Where(x => DateTime.Parse(date) == x.Date)
                 .Select(x => x.StartTime.ToString("HH:mm"))
                 .ToArray();
 
@@ -163,7 +163,7 @@ namespace PMFightAcademy.Client.Services
             //Check if slots with our date and start time exists.
             //Than check if slots are available and not booked.
             var freeSlots = slots
-                .Where(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date && x.StartTime.ToString("HH:mm") == bookingDto.Time)
+                .Where(x => x.Date == DateTime.Parse(bookingDto.Date) && x.StartTime == TimeSpan.Parse(bookingDto.Time))
                 .Where(x => bookings.All(y => y.SlotId != x.Id)).ToArray();
 
             if (!freeSlots.Any())
