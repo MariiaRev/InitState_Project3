@@ -31,7 +31,7 @@ namespace PMFightAcademy.Client.Services
             var result = _context.Services?.ToArray();
 
             if (result == null || !result.Any())
-                return null;
+                return ReturnResult<Service>();
 
             return Task.FromResult(result.AsEnumerable());
         }
@@ -48,11 +48,11 @@ namespace PMFightAcademy.Client.Services
             var coaches = _context.Coaches?.ToArray();
 
             if (services == null || qualifications == null || coaches == null)
-                return null;
+                return ReturnResult<CoachDto>();
 
             //Check if service is real
             if (services.All(x => x.Id != serviceId))
-                return null;
+                return ReturnResult<CoachDto>();
 
             //Check if qualifications with our service Id exists 
             var coachesId = qualifications
@@ -68,7 +68,7 @@ namespace PMFightAcademy.Client.Services
                 var coach = coaches.FirstOrDefault(x => x.Id == item);
 
                 if (coach == null)
-                    return null;
+                    return ReturnResult<CoachDto>();
 
                 //Made CoachDto from coach
                 var coachDto = CoachMapping.CoachToCoachDto(coach);
@@ -98,11 +98,11 @@ namespace PMFightAcademy.Client.Services
             var bookings = _context.Bookings?.ToArray();
 
             if (qualifications == null || slots == null || bookings == null)
-                return null;
+                return ReturnResult<string>();
 
             //Check if the coach owns the services
             if (qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
-                return null;
+                return ReturnResult<string>();
 
             //Find our coaches slots which is not already booked
             //and select only date 
@@ -111,7 +111,7 @@ namespace PMFightAcademy.Client.Services
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
                 .Select(x => x.Date.ToString("MM/dd/yyyy")).ToArray();
 
-            return result.Any() ? Task.FromResult(result.AsEnumerable()) : null;
+            return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
         }
 
         /// <summary>
@@ -128,10 +128,10 @@ namespace PMFightAcademy.Client.Services
             var bookings = _context.Bookings?.ToArray();
 
             if (qualifications == null || slots == null || bookings == null)
-                return null;
+                return ReturnResult<string>();
 
             if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
-                return null;
+                return ReturnResult<string>();
 
             //Check by slots by coach Id. Than check if slot is available and not booked.
             //And finally check if date in slot equals to your date.
@@ -142,7 +142,7 @@ namespace PMFightAcademy.Client.Services
                 .Select(x => x.StartTime.ToString("HH:mm"))
                 .ToArray();
 
-            return result.Any() ? Task.FromResult(result.AsEnumerable()) : null;
+            return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
         }
 
         /// <summary>
@@ -162,15 +162,11 @@ namespace PMFightAcademy.Client.Services
 
             //Check if slots with our date and start time exists.
             //Than check if slots are available and not booked.
-            var freeSlots = slots
-                .Where(x => x.Date == DateTime.Parse(bookingDto.Date) && x.StartTime == TimeSpan.Parse(bookingDto.Time))
-                .Where(x => bookings.All(y => y.SlotId != x.Id)).ToArray();
-
-            if (!freeSlots.Any())
-                return false; 
-            
             //Find find slot with our coach
-            var yourSlot = freeSlots.FirstOrDefault(x => x.CoachId == bookingDto.CoachId);
+            var yourSlot = slots
+                .Where(x => x.Date == DateTime.Parse(bookingDto.Date) && x.StartTime == TimeSpan.Parse(bookingDto.Time))
+                .Where(x => bookings.All(y => y.SlotId != x.Id))
+                .FirstOrDefault(x => x.CoachId == bookingDto.CoachId);
 
             if (yourSlot == null)
                 return false;
@@ -188,6 +184,11 @@ namespace PMFightAcademy.Client.Services
             await _context.Bookings.AddAsync(booking);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        private static Task<IEnumerable<T>> ReturnResult<T>()
+        {
+            return Task.FromResult(new List<T>().AsEnumerable());
         }
     }
 }

@@ -8,6 +8,7 @@ using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
@@ -79,7 +80,7 @@ namespace PMFightAcademy.Client.Controllers
         public async Task<IActionResult> GetServicesForBooking(CancellationToken token)
         {
             var result = await _service.GetServicesForBooking();
-            if (result != null)
+            if (result.Any())
                 return Ok(result);
 
             return NotFound();
@@ -108,7 +109,7 @@ namespace PMFightAcademy.Client.Controllers
             CancellationToken token)
         {
             var result = await _service.GetCoachesForBooking(serviceId);
-            if (result != null)
+            if (result.Any())
                 return Ok(result);
 
             return NotFound();
@@ -140,7 +141,7 @@ namespace PMFightAcademy.Client.Controllers
             CancellationToken token)
         {
             var result = await _service.GetDatesForBooking(serviceId, coachId);
-            if (result != null)
+            if (result.Any())
                 return Ok(result);
 
             return NotFound();
@@ -176,7 +177,7 @@ namespace PMFightAcademy.Client.Controllers
             CancellationToken token)
         {
             var result = await _service.GetTimeSlotsForBooking(serviceId, coachId, date);
-            if (result != null)
+            if (result.Any())
                 return Ok(result);
 
             return NotFound();
