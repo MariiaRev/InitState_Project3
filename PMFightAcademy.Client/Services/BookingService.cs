@@ -12,7 +12,7 @@ namespace PMFightAcademy.Client.Services
     /// <summary>
     /// Service for booking controller
     /// </summary>
-    public class BookingService
+    public class BookingService : IBookingService
     {
         private readonly ClientContext _context;
 

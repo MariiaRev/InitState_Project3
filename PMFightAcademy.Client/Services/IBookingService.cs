@@ -47,7 +47,7 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         /// <param name="bookingDto">Data for booking.</param>
         /// <param name="clientId">Id of the client who books a service.</param>
-        Task AddBooking(BookingDto bookingDto, int clientId);
+        Task<bool> AddBooking(BookingDto bookingDto, int clientId);
 
         /// <summary>
         /// Gets active bookings of services.

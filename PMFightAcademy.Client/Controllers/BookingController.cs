@@ -24,10 +24,10 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class BookingController : ControllerBase
     {
-        private readonly BookingService _service;
+        private readonly IBookingService _service;
 
 #pragma warning disable 1591
-        public BookingController(BookingService service)
+        public BookingController(IBookingService service)
         {
             _service = service;
         }
