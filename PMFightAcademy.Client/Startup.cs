@@ -38,6 +38,7 @@ namespace PMFightAcademy.Client
 
             // add services
             services.AddTransient<ICoachesStorageService, CoachesEFService>();
+            services.AddTransient<ICoachesService, CoachesService>();
 
             ////add authentication by jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

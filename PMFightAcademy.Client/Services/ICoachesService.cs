@@ -6,7 +6,7 @@ namespace PMFightAcademy.Client.Services
     /// <summary>
     /// Coaches storage service abstraction.
     /// </summary>
-    public interface ICoachesStorageService
+    public interface ICoachesService
     {
         /// <summary>
         /// Gets coaches list with paggination.

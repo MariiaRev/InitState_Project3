@@ -21,12 +21,12 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class CoachesController: ControllerBase
     {
-        private readonly ICoachesStorageService _coachesService;
+        private readonly ICoachesService _coachesService;
 
         /// <summary>
         /// Constructor with DI.
         /// </summary>
-        public CoachesController(ICoachesStorageService coachesService)
+        public CoachesController(ICoachesService coachesService)
         {
             _coachesService = coachesService;
         }
