@@ -12,7 +12,7 @@ namespace PMFightAcademy.Client.Services
     /// <summary>
     /// Service for booking controller
     /// </summary>
-    public class BookingService
+    public class BookingService : IBookingService
     {
         private readonly ClientContext _context;
 
@@ -23,9 +23,7 @@ namespace PMFightAcademy.Client.Services
         }
 #pragma warning restore 1591
 
-        /// <summary>
-        /// Get available services for client booking for Booking Controller
-        /// </summary>
+        /// <inheritdoc/>
         public Task<IEnumerable<Service>> GetServicesForBooking()
         {
             var result = _context.Services.AsEnumerable();
@@ -35,11 +33,7 @@ namespace PMFightAcademy.Client.Services
             throw new ArgumentException("Service Collection is empty");
         }
 
-        /// <summary>
-        /// Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
-        /// </summary>
-        /// <param name="serviceId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId)
         {
             if (_context.Services.AsEnumerable().All(x => x.Id != serviceId))
@@ -72,13 +66,7 @@ namespace PMFightAcademy.Client.Services
             return Task.FromResult(listResult.AsEnumerable());
         }
 
-        /// <summary>
-        /// Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
-        /// for Booking Controller
-        /// </summary>
-        /// <param name="serviceId"></param>
-        /// <param name="coachId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId)
         {
             if (!_context.Qualifications.AsEnumerable().Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
@@ -99,13 +87,7 @@ namespace PMFightAcademy.Client.Services
             return Task.FromResult(result.AsEnumerable());
         }
 
-        /// <summary>
-        /// Get available time slots to provide a service with id <paramref name="serviceId"/> for Booking Controller
-        /// </summary>
-        /// <param name="serviceId"></param>
-        /// <param name="coachId"></param>
-        /// <param name="date"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
         {
             if (!_context.Qualifications.AsEnumerable().Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
@@ -132,12 +114,7 @@ namespace PMFightAcademy.Client.Services
             return Task.FromResult(result.AsEnumerable());
         }
 
-        /// <summary>
-        /// Adds a booking for Booking Controller
-        /// </summary>
-        /// <param name="bookingDto"></param>
-        /// <param name="clientId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public async Task AddBooking(BookingDto bookingDto, int clientId)
         {
             if (bookingDto == null)

@@ -37,8 +37,8 @@ namespace PMFightAcademy.Client
             services.AddTransient<PhoneValidatorAttribute>();
 
             // add services
-            services.AddTransient<ICoachesStorageService, CoachesEFService>();
             services.AddTransient<ICoachesService, CoachesService>();
+            services.AddTransient<IBookingService, BookingService>();
 
             ////add authentication by jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -70,8 +70,6 @@ namespace PMFightAcademy.Client
             services.AddDbContext<ClientContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
-
-            services.AddTransient<BookingService>();
 
             services.AddSwaggerGen(c =>
             {
