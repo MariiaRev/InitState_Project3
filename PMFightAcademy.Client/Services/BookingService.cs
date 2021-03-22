@@ -28,11 +28,12 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         public Task<IEnumerable<Service>> GetServicesForBooking()
         {
-            var result = _context.Services.AsEnumerable();
-            if (!result.Any())
-                return Task.FromResult(result);
+            var result = _context.Services?.AsEnumerable();
 
-            throw new ArgumentException("Service Collection is empty");
+            if (result == null || !result.Any())
+                return null;
+
+            return Task.FromResult(result);
         }
 
         /// <summary>
@@ -42,29 +43,40 @@ namespace PMFightAcademy.Client.Services
         /// <returns></returns>
         public Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId)
         {
-            if (_context.Services.AsEnumerable().All(x => x.Id != serviceId))
-                throw new ArgumentException("Incorrect service id");
+            var services = _context.Services?.ToArray();
+            var qualifications = _context.Qualifications?.ToArray();
+            var coaches = _context.Coaches?.ToArray();
 
-            var coachesId = _context.Qualifications.AsEnumerable()
-                .Where(x => x.ServiceId == serviceId).Select(x => x.CoachId);
+            if (services == null || qualifications == null || coaches == null)
+                return null;
+
+            //Check if service is real
+            if (services.All(x => x.Id != serviceId))
+                return null;
+
+            //Check if qualifications with our service Id exists 
+            var coachesId = qualifications
+                .Where(x => x.ServiceId == serviceId)
+                .Select(x => x.CoachId).ToArray();
 
             //todo: add logger 
 
             var listResult = new List<CoachDto>();
             foreach (var item in coachesId)
             {
-                var coach = _context.Coaches.AsEnumerable().FirstOrDefault(x => x.Id == item);
+                //Check if coach is real
+                var coach = coaches.FirstOrDefault(x => x.Id == item);
 
                 if (coach == null)
-                    throw new ArgumentException($"Incorrect service id");
+                    return null;
 
+                //Made CoachDto from coach
                 var coachDto = CoachMapping.CoachToCoachDto(coach);
 
-                var services = _context.Qualifications.AsEnumerable()
+                //Save services for our coach 
+                coachDto.Services = qualifications
                     .Where(x => x.CoachId == coach.Id)
-                    .Select(x => x.Service.Name).ToList();
-
-                coachDto.Services = services;
+                    .Select(x => x.Service.Name);
 
                 listResult.Add(coachDto);
             }
@@ -144,12 +156,12 @@ namespace PMFightAcademy.Client.Services
                 throw new ArgumentException("BookingDTO can not be null");
 
             if (!_context.Slots.AsEnumerable()
-                .Any(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date 
+                .Any(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date
                           && x.StartTime.ToString("HH:mm") == bookingDto.Time))
                 throw new ArgumentException("Available Slot Collection on your time is empty");
 
             var slots = _context.Slots.AsEnumerable()
-                .Where(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date 
+                .Where(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date
                             && x.StartTime.ToString("HH:mm") == bookingDto.Time).ToList();
 
             var freeSlots = slots
@@ -170,9 +182,9 @@ namespace PMFightAcademy.Client.Services
 
             var booking = BookingMapping.BookingMapFromContractToModel(bookingDto, yourSlot.Id, clientId, price.Price);
 
-           await _context.Bookings.AddAsync(booking);
+            await _context.Bookings.AddAsync(booking);
 
-           await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
     }
 }
