@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
@@ -7,6 +8,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
+using System.Threading;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -52,7 +54,10 @@ namespace PMFightAcademy.Client.Controllers
         public IActionResult Get(
             [FromRoute, Range(1, int.MaxValue)] int pageSize,
             [FromRoute, Range(1, int.MaxValue)] int page,
-            [FromQuery] string filter)
+            [FromQuery] string filter,
+#pragma warning disable CS1573
+            CancellationToken token)            // no need of token in matching param tag in the XML comment
+#pragma warning restore CS1573 
         {
             var coaches = _coachesService.GetCoaches(pageSize, page, filter);
 
