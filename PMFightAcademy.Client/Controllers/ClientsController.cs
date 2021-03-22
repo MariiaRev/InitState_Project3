@@ -57,7 +57,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </returns>
         /// <remarks>
         /// Returns OK with
-        /// <strong>json = new { token = new JwtSecurityTokenHandler().WriteToken(jwt)}</strong>
+        /// <strong>json = { token: "jwt-token" }</strong>
         /// if client was successfully registered.
         /// Returns BadRequest if <paramref name="model"/> data is invalid.
         /// Returns Conflict if login already exists.
@@ -119,7 +119,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </returns>
         /// <remarks>
         /// Returns OK with
-        /// <strong>json = new { token = new JwtSecurityTokenHandler().WriteToken(jwt)}</strong>
+        /// <strong>json = { token: "jwt-token" }</strong>
         /// if client was successfully logged in.
         /// Returns BadRequest if login or password are invalid.
         /// </remarks>
