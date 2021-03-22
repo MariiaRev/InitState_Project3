@@ -115,7 +115,8 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Delete qualification
         /// </summary>
-        /// <param name="qualification"></param>
+        /// <param name="qualificationId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
@@ -127,9 +128,9 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteQualification(QualificationContract qualification, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteQualification(int qualificationId, CancellationToken cancellationToken)
         {
-            var deleted = await _qualificationService.DeleteQualification(qualification, cancellationToken);
+            var deleted = await _qualificationService.DeleteQualification(qualificationId, cancellationToken);
 
             if (deleted)
             {

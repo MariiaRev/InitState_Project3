@@ -87,9 +87,13 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="bookingContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async  Task<bool> RemoveBooking(BookingContract bookingContract, CancellationToken cancellationToken)
+        public async  Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
         {
-            var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
+            var booking = _dbContext.Bookings.FirstOrDefault(x => x.Id == id);
+            if (booking == null)
+            {
+                return false;
+            }
             try
             {
                 _dbContext.Remove(booking);

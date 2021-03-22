@@ -17,7 +17,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="contract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task<bool> DeleteQualification(QualificationContract contract, CancellationToken cancellationToken);
+        public  Task<bool> DeleteQualification(int id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Add Qualification

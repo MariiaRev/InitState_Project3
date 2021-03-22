@@ -34,12 +34,16 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="contract"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<bool> DeleteQualification(QualificationContract contract, CancellationToken cancellationToken)
+        public async Task<bool> DeleteQualification(int id, CancellationToken cancellationToken)
         {
-            var qualification = QualificationMapping.QualificationMapFromContractToModel(contract);
+            var qualification = _dbContext.Qualifications.FirstOrDefault(x => x.Id == id);
+            if (qualification == null)
+            {
+                return false;
+            }
             try
             {
-                _dbContext.Remove(contract);
+                _dbContext.Remove(qualification);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch

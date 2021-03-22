@@ -185,7 +185,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// Delete coach
         /// </summary>
         /// <para>
-        ///<param coachId="coachId"></param>
+        ///<param name="coachId"></param>
         /// </para>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
@@ -196,9 +196,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpDelete]
-        [ProducesResponseType(typeof(CoachContract), (int) HttpStatusCode.OK)]
+        [ProducesResponseType( (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteCoach(CoachContract coachId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteCoach(int coachId, CancellationToken cancellationToken)
         {
             
             var deleted = await _coachService.DeleteCoach(coachId, cancellationToken);

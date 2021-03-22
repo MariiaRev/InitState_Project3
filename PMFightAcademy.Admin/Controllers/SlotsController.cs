@@ -239,7 +239,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Delete
         /// </summary>
-        /// <param name="createSlots"></param>
+        /// <param name="slotId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return service needed 
@@ -251,9 +251,9 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteSlots([FromBody] SlotsCreateContract createSlots,CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteSlots( int slotId,CancellationToken cancellationToken)
         {
-            var deleted = await _slotService.RemoveSlot(createSlots, cancellationToken);
+            var deleted = await _slotService.RemoveSlot(slotId, cancellationToken);
 
             if (deleted)
             {
