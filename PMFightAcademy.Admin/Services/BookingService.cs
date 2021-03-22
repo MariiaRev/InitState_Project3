@@ -7,132 +7,100 @@ using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Services
 {
     /// <summary>
     /// Service for booking controller
     /// </summary>
-    public class BookingService
+    public class BookingService : IBookingService
     {
-        private readonly AdminContext _context;
-
-#pragma warning disable 1591
-        public BookingService(AdminContext context)
-        {
-            _context = context;
-        }
-#pragma warning restore 1591
+        private readonly AdminContext _dbContext;
 
         /// <summary>
-        /// Return all booked services for BookingController
+        /// Constructor
         /// </summary>
-        public Task<GetDataContract<BookingContract>> GetBookedServices(int pageSize, int page)
+        /// <param name="dbContext"></param>
+        public BookingService(AdminContext dbContext)
         {
-            if (page < 1 || pageSize < 1)
-                throw new ArgumentException("Incorrect page or page size");
-
-            var bookings = _context.Bookings.ToArray();
-            var bookingPerPages = bookings.Skip((page - 1) * pageSize).Take(pageSize).ToArray();
-
-            if (bookingPerPages.Length == 0)
-                throw new ArgumentException("Booking Collection is empty");
-
-            var pagination = new Paggination()
-            {
-                Page = page,
-                TotalPages = (int)Math.Ceiling((decimal)bookings.Length / pageSize)
-            };
-
-            return Task.FromResult(new GetDataContract<BookingContract>()
-            {
-                Data = bookingPerPages.Select(BookingMapping.CoachMapFromModelTToContract).ToArray(),
-                Paggination = pagination
-            });
-        }
-
-
-        /// <summary>
-        /// Select booked services on person for BookingController
-        /// </summary>
-        public Task<List<BookingContract>> GetBookedServiceForClient(int id)
-        {
-            if (id < 1)
-                throw new ArgumentException("Incorrect id");
-
-            var bookings = _context.Bookings.Where(x => x.ClientId == id).ToList();
-
-            if (bookings.Count == 0)
-                throw new ArgumentException("Booking Collection is empty");
-
-            return Task.FromResult(bookings.Select(BookingMapping.CoachMapFromModelTToContract).ToList());
+            _dbContext = dbContext;
         }
 
         /// <summary>
-        /// Select booked services on coach for BookingController
+        /// Take all slots
         /// </summary>
-        public Task<List<BookingContract>> GetBookedServiceForCoach(int coachId)
+        /// <returns></returns>
+        public async Task<IEnumerable<BookingContract>> TakeAllBooking()
         {
-            if (coachId < 1)
-                throw new ArgumentException("Incorrect id");
+            var bookings = _dbContext.Bookings.Select(BookingMapping.BookingMapFromModelTToContract);
+            return bookings;
+        }
 
-            var slots = _context.Slots.Where(x => x.CoachId == coachId).ToList();
+        /// <summary>
+        /// Take Booking for coach
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <returns></returns>
+        public async  Task<IEnumerable<BookingContract>> TakeBookingForCoach(int coachId)
+        {
+            var bookings = _dbContext.Bookings.Where(x => x.Slot.CoachId == coachId).ToArray();
+            return bookings.Select(BookingMapping.BookingMapFromModelTToContract);
+        }
 
-            if (slots.Count == 0)
-                throw new ArgumentException("Slot Collection is empty");
+        /// <summary>
+        /// Take booking for client
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<BookingContract>> TakeBookingOnClient(int clientId)
+        {
+            var bookings = _dbContext.Bookings.Where(x => x.ClientId == clientId);
+            return bookings.AsEnumerable().Select(BookingMapping.BookingMapFromModelTToContract); ;
+        }
 
-            //todo: check linq logic
-            var bookings = new List<Booking>();
-            foreach (var item in _context.Bookings)
+        /// <summary>
+        /// Update booking
+        /// </summary>
+        /// <param name="bookingContract"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateBooking(BookingContract bookingContract, CancellationToken cancellationToken)
+        {
+            var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
+            try
             {
-                if (slots.Any(x => x.Id == item.SlotId))
-                    bookings.Add(item);
+                _dbContext.Update(booking);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                return false;
             }
 
-            if (bookings.Count == 0)
-                throw new ArgumentException("Booking Collection is empty");
-
-            return Task.FromResult(bookings.Select(BookingMapping.CoachMapFromModelTToContract).ToList());
+            return true;
         }
 
         /// <summary>
-        /// Delete a book for BookingController
+        /// Remove booking
         /// </summary>
-        public async Task DeleteBook(BookingContract bookId, CancellationToken cancellationToken)
+        /// <param name="bookingContract"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async  Task<bool> RemoveBooking(BookingContract bookingContract, CancellationToken cancellationToken)
         {
-            if (bookId == null)
-                throw new ArgumentException("Contract can not be null");
+            var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
+            try
+            {
+                _dbContext.Remove(booking);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                return false;
+            }
 
-            var booking = BookingMapping.BookingMapFromContractToModel(bookId);
-
-            var checkBooking = _context.Bookings.FirstOrDefault(p => p.Id == booking.Id);
-
-            if (checkBooking == null)
-                throw new ArgumentException("No same booking in db");
-
-            _context.Remove(checkBooking);
-
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-
-        /// <summary>
-        /// Update file for BookingController
-        /// </summary>
-        public async Task UpdateBook(BookingContract newBook, CancellationToken cancellationToken)
-        {
-            if (newBook == null)
-                throw new ArgumentException("Contract can not be null");
-
-            var booking = BookingMapping.BookingMapFromContractToModel(newBook);
-
-            var checkBooking = _context.Bookings.FirstOrDefault(p => p.Id == booking.Id);
-
-            if (checkBooking == null)
-                throw new ArgumentException("No same booking in db");
-
-            _context.Update(checkBooking);
-
-            await _context.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

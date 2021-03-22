@@ -203,8 +203,6 @@ namespace PMFightAcademy.Admin.Controllers
             }
             return NotFound();
 
-
-
         }
 
 
@@ -239,7 +237,7 @@ namespace PMFightAcademy.Admin.Controllers
         }
 
         /// <summary>
-        /// Create Slots
+        /// Delete
         /// </summary>
         /// <param name="createSlots"></param>
         /// <param name="cancellationToken"></param>

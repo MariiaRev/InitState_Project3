@@ -39,15 +39,15 @@ namespace PMFightAcademy.Admin.Mapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static SlotsCreateContract SlotMapFromModelToContract(Slot model)
+        public static SlotsReturnContract SlotMapFromModelToContract(Slot model)
         {
-            return new SlotsCreateContract
+            return new SlotsReturnContract
             {
                 Id = model.Id,
                 CoachId = model.CoachId,
-                DateStart = model.Date.ToString(),
-                TimeEnd = model.Duration.ToString(),
-                TimeStart = model.StartTime.ToString()
+                DateStart = model.Date.ToString("MM/dd/yyyy"),
+                Duration = (new DateTime(1, 1, 1) + model.Duration).ToString("HH:mm"),
+                TimeStart = (new DateTime(1, 1, 1) + model.StartTime).ToString("HH:mm")
             };
            
         }

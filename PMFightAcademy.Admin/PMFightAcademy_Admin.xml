@@ -29,6 +29,11 @@
             Client 
             </summary>
         </member>
+        <member name="T:PMFightAcademy.Admin.Contract.CoachContract">
+            <summary>
+            CoachContract
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Admin.Contract.CoachContract.Id">
             <summary>
             Personal Id , key
@@ -115,23 +120,45 @@
             Time End
             </summary>
         </member>
+        <member name="T:PMFightAcademy.Admin.Contract.SlotsReturnContract">
+            <summary>
+            Dto
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.CoachId">
+            <summary>
+            Coach Id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.DateStart">
+            <summary>
+            Date start
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.TimeStart">
+            <summary>
+            Time start
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.Duration">
+            <summary>
+            Time End
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Controllers.BookingController">
             <summary>
             Booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.#ctor(PMFightAcademy.Admin.Services.BookingService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService)">
             <summary>
             Constructor for booking
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServices(System.Int32,System.Int32,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServices">
             <summary>
             Return all booked services
             </summary>
-             <param name="pageSize">The count of books to return at one time.</param>
-            <param name="page">The current page number.</param>
-            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what can be booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
@@ -174,7 +201,7 @@
             <summary>
             Delete a book
             </summary>
-            <param name="bookId"></param>
+            <param name="booking"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
@@ -189,7 +216,7 @@
             <summary>
             Update file
             </summary>
-            <param name="newBook"></param>
+            <param name="newBooking"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful updated
@@ -538,7 +565,7 @@
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
             <summary>
-            Create Slots
+            Delete
             </summary>
             <param name="createSlots"></param>
             <param name="cancellationToken"></param>
@@ -573,7 +600,7 @@
             <param name="contract"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.CoachMapFromModelTToContract(PMFightAcademy.Admin.Models.Booking)">
+        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromModelTToContract(PMFightAcademy.Admin.Models.Booking)">
             <summary>
             From model to contract
             </summary>
@@ -899,30 +926,47 @@
             Service for booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServices(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
-            Return all booked services for BookingController
+            Constructor
             </summary>
+            <param name="dbContext"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForClient(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeAllBooking">
             <summary>
-            Select booked services on person for BookingController
+            Take all slots
             </summary>
+            <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoach(System.Int32)">
             <summary>
-            Select booked services on coach for BookingController
+            Take Booking for coach
             </summary>
+            <param name="coachId"></param>
+            <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.DeleteBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingOnClient(System.Int32)">
             <summary>
-            Delete a book for BookingController
+            Take booking for client
             </summary>
+            <param name="clientId"></param>
+            <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
             <summary>
-            Update file for BookingController
+            Update booking
             </summary>
+            <param name="bookingContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+            <summary>
+            Remove booking
+            </summary>
+            <param name="bookingContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ClientService">
             <summary>
@@ -1041,6 +1085,47 @@
             <param name="coachId"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService">
+            <summary>
+            Booking service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.RemoveBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+            <summary>
+            Remove Booking
+            </summary>
+            <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeAllBooking">
+            <summary>
+            Take all bookings
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoach(System.Int32)">
+            <summary>
+            Take booking for coach
+            </summary>
+            <param name="coachId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingOnClient(System.Int32)">
+            <summary>
+            Take booking for client
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+            <summary>
+            Update books
+            </summary>
+            <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService">
             <summary>
@@ -1249,7 +1334,6 @@
             add
             </summary>
             <param name="service"></param>
-            <param name="cancellationToken"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
@@ -1258,7 +1342,6 @@
             Delete
             </summary>
             <param name="service"></param>
-            <param name="cancellationToken"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
@@ -1267,7 +1350,6 @@
             Update
             </summary>
             <param name="service"></param>
-            <param name="cancellationToken"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>

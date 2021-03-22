@@ -95,7 +95,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsCreateContract>> TakeAllSlots(int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeAllSlots(int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid pages");
@@ -114,7 +114,7 @@ namespace PMFightAcademy.Admin.Services
                 Page = page,
                 TotalPages = (int) Math.Ceiling((decimal) slots.Length / pageSize)
             };
-            var data = new GetDataContract<SlotsCreateContract>()
+            var data = new GetDataContract<SlotsReturnContract>()
             {
                 Data = slotsPerPages.Select(SlotsMapping.SlotMapFromModelToContract).ToArray(),
                 Paggination = pagination
@@ -130,7 +130,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsCreateContract>> TakeSlotsForCoach(int coachId,int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeSlotsForCoach(int coachId,int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid pages");
@@ -151,7 +151,7 @@ namespace PMFightAcademy.Admin.Services
                 Page = page,
                 TotalPages = (int)Math.Ceiling((decimal)slots.Length / pageSize)
             };
-            var data = new GetDataContract<SlotsCreateContract>()
+            var data = new GetDataContract<SlotsReturnContract>()
             {
                 Data = slotsPerPages.Select(SlotsMapping.SlotMapFromModelToContract).ToArray(),
                 Paggination = pagination
@@ -166,7 +166,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsCreateContract>> TakeAllOnDate(DateTime date,int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeAllOnDate(DateTime date,int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid changes");
@@ -187,7 +187,7 @@ namespace PMFightAcademy.Admin.Services
                 Page = page,
                 TotalPages = (int)Math.Ceiling((decimal)slots.Length / pageSize)
             };
-            var data = new GetDataContract<SlotsCreateContract>()
+            var data = new GetDataContract<SlotsReturnContract>()
             {
                 Data = slotsPerPages.Select(SlotsMapping.SlotMapFromModelToContract).ToArray(),
                 Paggination = pagination
@@ -203,7 +203,7 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<IEnumerable<SlotsCreateContract>> TakeAllSlots()
+        public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
         {
             
             var slots = _dbContext.Slots.Select(SlotsMapping.SlotMapFromModelToContract);
@@ -217,7 +217,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachId"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<IEnumerable<SlotsCreateContract>> TakeSlotsForCoach(int coachId)
+        public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId)
         {
             var slots = _dbContext.Slots.Where(x => x.CoachId == coachId);
             
@@ -229,7 +229,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="date"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<IEnumerable<SlotsCreateContract>> TakeAllOnDate(DateTime date)
+        public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(DateTime date)
         {
             var slots = _dbContext.Slots.Where(x => x.Date == date);
             

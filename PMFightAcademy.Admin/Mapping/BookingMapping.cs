@@ -29,7 +29,7 @@ namespace PMFightAcademy.Admin.Mapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static BookingContract CoachMapFromModelTToContract(Booking model)
+        public static BookingContract BookingMapFromModelTToContract(Booking model)
         {
             return new BookingContract()
             {
