@@ -41,28 +41,6 @@
             <param name="password"></param>
             <returns></returns>
         </member>
-        <member name="T:PMFightAcademy.Client.Authorization.PasswordValidatorAttribute">
-            <summary>
-            Validator for password
-            </summary>
-            <remarks>
-            Password must have at least 8 chars
-            At least 1 upper char
-            and at least 1 number
-            </remarks> 
-        </member>
-        <member name="T:PMFightAcademy.Client.Authorization.PhoneValidatorAttribute">
-            <summary>
-            Validator for phone number
-            </summary>
-            <remarks>
-            Formats of phone number:
-            +38067 111 1111
-            067 111 1111
-            Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
-            </remarks>
-        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.BookingDto">
             <summary>
             Booking a service dto model.
@@ -231,6 +209,7 @@
             <remarks>
             Formats of phone number:
             +38067 111 1111
+            38067 111 1111
             067 111 1111
             Available country codes:
             039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
@@ -385,6 +364,7 @@
             Client controller.
             Formats of phone number:
             +38067 111 1111
+            38067 111 1111
             067 111 1111
             Available country codes:
             039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
@@ -414,7 +394,7 @@
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
-            Loggs in a registered client.
+            Log in in a registered client.
             </summary>
             <param name="model">Contract for login action.</param>
             <param name="cancellationToken"></param>
@@ -812,6 +792,33 @@
             <param name="clientId"></param>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Client.Services.ClientsService">
+            <summary>
+            Service for the ClientsController
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Models.Client)">
+            <summary>
+            Registers a new client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+            <summary>
+            Log in in a registered client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Authenticate(System.String,System.Int32)">
+            <summary>
+            Private method for the creating of jwt-token
+            </summary>
+            <param name="userName"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Client.Services.CoachesEFService">
             <summary>
             Service for getting coaches from database with Entity Framework.
@@ -870,8 +877,22 @@
         </member>
         <member name="T:PMFightAcademy.Client.Services.IClientsService">
             <summary>
-            Interface 
+            Interface for the Client Service 
             </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Models.Client)">
+            <summary>
+            Registers a new client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+            <summary>
+            Log in in a registered client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
             <summary>
