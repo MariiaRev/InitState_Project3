@@ -255,6 +255,9 @@
             <summary>
             Get available services for client booking.
             </summary>
+
+            <param name="token"></param>
+
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
@@ -270,6 +273,11 @@
             <summary>
             Get available coaches which can provide service with id <paramref name="serviceId"/>.
             </summary>
+
+
+            <param name="serviceId"></param>Service id
+            <param name="token"></param>
+
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
@@ -285,6 +293,11 @@
             <summary>
             Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
             </summary>
+
+            <param name="serviceId"></param>Service id
+            <param name="coachId"></param>Coach id
+            <param name="token"></param>
+
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
@@ -302,6 +315,11 @@
             Get available time slots to provide a service with id <paramref name="serviceId"/> 
             by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
             </summary>
+
+            <param name="serviceId"></param>Service id
+            <param name="coachId"></param>Coach id
+            <param name="date"></param>Date
+            <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
@@ -811,6 +829,51 @@
         <member name="M:PMFightAcademy.Client.Services.CoachesEFService.GetCoaches(System.Int32,System.Int32,System.String)">
             <inheritdoc/>
         </member>
+
+        <member name="T:PMFightAcademy.Client.Services.IBookingService">
+            <summary>
+            Booking service abstraction.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetServicesForBooking">
+            <summary>
+            Get available services for client booking for Booking Controller.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetCoachesForBooking(System.Int32)">
+            <summary>
+            Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
+            </summary>
+            <param name="serviceId">Id of the service.</param>
+            <returns>List of coaches of type <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetDatesForBooking(System.Int32,System.Int32)">
+            <summary>
+            Get available dates in format "MM/dd/yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
+            for Booking Controller
+            </summary>
+            <param name="serviceId">Id of the service.</param>
+            <param name="coachId">Id of the coach.</param>
+            <returns>List of available dates each as a string in format "MM/dd/yyyy".</returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get available time slots in format "HH:mm" to provide a service with id <paramref name="serviceId"/> for Booking Controller
+            </summary>
+            <param name="serviceId">Id of the service.</param>
+            <param name="coachId">Id of the coach.</param>
+            <param name="date">Selected date as a string in format "MM/dd/yyyy".</param>
+            <returns>List of available time slots in format "HH:mm".</returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
+            <summary>
+            Adds a booking for Booking Controller.
+            </summary>
+            <param name="bookingDto">Data for booking.</param>
+            <param name="clientId">Id of the client who books a service.</param>
+        </member>
+
         <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
             <summary>
             Coaches storage service abstraction.

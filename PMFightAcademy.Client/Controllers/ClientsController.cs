@@ -191,7 +191,7 @@ namespace PMFightAcademy.Client.Controllers
                 new Claim(ClaimTypes.UserData,  id.ToString())
             };
 
-            var identity = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+            var identity = new ClaimsIdentity(claims, "ApplicationJWT", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
 
             var now = DateTime.UtcNow;
 
