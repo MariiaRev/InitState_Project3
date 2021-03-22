@@ -2,6 +2,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Admin.Contract
 {
+    /// <summary>
+    /// CoachContract
+    /// </summary>
     public class CoachContract
     {
         /// <summary>

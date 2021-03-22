@@ -103,19 +103,21 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachContract"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
+        public async Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
+            var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try
             {
-                var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
                 _dbContext.Update(coach);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
             {
-                throw new ArgumentException("No coach");
+                return false;
             }
+            return true;
 
         }
+
     }
 }

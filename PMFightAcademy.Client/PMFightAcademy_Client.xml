@@ -255,7 +255,9 @@
             <summary>
             Get available services for client booking.
             </summary>
+
             <param name="token"></param>
+
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
@@ -288,9 +290,10 @@
             <summary>
             Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
             </summary>
-            <param name="serviceId">Service id</param>
+          <param name="serviceId">Service id</param>
             <param name="coachId">Coach id</param>
-            <param name="token"></param>
+<param name="token"></param>
+
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
@@ -308,10 +311,10 @@
             Get available time slots to provide a service with id <paramref name="serviceId"/> 
             by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
             </summary>
-            <param name="serviceId">Service id</param>
+          <param name="serviceId">Service id</param>
             <param name="coachId">Coach id</param>
             <param name="date">Date</param>
-            <param name="token"></param>
+<param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
@@ -825,6 +828,7 @@
         <member name="M:PMFightAcademy.Client.Services.CoachesEFService.GetCoaches(System.Int32,System.Int32,System.String)">
             <inheritdoc/>
         </member>
+
         <member name="T:PMFightAcademy.Client.Services.IBookingService">
             <summary>
             Booking service abstraction.
@@ -868,6 +872,7 @@
             <param name="bookingDto">Data for booking.</param>
             <param name="clientId">Id of the client who books a service.</param>
         </member>
+
         <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
             <summary>
             Coaches storage service abstraction.

@@ -44,7 +44,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="coachContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken);
+        public  Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken);
 
     }
 }
