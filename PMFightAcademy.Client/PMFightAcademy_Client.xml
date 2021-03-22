@@ -868,6 +868,11 @@
             <param name="bookingDto">Data for booking.</param>
             <param name="clientId">Id of the client who books a service.</param>
         </member>
+        <member name="T:PMFightAcademy.Client.Services.IClientsService">
+            <summary>
+            Interface 
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
             <summary>
             Coaches storage service abstraction.

@@ -22,6 +22,7 @@ namespace PMFightAcademy.Client.Controllers
     /// Client controller.
     /// Formats of phone number:
     /// +38067 111 1111
+    /// 38067 111 1111
     /// 067 111 1111
     /// Available country codes:
     /// 039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094

@@ -32,10 +32,6 @@ namespace PMFightAcademy.Client
             ////add httpClient
             services.AddHttpClient();
 
-            ////add transient
-            services.AddTransient<PasswordValidatorAttribute>();
-            services.AddTransient<PhoneValidatorAttribute>();
-
             // add services
             services.AddTransient<ICoachesStorageService, CoachesEFService>();
 
