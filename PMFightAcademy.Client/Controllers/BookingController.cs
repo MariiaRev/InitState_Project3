@@ -79,7 +79,7 @@ namespace PMFightAcademy.Client.Controllers
         public async Task<IActionResult> GetServicesForBooking(CancellationToken token)
         {
             var result = await _service.GetServicesForBooking();
-            if (result != null) 
+            if (result != null)
                 return Ok(result);
 
             return NotFound();
@@ -88,7 +88,7 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Get available coaches which can provide service with id <paramref name="serviceId"/>.
         /// </summary>
-        /// <param name="serviceId"></param> service id
+        /// <param name="serviceId"></param>Service id
         /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
@@ -117,6 +117,9 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
         /// </summary>
+        /// <param name="serviceId"></param>Service id
+        /// <param name="coachId"></param>Coach id
+        /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// Returns <see cref="HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
@@ -132,25 +135,25 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetDatesForBooking([FromRoute] int serviceId
-            , [FromRoute] int coachId
-            , CancellationToken token)
+        public async Task<IActionResult> GetDatesForBooking([FromRoute] int serviceId,
+            [FromRoute] int coachId,
+            CancellationToken token)
         {
-            try
-            {
-                var result = await _service.GetDatesForBooking(serviceId, coachId);
+            var result = await _service.GetDatesForBooking(serviceId, coachId);
+            if (result != null)
                 return Ok(result);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
+
+            return NotFound();
         }
 
         /// <summary>
         /// Get available time slots to provide a service with id <paramref name="serviceId"/> 
         /// by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
         /// </summary>
+        /// <param name="serviceId"></param>Service id
+        /// <param name="coachId"></param>Coach id
+        /// <param name="date"></param>Date
+        /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// Returns <see cref="HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
@@ -172,15 +175,11 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute] string date,
             CancellationToken token)
         {
-            try
-            {
-                var result = await _service.GetTimeSlotsForBooking(serviceId, coachId, date);
+            var result = await _service.GetTimeSlotsForBooking(serviceId, coachId, date);
+            if (result != null)
                 return Ok(result);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
+
+            return NotFound();
         }
 
         /// <summary>
@@ -207,23 +206,16 @@ namespace PMFightAcademy.Client.Controllers
         public async Task<IActionResult> AddBooking([FromBody] BookingDto booking,
             CancellationToken token)
         {
-            try
-            {
-                var claim = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.UserData);
-                if (claim == null)
-                    return BadRequest("No UserData in JWT-token for authorization");
-                var clientId = int.Parse(claim.Value);
-                await _service.AddBooking(booking, clientId);
+            var claim = ((ClaimsIdentity)HttpContext.User.Identity)?.FindFirst(ClaimTypes.UserData);
+            if (claim == null)
+                return BadRequest();
+            var clientId = int.Parse(claim.Value);
+
+            var result = await _service.AddBooking(booking, clientId);
+            if (result)
                 return Ok();
-            }
-            catch (ArgumentException e)
-            {
-                return BadRequest(e.Message);
-            }
-            catch (NullReferenceException)
-            {
-                return BadRequest("No Identity in JWT-token for authorization");
-            }
+
+            return BadRequest();
         }
 
         /// <summary>
