@@ -2,17 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Mapping;
+using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Services
 {
     /// <summary>
-    /// Coach Service
+    /// Service service
     /// </summary>
-    public class CoachService
+    public class ServiceService
     {
         private readonly AdminContext _dbContext;
 
@@ -20,102 +18,103 @@ namespace PMFightAcademy.Admin.Services
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public CoachService(AdminContext dbContext)
+        public ServiceService(AdminContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         /// <summary>
-        /// Take coaches
+        /// Take All
         /// </summary>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<IEnumerable<CoachContract>> TakeAllCoaches()
+        public async Task<IEnumerable<Service>> TakeAllServices()
         {
-            var coaches = _dbContext.Coaches.ToList();
+            var services = _dbContext.Services.ToList();
 
-            if (coaches.Count <= 0)
+            if (services.Count <= 0)
             {
                 throw new ArgumentException("No elements");
             }
 
-            return coaches.Select(CoachMapping.CoachMapFromModelToContract).ToList();
+            return services.ToList();
         }
 
         /// <summary>
-        /// Take Coache
+        /// Take
         /// </summary>
-        /// <param name="coachId"></param>
+        /// <param name="serviceId"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<CoachContract> TakeCoach(int coachId)
+        public async Task<Service> TakeService(int serviceId)
         {
-            var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachId);
-            if (coach == null)
+            var service = _dbContext.Services.FirstOrDefault(x => x.Id == serviceId);
+            if (service == null)
                 throw new ArgumentException();
-            return CoachMapping.CoachMapFromModelToContract(coach);
+            return service;
         }
 
         /// <summary>
-        /// Add coach
+        /// add
         /// </summary>
-        /// <param name="coachContract"></param>
+        /// <param name="service"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task AddCoach(CoachContract coachContract)
+        public async Task AddService(Service service)
         {
-            var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try
             {
-                await _dbContext.Coaches.AddAsync(coach);
+               await _dbContext.Services.AddAsync(service);
+               await _dbContext.SaveChangesAsync();
+            }
+            catch 
+            {
+                throw new ArgumentException();
+            }
+        }
+
+        /// <summary>
+        /// Delete
+        /// </summary>
+        /// <param name="service"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task DeleteService(Service service)
+        {
+            try
+            {
+                _dbContext.Remove(service);
                 await _dbContext.SaveChangesAsync();
             }
             catch
             {
-                throw new ArgumentException();
-            }
-        }
-
-        /// <summary>
-        /// Delete 
-        /// </summary>
-        /// <param name="coachContract"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public async Task DeleteCoach(CoachContract coachContract)
-        {
-            
-            try
-            {
-                var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
-                _dbContext.Remove(coach);
-                await _dbContext.SaveChangesAsync();
-            }
-            catch
-            {
-                throw new ArgumentException("No coach");
+                throw new ArgumentException("No Service");
             }
         }
 
         /// <summary>
         /// Update
         /// </summary>
-        /// <param name="coachContract"></param>
+        /// <param name="service"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task UpdateCoach(CoachContract coachContract)
+        public async Task UpdateService(Service service)
         {
             try
             {
-                var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
-                _dbContext.Update(coach);
+                _dbContext.Services.Update(service);
                 await _dbContext.SaveChangesAsync();
             }
             catch
             {
-                throw new ArgumentException("No coach");
+                throw new ArgumentException("No Service");
             }
 
         }
+
+        
+
+
+
     }
 }

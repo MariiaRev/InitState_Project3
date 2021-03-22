@@ -17,6 +17,7 @@ namespace PMFightAcademy.Admin.Mapping
         {
             return new Qualification
             {
+                Id = contract.Id,
                 CoachId = contract.CoachId,
                 ServiceId = contract.ServiceId
             };

@@ -80,7 +80,7 @@ namespace PMFightAcademy.Admin.Services
             }
         }
 
-
+        #region Maded Pagination but not used by JS (TILT)
         /// <summary>
         /// Take all slots 
         /// </summary>
@@ -188,7 +188,55 @@ namespace PMFightAcademy.Admin.Services
             return data;
         }
 
+        #endregion
 
 
+        /// <summary>
+        /// Take all slots
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<IEnumerable<SlotsCreateContract>> TakeAllSlots()
+        {
+            var slots = _dbContext.Slots.ToList();
+
+            if (slots.Count <= 0)
+            {
+                throw new ArgumentException("No elements");
+            }
+
+            return slots.Select(SlotsMapping.SlotMapFromModelToContract).ToList();
+        }
+
+        /// <summary>
+        /// Take all slots for coaches
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<IEnumerable<SlotsCreateContract>> TakeSlotsForCoach(int coachId)
+        {
+            var slots = _dbContext.Slots.Where(x => x.CoachId == coachId).ToList();
+            if (slots.Count <= 0)
+            {
+                throw new ArgumentException("No elements");
+            }
+            return slots.Select(SlotsMapping.SlotMapFromModelToContract).ToList();
+        }
+        /// <summary>
+        /// Take all slots on date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<IEnumerable<SlotsCreateContract>> TakeAllOnDate(DateTime date)
+        {
+            var slots = _dbContext.Slots.Where(x => x.Date == date).ToList();
+            if (slots.Count <= 0)
+            {
+                throw new ArgumentException("No elements");
+            }
+            return slots.Select(SlotsMapping.SlotMapFromModelToContract).ToList();
+        }
     }
 }

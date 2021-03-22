@@ -41,6 +41,11 @@ namespace PMFightAcademy.Admin
                     Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
 
             services.AddTransient<BookingService>();
+            services.AddTransient<CoachService>();
+            services.AddTransient<ServiceService>();
+            services.AddTransient<ClientService>();
+            services.AddTransient<QualificationService>();
+            services.AddTransient<SlotService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

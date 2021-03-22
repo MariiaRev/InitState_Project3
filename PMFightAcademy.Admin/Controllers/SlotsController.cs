@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,6 +29,98 @@ namespace PMFightAcademy.Admin.Controllers
             _slotService = slotService;
         }
 
+        //#region Maded Pagination but not used by JS (TILT)
+
+
+
+
+        ///// <summary>
+        ///// Show all slots
+        ///// </summary>
+        ///// <returns><see cref="HttpStatusCode.OK"/> return service needed 
+        ///// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        ///// <remarks>
+        ///// Return list of  slots
+        ///// return if NotFound
+        ///// </remarks>
+        ///// <exception cref="NotImplementedException"></exception>
+        //[HttpGet("{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>),(int) HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetAllSlots([FromRoute] int pageSize, [FromRoute] int page, CancellationToken cancellationToken)
+        //{
+        //    GetDataContract<SlotsCreateContract> slots;
+        //    try
+        //    {
+        //        slots = await _slotService.TakeAllSlots(pageSize, page);
+        //    }
+        //    catch (ArgumentException e)
+        //    {
+        //        return NotFound(e.Message);
+        //    }
+            
+        //    return Ok(slots);
+        //}
+
+        ///// <summary>
+        ///// Show slots for coach
+        ///// </summary>
+        ///// <returns><see cref="HttpStatusCode.OK"/> return service needed 
+        ///// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        ///// <remarks>
+        ///// Return list of  slots for coach
+        ///// return if NotFound
+        ///// </remarks>
+        ///// <exception cref="NotImplementedException"></exception>
+        //[HttpGet("coach/{coachId}/{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetSlotsForCoach([FromRoute] int coachId, [FromRoute] int pageSize, [FromRoute] int page)
+        //{
+        //    GetDataContract<SlotsCreateContract> slots;
+        //    try
+        //    {
+        //        slots = await _slotService.TakeSlotsForCoach(coachId,pageSize, page);
+        //    }
+        //    catch (ArgumentException e)
+        //    {
+        //        return NotFound(e.Message);
+        //    }
+
+        //    return Ok(slots);
+        //}
+
+        ///// <summary>
+        ///// Show slots on date
+        ///// </summary>
+        ///// <returns><see cref="HttpStatusCode.OK"/> return service needed 
+        ///// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        ///// <remarks>
+        ///// Return list of  slots for chosen date
+        ///// </remarks>
+        ///// <exception cref="NotImplementedException"></exception>
+        //[HttpGet("date/{date}/{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetSlotsForDates([FromRoute] string date, [FromRoute] int pageSize, [FromRoute] int page)
+        //{
+        //    GetDataContract<SlotsCreateContract> slots;
+        //    var dateToSend = DateTime.Parse(date);
+        //    try
+        //    {
+        //        slots = await _slotService.TakeAllOnDate(dateToSend, pageSize, page);
+        //    }
+        //    catch (ArgumentException e)
+        //    {
+        //        return NotFound(e.Message);
+        //    }
+
+        //    return Ok(slots);
+        //}
+
+        //#endregion
+
+
         /// <summary>
         /// Show all slots
         /// </summary>
@@ -38,21 +131,22 @@ namespace PMFightAcademy.Admin.Controllers
         /// return if NotFound
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>),(int) HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetAllSlots([FromRoute] int pageSize, [FromRoute] int page, CancellationToken cancellationToken)
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetAllSlots(CancellationToken cancellationToken)
         {
-            GetDataContract<SlotsCreateContract> slots;
+            IEnumerable<SlotsCreateContract> slots;
             try
             {
-                slots = await _slotService.TakeAllSlots(pageSize, page);
+                slots = await _slotService.TakeAllSlots();
+               
             }
             catch (ArgumentException e)
             {
                 return NotFound(e.Message);
             }
-            
+
             return Ok(slots);
         }
 
@@ -66,15 +160,15 @@ namespace PMFightAcademy.Admin.Controllers
         /// return if NotFound
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpGet("coach/{coachId}/{pageSize}/{page}")]
-        [ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>), (int)HttpStatusCode.OK)]
+        [HttpGet("coach/{coachId}")]
+        [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetSlotsForCoach([FromRoute] int coachId, [FromRoute] int pageSize, [FromRoute] int page)
+        public async Task<IActionResult> GetSlotsForCoach([FromRoute] int coachId)
         {
-            GetDataContract<SlotsCreateContract> slots;
+            IEnumerable<SlotsCreateContract> slots;
             try
             {
-                slots = await _slotService.TakeSlotsForCoach(coachId,pageSize, page);
+                slots = await _slotService.TakeSlotsForCoach(coachId);
             }
             catch (ArgumentException e)
             {
@@ -93,16 +187,16 @@ namespace PMFightAcademy.Admin.Controllers
         /// Return list of  slots for chosen date
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpGet("date/{date}/{pageSize}/{page}")]
-        [ProducesResponseType(typeof(GetDataContract<SlotsCreateContract>), (int)HttpStatusCode.OK)]
+        [HttpGet("date/{date}")]
+        [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetSlotsForDates([FromRoute] string date, [FromRoute] int pageSize, [FromRoute] int page)
+        public async Task<IActionResult> GetSlotsForDates([FromRoute] string date)
         {
-            GetDataContract<SlotsCreateContract> slots;
+            IEnumerable<SlotsCreateContract> slots;
             var dateToSend = DateTime.Parse(date);
             try
             {
-                slots = await _slotService.TakeAllOnDate(dateToSend, pageSize, page);
+                slots = await _slotService.TakeAllOnDate(dateToSend);
             }
             catch (ArgumentException e)
             {
@@ -111,6 +205,8 @@ namespace PMFightAcademy.Admin.Controllers
 
             return Ok(slots);
         }
+
+
 
         /// <summary>
         /// Create Slots
@@ -129,21 +225,17 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CreateSlots([FromBody] SlotsCreateContract createSlots)
         {
-            
-            
             try
             {
                 await _slotService.AddSlot(createSlots);
             }
             catch (ArgumentException e)
             {
-                return NotFound(e.Message);
+                return Conflict(e.Message);
             }
 
             return Ok();
         }
-
-
 
         /// <summary>
         /// Create Slots

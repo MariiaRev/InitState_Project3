@@ -25,6 +25,7 @@ namespace PMFightAcademy.Admin.Mapping
             
             return new Slot
             {
+                Id = contract.Id,
                 CoachId = contract.CoachId,
                 Date = DateTime.Parse(contract.DateStart),
                 Duration = TimeSpan.Parse(contract.TimeEnd),
