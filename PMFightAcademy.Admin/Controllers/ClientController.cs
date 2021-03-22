@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -16,13 +20,39 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Show info about clients , Clients Login its his PhoneNumber ")]
     public class ClientController : ControllerBase
     {
+        private readonly IClientService _clientService;
+
         /// <summary>
         /// Constructor of client controller 
         /// </summary>
-        public ClientController()
+        public ClientController(IClientService clientService)
         {
-
+            _clientService = clientService;
         }
+
+        #region JS TILT
+
+        
+
+        
+        ///// <summary>
+        ///// return list of clients
+        ///// </summary>
+        ///// <param name="pageSize">The count of coaches to return at one time.</param>
+        ///// <param name="page">The current page number.</param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/> if all is fine and return list of clients
+        ///// <see cref="HttpStatusCode.NotFound"/> if no any clients
+        ///// </returns>
+        ///// <exception cref="NotImplementedException"></exception>
+        //[HttpGet("{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<Client>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetAllClients([FromRoute] int pageSize, [FromRoute] int page)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        #endregion
 
         /// <summary>
         /// return list of clients
@@ -34,12 +64,18 @@ namespace PMFightAcademy.Admin.Controllers
         /// <see cref="HttpStatusCode.NotFound"/> if no any clients
         /// </returns>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(GetDataContract<Client>), (int)HttpStatusCode.OK)]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Client>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetAllClients([FromRoute] int pageSize, [FromRoute] int page)
+        public async Task<IActionResult> GetAllClients()
         {
-            throw new NotImplementedException();
+            var clients = await _clientService.TakeAllClients();
+            if (clients.Any())
+            {
+                return Ok(clients);
+            }
+            return NotFound("No elements");
+
         }
 
         /// <summary>
@@ -57,9 +93,15 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetClient(int name)
+        public async Task<IActionResult> GetClient(int id)
         {
-            throw new NotImplementedException();
+            var client = await _clientService.TakeClient(id);
+
+            if (client != null)
+            {
+                return Ok(client);
+            }
+            return NotFound("No client with that id");
         }
 
     }

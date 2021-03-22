@@ -18,6 +18,7 @@ namespace PMFightAcademy.Admin.Mapping
         {
             return new Coach()
             {
+                Id=contract.Id,
                 FirstName = contract.FirstName,
                 LastName = contract.LastName,
                 BirthDate = DateTime.Parse(contract.DateBirth),
