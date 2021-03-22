@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PMFightAcademy.Client.Contract;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -22,14 +23,6 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<string> Login(Models.Client model);
-
-        /// <summary>
-        /// Private method for the creating of jwt-token
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        string Authenticate(string userName, int id);
+        Task<string> Login(LoginContract model);
     }
 }

@@ -15,6 +15,7 @@ using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -36,13 +37,13 @@ namespace PMFightAcademy.Client.Controllers
     public class ClientsController : ControllerBase
     {
         private readonly ILogger<ClientsController> _logger;
-        private readonly ClientContext _context;
+        private readonly IClientsService _clientsService;
 
 #pragma warning disable 1591
-        public ClientsController(ILogger<ClientsController> logger, ClientContext context)
+        public ClientsController(ILogger<ClientsController> logger, IClientsService clientsService)
         {
             _logger = logger;
-            _context = context;
+            _clientsService = clientsService;
         }
 #pragma warning restore 1591
 
@@ -78,29 +79,11 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                if (model.Login.StartsWith("+38"))
-                    model.Login = new string(model.Login.Skip(3).ToArray());
+                var result = await _clientsService.Register(model);
 
-                var user = _context.Clients.FirstOrDefault(m => m.Login == model.Login);
-                if (user == null)
-                {
-                    user = new Models.Client
-                    {
-                        Login = model.Login,
-                        Password = model.Password.GenerateHash(),
-                        Name = model.Name
-                    };
+                if (!string.IsNullOrEmpty(result))
+                    return Ok(result);
 
-                    await _context.Clients.AddAsync(user, cancellationToken);
-
-                    await _context.SaveChangesAsync(cancellationToken);
-
-                    user = _context.Clients.FirstOrDefault(m => m.Login == user.Login);
-
-                    return Ok(Authenticate(user.Login, user.Id));
-                }
-
-                _logger.LogInformation($"{model.Login} is already exist");
                 return Conflict();
             }
 
@@ -110,7 +93,7 @@ namespace PMFightAcademy.Client.Controllers
         }
 
         /// <summary>
-        /// Loggs in a registered client.
+        /// Log in in a registered client.
         /// </summary>
         /// <param name="model">Contract for login action.</param>
         /// <param name="cancellationToken"></param>
@@ -128,7 +111,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [AllowAnonymous]
-        public IActionResult Login([FromBody] LoginContract model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login([FromBody] LoginContract model, CancellationToken cancellationToken)
         {
             if (model == null)
             {
@@ -138,83 +121,16 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                if (model.Login.StartsWith("+38"))
-                    model.Login = new string(model.Login.Skip(3).ToArray());
+                var result = await _clientsService.Login(model);
 
-                var user = _context.Clients.FirstOrDefault(m => m.Login == model.Login);
+                if (!string.IsNullOrEmpty(result))
+                    return Ok(result);
 
-                if (user == null)
-                {
-                    _logger.LogInformation("User not found");
-                    return BadRequest();
-                }
-
-                if (model.Password.GenerateHash().Equals(user.Password))
-                {
-                    return Ok(Authenticate(user.Login, user.Id));
-                }
-
-                _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
                 return BadRequest();
             }
 
             _logger.LogInformation("RegModel is not valid");
             return BadRequest();
-        }
-
-        #region useless logout
-        ///// <summary>
-        ///// Loggs out a registered, logged in client.
-        ///// </summary>
-        ///// <returns>
-        ///// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully logged out.
-        ///// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> result message if cannot log out client because (s)he was not logged in.
-        ///// </returns>
-        ///// <remarks>
-        ///// Returns OK if client was successfully logged out.
-        ///// Returns BadRequest if cannot log out client because (s)he was not logged in.
-        ///// </remarks>
-        //[HttpPost("[action]")]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        //public async Task<IActionResult> Logout()
-        //{
-        //    return Ok();
-        //}
-        #endregion
-
-        private string Authenticate(string userName, int id)
-        {
-            if (string.IsNullOrEmpty(userName))
-            {
-                _logger.LogInformation("userName in Authenticate can not be null");
-                throw new ArgumentNullException(nameof(userName));
-            }
-
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimsIdentity.DefaultNameClaimType, userName),
-                new Claim(ClaimTypes.UserData,  id.ToString())
-            };
-
-            var identity = new ClaimsIdentity(claims, "ApplicationJWT", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-
-            var now = DateTime.UtcNow;
-
-            var jwt = new JwtSecurityToken(
-                issuer: AuthOptions.Issuer,
-                audience: AuthOptions.Audience,
-                notBefore: now,
-                claims: identity.Claims,
-                expires: now.Add(TimeSpan.FromDays(AuthOptions.Lifetime)),
-                signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
-
-            var json = new
-            {
-                token = new JwtSecurityTokenHandler().WriteToken(jwt)
-            };
-
-            return JsonSerializer.Serialize(json);
         }
     }
 }
