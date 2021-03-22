@@ -1,6 +1,5 @@
-﻿using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.Contract;
-using System.Collections.Generic;
+﻿using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
 
 namespace PMFightAcademy.Client.Services
 {

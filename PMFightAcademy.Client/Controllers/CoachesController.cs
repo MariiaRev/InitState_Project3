@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.DataBase;
 using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
-
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -18,19 +16,17 @@ namespace PMFightAcademy.Client.Controllers
     [ApiController]
     [Route("[controller]")]
     [SwaggerTag("This controller is for getting data about coaches.")]
-    //[Authorize]
+    [Authorize]
     public class CoachesController: ControllerBase
     {
         private readonly ICoachesStorageService _coachesService;
-        private readonly ClientContext _clientContext;
 
         /// <summary>
         /// Constructor with DI.
         /// </summary>
-        public CoachesController(ICoachesStorageService coachesService, ClientContext clientContext)
+        public CoachesController(ICoachesStorageService coachesService)
         {
             _coachesService = coachesService;
-            _clientContext = clientContext;
         }
 
         /// <summary>
