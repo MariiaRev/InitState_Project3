@@ -1,13 +1,14 @@
 ﻿using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Services
 {
-    interface IBookingService
+    /// <summary>
+    /// Booking service abstraction.
+    /// </summary>
+    public interface IBookingService
     {
         /// <summary>
         /// Get available services for client booking for Booking Controller.
