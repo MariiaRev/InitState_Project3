@@ -1,12 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -19,12 +21,12 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Controller for creations slots for coaches ")]
     public class SlotsController : ControllerBase
     {
-        private readonly SlotService _slotService;
+        private readonly ISlotService _slotService;
 
         /// <summary>
         /// Slots controller
         /// </summary>
-        public SlotsController(SlotService slotService)
+        public SlotsController(ISlotService slotService)
         {
             _slotService = slotService;
         }
@@ -136,18 +138,17 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllSlots(CancellationToken cancellationToken)
         {
-            IEnumerable<SlotsCreateContract> slots;
-            try
+            
+            var slots = await _slotService.TakeAllSlots();
+
+            if (slots.Any())
             {
-                slots = await _slotService.TakeAllSlots();
-               
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
+                return Ok(slots);
             }
 
-            return Ok(slots);
+            return NotFound();
+
+
         }
 
         /// <summary>
@@ -165,17 +166,16 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetSlotsForCoach([FromRoute] int coachId)
         {
-            IEnumerable<SlotsCreateContract> slots;
-            try
-            {
-                slots = await _slotService.TakeSlotsForCoach(coachId);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
+            
+               var  slots = await _slotService.TakeSlotsForCoach(coachId);
 
-            return Ok(slots);
+               if (slots.Any())
+               {
+                   return Ok(slots);
+               }
+
+               return NotFound("No coaches with that id ");
+
         }
 
         /// <summary>
@@ -192,26 +192,27 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetSlotsForDates([FromRoute] string date)
         {
-            IEnumerable<SlotsCreateContract> slots;
+            
             var dateToSend = DateTime.Parse(date);
-            try
-            {
-                slots = await _slotService.TakeAllOnDate(dateToSend);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
+            
+            var slots = await _slotService.TakeAllOnDate(dateToSend);
 
-            return Ok(slots);
+            if (slots.Any()) 
+            { 
+                return Ok(slots);
+            }
+            return NotFound();
+
+
+
         }
-
 
 
         /// <summary>
         /// Create Slots
         /// </summary>
         /// <param name="createSlots"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.Conflict"/> if service not founded</returns>
@@ -223,11 +224,11 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> CreateSlots([FromBody] SlotsCreateContract createSlots)
+        public async Task<IActionResult> CreateSlots([FromBody] SlotsCreateContract createSlots, CancellationToken cancellationToken)
         {
             try
             {
-                await _slotService.AddSlot(createSlots);
+                await _slotService.AddSlot(createSlots, cancellationToken);
             }
             catch (ArgumentException e)
             {
@@ -241,6 +242,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// Create Slots
         /// </summary>
         /// <param name="createSlots"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
@@ -251,17 +253,16 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteSlots([FromBody] SlotsCreateContract createSlots)
+        public async Task<IActionResult> DeleteSlots([FromBody] SlotsCreateContract createSlots,CancellationToken cancellationToken)
         {
-            try
+            var deleted = await _slotService.RemoveSlot(createSlots, cancellationToken);
+
+            if (deleted)
             {
-                await _slotService.RemoveSlot(createSlots);
+                return Ok();
             }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
-            return Ok();
+
+            return NotFound("No Service");
         }
     }
 }

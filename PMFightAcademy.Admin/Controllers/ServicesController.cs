@@ -3,10 +3,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -19,12 +21,12 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Services controllers for add services")]
     public class ServicesController : ControllerBase
     {
-        private readonly ServiceService _serviceService;
+        private readonly IServiceService _serviceService;
 
         /// <summary>
         /// Service Controller
         /// </summary>
-        public ServicesController(ServiceService serviceService)
+        public ServicesController(IServiceService serviceService)
         {
             _serviceService = serviceService;
         }
@@ -55,8 +57,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Get all services 
         /// </summary>
-        /// <param name="pageSize">The count of services to return at one time.</param>
-        /// <param name="page">The current page number.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add a coach to coaches
         /// <see cref="HttpStatusCode.NotFound"/> return lit of services</returns>
@@ -69,17 +69,14 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllServices()
         {
-            IEnumerable<Service> services;
-            try
+            var services = await _serviceService.TakeAllServices();
+            if (services.Any())
             {
-                  services = await _serviceService.TakeAllServices();
+                return Ok(services);
             }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
+            return NotFound("No services");
 
-            return Ok(services.ToList());
+
         }
         /// <summary>
         /// Get needed service 
@@ -98,23 +95,20 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetService(int serviceId)
         {
-            Service service;
-            try
-            {
-                service = await _serviceService.TakeService(serviceId);
+            
+            var service = await _serviceService.TakeService(serviceId);
+            if (service != null)
+            { 
+                return Ok(service);
             }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
-
-            return Ok(service);
+            return NotFound("No client with that ID");
         }
 
         /// <summary>
         /// Add services 
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add service 
         /// <see cref="HttpStatusCode.Conflict"/> if services is added
@@ -126,11 +120,11 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost]
         [ProducesResponseType( (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> CreateService([FromBody]Service service)
+        public async Task<IActionResult> CreateService([FromBody]Service service, CancellationToken cancellationToken)
         {
             try
             {
-               await _serviceService.AddService(service);
+               await _serviceService.AddService(service, cancellationToken);
             }
             catch (ArgumentException e)
             {
@@ -144,6 +138,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// Add services 
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add service 
         /// <see cref="HttpStatusCode.NotFound"/> if services is added
@@ -156,11 +151,11 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> UpdateService([FromBody] Service service)
+        public async Task<IActionResult> UpdateService([FromBody] Service service, CancellationToken cancellationToken)
         {
             try
             {
-                await _serviceService.UpdateService(service);
+                await _serviceService.UpdateService(service, cancellationToken);
             }
             catch (ArgumentException e)
             {
@@ -196,6 +191,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// Add services 
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add service 
         /// <see cref="HttpStatusCode.NotFound"/> if services is added
@@ -208,18 +204,16 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteService([FromBody] Service service)
+        public async Task<IActionResult> DeleteService([FromBody] Service service, CancellationToken cancellationToken)
         {
-            try
+            var deleted = await _serviceService.DeleteService(service, cancellationToken);
+
+            if (deleted)
             {
-               await _serviceService.DeleteService(service);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
+                return Ok();
             }
 
-            return Ok();
+            return NotFound("No Service");
         }
 
     }

@@ -45,9 +45,9 @@ namespace PMFightAcademy.Admin.Mapping
             {
                 Id = model.Id,
                 CoachId = model.CoachId,
-                DateStart = model.Date.ToString("MM/dd/yyyy"),
-                TimeEnd = model.Duration.ToString("HH:mm"),
-                TimeStart = model.StartTime.ToString("HH:mm")
+                DateStart = model.Date.ToString(),
+                TimeEnd = model.Duration.ToString(),
+                TimeStart = model.StartTime.ToString()
             };
            
         }

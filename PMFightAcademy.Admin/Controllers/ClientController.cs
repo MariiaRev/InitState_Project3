@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -18,12 +20,12 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Show info about clients , Clients Login its his PhoneNumber ")]
     public class ClientController : ControllerBase
     {
-        private readonly ClientService _clientService;
+        private readonly IClientService _clientService;
 
         /// <summary>
         /// Constructor of client controller 
         /// </summary>
-        public ClientController(ClientService clientService)
+        public ClientController(IClientService clientService)
         {
             _clientService = clientService;
         }
@@ -67,17 +69,12 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllClients()
         {
-            IEnumerable<Client> clients;
-            try
+            var clients = await _clientService.TakeAllClients();
+            if (clients.Any())
             {
-                clients = await _clientService.TakeAllClients();
+                return Ok(clients);
             }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
-
-            return Ok(clients);
+            return NotFound("No elements");
 
         }
 
@@ -98,17 +95,13 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetClient(int id)
         {
-            Client client;
-            try
-            {
-                client = await _clientService.TakeClient(id);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
+            var client = await _clientService.TakeClient(id);
 
-            return Ok(client);
+            if (client != null)
+            {
+                return Ok(client);
+            }
+            return NotFound("No client with that id");
         }
 
     }

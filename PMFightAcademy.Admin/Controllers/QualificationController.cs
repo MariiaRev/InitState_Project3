@@ -3,10 +3,13 @@ using PMFightAcademy.Admin.Contract;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -18,13 +21,13 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Controller For create Qualification and control them")]
     public class QualificationController : ControllerBase
     {
-        private readonly QualificationService _qualificationService;
+        private readonly IQualificationService _qualificationService;
 
         /// <summary>
         /// Constuctor
         /// </summary>
         /// <param name="qualificationService"></param>
-        public QualificationController(QualificationService qualificationService)
+        public QualificationController(IQualificationService qualificationService)
         {
             _qualificationService = qualificationService;
         }
@@ -44,17 +47,13 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId)
         {
-            IEnumerable<Service> services;
-            try
+            var services = await _qualificationService.GetServicesForCoach(coachId);
+            if (services.Any())
             {
-                services = await _qualificationService.GetServicesForCoach(coachId);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
+                return Ok(services);
             }
 
-            return Ok(services);
+            return NotFound("No elements");
         }
         /// <summary>
         /// get list of  qualifications for Service
@@ -72,17 +71,14 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId)
         {
-            IEnumerable<CoachContract> coaches;
-            try
+            var coaches = await _qualificationService.GetCoachesForService(serviceId);
+            if (coaches.Any())
             {
-                coaches = await _qualificationService.GetCoachesForService(serviceId);
-            }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
+                return Ok(coaches);
             }
 
-            return Ok(coaches);
+            return NotFound("No elements");
+
         }
 
         /// <summary>
@@ -102,11 +98,11 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> AddQualification(QualificationContract qualification)
+        public async Task<IActionResult> AddQualification(QualificationContract qualification, CancellationToken cancellationToken)
         {
             try
             {
-               await _qualificationService.AddQualification(qualification);
+               await _qualificationService.AddQualification(qualification, cancellationToken);
             }
             catch (ArgumentException e)
             {
@@ -131,17 +127,16 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteQualification(QualificationContract qualification)
+        public async Task<IActionResult> DeleteQualification(QualificationContract qualification, CancellationToken cancellationToken)
         {
-            try
+            var deleted = await _qualificationService.DeleteQualification(qualification, cancellationToken);
+
+            if (deleted)
             {
-                await _qualificationService.DeleteQualification(qualification);
+                return Ok();
             }
-            catch (ArgumentException e)
-            {
-                return NotFound(e.Message);
-            }
-            return Ok();
+
+            return NotFound("No Qualification");
         }
         #region JS 
         ///// <summary>

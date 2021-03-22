@@ -9,6 +9,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin
 {
@@ -41,11 +42,11 @@ namespace PMFightAcademy.Admin
                     Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
 
             services.AddTransient<BookingService>();
-            services.AddTransient<CoachService>();
-            services.AddTransient<ServiceService>();
-            services.AddTransient<ClientService>();
-            services.AddTransient<QualificationService>();
-            services.AddTransient<SlotService>();
+            services.AddTransient<ICoachService,CoachService>();
+            services.AddTransient<IServiceService,ServiceService>();
+            services.AddTransient<IClientService,ClientService>();
+            services.AddTransient<IQualificationService,QualificationService>();
+            services.AddTransient<ISlotService,SlotService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

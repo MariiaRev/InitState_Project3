@@ -6,13 +6,14 @@ using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Services
 {
     /// <summary>
     /// Client Service
     /// </summary>
-    public class ClientService
+    public class ClientService: IClientService
     {
         private readonly AdminContext _dbContext;
 
@@ -31,27 +32,19 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<Client>> TakeAllClients()
         {
-            var clients = _dbContext.Clients.ToList();
-
-            if (clients.Count <= 0)
-            {
-                throw new ArgumentException("No elements");
-            }
-
-            return clients.ToList();
+            var clients = _dbContext.Clients;
+            return clients.AsEnumerable();
         }
 
+        
         /// <summary>
-        /// Take Coache
+        /// 
         /// </summary>
-        /// <param name="coachId"></param>
+        /// <param name="clientId"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<Client> TakeClient(int clientId)
         {
             var client = _dbContext.Clients.FirstOrDefault(x => x.Id == clientId);
-            if (client == null)
-                throw new ArgumentException();
             return client;
         }
     }

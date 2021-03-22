@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Services
 {
     /// <summary>
     /// Service service
     /// </summary>
-    public class ServiceService
+    public class ServiceService :IServiceService
     {
         private readonly AdminContext _dbContext;
 
@@ -30,14 +32,8 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<Service>> TakeAllServices()
         {
-            var services = _dbContext.Services.ToList();
-
-            if (services.Count <= 0)
-            {
-                throw new ArgumentException("No elements");
-            }
-
-            return services.ToList();
+            var services = _dbContext.Services;
+            return services.AsEnumerable();
         }
 
         /// <summary>
@@ -49,8 +45,6 @@ namespace PMFightAcademy.Admin.Services
         public async Task<Service> TakeService(int serviceId)
         {
             var service = _dbContext.Services.FirstOrDefault(x => x.Id == serviceId);
-            if (service == null)
-                throw new ArgumentException();
             return service;
         }
 
@@ -58,14 +52,15 @@ namespace PMFightAcademy.Admin.Services
         /// add
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task AddService(Service service)
+        public async Task AddService(Service service, CancellationToken cancellationToken)
         {
             try
             {
-               await _dbContext.Services.AddAsync(service);
-               await _dbContext.SaveChangesAsync();
+               await _dbContext.Services.AddAsync(service, cancellationToken);
+               await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch 
             {
@@ -77,33 +72,37 @@ namespace PMFightAcademy.Admin.Services
         /// Delete
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task DeleteService(Service service)
+        public async Task<bool> DeleteService(Service service, CancellationToken cancellationToken)
         {
             try
             {
                 _dbContext.Remove(service);
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
             {
-                throw new ArgumentException("No Service");
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
         /// Update
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task UpdateService(Service service)
+        public async Task UpdateService(Service service, CancellationToken cancellationToken)
         {
             try
             {
                 _dbContext.Services.Update(service);
-                await _dbContext.SaveChangesAsync();
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
             {
