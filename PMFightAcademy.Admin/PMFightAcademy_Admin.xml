@@ -197,11 +197,11 @@
             not founded if no coaches 
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.DeleteBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.DeleteBook(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete a book
             </summary>
-            <param name="booking"></param>
+            <param name="bookingId"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
@@ -338,12 +338,12 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.DeleteCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
              <summary>
              Delete coach
              </summary>
              <para>
-            <param coachId="coachId"></param>
+            <param name="coachId"></param>
              </para>
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
@@ -406,11 +406,12 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception> 
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.DeleteQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete qualification
             </summary>
-            <param name="qualification"></param>
+            <param name="qualificationId"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
@@ -487,11 +488,11 @@
             Conflict if its is already registered</remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.DeleteService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.DeleteService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Add services 
             </summary>
-            <param name="service"></param>
+            <param name="serviceId"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add service 
@@ -563,11 +564,11 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete
             </summary>
-            <param name="createSlots"></param>
+            <param name="slotId"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
@@ -960,7 +961,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove booking
             </summary>
@@ -1027,7 +1028,7 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.CoachService.DeleteCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete 
             </summary>
@@ -1054,7 +1055,7 @@
             </summary>
             <param name="dbContext"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.QualificationService.DeleteQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete qualification
             </summary>
@@ -1091,7 +1092,7 @@
             Booking service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.RemoveBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove Booking
             </summary>
@@ -1171,7 +1172,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.DeleteCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete coach
             </summary>
@@ -1192,7 +1193,7 @@
             Qualification service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.DeleteQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete qualification
             </summary>
@@ -1248,7 +1249,7 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.DeleteService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.DeleteService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete services
             </summary>
@@ -1276,7 +1277,7 @@
             <param name="slotContract"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.RemoveSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.RemoveSlot(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove slots
             </summary>
@@ -1337,7 +1338,7 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceService.DeleteService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.DeleteService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete
             </summary>
@@ -1373,7 +1374,7 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove slots 
             </summary>

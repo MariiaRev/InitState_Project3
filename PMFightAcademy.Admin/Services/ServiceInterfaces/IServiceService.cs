@@ -36,7 +36,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task<bool> DeleteService(Service service, CancellationToken cancellationToken);
+        public  Task<bool> DeleteService(int id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Update service
