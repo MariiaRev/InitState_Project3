@@ -151,5 +151,42 @@ namespace PMFightAcademy.Client.Services
 
            await _context.SaveChangesAsync();
         }
+
+        /// <inheritdoc/>
+        public async Task<GetDataContract<HistoryDto>> GetActiveBookings(int pageSize, int page, int clientId)
+        {
+            var now = DateTime.Now;
+            var clientBookings = await GetClientBookingsAsync(clientId);
+
+            if (!clientBookings.Any())
+            {
+                return new GetDataContract<HistoryDto>();
+            }
+
+            var activeBookings = from booking in clientBookings
+                                 let date = booking.Slot.Date + booking.Slot.StartTime
+                                 where date.Subtract(now).TotalMinutes >= 0
+                                 orderby date
+                                 select new HistoryDto
+                                 (
+                                     booking.Service.Name,
+                                     booking.Slot.Date,
+                                     booking.Slot.StartTime,
+                                     booking.Slot.Coach.FirstName,
+                                     booking.Slot.Coach.LastName
+                                 );
+
+            var activeBookingsCount = (decimal)activeBookings.Count();
+
+            return new GetDataContract<HistoryDto>()
+            {
+                Data = activeBookings.Skip((page - 1) * pageSize).Take(pageSize),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(activeBookingsCount / pageSize)
+                }
+            };
+        }
     }
 }
