@@ -41,6 +41,28 @@
             <param name="password"></param>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PasswordValidatorAttribute">
+            <summary>
+            Validator for password
+            </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
+        </member>
+        <member name="T:PMFightAcademy.Client.Authorization.PhoneValidatorAttribute">
+            <summary>
+            Validator for phone number
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.BookingDto">
             <summary>
             Booking a service dto model.
@@ -171,6 +193,7 @@
             Parameterless constructor.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.TimeSpan,System.String,System.String)">
         <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.DateTime,System.String,System.String)">
             <summary>
             Constructor with parameters.
@@ -385,6 +408,7 @@
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
             </returns>
             <remarks>
+            Returns OK with <c>string</c> message if client was successfully registered.
             Returns OK with
             <strong>json = { token: "jwt-token" }</strong>
             if client was successfully registered.
@@ -394,6 +418,7 @@
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
+            Loggs in a registered client.
             Log in in a registered client.
             </summary>
             <param name="model">Contract for login action.</param>
@@ -403,6 +428,7 @@
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
             </returns>
             <remarks>
+            Returns OK with <c>string</c> jwt-token if client was successfully logged in.
             Returns OK with
             <strong>json = { token: "jwt-token" }</strong>
             if client was successfully logged in.
@@ -414,11 +440,13 @@
             Coach controller.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.#ctor(PMFightAcademy.Client.Services.ICoachesService)">
         <member name="M:PMFightAcademy.Client.Controllers.CoachesController.#ctor(PMFightAcademy.Client.Services.ICoachesStorageService,PMFightAcademy.Client.DataBase.ClientContext)">
             <summary>
             Constructor with DI.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
         <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String)">
             <summary>
             Portioned return of coaches data.
@@ -755,6 +783,27 @@
             </summary>
         </member>
         <member name="M:PMFightAcademy.Client.Services.BookingService.GetServicesForBooking">
+            <inheritdoc/>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetCoachesForBooking(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetDatesForBooking(System.Int32,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetActiveBookings(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetBookingHistory(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.CoachesService">
             <summary>
             Get available services for client booking for Booking Controller
             </summary>
@@ -824,11 +873,13 @@
             Service for getting coaches from database with Entity Framework.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
         <member name="M:PMFightAcademy.Client.Services.CoachesEFService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
             <summary>
             Constructor with DI.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Services.CoachesService.GetCoaches(System.Int32,System.Int32,System.Threading.CancellationToken,System.String)">
         <member name="M:PMFightAcademy.Client.Services.CoachesEFService.GetCoaches(System.Int32,System.Int32,System.String)">
             <inheritdoc/>
         </member>
@@ -875,6 +926,33 @@
             <param name="bookingDto">Data for booking.</param>
             <param name="clientId">Id of the client who books a service.</param>
         </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetActiveBookings(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets active bookings of services.
+            </summary>
+            <param name="pageSize">The count of active booking records to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <param name="clientId">Id of the client for which to return active bookings.</param>
+            <param name="token">Cancellation token for DB requests.</param>
+            <returns>
+            Returns list of active bookings with paggination or 
+            empty list if there is no record for active booking.
+            </returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetBookingHistory(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Gets booking history.
+            </summary>
+            <param name="pageSize">The count of booking history records to return at one time.</param>
+            <param name="page">The current page number.</param>
+            <param name="clientId">Id of the client for which to return the booking history.</param>
+            <param name="token">Cancellation token for DB requests.</param>
+            <returns>
+            Returns list of the booking history with paggination or 
+            empty list if there is no record for the booking history.
+            </returns>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.ICoachesService">
         <member name="T:PMFightAcademy.Client.Services.IClientsService">
             <summary>
             Interface for the Client Service 
@@ -899,6 +977,13 @@
             Coaches storage service abstraction.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Services.ICoachesService.GetCoaches(System.Int32,System.Int32,System.Threading.CancellationToken,System.String)">
+            <summary>
+            Gets coaches list with paggination.
+            </summary>
+            <param name="pageSize">Coaches count per page.</param>
+            <param name="page">Current page.</param>
+            <param name="token">Cancellation token for DB requests.</param>
         <member name="M:PMFightAcademy.Client.Services.ICoachesStorageService.GetCoaches(System.Int32,System.Int32,System.String)">
             <summary>
             Gets coaches list with paggination.
