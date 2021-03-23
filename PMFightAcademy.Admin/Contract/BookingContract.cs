@@ -25,6 +25,11 @@ namespace PMFightAcademy.Admin.Contract
         /// Client 
         /// </summary>
         public int ClientId { get; set; }
+
+        /// <summary>
+        /// ResultPrice
+        /// </summary>
+        public decimal ResultPrice { get; set;}
         
 
     }

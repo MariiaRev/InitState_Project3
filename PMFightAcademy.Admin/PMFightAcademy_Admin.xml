@@ -29,6 +29,11 @@
             Client 
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ResultPrice">
+            <summary>
+            ResultPrice
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Contract.CoachContract">
             <summary>
             CoachContract
