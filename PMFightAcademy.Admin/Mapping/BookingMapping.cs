@@ -17,9 +17,10 @@ namespace PMFightAcademy.Admin.Mapping
         {
             return new Booking()
             {
-               SlotId = contract.SlotId,
-               ServiceId = contract.ServiceId,
-               ClientId = contract.ClientId
+                Id = contract.Id, 
+                SlotId = contract.SlotId, 
+                ServiceId = contract.ServiceId, 
+                ClientId = contract.ClientId
             };
         }
 
@@ -28,7 +29,7 @@ namespace PMFightAcademy.Admin.Mapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static BookingContract CoachMapFromModelTToContract(Booking model)
+        public static BookingContract BookingMapFromModelTToContract(Booking model)
         {
             return new BookingContract()
             {

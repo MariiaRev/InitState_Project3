@@ -2,19 +2,82 @@
 using PMFightAcademy.Admin.Contract;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
+using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Controllers
 {
+    /// <summary>
+    /// Qualification controller
+    /// </summary>
     [Route("[controller]")]
     [ApiController]
     [SwaggerTag("Controller For create Qualification and control them")]
     public class QualificationController : ControllerBase
     {
+        private readonly IQualificationService _qualificationService;
 
-        public QualificationController()
+        /// <summary>
+        /// Constuctor
+        /// </summary>
+        /// <param name="qualificationService"></param>
+        public QualificationController(IQualificationService qualificationService)
         {
+            _qualificationService = qualificationService;
+        }
+        /// <summary>
+        /// get list  qualifications  for Coach
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> return a coach with such name
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+        /// <remarks>
+        /// Return qualifications for coach
+        /// </remarks>
+        /// <exception cref="NotImplementedException"></exception> 
+        [HttpGet("coach/{coachId}")]
+        [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId)
+        {
+            var services = await _qualificationService.GetServicesForCoach(coachId);
+            if (services.Any())
+            {
+                return Ok(services);
+            }
+
+            return NotFound("No elements");
+        }
+        /// <summary>
+        /// get list of  qualifications for Service
+        /// </summary>
+        /// <param name="serviceId"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> return a coach with such name
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+        /// <remarks>
+        /// Return qualifications for services
+        /// </remarks>
+        /// <exception cref="NotImplementedException"></exception> 
+        [HttpGet("service/{serviceId}")]
+        [ProducesResponseType(typeof(IEnumerable<CoachContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId)
+        {
+            var coaches = await _qualificationService.GetCoachesForService(serviceId);
+            if (coaches.Any())
+            {
+                return Ok(coaches);
+            }
+
+            return NotFound("No elements");
 
         }
 
@@ -35,15 +98,25 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> AddQualification(QualificationContract qualification)
+        public async Task<IActionResult> AddQualification(QualificationContract qualification, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+               await _qualificationService.AddQualification(qualification, cancellationToken);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok();
         }
 
         /// <summary>
         /// Delete qualification
         /// </summary>
-        /// <param name="qualification"></param>
+        /// <param name="qualificationId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
@@ -55,46 +128,54 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteQualification(QualificationContract qualification)
+        public async Task<IActionResult> DeleteQualification(int qualificationId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
+            var deleted = await _qualificationService.DeleteQualification(qualificationId, cancellationToken);
 
-        /// <summary>
-        /// get list  qualifications  for Coach
-        /// </summary>
-        /// <param name="coachId"></param>
-        /// <returns>
-        /// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
-        /// <remarks>
-        /// Return qualifications for coach
-        /// </remarks>
-        /// <exception cref="NotImplementedException"></exception> 
-        [HttpGet("coach/{coachId}/{pageSize}/{page}")]
-        [ProducesResponseType(typeof(GetDataContract<QualificationContract>),(int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId, [FromRoute] int pageSize, [FromRoute] int page)
-        {
-            throw new NotImplementedException();
+            if (deleted)
+            {
+                return Ok();
+            }
+
+            return NotFound("No Qualification");
         }
-        /// <summary>
-        /// get list of  qualifications for Service
-        /// </summary>
-        /// <param name="serviceId"></param>
-        /// <returns>
-        /// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
-        /// <remarks>
-        /// Return qualifications for services
-        /// </remarks>
-        /// <exception cref="NotImplementedException"></exception> 
-        [HttpGet("service/{serviceId}/{pageSize}/{page}")]
-        [ProducesResponseType(typeof(GetDataContract<QualificationContract>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId, [FromRoute] int pageSize, [FromRoute] int page)
-        {
-            throw new NotImplementedException();
-        }
+        #region JS 
+        ///// <summary>
+        ///// get list  qualifications  for Coach
+        ///// </summary>
+        ///// <param name="coachId"></param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/> return a coach with such name
+        ///// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+        ///// <remarks>
+        ///// Return qualifications for coach
+        ///// </remarks>
+        ///// <exception cref="NotImplementedException"></exception> 
+        //[HttpGet("coach/{coachId}/{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<QualificationContract>),(int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId, [FromRoute] int pageSize, [FromRoute] int page)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        ///// <summary>
+        ///// get list of  qualifications for Service
+        ///// </summary>
+        ///// <param name="serviceId"></param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/> return a coach with such name
+        ///// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+        ///// <remarks>
+        ///// Return qualifications for services
+        ///// </remarks>
+        ///// <exception cref="NotImplementedException"></exception> 
+        //[HttpGet("service/{serviceId}/{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<QualificationContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId, [FromRoute] int pageSize, [FromRoute] int page)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        #endregion
     }
 }

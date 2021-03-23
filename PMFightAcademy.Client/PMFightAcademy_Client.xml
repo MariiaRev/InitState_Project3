@@ -128,6 +128,7 @@
         <member name="P:PMFightAcademy.Client.Contract.Dto.CoachDto.Services">
             <summary>
             Services which can be provided by the coach.
+            Could be empty if no service is assigned to this coach.
             </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.DataForBookingDto">
@@ -247,13 +248,14 @@
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.BookingController">
             <summary>
-            Service controller for signup for a service/workout.
+            Service controller for sign up for a service/workout.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetServicesForBooking">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetServicesForBooking(System.Threading.CancellationToken)">
             <summary>
             Get available services for client booking.
             </summary>
+            <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
@@ -265,10 +267,12 @@
             Returns NotFound with <c>string</c> message if client is authorized and there is no available service.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetCoachesforBooking(System.Int32)">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetCoachesForBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get available coaches which can provide service with id <paramref name="serviceId"/>.
             </summary>
+            <param name="serviceId">Service id</param>
+            <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
@@ -280,10 +284,13 @@
             Returns NotFound with <c>string</c> message if client is authorized and there is no available coach.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetDatesForBooking(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetDatesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
             </summary>
+            <param name="serviceId">Service id</param>
+            <param name="coachId">Coach id</param>
+            <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
@@ -296,11 +303,15 @@
             Returns NotFound with <c>string</c> message if client is authorized and there is no available date.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
             Get available time slots to provide a service with id <paramref name="serviceId"/> 
             by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
             </summary>
+            <param name="serviceId">Service id</param>
+            <param name="coachId">Coach id</param>
+            <param name="date">Date</param>
+            <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
@@ -314,11 +325,12 @@
             Returns NotFound with <c>string</c> message if client is authorized and there is no available time slot.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto)">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Threading.CancellationToken)">
             <summary>
             Adds a booking.
             </summary>
             <param name="booking">Booking filters.</param>
+            <param name="token"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
@@ -332,12 +344,13 @@
              or booking model is invalid.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetActiveBookings(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetActiveBookings(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets active bookings of services.
             </summary>
             <param name="pageSize">The count of active booking records to return at one time.</param>
             <param name="page">The current page number.</param>
+            <param name="token"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
@@ -349,12 +362,13 @@
             Returns NotFound with <c>string</c> message if client is authorized and there is no record in the active booking list.
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetHistory(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetHistory(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Gets booking history.
             </summary>
             <param name="pageSize">The count of history records to return at one time.</param>
             <param name="page">The current page number.</param>
+            <param name="token"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.
@@ -416,13 +430,18 @@
             Coach controller.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.#ctor(PMFightAcademy.Client.Services.ICoachesStorageService,PMFightAcademy.Client.DataBase.ClientContext)">
+            <summary>
+            Constructor with DI.
+            </summary>
+        </member>
         <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String)">
             <summary>
             Portioned return of coaches data.
             </summary>
             <param name="pageSize">The count of coaches to return at one time.</param>
             <param name="page">The current page number.</param>
-            <param name="filter">Optional <c>string</c> filter parameter.</param>
+            <param name="filter">Optional <c>string</c> filter parameter - searching by coach's first or last name.</param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
@@ -439,6 +458,36 @@
             Just information about service.
             </summary>
         </member>
+        <member name="M:PMFightAcademy.Client.Controllers.ValuesController.GetInfo">
+            <summary>
+            Just information about service.
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Mappings.BookingMapping">
+            <summary>
+            Mapping for Book
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.BookingMapping.BookingMapFromContractToModel(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32,System.Int32,System.Decimal)">
+            <summary>
+            From Contract to model
+            </summary>
+            <param name="contract"></param>
+            <param name="slotId"></param>
+            <param name="clientId"></param>
+            <param name="price"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.BookingMapping.CoachMapFromModelToContract(PMFightAcademy.Client.Models.Booking,System.String,System.String,System.Int32)">
+            <summary>
+            From model to contract
+            </summary>
+            <param name="model"></param>
+            <param name="date"></param>
+            <param name="time"></param>
+            <param name="coachId"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Client.Mappings.CoachMapping">
             <summary>
             Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/>.
@@ -449,6 +498,14 @@
             Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
             </summary>
             <param name="coach"><paramref name="coach"/> to convert.</param>
+            <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachWithServicesToCoachDto(PMFightAcademy.Client.Models.Coach,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
+            </summary>
+            <param name="coach"><paramref name="coach"/> to convert.</param>
+            <param name="services">Services which can be provided by the coach.</param>
             <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
         </member>
         <member name="T:PMFightAcademy.Client.Models.Booking">
@@ -707,6 +764,119 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.BookingService">
+            <summary>
+            Service for booking controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetServicesForBooking">
+            <summary>
+            Get available services for client booking for Booking Controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetCoachesForBooking(System.Int32)">
+            <summary>
+            Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
+            </summary>
+            <param name="serviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetDatesForBooking(System.Int32,System.Int32)">
+            <summary>
+            Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
+            for Booking Controller
+            </summary>
+            <param name="serviceId"></param>
+            <param name="coachId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get available time slots to provide a service with id <paramref name="serviceId"/> for Booking Controller
+            </summary>
+            <param name="serviceId"></param>
+            <param name="coachId"></param>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
+            <summary>
+            Adds a booking for Booking Controller
+            </summary>
+            <param name="bookingDto"></param>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.CoachesEFService">
+            <summary>
+            Service for getting coaches from database with Entity Framework.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.CoachesEFService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
+            <summary>
+            Constructor with DI.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.CoachesEFService.GetCoaches(System.Int32,System.Int32,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.IBookingService">
+            <summary>
+            Booking service abstraction.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetServicesForBooking">
+            <summary>
+            Get available services for client booking for Booking Controller.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetCoachesForBooking(System.Int32)">
+            <summary>
+            Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
+            </summary>
+            <param name="serviceId">Id of the service.</param>
+            <returns>List of coaches of type <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetDatesForBooking(System.Int32,System.Int32)">
+            <summary>
+            Get available dates in format "MM/dd/yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
+            for Booking Controller
+            </summary>
+            <param name="serviceId">Id of the service.</param>
+            <param name="coachId">Id of the coach.</param>
+            <returns>List of available dates each as a string in format "MM/dd/yyyy".</returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+            <summary>
+            Get available time slots in format "HH:mm" to provide a service with id <paramref name="serviceId"/> for Booking Controller
+            </summary>
+            <param name="serviceId">Id of the service.</param>
+            <param name="coachId">Id of the coach.</param>
+            <param name="date">Selected date as a string in format "MM/dd/yyyy".</param>
+            <returns>List of available time slots in format "HH:mm".</returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
+            <summary>
+            Adds a booking for Booking Controller.
+            </summary>
+            <param name="bookingDto">Data for booking.</param>
+            <param name="clientId">Id of the client who books a service.</param>
+        </member>
+        <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
+            <summary>
+            Coaches storage service abstraction.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ICoachesStorageService.GetCoaches(System.Int32,System.Int32,System.String)">
+            <summary>
+            Gets coaches list with paggination.
+            </summary>
+            <param name="skipCount">How many coaches to skip.</param>
+            <param name="takeCount">How many coaches to take.</param>
+            <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
+            <returns>Returns list of found coaches or empty list if there is no coach.</returns>
         </member>
     </members>
 </doc>

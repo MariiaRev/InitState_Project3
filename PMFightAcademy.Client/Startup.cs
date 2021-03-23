@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client
 {
@@ -34,6 +35,9 @@ namespace PMFightAcademy.Client
             ////add transient
             services.AddTransient<PasswordValidatorAttribute>();
             services.AddTransient<PhoneValidatorAttribute>();
+
+            // add services
+            services.AddTransient<ICoachesStorageService, CoachesEFService>();
 
             ////add authentication by jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -66,6 +70,8 @@ namespace PMFightAcademy.Client
                 options.UseNpgsql(
                     Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
 
+            services.AddTransient<IBookingService, BookingService>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PMFightAcademy.Client", Version = "v1" });
@@ -73,6 +79,34 @@ namespace PMFightAcademy.Client
                 var filePath = Path.Combine(AppContext.BaseDirectory, "PMFightAcademy_Client.xml");
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
+
+                c.AddSecurityRequirement(
+                    new OpenApiSecurityRequirement
+                    {
+                        {
+                            new OpenApiSecurityScheme
+                            {
+                                Reference = new OpenApiReference
+                                {
+                                    Id = "Bearer",
+                                    Type = ReferenceType.SecurityScheme
+                                },
+                            },
+                            new string[0]
+                        }
+                    });
+
+                c.AddSecurityDefinition(
+                    "Bearer",
+                    new OpenApiSecurityScheme
+                    {
+                        Type = SecuritySchemeType.ApiKey,
+                        In = ParameterLocation.Header,
+                        Scheme = "Bearer",
+                        Name = "Authorization",
+                        Description = "JWT token",
+                        BearerFormat = "JWT"
+                    });
             });
         }
 

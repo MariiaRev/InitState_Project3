@@ -1,18 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Services
 {
     /// <summary>
     /// Slot Service
     /// </summary>
-    public class SlotService
+    public class SlotService : ISlotService
     {
         private readonly AdminContext _dbContext;
 
@@ -29,9 +31,10 @@ namespace PMFightAcademy.Admin.Services
         /// Creation slots 
         /// </summary>
         /// <param name="slotContract"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task AddSlot(SlotsCreateContract slotContract)
+        public async Task AddSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken)
         {
             var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
 
@@ -51,36 +54,44 @@ namespace PMFightAcademy.Admin.Services
             }
             try
             {
-              await _dbContext.AddRangeAsync(slots);
-              await _dbContext.SaveChangesAsync();
+              await _dbContext.AddRangeAsync(slots, cancellationToken);
+              await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
             {
                 throw new ArgumentException();
             }
         }
+
 
         /// <summary>
         /// Remove slots 
         /// </summary>
         /// <param name="slotContract"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task RemoveSlot(SlotsCreateContract slotContract)
+        public async Task<bool> RemoveSlot(int id, CancellationToken cancellationToken)
         {
-            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+            var slot = _dbContext.Slots.FirstOrDefault(x => x.Id == id);
+            if (slot == null)
+            {
+                return false;
+            }
             try
             {
-                _dbContext.Slots.Remove(slot);
-                await _dbContext.SaveChangesAsync();
+                _dbContext.Remove(slot);
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
             {
-                throw new ArgumentException();
+                return false;
             }
+
+            return true;
         }
 
-
+        #region Maded Pagination but not used by JS (TILT)
         /// <summary>
         /// Take all slots 
         /// </summary>
@@ -88,7 +99,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsCreateContract>> TakeAllSlots(int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeAllSlots(int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid pages");
@@ -107,7 +118,7 @@ namespace PMFightAcademy.Admin.Services
                 Page = page,
                 TotalPages = (int) Math.Ceiling((decimal) slots.Length / pageSize)
             };
-            var data = new GetDataContract<SlotsCreateContract>()
+            var data = new GetDataContract<SlotsReturnContract>()
             {
                 Data = slotsPerPages.Select(SlotsMapping.SlotMapFromModelToContract).ToArray(),
                 Paggination = pagination
@@ -123,7 +134,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsCreateContract>> TakeSlotsForCoach(int coachId,int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeSlotsForCoach(int coachId,int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid pages");
@@ -144,7 +155,7 @@ namespace PMFightAcademy.Admin.Services
                 Page = page,
                 TotalPages = (int)Math.Ceiling((decimal)slots.Length / pageSize)
             };
-            var data = new GetDataContract<SlotsCreateContract>()
+            var data = new GetDataContract<SlotsReturnContract>()
             {
                 Data = slotsPerPages.Select(SlotsMapping.SlotMapFromModelToContract).ToArray(),
                 Paggination = pagination
@@ -159,7 +170,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsCreateContract>> TakeAllOnDate(DateTime date,int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeAllOnDate(DateTime date,int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid changes");
@@ -180,7 +191,7 @@ namespace PMFightAcademy.Admin.Services
                 Page = page,
                 TotalPages = (int)Math.Ceiling((decimal)slots.Length / pageSize)
             };
-            var data = new GetDataContract<SlotsCreateContract>()
+            var data = new GetDataContract<SlotsReturnContract>()
             {
                 Data = slotsPerPages.Select(SlotsMapping.SlotMapFromModelToContract).ToArray(),
                 Paggination = pagination
@@ -188,7 +199,45 @@ namespace PMFightAcademy.Admin.Services
             return data;
         }
 
+        #endregion
 
 
+        /// <summary>
+        /// Take all slots
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
+        {
+            
+            var slots = _dbContext.Slots.Select(SlotsMapping.SlotMapFromModelToContract);
+            
+            return slots.AsEnumerable();
+        }
+
+        /// <summary>
+        /// Take all slots for coaches
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId)
+        {
+            var slots = _dbContext.Slots.Where(x => x.CoachId == coachId);
+            
+            return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
+        }
+        /// <summary>
+        /// Take all slots on date
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(DateTime date)
+        {
+            var slots = _dbContext.Slots.Where(x => x.Date == date);
+            
+            return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
+        }
     }
 }

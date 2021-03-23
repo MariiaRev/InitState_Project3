@@ -1,18 +1,23 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Models;
+using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Security.Claims;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Controllers
 {
     /// <summary>
-    /// Service controller for signup for a service/workout.
+    /// Service controller for sign up for a service/workout.
     /// </summary>
     [ApiController]
     [Route("[controller]")]
@@ -20,6 +25,15 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class BookingController : ControllerBase
     {
+        private readonly IBookingService _service;
+
+#pragma warning disable 1591
+        public BookingController(IBookingService service)
+        {
+            _service = service;
+        }
+#pragma warning restore 1591
+
         #region Old version for returning booking data
         ///// <summary>
         ///// Gets missing in <paramref name="booking"/> data for a booking depending on set filters in <paramref name="booking"/>.
@@ -48,6 +62,7 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Get available services for client booking.
         /// </summary>
+        /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// Returns <see cref="HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
@@ -62,14 +77,20 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetServicesForBooking()
+        public async Task<IActionResult> GetServicesForBooking(CancellationToken token)
         {
-            throw new NotImplementedException();
+            var result = await _service.GetServicesForBooking();
+            if (result.Any())
+                return Ok(result);
+
+            return NotFound();
         }
 
         /// <summary>
         /// Get available coaches which can provide service with id <paramref name="serviceId"/>.
         /// </summary>
+        /// <param name="serviceId">Service id</param>
+        /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// Returns <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
@@ -84,14 +105,23 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<CoachDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetCoachesforBooking([FromRoute] int serviceId)
+        public async Task<IActionResult> GetCoachesForBooking(
+            [FromRoute] int serviceId,
+            CancellationToken token)
         {
-            throw new NotImplementedException();
+            var result = await _service.GetCoachesForBooking(serviceId);
+            if (result.Any())
+                return Ok(result);
+
+            return NotFound();
         }
 
         /// <summary>
         /// Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
         /// </summary>
+        /// <param name="serviceId">Service id</param>
+        /// <param name="coachId">Coach id</param>
+        /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// Returns <see cref="HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
@@ -107,15 +137,26 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetDatesForBooking([FromRoute] int serviceId, [FromRoute] int coachId)
+        public async Task<IActionResult> GetDatesForBooking(
+            [FromRoute] int serviceId,
+            [FromRoute] int coachId,
+            CancellationToken token)
         {
-            throw new NotImplementedException();
+            var result = await _service.GetDatesForBooking(serviceId, coachId);
+            if (result.Any())
+                return Ok(result);
+
+            return NotFound();
         }
 
         /// <summary>
         /// Get available time slots to provide a service with id <paramref name="serviceId"/> 
         /// by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
         /// </summary>
+        /// <param name="serviceId">Service id</param>
+        /// <param name="coachId">Coach id</param>
+        /// <param name="date">Date</param>
+        /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// Returns <see cref="HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
@@ -132,15 +173,24 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetTimeSlotsForBooking([FromRoute] int serviceId, [FromRoute] int coachId, [FromRoute] string date)
+        public async Task<IActionResult> GetTimeSlotsForBooking(
+            [FromRoute] int serviceId,
+            [FromRoute] int coachId,
+            [FromRoute] string date,
+            CancellationToken token)
         {
-            throw new NotImplementedException();
+            var result = await _service.GetTimeSlotsForBooking(serviceId, coachId, date);
+            if (result.Any())
+                return Ok(result);
+
+            return NotFound();
         }
 
         /// <summary>
         /// Adds a booking.
         /// </summary>
         /// <param name="booking">Booking filters.</param>
+        /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
@@ -157,9 +207,20 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public Task<IActionResult> AddBooking([FromBody] BookingDto booking)
+        public async Task<IActionResult> AddBooking(
+            [FromBody] BookingDto booking,
+            CancellationToken token)
         {
-            throw new NotImplementedException();
+            var claim = ((ClaimsIdentity)HttpContext.User.Identity)?.FindFirst(ClaimTypes.UserData);
+            if (claim == null)
+                return BadRequest();
+            var clientId = int.Parse(claim.Value);
+
+            var result = await _service.AddBooking(booking, clientId);
+            if (result)
+                return Ok();
+
+            return BadRequest();
         }
 
         /// <summary>
@@ -167,6 +228,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <param name="pageSize">The count of active booking records to return at one time.</param>
         /// <param name="page">The current page number.</param>
+        /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
@@ -177,11 +239,14 @@ namespace PMFightAcademy.Client.Controllers
         /// Returns OK with active booking list if client is authorized and there is at least one record in the active booking list.
         /// Returns NotFound with <c>string</c> message if client is authorized and there is no record in the active booking list.
         /// </remarks>
-        [HttpGet("{pageSize}/{page}")]
+        [HttpGet("active/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetActiveBookings([FromRoute] int pageSize, [FromRoute] int page)
+        public Task<IActionResult> GetActiveBookings(
+            [FromRoute] int pageSize,
+            [FromRoute] int page,
+            CancellationToken token)
         {
             throw new NotImplementedException();
         }
@@ -191,6 +256,7 @@ namespace PMFightAcademy.Client.Controllers
         /// </summary>
         /// <param name="pageSize">The count of history records to return at one time.</param>
         /// <param name="page">The current page number.</param>
+        /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.
@@ -205,7 +271,10 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetHistory([FromRoute] int pageSize, [FromRoute] int page)
+        public Task<IActionResult> GetHistory(
+            [FromRoute] int pageSize,
+            [FromRoute] int page,
+            CancellationToken token)
         {
             throw new NotImplementedException();
         }

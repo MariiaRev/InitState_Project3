@@ -12,8 +12,7 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// <summary>
         /// Coach id.
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Coach first name.
@@ -45,7 +44,8 @@ namespace PMFightAcademy.Client.Contract.Dto
 
         /// <summary>
         /// Services which can be provided by the coach.
+        /// Could be empty if no service is assigned to this coach.
         /// </summary>
-        public List<string> Services { get; set; }
+        public IEnumerable<string> Services { get; set; }
     }
 }

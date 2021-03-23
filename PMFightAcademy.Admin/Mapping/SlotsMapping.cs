@@ -25,6 +25,7 @@ namespace PMFightAcademy.Admin.Mapping
             
             return new Slot
             {
+                Id = contract.Id,
                 CoachId = contract.CoachId,
                 Date = DateTime.Parse(contract.DateStart),
                 Duration = TimeSpan.Parse(contract.TimeEnd),
@@ -38,15 +39,15 @@ namespace PMFightAcademy.Admin.Mapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static SlotsCreateContract SlotMapFromModelToContract(Slot model)
+        public static SlotsReturnContract SlotMapFromModelToContract(Slot model)
         {
-            return new SlotsCreateContract
+            return new SlotsReturnContract
             {
                 Id = model.Id,
                 CoachId = model.CoachId,
                 DateStart = model.Date.ToString("MM/dd/yyyy"),
-                TimeEnd = model.Duration.ToString("HH:mm"),
-                TimeStart = model.StartTime.ToString("HH:mm")
+                Duration = (new DateTime(1, 1, 1) + model.Duration).ToString("HH:mm"),
+                TimeStart = (new DateTime(1, 1, 1) + model.StartTime).ToString("HH:mm")
             };
            
         }
