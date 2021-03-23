@@ -33,7 +33,8 @@ namespace PMFightAcademy.Client
             services.AddHttpClient();
 
             // add services
-            services.AddTransient<ICoachesStorageService, CoachesEFService>();
+            services.AddTransient<ICoachesService, CoachesService>();
+            services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<IClientsService, ClientsService>();
 
             ////add authentication by jwt
@@ -68,8 +69,6 @@ namespace PMFightAcademy.Client
             services.AddDbContext<ClientContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
-
-            services.AddTransient<IBookingService, BookingService>();
 
             services.AddSwaggerGen(c =>
             {

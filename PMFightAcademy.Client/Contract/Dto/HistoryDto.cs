@@ -55,11 +55,11 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// <param name="time">Time when the service is/was provided.</param>
         /// <param name="coachFirstName">First name of the coach who provided the service.</param>
         /// <param name="coachLastName">Last name of the coach who provided the service.</param>
-        public HistoryDto(string serviceName, DateTime date, DateTime time, string coachFirstName, string coachLastName)
+        public HistoryDto(string serviceName, DateTime date, TimeSpan time, string coachFirstName, string coachLastName)
         {
             ServiceName = serviceName;
             Date = date.ToString("MM/dd/yyyy");
-            Time = time.ToString("HH:mm");
+            Time = (new DateTime(1, 1, 1) + time).ToString("HH:mm");
             CoachFirstName = coachFirstName;
             CoachLastName = coachLastName;
         }

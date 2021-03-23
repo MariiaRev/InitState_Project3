@@ -7,6 +7,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Mappings;
+using PMFightAcademy.Client.Contract;
+using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -24,9 +27,7 @@ namespace PMFightAcademy.Client.Services
         }
 #pragma warning restore 1591
 
-        /// <summary>
-        /// Get available services for client booking for Booking Controller
-        /// </summary>
+        /// <inheritdoc/>
         public Task<IEnumerable<Service>> GetServicesForBooking()
         {
             var result = _context.Services?.ToArray();
@@ -37,11 +38,7 @@ namespace PMFightAcademy.Client.Services
             return Task.FromResult(result.AsEnumerable());
         }
 
-        /// <summary>
-        /// Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
-        /// </summary>
-        /// <param name="serviceId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId)
         {
             var services = _context.Services?.ToArray();
@@ -85,13 +82,7 @@ namespace PMFightAcademy.Client.Services
             return Task.FromResult(listResult.AsEnumerable());
         }
 
-        /// <summary>
-        /// Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
-        /// for Booking Controller
-        /// </summary>
-        /// <param name="serviceId"></param>
-        /// <param name="coachId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId)
         {
             var qualifications = _context.Qualifications?.ToArray();
@@ -117,13 +108,7 @@ namespace PMFightAcademy.Client.Services
             return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
         }
 
-        /// <summary>
-        /// Get available time slots to provide a service with id <paramref name="serviceId"/> for Booking Controller
-        /// </summary>
-        /// <param name="serviceId"></param>
-        /// <param name="coachId"></param>
-        /// <param name="date"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
         {
             var qualifications = _context.Qualifications?.ToArray();
@@ -148,12 +133,7 @@ namespace PMFightAcademy.Client.Services
             return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
         }
 
-        /// <summary>
-        /// Adds a booking for Booking Controller
-        /// </summary>
-        /// <param name="bookingDto"></param>
-        /// <param name="clientId"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public async Task<bool> AddBooking(BookingDto bookingDto, int clientId)
         {
             var slots = _context.Slots?.ToArray();
@@ -192,6 +172,91 @@ namespace PMFightAcademy.Client.Services
         private static Task<IEnumerable<T>> ReturnResult<T>()
         {
             return Task.FromResult(new List<T>().AsEnumerable());
+        }
+
+        /// <inheritdoc/>
+        public async Task<GetDataContract<HistoryDto>> GetActiveBookings(int pageSize, int page, int clientId, CancellationToken token)
+        {
+            var now = DateTime.Now;
+            var clientBookings = await GetClientBookingsAsync(clientId, token);
+
+            if (!clientBookings.Any())
+            {
+                return new GetDataContract<HistoryDto>();
+            }
+
+            var activeBookings = from booking in clientBookings
+                                 let date = booking.Slot.Date + booking.Slot.StartTime
+                                 where date.Subtract(now).TotalMinutes >= 0
+                                 orderby date
+                                 select new HistoryDto
+                                 (
+                                     booking.Service.Name,
+                                     booking.Slot.Date,
+                                     booking.Slot.StartTime,
+                                     booking.Slot.Coach.FirstName,
+                                     booking.Slot.Coach.LastName
+                                 );
+
+            var activeBookingsCount = (decimal)activeBookings.Count();
+
+            return new GetDataContract<HistoryDto>()
+            {
+                Data = activeBookings.Skip((page - 1) * pageSize).Take(pageSize),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(activeBookingsCount / pageSize)
+                }
+            };
+        }
+
+        /// <inheritdoc/>
+        public async Task<GetDataContract<HistoryDto>> GetBookingHistory(int pageSize, int page, int clientId, CancellationToken token)
+        {
+            var now = DateTime.Now;
+            var clientBookings = await GetClientBookingsAsync(clientId, token);
+
+            if (!clientBookings.Any())
+            {
+                return new GetDataContract<HistoryDto>();
+            }
+
+            var activeBookings = from booking in clientBookings
+                                 let date = booking.Slot.Date + booking.Slot.StartTime
+                                 where date.Subtract(now).TotalMinutes < 0
+                                 orderby date descending
+                                 select new HistoryDto
+                                 (
+                                     booking.Service.Name,
+                                     booking.Slot.Date,
+                                     booking.Slot.StartTime,
+                                     booking.Slot.Coach.FirstName,
+                                     booking.Slot.Coach.LastName
+                                 );
+
+            var activeBookingsCount = (decimal)activeBookings.Count();
+
+            return new GetDataContract<HistoryDto>()
+            {
+                Data = activeBookings.Skip((page - 1) * pageSize).Take(pageSize),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(activeBookingsCount / pageSize)
+                }
+            };
+        }
+
+        private async Task<List<Booking>> GetClientBookingsAsync(int clientId, CancellationToken token)
+        {
+            var bookings = _context.Bookings
+                .AsNoTracking()
+                .Include(booking => booking.Slot)
+                .Include(booking => booking.Slot.Coach)
+                .Include(booking => booking.Service);
+
+            return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync(token);
         }
     }
 }
