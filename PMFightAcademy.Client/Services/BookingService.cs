@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Mappings;
+using PMFightAcademy.Client.Contract;
+using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -187,6 +189,54 @@ namespace PMFightAcademy.Client.Services
                     TotalPages = (int)Math.Ceiling(activeBookingsCount / pageSize)
                 }
             };
+        }
+
+        /// <inheritdoc/>
+        public async Task<GetDataContract<HistoryDto>> GetBookingHistory(int pageSize, int page, int clientId)
+        {
+            var now = DateTime.Now;
+            var clientBookings = await GetClientBookingsAsync(clientId);
+
+            if (!clientBookings.Any())
+            {
+                return new GetDataContract<HistoryDto>();
+            }
+
+            var activeBookings = from booking in clientBookings
+                                 let date = booking.Slot.Date + booking.Slot.StartTime
+                                 where date.Subtract(now).TotalMinutes < 0
+                                 orderby date descending
+                                 select new HistoryDto
+                                 (
+                                     booking.Service.Name,
+                                     booking.Slot.Date,
+                                     booking.Slot.StartTime,
+                                     booking.Slot.Coach.FirstName,
+                                     booking.Slot.Coach.LastName
+                                 );
+
+            var activeBookingsCount = (decimal)activeBookings.Count();
+
+            return new GetDataContract<HistoryDto>()
+            {
+                Data = activeBookings.Skip((page - 1) * pageSize).Take(pageSize),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(activeBookingsCount / pageSize)
+                }
+            };
+        }
+
+        private async Task<List<Booking>> GetClientBookingsAsync(int clientId)
+        {
+            var bookings = _context.Bookings
+                .AsNoTracking()
+                .Include(booking => booking.Slot)
+                .Include(booking => booking.Slot.Coach)
+                .Include(booking => booking.Service);
+
+            return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync();
         }
     }
 }

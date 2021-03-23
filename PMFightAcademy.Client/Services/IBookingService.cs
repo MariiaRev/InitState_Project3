@@ -1,4 +1,5 @@
-﻿using PMFightAcademy.Client.Contract.Dto;
+﻿using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -59,5 +60,17 @@ namespace PMFightAcademy.Client.Services
         /// empty list if there is no record for active booking.
         /// </returns>
         Task<GetDataContract<HistoryDto>> GetActiveBookings(int pageSize, int page, int clientId);
+
+        /// <summary>
+        /// Gets booking history.
+        /// </summary>
+        /// <param name="pageSize">The count of booking history records to return at one time.</param>
+        /// <param name="page">The current page number.</param>
+        /// <param name="clientId">Id of the client for which to return the booking history.</param>
+        /// <returns>
+        /// Returns list of the booking history with paggination or 
+        /// empty list if there is no record for the booking history.
+        /// </returns>
+        Task<GetDataContract<HistoryDto>> GetBookingHistory(int pageSize, int page, int clientId);
     }
 }
