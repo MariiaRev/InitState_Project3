@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 
@@ -25,10 +26,11 @@ namespace PMFightAcademy.Admin.Mapping
             
             return new Slot
             {
+                Id = contract.Id,
                 CoachId = contract.CoachId,
-                Date = DateTime.Parse(contract.DateStart),
-                Duration = TimeSpan.Parse(contract.TimeEnd),
-                StartTime = TimeSpan.Parse(contract.TimeStart)
+                Date = DateTime.ParseExact(contract.DateStart, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),
+                Duration = TimeSpan.Parse(contract.TimeEnd,CultureInfo.CurrentCulture),
+                StartTime = TimeSpan.Parse(contract.TimeStart, CultureInfo.CurrentCulture)
             };
             
         }
@@ -38,15 +40,15 @@ namespace PMFightAcademy.Admin.Mapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static SlotsCreateContract SlotMapFromModelToContract(Slot model)
+        public static SlotsReturnContract SlotMapFromModelToContract(Slot model)
         {
-            return new SlotsCreateContract
+            return new SlotsReturnContract
             {
                 Id = model.Id,
                 CoachId = model.CoachId,
                 DateStart = model.Date.ToString("MM/dd/yyyy"),
-                TimeEnd = model.Duration.ToString("HH:mm"),
-                TimeStart = model.StartTime.ToString("HH:mm")
+                Duration = (new DateTime(1, 1, 1) + model.Duration).ToString("HH:mm"),
+                TimeStart = (new DateTime(1, 1, 1) + model.StartTime).ToString("HH:mm")
             };
            
         }

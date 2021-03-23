@@ -1,10 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
@@ -17,19 +21,42 @@ namespace PMFightAcademy.Admin.Controllers
     [SwaggerTag("Services controllers for add services")]
     public class ServicesController : ControllerBase
     {
+        private readonly IServiceService _serviceService;
+
         /// <summary>
         /// Service Controller
         /// </summary>
-        public ServicesController()
+        public ServicesController(IServiceService serviceService)
         {
-
+            _serviceService = serviceService;
         }
+
+        #region JS TILT
+
+        ///// <summary>
+        ///// Get all services 
+        ///// </summary>
+        ///// <param name="pageSize">The count of services to return at one time.</param>
+        ///// <param name="page">The current page number.</param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/> add a coach to coaches
+        ///// <see cref="HttpStatusCode.NotFound"/> return lit of services</returns>
+        ///// <remarks> Use to Get all service, return services if  all is fine
+        ///// NotFound if its is already registered
+        ///// </remarks>
+        ///// <exception cref="NotImplementedException"></exception>
+        //[HttpGet("{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<Service>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetAllServices([FromRoute] int pageSize, [FromRoute] int page)
+        //{
+        //    throw new NotImplementedException();
+        //}
+        #endregion
 
         /// <summary>
         /// Get all services 
         /// </summary>
-        /// <param name="pageSize">The count of services to return at one time.</param>
-        /// <param name="page">The current page number.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add a coach to coaches
         /// <see cref="HttpStatusCode.NotFound"/> return lit of services</returns>
@@ -37,14 +64,20 @@ namespace PMFightAcademy.Admin.Controllers
         /// NotFound if its is already registered
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
-        [HttpGet("{pageSize}/{page}")]
-        [ProducesResponseType(typeof(GetDataContract<Service>), (int)HttpStatusCode.OK)]
+        [HttpGet]
+        [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetAllServices([FromRoute] int pageSize, [FromRoute] int page)
+        public async Task<IActionResult> GetAllServices()
         {
-            throw new NotImplementedException();
-        }
+            var services = await _serviceService.TakeAllServices();
+            if (services.Any())
+            {
+                return Ok(services);
+            }
+            return NotFound("No services");
 
+
+        }
         /// <summary>
         /// Get needed service 
         /// </summary>
@@ -62,13 +95,20 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetService(int serviceId)
         {
-            throw new NotImplementedException();
+            
+            var service = await _serviceService.TakeService(serviceId);
+            if (service != null)
+            { 
+                return Ok(service);
+            }
+            return NotFound("No client with that ID");
         }
 
         /// <summary>
         /// Add services 
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add service 
         /// <see cref="HttpStatusCode.Conflict"/> if services is added
@@ -80,15 +120,25 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost]
         [ProducesResponseType( (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> CreateService([FromBody]Service service)
+        public async Task<IActionResult> CreateService([FromBody]Service service, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            try
+            {
+               await _serviceService.AddService(service, cancellationToken);
+            }
+            catch (ArgumentException e)
+            {
+                return Conflict(e.Message);
+            }
+
+            return Ok();
         }
 
         /// <summary>
         /// Add services 
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add service 
         /// <see cref="HttpStatusCode.NotFound"/> if services is added
@@ -101,37 +151,45 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> UpdateService([FromBody] Service service)
+        public async Task<IActionResult> UpdateService([FromBody] Service service, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var update = await _serviceService.UpdateService(service, cancellationToken);
+            
+            if (update)
+            {
+                return Ok();
+            }
+
+            return NotFound();
         }
 
-        /// <summary>
-        /// Create list of services
-        /// </summary>
-        /// <param name="listServices"></param>
-        /// <returns>
-        /// <see cref="HttpStatusCode.OK"/> add list of services
-        /// <see cref="HttpStatusCode.NotFound"/> if something not founded
-        /// <see cref="HttpStatusCode.Conflict"/> if services is added</returns>
-        /// <remarks>
-        /// Use to create ServiceList, return ok if all is fine
-        /// Conflict if its is already registered
-        /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
-        [HttpPost("list")]
-        [ProducesResponseType((int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> CreateServiceList([FromBody] List<Service> listServices)
-        {
-            throw new NotImplementedException();
-        }
+        ///// <List BUt question to front (Not needed method)>
+        ///// Create list of services
+        ///// </summary>
+        ///// <param name="listServices"></param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/> add list of services
+        ///// <see cref="HttpStatusCode.NotFound"/> if something not founded
+        ///// <see cref="HttpStatusCode.Conflict"/> if services is added</returns>
+        ///// <remarks>
+        ///// Use to create ServiceList, return ok if all is fine
+        ///// Conflict if its is already registered
+        ///// </remarks>
+        ///// <exception cref="NotImplementedException"></exception>
+        //[HttpPost("list")]
+        //[ProducesResponseType((int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> CreateServiceList([FromBody] IEnumerable<Service> listServices)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         /// <summary>
         /// Add services 
         /// </summary>
-        /// <param name="service"></param>
+        /// <param name="serviceId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> add service 
         /// <see cref="HttpStatusCode.NotFound"/> if services is added
@@ -144,9 +202,16 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> DeleteService([FromBody] Service service)
+        public async Task<IActionResult> DeleteService(int serviceId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var deleted = await _serviceService.DeleteService(serviceId, cancellationToken);
+
+            if (deleted)
+            {
+                return Ok();
+            }
+
+            return NotFound("No Service");
         }
 
     }

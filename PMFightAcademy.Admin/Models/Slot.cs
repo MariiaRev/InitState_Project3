@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -16,8 +17,8 @@ namespace PMFightAcademy.Admin.Models
         /// Slot id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [JsonIgnore]
-        public int Id { get; set; }
+        
+        public int Id { get;  set; }
 
         /// <summary>
         /// Date of slot.
@@ -54,5 +55,12 @@ namespace PMFightAcademy.Admin.Models
         /// </summary>
         [JsonIgnore]
         public ICollection<Booking> Bookings { get; set; }
+
+        /// <summary>
+        /// Expired slot
+        /// </summary>
+        [JsonIgnore]
+        [DefaultValue(false)]
+        public bool Expired { get; set; }
     }
 }

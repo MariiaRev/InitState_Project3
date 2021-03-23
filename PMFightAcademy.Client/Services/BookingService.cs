@@ -29,39 +29,51 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public Task<IEnumerable<Service>> GetServicesForBooking()
         {
-            var result = _context.Services.AsEnumerable();
-            if (!result.Any())
-                return Task.FromResult(result);
+            var result = _context.Services?.ToArray();
 
-            throw new ArgumentException("Service Collection is empty");
+            if (result == null || !result.Any())
+                return ReturnResult<Service>();
+
+            return Task.FromResult(result.AsEnumerable());
         }
 
         /// <inheritdoc/>
         public Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId)
         {
-            if (_context.Services.AsEnumerable().All(x => x.Id != serviceId))
-                throw new ArgumentException("Incorrect service id");
+            var services = _context.Services?.ToArray();
+            var qualifications = _context.Qualifications?.ToArray();
+            var coaches = _context.Coaches?.ToArray();
 
-            var coachesId = _context.Qualifications.AsEnumerable()
-                .Where(x => x.ServiceId == serviceId).Select(x => x.CoachId);
+            if (services == null || qualifications == null || coaches == null)
+                return ReturnResult<CoachDto>();
+
+            //Check if service is real
+            if (services.All(x => x.Id != serviceId))
+                return ReturnResult<CoachDto>();
+
+            //Check if qualifications with our service Id exists 
+            var coachesId = qualifications
+                .Where(x => x.ServiceId == serviceId)
+                .Select(x => x.CoachId).ToArray();
 
             //todo: add logger 
 
             var listResult = new List<CoachDto>();
             foreach (var item in coachesId)
             {
-                var coach = _context.Coaches.AsEnumerable().FirstOrDefault(x => x.Id == item);
+                //Check if coach is real
+                var coach = coaches.FirstOrDefault(x => x.Id == item);
 
                 if (coach == null)
-                    throw new ArgumentException($"Incorrect service id");
+                    return ReturnResult<CoachDto>();
 
+                //Made CoachDto from coach
                 var coachDto = CoachMapping.CoachToCoachDto(coach);
 
-                var services = _context.Qualifications.AsEnumerable()
+                //Save services for our coach 
+                coachDto.Services = qualifications
                     .Where(x => x.CoachId == coach.Id)
-                    .Select(x => x.Service.Name).ToList();
-
-                coachDto.Services = services;
+                    .Select(x => x.Service.Name);
 
                 listResult.Add(coachDto);
             }
@@ -72,87 +84,93 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId)
         {
-            if (!_context.Qualifications.AsEnumerable().Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
-                throw new ArgumentException("No same qualification");
+            var qualifications = _context.Qualifications?.ToArray();
+            var slots = _context.Slots?.ToArray();
+            var bookings = _context.Bookings?.ToArray();
 
-            var slots = _context.Slots.AsEnumerable().Where(x => x.CoachId == coachId).ToList();
+            if (qualifications == null || slots == null || bookings == null)
+                return ReturnResult<string>();
 
-            if (slots.Count == 0)
-                throw new ArgumentException("Available Slot Collection is empty");
+            //Check if the coach owns the services
+            if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
+                return ReturnResult<string>();
 
+            //Find our coaches slots which is not already booked
+            //and select only date 
             var result = slots
-                .Where(x => _context.Bookings.AsEnumerable().All(y => y.SlotId != x.Id))
-                .Select(x => x.Date.ToString("MM/dd/yyyy")).ToList();
+                .Where(x => x.CoachId == coachId)
+                .Where(x => bookings.All(y => y.SlotId != x.Id))
+                .Select(x => x.Date.ToString("MM/dd/yyyy"))
+                .Distinct()
+                .ToArray();
 
-            if (result.Count == 0)
-                throw new ArgumentException("Available Slot Collection is already booked");
-
-            return Task.FromResult(result.AsEnumerable());
+            return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
         }
 
         /// <inheritdoc/>
         public Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
         {
-            if (!_context.Qualifications.AsEnumerable().Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
-                throw new ArgumentException("No same qualification");
+            var qualifications = _context.Qualifications?.ToArray();
+            var slots = _context.Slots?.ToArray();
+            var bookings = _context.Bookings?.ToArray();
 
-            var slots = _context.Slots.AsEnumerable().Where(x => x.CoachId == coachId).ToList();
+            if (qualifications == null || slots == null || bookings == null)
+                return ReturnResult<string>();
 
-            if (slots.Count == 0)
-                throw new ArgumentException("Available Slot Collection is empty");
+            if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
+                return ReturnResult<string>();
 
-            var freeSlots = slots
-                .Where(x => _context.Bookings.AsEnumerable().All(y => y.SlotId != x.Id)).ToList();
+            //Check by slots by coach Id. Than check if slot is available and not booked.
+            //And finally check if date in slot equals to your date.
+            var result = slots
+                .Where(x => x.CoachId == coachId)
+                .Where(x => bookings.All(y => y.SlotId != x.Id))
+                .Where(x => DateTime.Parse(date) == x.Date)
+                .Select(x => (new DateTime(1,1,1) + x.StartTime).ToString("HH:mm"))
+                .ToArray();
 
-            if (freeSlots.Count == 0)
-                throw new ArgumentException("Available Slot Collection is already booked");
-
-            var result = freeSlots
-                .Where(x => x.Date.ToString("MM/dd/yyyy") == date)
-                .Select(x => x.StartTime.ToString("HH:mm")).ToList();
-
-            if (result.Count == 0)
-                throw new ArgumentException("Available Slot Collection on your date is already booked");
-
-            return Task.FromResult(result.AsEnumerable());
+            return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
         }
 
         /// <inheritdoc/>
-        public async Task AddBooking(BookingDto bookingDto, int clientId)
+        public async Task<bool> AddBooking(BookingDto bookingDto, int clientId)
         {
-            if (bookingDto == null)
-                throw new ArgumentException("BookingDTO can not be null");
+            var slots = _context.Slots?.ToArray();
+            var bookings = _context.Bookings?.ToArray();
+            var services = _context.Services?.ToArray();
 
-            if (!_context.Slots.AsEnumerable()
-                .Any(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date 
-                          && x.StartTime.ToString("HH:mm") == bookingDto.Time))
-                throw new ArgumentException("Available Slot Collection on your time is empty");
+            if (slots == null || bookings == null || services == null || bookingDto == null)
+                return false;
 
-            var slots = _context.Slots.AsEnumerable()
-                .Where(x => x.Date.ToString("MM/dd/yyyy") == bookingDto.Date 
-                            && x.StartTime.ToString("HH:mm") == bookingDto.Time).ToList();
-
-            var freeSlots = slots
-                .Where(x => _context.Bookings.AsEnumerable().All(y => y.SlotId != x.Id)).ToList();
-
-            if (freeSlots.Count == 0)
-                throw new ArgumentException("Available Slot Collection  on your time is already booked");
-
-            var yourSlot = freeSlots.FirstOrDefault(x => x.CoachId == bookingDto.CoachId);
+            //Check if slots with our date and start time exists.
+            //Than check if slots are available and not booked.
+            //Find find slot with our coach
+            var yourSlot = slots
+                .Where(x => x.Date == DateTime.Parse(bookingDto.Date) && x.StartTime == TimeSpan.Parse(bookingDto.Time))
+                .Where(x => bookings.All(y => y.SlotId != x.Id))
+                .FirstOrDefault(x => x.CoachId == bookingDto.CoachId);
 
             if (yourSlot == null)
-                throw new ArgumentException("No same slot on your time with your coach");
+                return false;
 
-            var price = _context.Services.AsEnumerable().FirstOrDefault(x => x.Id == bookingDto.ServiceId);
+            //Find price for our service
+            var price = services.FirstOrDefault(x => x.Id == bookingDto.ServiceId);
 
             if (price == null)
-                throw new ArgumentException("No same service in Service Collection");
+                return false;
 
+            //Convert bookingDto to Booking for db
             var booking = BookingMapping.BookingMapFromContractToModel(bookingDto, yourSlot.Id, clientId, price.Price);
 
-           await _context.Bookings.AddAsync(booking);
+            //Save new booking
+            await _context.Bookings.AddAsync(booking);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
-           await _context.SaveChangesAsync();
+        private static Task<IEnumerable<T>> ReturnResult<T>()
+        {
+            return Task.FromResult(new List<T>().AsEnumerable());
         }
 
         /// <inheritdoc/>

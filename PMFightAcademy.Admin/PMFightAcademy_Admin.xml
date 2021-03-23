@@ -29,6 +29,16 @@
             Client 
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ResultPrice">
+            <summary>
+            ResultPrice
+            </summary>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Contract.CoachContract">
+            <summary>
+            CoachContract
+            </summary>
+        </member>
         <member name="P:PMFightAcademy.Admin.Contract.CoachContract.Id">
             <summary>
             Personal Id , key
@@ -115,23 +125,45 @@
             Time End
             </summary>
         </member>
+        <member name="T:PMFightAcademy.Admin.Contract.SlotsReturnContract">
+            <summary>
+            Dto
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.CoachId">
+            <summary>
+            Coach Id
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.DateStart">
+            <summary>
+            Date start
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.TimeStart">
+            <summary>
+            Time start
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Contract.SlotsReturnContract.Duration">
+            <summary>
+            Time End
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Controllers.BookingController">
             <summary>
             Booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.#ctor(PMFightAcademy.Admin.Services.BookingService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService)">
             <summary>
             Constructor for booking
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServices(System.Int32,System.Int32,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServices">
             <summary>
             Return all booked services
             </summary>
-             <param name="pageSize">The count of books to return at one time.</param>
-            <param name="page">The current page number.</param>
-            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what can be booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
@@ -170,11 +202,11 @@
             not founded if no coaches 
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.DeleteBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.DeleteBook(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete a book
             </summary>
-            <param name="bookId"></param>
+            <param name="bookingId"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
@@ -189,7 +221,7 @@
             <summary>
             Update file
             </summary>
-            <param name="newBook"></param>
+            <param name="newBooking"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful updated
@@ -199,17 +231,52 @@
             and they will be updated
             </remarks>
         </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForClientOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Select booked services for client on  date space 
+            </summary>
+            <param name="clientId"></param>
+            <param name="dateEnd"></param>
+            <param name="cancellationToken"></param>
+            <param name="dateStart"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            </returns>
+            <remarks>
+            Return list about booked info for Client
+            not founded if no Client 
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForCoachOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Select booked services for coach on   date space  
+            </summary>
+            <param name="coachId"></param>
+            <param name="dateEnd"></param>
+            <param name="cancellationToken"></param>
+            <param name="dateStart"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            </returns>
+            <remarks>
+            Return list about booked info for coach
+            In time range
+            if not find will return not fount 
+            </remarks>
+        </member>
         <member name="T:PMFightAcademy.Admin.Controllers.ClientController">
             <summary>
             Client controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.#ctor">
+        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService)">
             <summary>
             Constructor of client controller 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.GetAllClients(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.GetAllClients">
             <summary>
             return list of clients
             </summary>
@@ -240,26 +307,10 @@
             Coach controller 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.DataBase.AdminContext,PMFightAcademy.Admin.Services.CoachService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService)">
             <summary>
             Constructor for controller
             </summary>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetCoaches(System.Int32,System.Int32)">
-            <summary>
-            Get list of Coaches
-            </summary>
-            <returns>
-            <param name="pageSize">The count of coaches to return at one time.</param>
-            <param name="page">The current page number.</param>
-            <see cref="F:System.Net.HttpStatusCode.OK"/> Get list of coaches
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
-            </returns>
-            <remarks>
-            Use for get all coach , if successes must return a list of coaches
-            if not,  return Not Found
-            </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetAllCoaches">
             <summary>
@@ -292,11 +343,12 @@
              </remarks>
              <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.CreateCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.CreateCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
             Create coach
             </summary>
             <param name="coach"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if this coach is already registered 
@@ -309,11 +361,12 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
             update coach
             </summary>
             <param name="coach"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if this coach is already registered 
@@ -325,12 +378,12 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.DeleteCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
              <summary>
              Delete coach
              </summary>
              <para>
-            <param coachId="coachId"></param>
+            <param name="coachId"></param>
              </para>
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
@@ -341,7 +394,44 @@
              </remarks>
              <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract)">
+        <member name="T:PMFightAcademy.Admin.Controllers.QualificationController">
+            <summary>
+            Qualification controller
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService)">
+            <summary>
+            Constuctor
+            </summary>
+            <param name="qualificationService"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForCoach(System.Int32)">
+            <summary>
+            get list  qualifications  for Coach
+            </summary>
+            <param name="coachId"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <remarks>
+            Return qualifications for coach
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception> 
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForService(System.Int32)">
+            <summary>
+            get list of  qualifications for Service
+            </summary>
+            <param name="serviceId"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <remarks>
+            Return qualifications for services
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception> 
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
             <summary>
             Add qualification
             </summary>
@@ -356,11 +446,12 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception> 
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.DeleteQualification(PMFightAcademy.Admin.Contract.QualificationContract)">
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete qualification
             </summary>
-            <param name="qualification"></param>
+            <param name="qualificationId"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
@@ -370,48 +461,20 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception> 
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForCoach(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            get list  qualifications  for Coach
-            </summary>
-            <param name="coachId"></param>
-            <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
-            <remarks>
-            Return qualifications for coach
-            </remarks>
-            <exception cref="T:System.NotImplementedException"></exception> 
-        </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForService(System.Int32,System.Int32,System.Int32)">
-            <summary>
-            get list of  qualifications for Service
-            </summary>
-            <param name="serviceId"></param>
-            <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
-            <remarks>
-            Return qualifications for services
-            </remarks>
-            <exception cref="T:System.NotImplementedException"></exception> 
-        </member>
         <member name="T:PMFightAcademy.Admin.Controllers.ServicesController">
             <summary>
             Service Controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.#ctor">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService)">
             <summary>
             Service Controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.GetAllServices(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.GetAllServices">
             <summary>
             Get all services 
             </summary>
-            <param name="pageSize">The count of services to return at one time.</param>
-            <param name="page">The current page number.</param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> return lit of services</returns>
@@ -434,11 +497,12 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.CreateService(PMFightAcademy.Admin.Models.Service)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.CreateService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
             <summary>
             Add services 
             </summary>
             <param name="service"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add service 
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if services is added
@@ -448,11 +512,12 @@
             Conflict if its is already registered</remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.UpdateService(PMFightAcademy.Admin.Models.Service)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.UpdateService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
             <summary>
             Add services 
             </summary>
             <param name="service"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add service 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if services is added
@@ -463,26 +528,12 @@
             Conflict if its is already registered</remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.CreateServiceList(System.Collections.Generic.List{PMFightAcademy.Admin.Models.Service})">
-            <summary>
-            Create list of services
-            </summary>
-            <param name="listServices"></param>
-            <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/> add list of services
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if something not founded
-            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if services is added</returns>
-            <remarks>
-            Use to create ServiceList, return ok if all is fine
-            Conflict if its is already registered
-            </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.DeleteService(PMFightAcademy.Admin.Models.Service)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.DeleteService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Add services 
             </summary>
-            <param name="service"></param>
+            <param name="serviceId"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add service 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if services is added
@@ -498,12 +549,12 @@
             Slots controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor(PMFightAcademy.Admin.Services.SlotService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService)">
             <summary>
             Slots controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetAllSlots(System.Int32,System.Int32,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetAllSlots(System.Threading.CancellationToken)">
             <summary>
             Show all slots
             </summary>
@@ -515,7 +566,7 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForCoach(System.Int32,System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForCoach(System.Int32)">
             <summary>
             Show slots for coach
             </summary>
@@ -527,7 +578,7 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForDates(System.String,System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForDates(System.String)">
             <summary>
             Show slots on date
             </summary>
@@ -538,11 +589,12 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.CreateSlots(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.CreateSlots(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
             <summary>
             Create Slots
             </summary>
             <param name="createSlots"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if service not founded</returns>
@@ -552,16 +604,29 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Create Slots
+            Delete
             </summary>
-            <param name="createSlots"></param>
+            <param name="slotId"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
             <remarks>
             Use for delete slots
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForCoachFromDateToDate(System.Int32,System.String,System.String)">
+            <summary>
+            Show slots for coach
+            </summary>
+            <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <remarks>
+            Return list of  slots for coach in time range
+            return not fount if its is empty
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
@@ -588,7 +653,7 @@
             <param name="contract"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.CoachMapFromModelTToContract(PMFightAcademy.Admin.Models.Booking)">
+        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromModelTToContract(PMFightAcademy.Admin.Models.Booking)">
             <summary>
             From model to contract
             </summary>
@@ -714,9 +779,10 @@
             <remarks>
             Formats of phone number:
             +38067 111 1111
+            38067 111 1111
             067 111 1111
             Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094.
             </remarks>
         </member>
         <member name="P:PMFightAcademy.Admin.Models.Client.Password">
@@ -909,51 +975,452 @@
             
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.Expired">
+            <summary>
+            Expired slot
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Services.BookingService">
             <summary>
             Service for booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServices(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
-            Return all booked services for BookingController
+            Constructor
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeAllBooking">
+            <summary>
+            Take all slots
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForClient(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoach(System.Int32)">
             <summary>
-            Select booked services on person for BookingController
+            Take Booking for coach
+            </summary>
+            <param name="coachId"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingOnClient(System.Int32)">
+            <summary>
+            Take booking for client
+            </summary>
+            <param name="clientId"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+            <summary>
+            Update booking
+            </summary>
+            <param name="bookingContract"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            Take clients depends from date
+            </summary>
+            <param name="clientId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            Take coaches depends from date
+            </summary>
+            <param name="coachId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Remove booking
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ClientService">
+            <summary>
+            Client Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.GetBookedServiceForCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ClientService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
-            Select booked services on coach for BookingController
+            Constructor
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ClientService.TakeAllClients">
+            <summary>
+            Take coaches
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.DeleteBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.ClientService.TakeClient(System.Int32)">
             <summary>
-            Delete a book for BookingController
+            
+            </summary>
+            <param name="clientId"></param>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.CoachService">
+            <summary>
+            Coach Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
-            Update file for BookingController
+            Constructor
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeAllCoaches">
+            <summary>
+            Take coaches
             </summary>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeCoach(System.Int32)">
             <summary>
-            Take Coaches
-            </summary>
+            Take Coach
+            </summary>s
             <param name="coachId"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.CoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract)">
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
             Add coach
             </summary>
             <param name="coachContract"></param>
-            <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete 
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
+            <summary>
+            Update
+            </summary>
+            <param name="coachContract"></param>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.QualificationService">
+            <summary>
+            Service 
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete qualification
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
+            <summary>
+            Update
+            </summary>
+            <param name="contract"></param>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetCoachesForService(System.Int32)">
+            <summary>
+            Get coaches
+            </summary>
+            <param name="serviceId"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetServicesForCoach(System.Int32)">
+            <summary>
+            Get services
+            </summary>
+            <param name="coachId"></param>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService">
+            <summary>
+            Booking service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Remove Booking
+            </summary>
+            <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeAllBooking">
+            <summary>
+            Take all bookings
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoach(System.Int32)">
+            <summary>
+            Take booking for coach
+            </summary>
+            <param name="coachId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingOnClient(System.Int32)">
+            <summary>
+            Take booking for client
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+            <summary>
+            Update books
+            </summary>
+            <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="coachId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="clientId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService">
+            <summary>
+            Client Service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService.TakeAllClients">
+            <summary>
+            Take all clients 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService.TakeClient(System.Int32)">
+            <summary>
+            Take client
+            </summary>
+            <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService">
+            <summary>
+            CoachService
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.TakeAllCoaches">
+            <summary>
+            Take all coaches
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.TakeCoach(System.Int32)">
+            <summary>
+            Take coach
+            </summary>
+            <param name="coachId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
+            <summary>
+            create coach
+            </summary>
+            <param name="coachContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete coach
+            </summary>
+            <param name="coachContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
+            <summary>
+            Update coach 
+            </summary>
+            <param name="coachContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService">
+            <summary>
+            Qualification service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete qualification
+            </summary>
+            <param name="contract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
+            <summary>
+            Add Qualification
+            </summary>
+            <param name="contract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.GetCoachesForService(System.Int32)">
+            <summary>
+            Get coaches for service
+            </summary>
+            <param name="serviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.GetServicesForCoach(System.Int32)">
+            <summary>
+            Get services for coaches 
+            </summary>
+            <param name="coachId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService">
+            <summary>
+            Interface service 
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.TakeAllServices">
+            <summary>
+            Take all service
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.TakeService(System.Int32)">
+            <summary>
+            Take service
+            </summary>
+            <param name="serviceId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.AddService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
+            <summary>
+            Add service
+            </summary>
+            <param name="service"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.DeleteService(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete services
+            </summary>
+            <param name="service"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.UpdateService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
+            <summary>
+            Update service
+            </summary>
+            <param name="service"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService">
+            <summary>
+            Interface slot service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.AddSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+            <summary>
+            Add slots
+            </summary>
+            <param name="slotContract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.RemoveSlot(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Remove slots
+            </summary>
+            <param name="slotContract"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeAllSlots">
+            <summary>
+            Take all slots
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeSlotsForCoach(System.Int32)">
+            <summary>
+            Take slots for coach
+            </summary>
+            <param name="coachId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeAllOnDate(System.String)">
+            <summary>
+            Take all on date
+            </summary>
+            <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="coachId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceService">
+            <summary>
+            Service service
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+            <summary>
+            Constructor
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeAllServices">
+            <summary>
+            Take All
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeService(System.Int32)">
+            <summary>
+            Take
+            </summary>
+            <param name="serviceId"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.AddService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
+            <summary>
+            add
+            </summary>
+            <param name="service"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.DeleteService(System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Delete
+            </summary>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.UpdateService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
+            <summary>
+            Update
+            </summary>
+            <param name="service"></param>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.SlotService">
             <summary>
@@ -966,21 +1433,21 @@
             </summary>
             <param name="dbContext"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
             <summary>
             Creation slots 
             </summary>
             <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove slots 
             </summary>
-            <param name="slotContract"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException"></exception>
+            <param name="id"></param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllSlots(System.Int32,System.Int32)">
             <summary>
@@ -1011,17 +1478,30 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="T:PMFightAcademy.Admin.Validation.PhoneValidatorAttribute">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllSlots">
             <summary>
-            Validator for phone number
+            Take all slots
             </summary>
-            <remarks>
-            Formats of phone number:
-            +38067 111 1111
-            067 111 1111
-            Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
-            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoach(System.Int32)">
+            <summary>
+            Take all slots for coaches
+            </summary>
+            <param name="coachId"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllOnDate(System.String)">
+            <summary>
+            Take all slots on date
+            </summary>
+            <param name="date"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
+            <summary>
+            Take all slots for coaches
+            </summary>
+            <param name="coachId">Coach id</param>
+            <param name="start">Date start</param>
+            <param name="end">Date to </param>
         </member>
     </members>
 </doc>

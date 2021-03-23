@@ -32,13 +32,10 @@ namespace PMFightAcademy.Client
             ////add httpClient
             services.AddHttpClient();
 
-            ////add transient
-            services.AddTransient<PasswordValidatorAttribute>();
-            services.AddTransient<PhoneValidatorAttribute>();
-
             // add services
             services.AddTransient<ICoachesService, CoachesService>();
             services.AddTransient<IBookingService, BookingService>();
+            services.AddTransient<IClientsService, ClientsService>();
 
             ////add authentication by jwt
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -64,6 +61,8 @@ namespace PMFightAcademy.Client
                     .RequireAuthenticatedUser()
                     .Build();
             });
+
+            services.AddCors();
 
             services.AddControllers();
 
@@ -118,6 +117,10 @@ namespace PMFightAcademy.Client
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PMFightAcademy.Client v1"));
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseRouting();
 

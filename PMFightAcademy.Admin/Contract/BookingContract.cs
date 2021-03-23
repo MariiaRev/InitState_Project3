@@ -1,4 +1,6 @@
-﻿namespace PMFightAcademy.Admin.Contract
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto for create Workout
@@ -12,6 +14,7 @@
         /// <summary>
         /// Slot id
         /// </summary>
+        
         public int SlotId { get; set; }
         /// <summary>
         /// Service id
@@ -22,6 +25,11 @@
         /// Client 
         /// </summary>
         public int ClientId { get; set; }
+
+        /// <summary>
+        /// ResultPrice
+        /// </summary>
+        public decimal ResultPrice { get; set;}
         
 
     }

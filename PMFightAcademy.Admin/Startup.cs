@@ -9,6 +9,7 @@ using System.IO;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin
 {
@@ -36,11 +37,18 @@ namespace PMFightAcademy.Admin
             });
             services.AddTransient<SlotService>();
 
+            services.AddCors();
+
             services.AddDbContext<AdminContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
 
-            services.AddTransient<BookingService>();
+            services.AddTransient<IBookingService,BookingService>();
+            services.AddTransient<ICoachService,CoachService>();
+            services.AddTransient<IServiceService,ServiceService>();
+            services.AddTransient<IClientService,ClientService>();
+            services.AddTransient<IQualificationService,QualificationService>();
+            services.AddTransient<ISlotService,SlotService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -52,6 +60,10 @@ namespace PMFightAcademy.Admin
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PMFightAcademy.Admin v1"));
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseRouting();
 
