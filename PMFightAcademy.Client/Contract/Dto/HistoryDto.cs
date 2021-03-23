@@ -43,6 +43,11 @@ namespace PMFightAcademy.Client.Contract.Dto
         public string CoachLastName { get; set; }
 
         /// <summary>
+        /// Result booking price.
+        /// </summary>
+        public decimal Price { get; set; }
+
+        /// <summary>
         /// Parameterless constructor.
         /// </summary>
         public HistoryDto() { }
@@ -56,12 +61,15 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// <param name="coachFirstName">First name of the coach who provided the service.</param>
         /// <param name="coachLastName">Last name of the coach who provided the service.</param>
         public HistoryDto(string serviceName, DateTime date, TimeSpan time, string coachFirstName, string coachLastName)
+        /// <param name="price">Booking price.</param>
+        public HistoryDto(string serviceName, DateTime date, TimeSpan time, string coachFirstName, string coachLastName, decimal price)
         {
             ServiceName = serviceName;
             Date = date.ToString("MM/dd/yyyy");
             Time = (new DateTime(1, 1, 1) + time).ToString("HH:mm");
             CoachFirstName = coachFirstName;
             CoachLastName = coachLastName;
+            Price = price;
         }
     }
 }
