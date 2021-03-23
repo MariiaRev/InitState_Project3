@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
+using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Services;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
 {

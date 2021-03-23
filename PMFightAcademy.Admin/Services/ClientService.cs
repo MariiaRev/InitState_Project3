@@ -26,8 +26,6 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Take coaches
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<Client>> TakeAllClients()
         {
             var clients = _dbContext.Clients;
@@ -39,7 +37,6 @@ namespace PMFightAcademy.Admin.Services
         /// 
         /// </summary>
         /// <param name="clientId"></param>
-        /// <returns></returns>
         public async Task<Client> TakeClient(int clientId)
         {
             var client = _dbContext.Clients.FirstOrDefault(x => x.Id == clientId);

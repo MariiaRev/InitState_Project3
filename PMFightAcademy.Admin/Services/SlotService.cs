@@ -67,7 +67,7 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Remove slots 
         /// </summary>
-        /// <param name="slotContract"></param>
+        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
@@ -206,7 +206,6 @@ namespace PMFightAcademy.Admin.Services
         /// Take all slots
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
         {
             
@@ -220,7 +219,6 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="coachId"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId)
         {
             var slots = _dbContext.Slots.Where(x => x.CoachId == coachId);
@@ -232,7 +230,6 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(DateTime date)
         {
             var slots = _dbContext.Slots.Where(x => x.Date == date);
