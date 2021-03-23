@@ -113,7 +113,7 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute] int serviceId,
             CancellationToken token)
         {
-            var result = await _bookingServicee.GetCoachesForBooking(serviceId);
+            var result = await _bookingService.GetCoachesForBooking(serviceId);
             
             if (result.Any())
                 return Ok(result);
