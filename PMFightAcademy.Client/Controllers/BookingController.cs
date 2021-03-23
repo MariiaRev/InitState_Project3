@@ -296,11 +296,26 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetHistory([FromRoute] int pageSize,
-            [FromRoute] int page, 
+        public async Task<IActionResult> GetHistory(
+            [FromRoute, Range(1, int.MaxValue)] int pageSize,
+            [FromRoute, Range(1, int.MaxValue)] int page, 
             CancellationToken token)
         {
-            throw new NotImplementedException();
+            // get client id
+            var claim = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.UserData);
+            if (claim == null)
+                return Unauthorized();
+
+            var clientId = int.Parse(claim.Value);
+
+            var bookings = await _bookingService.GetBookingHistory(pageSize, page, clientId);
+
+            if (!bookings.Data.Any())
+            {
+                return NotFound($"There is no booking history record for this client on page {page}.");
+            }
+
+            return Ok(bookings);
         }
     }
 }
