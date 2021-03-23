@@ -18,14 +18,17 @@ namespace PMFightAcademy.Admin.Services
     public class CoachService : ICoachService
     {
         private readonly AdminContext _dbContext;
+        private readonly IWorkWithIdService _newId;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public CoachService(AdminContext dbContext)
+        /// <param name="newId"></param>
+        public CoachService(AdminContext dbContext,IWorkWithIdService newId)
         {
             _dbContext = dbContext;
+            _newId = newId;
         }
 
         /// <summary>
@@ -60,6 +63,8 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
+            coachContract.Id = _newId.GetIdForCoach();
+
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try
             {

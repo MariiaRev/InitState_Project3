@@ -25,13 +25,15 @@ namespace PMFightAcademy.Admin.Controllers
     {
         
         private readonly ICoachService _coachService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
        /// Constructor for controller
        /// </summary>
-       public CoachController(ICoachService coachService)
+       public CoachController(ICoachService coachService,IWorkWithIdService checkId)
         {
             _coachService = coachService;
+            _checkId = checkId;
         }
 
 
@@ -105,6 +107,11 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetCoach (int coachId)
         {
+            
+            if (!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
 
             var coach = await _coachService.TakeCoach(coachId);
 
@@ -200,7 +207,10 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteCoach(int coachId, CancellationToken cancellationToken)
         {
-            
+            if (!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
             var deleted = await _coachService.DeleteCoach(coachId, cancellationToken);
 
             if (deleted)

@@ -21,13 +21,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constructor of client controller 
         /// </summary>
-        public ClientController(IClientService clientService)
+        public ClientController(IClientService clientService,IWorkWithIdService checkId)
         {
             _clientService = clientService;
+            _checkId = checkId;
         }
 
         #region JS TILT
@@ -81,7 +83,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// return a client what admin need
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="id"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return a clients
         /// <see cref="HttpStatusCode.NotFound"/> if no client with this Name
@@ -95,6 +97,12 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetClient(int id)
         {
+
+            if (!_checkId.IsCorrectId(id))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var client = await _clientService.TakeClient(id);
 
             if (client != null)

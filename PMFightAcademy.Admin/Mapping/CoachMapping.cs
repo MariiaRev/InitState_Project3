@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 
@@ -21,7 +22,7 @@ namespace PMFightAcademy.Admin.Mapping
                 Id=contract.Id,
                 FirstName = contract.FirstName,
                 LastName = contract.LastName,
-                BirthDate = DateTime.Parse(contract.DateBirth),
+                BirthDate = DateTime.ParseExact(contract.DateBirth, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),
                 Description = contract.Description,
                 PhoneNumber = contract.PhoneNumber
             };

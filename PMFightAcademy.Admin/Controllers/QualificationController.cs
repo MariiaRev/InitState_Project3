@@ -22,14 +22,17 @@ namespace PMFightAcademy.Admin.Controllers
     public class QualificationController : ControllerBase
     {
         private readonly IQualificationService _qualificationService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constuctor
         /// </summary>
         /// <param name="qualificationService"></param>
-        public QualificationController(IQualificationService qualificationService)
+        /// <param name="checkId"></param>
+        public QualificationController(IQualificationService qualificationService,IWorkWithIdService checkId)
         {
             _qualificationService = qualificationService;
+            _checkId = checkId;
         }
         /// <summary>
         /// get list  qualifications  for Coach
@@ -47,6 +50,11 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId)
         {
+            if (!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var services = await _qualificationService.GetServicesForCoach(coachId);
             if (services.Any())
             {
@@ -71,6 +79,11 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId)
         {
+            if (!_checkId.IsCorrectId(serviceId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var coaches = await _qualificationService.GetCoachesForService(serviceId);
             if (coaches.Any())
             {
@@ -130,6 +143,11 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteQualification(int qualificationId, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(qualificationId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var deleted = await _qualificationService.DeleteQualification(qualificationId, cancellationToken);
 
             if (deleted)

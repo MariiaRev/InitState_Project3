@@ -22,13 +22,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class ServicesController : ControllerBase
     {
         private readonly IServiceService _serviceService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Service Controller
         /// </summary>
-        public ServicesController(IServiceService serviceService)
+        public ServicesController(IServiceService serviceService,IWorkWithIdService checkId)
         {
             _serviceService = serviceService;
+            _checkId = checkId;
         }
 
         #region JS TILT
@@ -61,7 +63,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <see cref="HttpStatusCode.OK"/> add a coach to coaches
         /// <see cref="HttpStatusCode.NotFound"/> return lit of services</returns>
         /// <remarks> Use to Get all service, return services if  all is fine
-        /// NotFound if its is already registered
+        /// NotFound if its is service not  registered
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet]
@@ -87,7 +89,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <see cref="HttpStatusCode.NotFound"/> if service not founded
         /// </returns>
         /// <remarks> Use to Get Service, return service if  all is fine
-        /// NotFound if its is already registered
+        /// NotFound if its is  not  registered
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{serviceId}")]
@@ -95,7 +97,11 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetService(int serviceId)
         {
-            
+            if (!_checkId.IsCorrectId(serviceId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var service = await _serviceService.TakeService(serviceId);
             if (service != null)
             { 
@@ -135,7 +141,7 @@ namespace PMFightAcademy.Admin.Controllers
         }
 
         /// <summary>
-        /// Add services 
+        /// Update services 
         /// </summary>
         /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
@@ -186,7 +192,7 @@ namespace PMFightAcademy.Admin.Controllers
         //}
 
         /// <summary>
-        /// Add services 
+        /// Delete services 
         /// </summary>
         /// <param name="serviceId"></param>
         /// <param name="cancellationToken"></param>
@@ -197,13 +203,18 @@ namespace PMFightAcademy.Admin.Controllers
         /// <remarks>
         /// Use to delete service
         /// Return ok if deleted and not found if BD have not this service
-        /// Conflict if its is already registered</remarks>
+        /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteService(int serviceId, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(serviceId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var deleted = await _serviceService.DeleteService(serviceId, cancellationToken);
 
             if (deleted)

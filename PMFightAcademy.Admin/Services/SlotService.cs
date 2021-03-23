@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
@@ -18,14 +19,17 @@ namespace PMFightAcademy.Admin.Services
     public class SlotService : ISlotService
     {
         private readonly AdminContext _dbContext;
+        private readonly IWorkWithIdService _newId;
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="dbContext"></param>
-        public SlotService(AdminContext dbContext)
+        /// <param name="newId"></param>
+        public SlotService(AdminContext dbContext,IWorkWithIdService newId)
         {
             _dbContext = dbContext;
+            _newId = newId;
         }
 
         /// <summary>
@@ -46,13 +50,20 @@ namespace PMFightAcademy.Admin.Services
             {
                 throw new ArgumentException();
             }
-            
 
-            List<Slot> slots = new List<Slot>();
-            while (slot.StartTime<=slot.Duration)
+            if (_dbContext.Slots.Where(x => x.Date == slot.Date)
+                .Where(x => x.StartTime <= slot.Duration).Where(x=>x.CoachId == slot.CoachId).Any(x => x.StartTime >= slot.StartTime))
+            {
+                throw new ArgumentException("some slots created in this time range , for this coach");
+            }
+
+
+            // List<Slot> slots = new List<Slot>();
+            while (slot.StartTime <= slot.Duration)
             {
                 var resultSlot = new Slot
                 {
+                    Id = _newId.GetIdForSlots(),
                     CoachId = slot.CoachId,
                     Duration = TimeSpan.FromHours(1),
                     Date = slot.Date,
@@ -60,16 +71,20 @@ namespace PMFightAcademy.Admin.Services
 
                 };
                 slot.StartTime = slot.StartTime + resultSlot.Duration;
-                slots.Add(resultSlot);
-            }
-            try
-            {
-              await _dbContext.AddRangeAsync(slots, cancellationToken);
-              await _dbContext.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                throw new ArgumentException();
+                try
+                {
+                    //slots.Add(resultSlot);
+                    await _dbContext.AddAsync(resultSlot, cancellationToken);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                }
+                
+                //await _dbContext.AddRangeAsync(slots, cancellationToken);
+                //await _dbContext.SaveChangesAsync(cancellationToken);
+
+                catch
+                {
+                    throw new ArgumentException();
+                }
             }
         }
 

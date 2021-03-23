@@ -18,14 +18,17 @@ namespace PMFightAcademy.Admin.Services
     public class QualificationService : IQualificationService
     {
         private readonly AdminContext _dbContext;
+        private readonly IWorkWithIdService _newId;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public QualificationService(AdminContext dbContext)
+        /// <param name="newId"></param>
+        public QualificationService(AdminContext dbContext,IWorkWithIdService newId)
         {
             _dbContext = dbContext;
+            _newId = newId;
         }
 
         /// <summary>
@@ -63,15 +66,16 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddQualification(QualificationContract contract, CancellationToken cancellationToken)
         {
+            contract.Id = _newId.GetIdForQualification();
             try
             {
                 var qualification = QualificationMapping.QualificationMapFromContractToModel(contract);
                 await _dbContext.AddAsync(qualification, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch
+            catch(Exception ex)
             {
-                throw new ArgumentException("No coach");
+                throw new ArgumentException("Something go wrong, dont created service or coach");
             }
 
         }
