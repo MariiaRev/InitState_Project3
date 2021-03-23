@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,7 +37,16 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken)
         {
-            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+            var slot = new Slot();
+            try
+            {
+                slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+            }
+            catch
+            {
+                throw new ArgumentException();
+            }
+            
 
             List<Slot> slots = new List<Slot>();
             while (slot.StartTime<=slot.Duration)
@@ -67,10 +77,8 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Remove slots 
         /// </summary>
-        /// <param name="slotContract"></param>
+        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<bool> RemoveSlot(int id, CancellationToken cancellationToken)
         {
             var slot = _dbContext.Slots.FirstOrDefault(x => x.Id == id);
@@ -205,8 +213,6 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Take all slots
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
         {
             
@@ -219,8 +225,6 @@ namespace PMFightAcademy.Admin.Services
         /// Take all slots for coaches
         /// </summary>
         /// <param name="coachId"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId)
         {
             var slots = _dbContext.Slots.Where(x => x.CoachId == coachId);
@@ -231,13 +235,35 @@ namespace PMFightAcademy.Admin.Services
         /// Take all slots on date
         /// </summary>
         /// <param name="date"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(DateTime date)
+        public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date)
         {
-            var slots = _dbContext.Slots.Where(x => x.Date == date);
+            if (!DateTime.TryParseExact(date, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
+                return new List<SlotsReturnContract>();
+
+            var slots = _dbContext.Slots.Where(x => x.Date == dateStart);
             
             return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
         }
+
+        /// <summary>
+        /// Take all slots for coaches
+        /// </summary>
+        /// <param name="coachId">Coach id</param>
+        /// <param name="start">Date start</param>
+        /// <param name="end">Date to </param>
+        public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start, string end)
+        {
+            //var test = DateTime.ParseExact(start, "MM/dd/yyyy",CultureInfo.InvariantCulture);
+            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", CultureInfo.CurrentCulture ,DateTimeStyles.None, out var dateStart))
+                return new List<SlotsReturnContract>();
+            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateEnd))
+                return new List<SlotsReturnContract>();
+
+            var slots = _dbContext.Slots.Select(x=>x).Where(x => x.CoachId == coachId).Where(x=>x.Date >= dateStart).Where(x=>x.Date<=dateEnd);
+
+            return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
+        }
+
+
     }
 }

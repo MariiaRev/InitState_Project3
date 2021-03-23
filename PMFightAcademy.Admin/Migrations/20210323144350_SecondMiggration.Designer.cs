@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PMFightAcademy.Admin.DataBase;
@@ -9,9 +10,10 @@ using PMFightAcademy.Admin.DataBase;
 namespace PMFightAcademy.Admin.Migrations
 {
     [DbContext(typeof(AdminContext))]
-    partial class AdminContextModelSnapshot : ModelSnapshot
+    [Migration("20210323144350_SecondMiggration")]
+    partial class SecondMiggration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

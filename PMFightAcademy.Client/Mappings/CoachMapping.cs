@@ -19,6 +19,7 @@ namespace PMFightAcademy.Client.Mappings
         {
             return new CoachDto()
             {
+                Id = coach.Id,
                 FirstName = coach.FirstName,
                 LastName = coach.LastName,
                 Age = GetAgeByDate(coach.BirthDate),
@@ -37,6 +38,7 @@ namespace PMFightAcademy.Client.Mappings
         {
             return new CoachDto()
             {
+                Id = coach.Id,
                 FirstName = coach.FirstName,
                 LastName = coach.LastName,
                 Age = GetAgeByDate(coach.BirthDate),

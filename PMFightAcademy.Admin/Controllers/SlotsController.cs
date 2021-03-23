@@ -6,8 +6,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using PMFightAcademy.Admin.Services;
@@ -195,9 +193,9 @@ namespace PMFightAcademy.Admin.Controllers
         public async Task<IActionResult> GetSlotsForDates([FromRoute] string date)
         {
             
-            var dateToSend = DateTime.Parse(date);
             
-            var slots = await _slotService.TakeAllOnDate(dateToSend);
+            
+            var slots = await _slotService.TakeAllOnDate(date);
 
             if (slots.Any()) 
             { 
@@ -263,6 +261,34 @@ namespace PMFightAcademy.Admin.Controllers
             }
 
             return NotFound("No Service");
+        }
+
+
+        /// <summary>
+        /// Show slots for coach
+        /// </summary>
+        /// <returns><see cref="HttpStatusCode.OK"/> return service needed 
+        /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        /// <remarks>
+        /// Return list of  slots for coach in time range
+        /// return not fount if its is empty
+        /// </remarks>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
+        [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetSlotsForCoachFromDateToDate(int coachId,string dateStart,string dateEnd)
+        {
+
+            var slots = await _slotService.TakeSlotsForCoachOnDates(coachId,dateStart,dateEnd);
+
+            if (slots.Any())
+            {
+                return Ok(slots);
+            }
+
+            return NotFound("No slots for this coaches on this dates ");
+
         }
     }
 }

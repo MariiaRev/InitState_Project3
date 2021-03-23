@@ -1,14 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
+using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Services;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -238,5 +236,66 @@ namespace PMFightAcademy.Admin.Controllers
         //{
         //    throw new NotImplementedException();
         //}
+
+
+        /// <summary>
+        /// Select booked services for client on  date space 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="dateEnd"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="dateStart"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/>return list of slots what is booked
+        /// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        /// </returns>
+        /// <remarks>
+        /// Return list about booked info for Client
+        /// not founded if no Client 
+        /// </remarks>
+        [HttpGet("client/{clientId}/{dateStart}/{dateEnd}")]
+        [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetBookedServiceForClientOnDate(int clientId, string dateStart, string dateEnd, CancellationToken cancellationToken)
+        {
+            var bookings = await _bookingService.TakeBookingForClientOnDate(clientId,dateStart,dateEnd);
+            if (bookings.Any())
+            {
+                return Ok(bookings);
+            }
+
+            return NotFound("No books for this client");
+        }
+
+        /// <summary>
+        /// Select booked services for coach on   date space  
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="dateEnd"></param>
+        /// <param name="cancellationToken"></param>
+        /// <param name="dateStart"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/>return list of slots what booked
+        /// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        /// </returns>
+        /// <remarks>
+        /// Return list about booked info for coach
+        /// In time range
+        /// if not find will return not fount 
+        /// </remarks>
+        [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
+        [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetBookedServiceForCoachOnDate(int coachId,string dateStart,string dateEnd, CancellationToken cancellationToken)
+        {
+            var bookings = await _bookingService.TakeBookingForClientOnDate(coachId, dateStart, dateEnd);
+
+            if (bookings.Any())
+            {
+                return Ok(bookings);
+            }
+
+            return NotFound("No books for this coach");
+        }
     }
 }

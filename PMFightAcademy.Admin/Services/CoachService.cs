@@ -1,14 +1,12 @@
-﻿using System;
+﻿using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Mapping;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -31,8 +29,6 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Take coaches
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<CoachContract>> TakeAllCoaches()
         {
             var coaches = _dbContext.Coaches;
@@ -41,11 +37,9 @@ namespace PMFightAcademy.Admin.Services
         }
 
         /// <summary>
-        /// Take Coache
+        /// Take Coach
         /// </summary>s
         /// <param name="coachId"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<CoachContract> TakeCoach(int coachId)
         {
             var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachId);
@@ -56,7 +50,6 @@ namespace PMFightAcademy.Admin.Services
         /// Add coach
         /// </summary>
         /// <param name="coachContract"></param>
-        /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
@@ -75,9 +68,7 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Delete 
         /// </summary>
-        /// <param name="coachContract"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <param name="id"></param>
         public async Task<bool> DeleteCoach(int id, CancellationToken cancellationToken)
         {
             var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == id);
@@ -104,8 +95,6 @@ namespace PMFightAcademy.Admin.Services
         /// Update
         /// </summary>
         /// <param name="coachContract"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);

@@ -39,7 +39,7 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                DateBirth = model.BirthDate.ToString("MM/dd/yyyy"),
+                DateBirth = model.BirthDate.ToString("MM.dd.yyyy"),
                 Description = model.Description,
                 PhoneNumber = model.PhoneNumber
             };

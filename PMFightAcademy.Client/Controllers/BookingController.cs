@@ -13,6 +13,9 @@ using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -25,12 +28,12 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class BookingController : ControllerBase
     {
-        private readonly IBookingService _service;
+        private readonly IBookingService _bookingService;
 
 #pragma warning disable 1591
-        public BookingController(IBookingService service)
+        public BookingController(IBookingService bookingService)
         {
-            _service = service;
+            _bookingService = bookingService;
         }
 #pragma warning restore 1591
 
@@ -79,7 +82,8 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetServicesForBooking(CancellationToken token)
         {
-            var result = await _service.GetServicesForBooking();
+            var result = await _bookingService.GetServicesForBooking();
+            
             if (result.Any())
                 return Ok(result);
 
@@ -109,7 +113,8 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute] int serviceId,
             CancellationToken token)
         {
-            var result = await _service.GetCoachesForBooking(serviceId);
+            var result = await _bookingService.GetCoachesForBooking(serviceId);
+            
             if (result.Any())
                 return Ok(result);
 
@@ -142,7 +147,7 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute] int coachId,
             CancellationToken token)
         {
-            var result = await _service.GetDatesForBooking(serviceId, coachId);
+            var result = await _bookingService.GetDatesForBooking(serviceId, coachId);
             if (result.Any())
                 return Ok(result);
 
@@ -179,7 +184,7 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute] string date,
             CancellationToken token)
         {
-            var result = await _service.GetTimeSlotsForBooking(serviceId, coachId, date);
+            var result = await _bookingService.GetTimeSlotsForBooking(serviceId, coachId, date);
             if (result.Any())
                 return Ok(result);
 
@@ -216,7 +221,7 @@ namespace PMFightAcademy.Client.Controllers
                 return BadRequest();
             var clientId = int.Parse(claim.Value);
 
-            var result = await _service.AddBooking(booking, clientId);
+            var result = await _bookingService.AddBooking(booking, clientId);
             if (result)
                 return Ok();
 
@@ -243,12 +248,26 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetActiveBookings(
-            [FromRoute] int pageSize,
-            [FromRoute] int page,
+        public async Task<IActionResult> GetActiveBookings(
+            [FromRoute, Range(1, int.MaxValue)] int pageSize, 
+            [FromRoute, Range(1, int.MaxValue)] int page, 
             CancellationToken token)
         {
-            throw new NotImplementedException();
+            // get client id
+            var claim = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.UserData);
+            if (claim == null)
+                return Unauthorized();
+
+            var clientId = int.Parse(claim.Value);
+
+            var bookings = await _bookingService.GetActiveBookings(pageSize, page, clientId, token);
+
+            if (!bookings.Data.Any())
+            {
+                return NotFound($"There is no active booking for this client on page {page}.");
+            }
+
+            return Ok(bookings);
         }
 
         /// <summary>
@@ -271,12 +290,26 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetHistory(
-            [FromRoute] int pageSize,
-            [FromRoute] int page,
+        public async Task<IActionResult> GetHistory(
+            [FromRoute, Range(1, int.MaxValue)] int pageSize,
+            [FromRoute, Range(1, int.MaxValue)] int page, 
             CancellationToken token)
         {
-            throw new NotImplementedException();
+            // get client id
+            var claim = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.UserData);
+            if (claim == null)
+                return Unauthorized();
+
+            var clientId = int.Parse(claim.Value);
+
+            var bookings = await _bookingService.GetBookingHistory(pageSize, page, clientId, token);
+
+            if (!bookings.Data.Any())
+            {
+                return NotFound($"There is no booking history record for this client on page {page}.");
+            }
+
+            return Ok(bookings);
         }
     }
 }

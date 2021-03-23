@@ -45,5 +45,22 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<bool> UpdateBooking(BookingContract slotContract, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int coachId,string start,string end);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int clientId,string start, string end);
     }
 }

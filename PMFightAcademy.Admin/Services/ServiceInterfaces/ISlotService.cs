@@ -39,8 +39,17 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public  Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(DateTime date);
+        public  Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date);
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start,
+            string end);
 
 
     }
