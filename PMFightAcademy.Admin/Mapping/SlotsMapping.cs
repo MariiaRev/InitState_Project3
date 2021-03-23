@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
 
@@ -27,7 +28,7 @@ namespace PMFightAcademy.Admin.Mapping
             {
                 Id = contract.Id,
                 CoachId = contract.CoachId,
-                Date = DateTime.Parse(contract.DateStart),
+                Date = DateTime.ParseExact(contract.DateStart, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),
                 Duration = TimeSpan.Parse(contract.TimeEnd),
                 StartTime = TimeSpan.Parse(contract.TimeStart)
             };

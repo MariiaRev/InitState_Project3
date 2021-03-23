@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -82,9 +83,46 @@ namespace PMFightAcademy.Admin.Services
         }
 
         /// <summary>
+        /// Take clients depends from date
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int clientId, string start, string end)
+        {
+            if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
+                return new List<BookingContract>();
+            if (!DateTime.TryParseExact(end, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateEnd))
+                return new List<BookingContract>();
+            var bookings = _dbContext.Bookings.Select(x=>x).Where(x => x.ClientId == clientId)
+                .Where(x => x.Slot.Date >= dateStart).Where(x => x.Slot.Date <= dateEnd);
+            return bookings.AsEnumerable().Select(BookingMapping.BookingMapFromModelTToContract); 
+        }
+
+        /// <summary>
+        /// Take coaches depends from date
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int coachId, string start, string end)
+        {
+            if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
+                return new List<BookingContract>();
+            if (!DateTime.TryParseExact(end, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateEnd))
+                return new List<BookingContract>();
+
+            var bookings = _dbContext.Bookings.Select(x => x).Where(x => x.Slot.CoachId == coachId)
+                .Where(x => x.Slot.Date >= dateStart).Where(x => x.Slot.Date <= dateEnd);
+            return bookings.AsEnumerable().Select(BookingMapping.BookingMapFromModelTToContract);
+        }
+
+        /// <summary>
         /// Remove booking
         /// </summary>
-        /// <param name="bookingContract"></param>
+        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async  Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
