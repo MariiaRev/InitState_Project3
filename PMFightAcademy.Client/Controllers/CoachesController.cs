@@ -9,6 +9,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -51,7 +52,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public IActionResult Get(
+        public async Task<IActionResult> Get(
             [FromRoute, Range(1, int.MaxValue)] int pageSize,
             [FromRoute, Range(1, int.MaxValue)] int page,
             [FromQuery] string filter,
@@ -59,7 +60,7 @@ namespace PMFightAcademy.Client.Controllers
             CancellationToken token)            // no need of token in matching param tag in the XML comment
 #pragma warning restore CS1573 
         {
-            var coaches = _coachesService.GetCoaches(pageSize, page, filter);
+            var coaches = await _coachesService.GetCoaches(pageSize, page, token, filter);
 
             if (!coaches.Data.Any())
             {

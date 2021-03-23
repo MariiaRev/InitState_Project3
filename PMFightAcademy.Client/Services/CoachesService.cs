@@ -1,11 +1,14 @@
-﻿using PMFightAcademy.Client.Contract.Dto;
+﻿using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.DataBase;
 using PMFightAcademy.Client.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using static PMFightAcademy.Client.Mappings.CoachMapping;
-using System;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -25,35 +28,48 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
-        public GetDataContract<CoachDto> GetCoaches(int pageSize, int page, string filter = null)
+        public async Task<GetDataContract<CoachDto>> GetCoaches(int pageSize, int page, CancellationToken token, string filter = null)
         {
-            IEnumerable<Coach> coaches = _dbContext.Coaches;
+            var coaches = await _dbContext.Coaches.Include(coach => coach.Qualifications).ToListAsync(token);
 
             // filter coaches
-            if (!string.IsNullOrWhiteSpace(filter))
-            {
-                coaches = coaches
-                   .Where(coach => coach.FirstName.Contains(filter, StringComparison.OrdinalIgnoreCase) ||
-                                   coach.LastName.Contains(filter, StringComparison.OrdinalIgnoreCase));
-            };
-
+            var filteredCoaches = coaches.Where(c => filter == null ||
+                                                     ContainsIgnoreCase(c.FirstName, filter) ||
+                                                     ContainsIgnoreCase(c.LastName, filter));
+            
             // get total coaches count
-            var coachesCount = (decimal)coaches.Count();
+            var coachesCount = (decimal)filteredCoaches.Count();
+
+            if (coachesCount == 0)
+            {
+                return new GetDataContract<CoachDto>();
+            }
 
             // skip and take coaches
-            coaches = coaches.Skip((page - 1) * pageSize).Take(pageSize);
+            var resultCoaches = filteredCoaches.Skip((page - 1) * pageSize).Take(pageSize);
+
+            // get services
+            IEnumerable<Qualification> qualifications = _dbContext.Qualifications.Include(q => q.Service);
+
+            // combine result
+            var result = resultCoaches.Select(coach => CoachWithServicesToCoachDto(coach,
+                    qualifications.Where(q => q.CoachId == coach.Id).Select(q => q.Service.Name)));
 
             // return intricate data object
             return new GetDataContract<CoachDto>()
             {
-                Data = coaches.Select(coach => CoachWithServicesToCoachDto(coach,
-                    coach.Qualifications?.Select(q => q.Service?.Name))),
+                Data = result,
                 Paggination = new Paggination()
                 {
                     Page = page,
                     TotalPages = (int)Math.Ceiling(coachesCount / pageSize)
                 }
             };
+        }
+
+        private static bool ContainsIgnoreCase(string field, string filter)
+        {
+            return field.Contains(filter, StringComparison.OrdinalIgnoreCase);
         }
     }
 }
