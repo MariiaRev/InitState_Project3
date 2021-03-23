@@ -19,7 +19,7 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// Date is in format "MM/dd/yyyy".
         /// </summary>
         [Required]
-        [RegularExpression(@"^(0[1-9])|1[0-2]\/([0-2][0-9]|3[0-1])\/[0-9]{4}$")]
+        [RegularExpression(@"^(0[1-9])|1[0-2].([0-2][0-9]|3[0-1]).[0-9]{4}$")]
         public string Date { get; set; }
 
         /// <summary>
@@ -60,12 +60,11 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// <param name="time">Time when the service is/was provided.</param>
         /// <param name="coachFirstName">First name of the coach who provided the service.</param>
         /// <param name="coachLastName">Last name of the coach who provided the service.</param>
-        public HistoryDto(string serviceName, DateTime date, TimeSpan time, string coachFirstName, string coachLastName)
         /// <param name="price">Booking price.</param>
         public HistoryDto(string serviceName, DateTime date, TimeSpan time, string coachFirstName, string coachLastName, decimal price)
         {
             ServiceName = serviceName;
-            Date = date.ToString("MM/dd/yyyy");
+            Date = date.ToString("MM.dd.yyyy");
             Time = (new DateTime(1, 1, 1) + time).ToString("HH:mm");
             CoachFirstName = coachFirstName;
             CoachLastName = coachLastName;

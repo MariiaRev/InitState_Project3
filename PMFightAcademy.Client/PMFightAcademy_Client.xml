@@ -188,12 +188,17 @@
             Last name of the coach that provided the service
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Price">
+            <summary>
+            Result booking price.
+            </summary>
+        </member>
         <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor">
             <summary>
             Parameterless constructor.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.TimeSpan,System.String,System.String)">
+        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.TimeSpan,System.String,System.String,System.Decimal)">
             <summary>
             Constructor with parameters.
             </summary>
@@ -202,6 +207,7 @@
             <param name="time">Time when the service is/was provided.</param>
             <param name="coachFirstName">First name of the coach who provided the service.</param>
             <param name="coachLastName">Last name of the coach who provided the service.</param>
+            <param name="price">Booking price.</param>
         </member>
         <member name="T:PMFightAcademy.Client.Contract.GetDataContract`1">
             <summary>
