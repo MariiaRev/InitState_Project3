@@ -990,18 +990,21 @@
             <summary>
             Take all slots
             </summary>
+            <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoach(System.Int32)">
             <summary>
             Take Booking for coach
             </summary>
             <param name="coachId"></param>
+            <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingOnClient(System.Int32)">
             <summary>
             Take booking for client
             </summary>
             <param name="clientId"></param>
+            <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
             <summary>
@@ -1009,6 +1012,7 @@
             </summary>
             <param name="bookingContract"></param>
             <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
             <summary>
@@ -1034,6 +1038,7 @@
             </summary>
             <param name="id"></param>
             <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ClientService">
             <summary>
@@ -1050,12 +1055,15 @@
             <summary>
             Take coaches
             </summary>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ClientService.TakeClient(System.Int32)">
             <summary>
             
             </summary>
             <param name="clientId"></param>
+            <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.CoachService">
             <summary>
@@ -1072,31 +1080,40 @@
             <summary>
             Take coaches
             </summary>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeCoach(System.Int32)">
             <summary>
-            Take Coach
+            Take Coache
             </summary>s
             <param name="coachId"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
             Add coach
             </summary>
             <param name="coachContract"></param>
+            <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete 
             </summary>
-            <param name="id"></param>
+            <param name="coachContract"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
             Update
             </summary>
             <param name="coachContract"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.QualificationService">
             <summary>
@@ -1113,13 +1130,16 @@
             <summary>
             Delete qualification
             </summary>
-            <param name="id"></param>
+            <param name="contract"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.QualificationService.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
             <summary>
             Update
             </summary>
             <param name="contract"></param>
+            <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetCoachesForService(System.Int32)">
@@ -1127,12 +1147,16 @@
             Get coaches
             </summary>
             <param name="serviceId"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetServicesForCoach(System.Int32)">
             <summary>
             Get services
             </summary>
             <param name="coachId"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService">
             <summary>
@@ -1393,31 +1417,40 @@
             <summary>
             Take All
             </summary>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeService(System.Int32)">
             <summary>
             Take
             </summary>
             <param name="serviceId"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.AddService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
             <summary>
             add
             </summary>
             <param name="service"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.DeleteService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete
             </summary>
-            <param name="id"></param>
-            <param name="cancellationToken"></param>
+            <param name="service"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.UpdateService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
             <summary>
             Update
             </summary>
             <param name="service"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.SlotService">
             <summary>
@@ -1443,7 +1476,6 @@
             <summary>
             Remove slots 
             </summary>
-            <param name="id"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
@@ -1482,6 +1514,7 @@
             Take all slots
             </summary>
             <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoach(System.Int32)">
             <summary>
@@ -1489,12 +1522,15 @@
             </summary>
             <param name="coachId"></param>
             <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllOnDate(System.String)">
             <summary>
             Take all slots on date
             </summary>
             <param name="date"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
             <summary>

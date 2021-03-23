@@ -77,8 +77,9 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Remove slots 
         /// </summary>
-        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<bool> RemoveSlot(int id, CancellationToken cancellationToken)
         {
             var slot = _dbContext.Slots.FirstOrDefault(x => x.Id == id);
@@ -213,6 +214,8 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Take all slots
         /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
         {
             
@@ -225,6 +228,8 @@ namespace PMFightAcademy.Admin.Services
         /// Take all slots for coaches
         /// </summary>
         /// <param name="coachId"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId)
         {
             var slots = _dbContext.Slots.Where(x => x.CoachId == coachId);
@@ -235,6 +240,8 @@ namespace PMFightAcademy.Admin.Services
         /// Take all slots on date
         /// </summary>
         /// <param name="date"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date)
         {
             if (!DateTime.TryParseExact(date, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
@@ -251,6 +258,8 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachId">Coach id</param>
         /// <param name="start">Date start</param>
         /// <param name="end">Date to </param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start, string end)
         {
             //var test = DateTime.ParseExact(start, "MM/dd/yyyy",CultureInfo.InvariantCulture);

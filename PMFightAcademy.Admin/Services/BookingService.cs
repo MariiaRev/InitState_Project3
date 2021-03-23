@@ -1,13 +1,14 @@
 ﻿using System;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Mapping;
+using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -30,6 +31,7 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Take all slots
         /// </summary>
+        /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeAllBooking()
         {
             var bookings = _dbContext.Bookings.Select(BookingMapping.BookingMapFromModelTToContract);
@@ -40,6 +42,7 @@ namespace PMFightAcademy.Admin.Services
         /// Take Booking for coach
         /// </summary>
         /// <param name="coachId"></param>
+        /// <returns></returns>
         public async  Task<IEnumerable<BookingContract>> TakeBookingForCoach(int coachId)
         {
             var bookings = _dbContext.Bookings.Where(x => x.Slot.CoachId == coachId).ToArray();
@@ -50,6 +53,7 @@ namespace PMFightAcademy.Admin.Services
         /// Take booking for client
         /// </summary>
         /// <param name="clientId"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeBookingOnClient(int clientId)
         {
             var bookings = _dbContext.Bookings.Where(x => x.ClientId == clientId);
@@ -61,6 +65,7 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="bookingContract"></param>
         /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<bool> UpdateBooking(BookingContract bookingContract, CancellationToken cancellationToken)
         {
             var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
@@ -83,6 +88,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="clientId"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int clientId, string start, string end)
         {
             if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
@@ -100,6 +106,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachId"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
+        /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int coachId, string start, string end)
         {
             if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
@@ -117,6 +124,7 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async  Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
         {
             var booking = _dbContext.Bookings.FirstOrDefault(x => x.Id == id);
