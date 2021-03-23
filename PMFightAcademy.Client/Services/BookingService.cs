@@ -2,6 +2,7 @@
 using PMFightAcademy.Client.Models;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using PMFightAcademy.Client.Contract.Dto;
@@ -140,7 +141,7 @@ namespace PMFightAcademy.Client.Services
             var result = slots
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
-                .Where(x => DateTime.Parse(date) == x.Date)
+                .Where(x => DateTime.Parse(date.Replace("%2F", ".")) == x.Date)
                 .Select(x => (new DateTime(1,1,1) + x.StartTime).ToString("HH:mm"))
                 .ToArray();
 
