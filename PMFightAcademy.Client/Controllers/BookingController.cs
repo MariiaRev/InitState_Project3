@@ -12,6 +12,8 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -24,12 +26,12 @@ namespace PMFightAcademy.Client.Controllers
     [Authorize]
     public class BookingController : ControllerBase
     {
-        private readonly BookingService _service;
+        private readonly IBookingService _bookingService;
 
 #pragma warning disable 1591
-        public BookingController(BookingService service)
+        public BookingController(IBookingService bookingService)
         {
-            _service = service;
+            _bookingService = bookingService;
         }
 #pragma warning restore 1591
 
@@ -79,7 +81,7 @@ namespace PMFightAcademy.Client.Controllers
         {
             try
             {
-                var result = await _service.GetServicesForBooking();
+                var result = await _bookingService.GetServicesForBooking();
                 return Ok(result);
             }
             catch (ArgumentException e)
@@ -105,12 +107,13 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<CoachDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetCoachesForBooking([FromRoute] int serviceId
-            , CancellationToken token)
+        public async Task<IActionResult> GetCoachesForBooking(
+            [FromRoute] int serviceId,
+            CancellationToken token)
         {
             try
             {
-                var result = await _service.GetCoachesForBooking(serviceId);
+                var result = await _bookingService.GetCoachesForBooking(serviceId);
                 return Ok(result);
             }
             catch (ArgumentException e)
@@ -143,7 +146,7 @@ namespace PMFightAcademy.Client.Controllers
         {
             try
             {
-                var result = await _service.GetDatesForBooking(serviceId, coachId);
+                var result = await _bookingService.GetDatesForBooking(serviceId, coachId);
                 return Ok(result);
             }
             catch (ArgumentException e)
@@ -179,7 +182,7 @@ namespace PMFightAcademy.Client.Controllers
         {
             try
             {
-                var result = await _service.GetTimeSlotsForBooking(serviceId, coachId, date);
+                var result = await _bookingService.GetTimeSlotsForBooking(serviceId, coachId, date);
                 return Ok(result);
             }
             catch (ArgumentException e)
@@ -218,7 +221,7 @@ namespace PMFightAcademy.Client.Controllers
                 if (claim == null)
                     return BadRequest("No UserData in JWT-token for authorization");
                 var clientId = int.Parse(claim.Value);
-                await _service.AddBooking(booking, clientId);
+                await _bookingService.AddBooking(booking, clientId);
                 return Ok();
             }
             catch (ArgumentException e)
@@ -247,15 +250,30 @@ namespace PMFightAcademy.Client.Controllers
         /// Returns OK with active booking list if client is authorized and there is at least one record in the active booking list.
         /// Returns NotFound with <c>string</c> message if client is authorized and there is no record in the active booking list.
         /// </remarks>
-        [HttpGet("{pageSize}/{page}")]
+        [HttpGet("active/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<HistoryDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public Task<IActionResult> GetActiveBookings([FromRoute] int pageSize, 
-            [FromRoute] int page, 
+        public async Task<IActionResult> GetActiveBookings(
+            [FromRoute, Range(1, int.MaxValue)] int pageSize, 
+            [FromRoute, Range(1, int.MaxValue)] int page, 
             CancellationToken token)
         {
-            throw new NotImplementedException();
+            // get client id
+            var claim = ((ClaimsIdentity)HttpContext.User.Identity).FindFirst(ClaimTypes.UserData);
+            if (claim == null)
+                return Unauthorized();
+
+            var clientId = int.Parse(claim.Value);
+
+            var bookings = await _bookingService.GetActiveBookings(pageSize, page, clientId);
+
+            if (!bookings.Data.Any())
+            {
+                return NotFound($"There is no active booking for this client on page {page}.");
+            }
+
+            return Ok(bookings);
         }
 
         /// <summary>
