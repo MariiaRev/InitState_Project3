@@ -791,7 +791,7 @@
             Constructor with DI.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.CoachesService.GetCoaches(System.Int32,System.Int32,System.String)">
+        <member name="M:PMFightAcademy.Client.Services.CoachesService.GetCoaches(System.Int32,System.Int32,System.Threading.CancellationToken,System.String)">
             <inheritdoc/>
         </member>
         <member name="T:PMFightAcademy.Client.Services.IBookingService">
@@ -868,12 +868,13 @@
             Coaches storage service abstraction.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.ICoachesService.GetCoaches(System.Int32,System.Int32,System.String)">
+        <member name="M:PMFightAcademy.Client.Services.ICoachesService.GetCoaches(System.Int32,System.Int32,System.Threading.CancellationToken,System.String)">
             <summary>
             Gets coaches list with paggination.
             </summary>
-            <param name="skipCount">How many coaches to skip.</param>
-            <param name="takeCount">How many coaches to take.</param>
+            <param name="pageSize">Coaches count per page.</param>
+            <param name="page">Current page.</param>
+            <param name="token">Cancellation token for DB requests.</param>
             <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
             <returns>Returns list of found coaches or empty list if there is no coach.</returns>
         </member>
