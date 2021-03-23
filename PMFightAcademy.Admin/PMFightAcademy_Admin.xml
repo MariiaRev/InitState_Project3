@@ -226,6 +226,41 @@
             and they will be updated
             </remarks>
         </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForClientOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Select booked services for client on  date space 
+            </summary>
+            <param name="clientId"></param>
+            <param name="dateEnd"></param>
+            <param name="cancellationToken"></param>
+            <param name="dateStart"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            </returns>
+            <remarks>
+            Return list about booked info for Client
+            not founded if no Client 
+            </remarks>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForCoachOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Select booked services for coach on   date space  
+            </summary>
+            <param name="coachId"></param>
+            <param name="dateEnd"></param>
+            <param name="cancellationToken"></param>
+            <param name="dateStart"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            </returns>
+            <remarks>
+            Return list about booked info for coach
+            In time range
+            if not find will return not fount 
+            </remarks>
+        </member>
         <member name="T:PMFightAcademy.Admin.Controllers.ClientController">
             <summary>
             Client controller
@@ -575,6 +610,18 @@
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
             <remarks>
             Use for delete slots
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForCoachFromDateToDate(System.Int32,System.String,System.String)">
+            <summary>
+            Show slots for coach
+            </summary>
+            <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <remarks>
+            Return list of  slots for coach in time range
+            return not fount if its is empty
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
@@ -962,11 +1009,29 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            Take clients depends from date
+            </summary>
+            <param name="clientId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            Take coaches depends from date
+            </summary>
+            <param name="coachId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove booking
             </summary>
-            <param name="bookingContract"></param>
+            <param name="id"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
@@ -1127,6 +1192,24 @@
             </summary>
             <param name="slotContract"></param>
             <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="coachId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="clientId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService">
@@ -1298,11 +1381,20 @@
             <param name="coachId"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeAllOnDate(System.DateTime)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeAllOnDate(System.String)">
             <summary>
             Take all on date
             </summary>
             <param name="date"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="coachId"></param>
+            <param name="start"></param>
+            <param name="end"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceService">
@@ -1379,7 +1471,6 @@
             <summary>
             Remove slots 
             </summary>
-            <param name="slotContract"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
@@ -1428,7 +1519,7 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllOnDate(System.DateTime)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeAllOnDate(System.String)">
             <summary>
             Take all slots on date
             </summary>
@@ -1436,5 +1527,30 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
+
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
+            <summary>
+            Take all slots for coaches
+            </summary>
+            <param name="coachId">Coach id</param>
+            <param name="start">Date start</param>
+            <param name="end">Date to </param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Validation.PhoneValidatorAttribute">
+            <summary>
+            Validator for phone number
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
+
+
     </members>
 </doc>
