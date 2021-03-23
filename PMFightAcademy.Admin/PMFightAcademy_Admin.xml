@@ -228,7 +228,7 @@
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForClientOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Select booked services on person
+            Select booked services for client on  date space 
             </summary>
             <param name="clientId"></param>
             <param name="dateEnd"></param>
@@ -245,7 +245,7 @@
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForCoachOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
-            Select booked services on coach
+            Select booked services for coach on   date space  
             </summary>
             <param name="coachId"></param>
             <param name="dateEnd"></param>
@@ -257,7 +257,8 @@
             </returns>
             <remarks>
             Return list about booked info for coach
-            not founded if no coaches 
+            In time range
+            if not find will return not fount 
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.ClientController">
@@ -619,8 +620,8 @@
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
             <remarks>
-            Return list of  slots for coach
-            return if NotFound
+            Return list of  slots for coach in time range
+            return not fount if its is empty
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>

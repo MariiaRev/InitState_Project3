@@ -29,8 +29,8 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = contract.Id,
                 CoachId = contract.CoachId,
                 Date = DateTime.ParseExact(contract.DateStart, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),
-                Duration = TimeSpan.Parse(contract.TimeEnd),
-                StartTime = TimeSpan.Parse(contract.TimeStart)
+                Duration = TimeSpan.Parse(contract.TimeEnd,CultureInfo.CurrentCulture),
+                StartTime = TimeSpan.Parse(contract.TimeStart, CultureInfo.CurrentCulture)
             };
             
         }

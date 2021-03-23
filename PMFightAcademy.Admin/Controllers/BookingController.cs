@@ -241,7 +241,7 @@ namespace PMFightAcademy.Admin.Controllers
 
 
         /// <summary>
-        /// Select booked services on person
+        /// Select booked services for client on  date space 
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="dateEnd"></param>
@@ -270,7 +270,7 @@ namespace PMFightAcademy.Admin.Controllers
         }
 
         /// <summary>
-        /// Select booked services on coach
+        /// Select booked services for coach on   date space  
         /// </summary>
         /// <param name="coachId"></param>
         /// <param name="dateEnd"></param>
@@ -282,7 +282,8 @@ namespace PMFightAcademy.Admin.Controllers
         /// </returns>
         /// <remarks>
         /// Return list about booked info for coach
-        /// not founded if no coaches 
+        /// In time range
+        /// if not find will return not fount 
         /// </remarks>
         [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]

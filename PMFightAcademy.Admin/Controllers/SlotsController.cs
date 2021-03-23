@@ -268,8 +268,8 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns><see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
         /// <remarks>
-        /// Return list of  slots for coach
-        /// return if NotFound
+        /// Return list of  slots for coach in time range
+        /// return not fount if its is empty
         /// </remarks>
         /// <exception cref="NotImplementedException"></exception>
         [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
