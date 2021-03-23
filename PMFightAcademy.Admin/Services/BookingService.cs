@@ -1,4 +1,5 @@
-﻿using PMFightAcademy.Admin.Contract;
+﻿using System;
+using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
@@ -82,7 +83,6 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="clientId"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int clientId, string start, string end)
         {
             if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
@@ -100,7 +100,6 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachId"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int coachId, string start, string end)
         {
             if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
