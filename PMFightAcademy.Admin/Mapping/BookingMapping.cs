@@ -20,7 +20,8 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = contract.Id, 
                 SlotId = contract.SlotId, 
                 ServiceId = contract.ServiceId, 
-                ClientId = contract.ClientId
+                ClientId = contract.ClientId,
+                ResultPrice = contract.ResultPrice
             };
         }
 
@@ -36,7 +37,8 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = model.Id,
                 ClientId = model.ClientId,
                 ServiceId = model.ServiceId,
-                SlotId = model.SlotId
+                SlotId = model.SlotId,
+                ResultPrice = model.ResultPrice
             };
         }
     }
