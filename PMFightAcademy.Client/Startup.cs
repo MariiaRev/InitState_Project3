@@ -61,6 +61,8 @@ namespace PMFightAcademy.Client
                     .Build();
             });
 
+            services.AddCors();
+
             services.AddControllers();
 
             services.AddDbContext<ClientContext>(options =>
@@ -116,6 +118,10 @@ namespace PMFightAcademy.Client
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PMFightAcademy.Client v1"));
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseRouting();
 
