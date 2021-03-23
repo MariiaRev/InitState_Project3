@@ -14,7 +14,6 @@ namespace PMFightAcademy.Client.Models
         /// Booking id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>

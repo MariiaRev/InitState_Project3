@@ -41,28 +41,6 @@
             <param name="password"></param>
             <returns></returns>
         </member>
-        <member name="T:PMFightAcademy.Client.Authorization.PasswordValidatorAttribute">
-            <summary>
-            Validator for password
-            </summary>
-            <remarks>
-            Password must have at least 8 chars
-            At least 1 upper char
-            and at least 1 number
-            </remarks> 
-        </member>
-        <member name="T:PMFightAcademy.Client.Authorization.PhoneValidatorAttribute">
-            <summary>
-            Validator for phone number
-            </summary>
-            <remarks>
-            Formats of phone number:
-            +38067 111 1111
-            067 111 1111
-            Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
-            </remarks>
-        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.BookingDto">
             <summary>
             Booking a service dto model.
@@ -194,7 +172,6 @@
             </summary>
         </member>
         <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.TimeSpan,System.String,System.String)">
-        <member name="M:PMFightAcademy.Client.Contract.Dto.HistoryDto.#ctor(System.String,System.DateTime,System.DateTime,System.String,System.String)">
             <summary>
             Constructor with parameters.
             </summary>
@@ -408,7 +385,6 @@
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
             </returns>
             <remarks>
-            Returns OK with <c>string</c> message if client was successfully registered.
             Returns OK with
             <strong>json = { token: "jwt-token" }</strong>
             if client was successfully registered.
@@ -418,7 +394,6 @@
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
-            Loggs in a registered client.
             Log in in a registered client.
             </summary>
             <param name="model">Contract for login action.</param>
@@ -428,7 +403,6 @@
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
             </returns>
             <remarks>
-            Returns OK with <c>string</c> jwt-token if client was successfully logged in.
             Returns OK with
             <strong>json = { token: "jwt-token" }</strong>
             if client was successfully logged in.
@@ -441,13 +415,11 @@
             </summary>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.CoachesController.#ctor(PMFightAcademy.Client.Services.ICoachesService)">
-        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.#ctor(PMFightAcademy.Client.Services.ICoachesStorageService,PMFightAcademy.Client.DataBase.ClientContext)">
             <summary>
             Constructor with DI.
             </summary>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
-        <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String)">
             <summary>
             Portioned return of coaches data.
             </summary>
@@ -803,44 +775,6 @@
         <member name="M:PMFightAcademy.Client.Services.BookingService.GetBookingHistory(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="T:PMFightAcademy.Client.Services.CoachesService">
-            <summary>
-            Get available services for client booking for Booking Controller
-            </summary>
-        </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.GetCoachesForBooking(System.Int32)">
-            <summary>
-            Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
-            </summary>
-            <param name="serviceId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.GetDatesForBooking(System.Int32,System.Int32)">
-            <summary>
-            Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
-            for Booking Controller
-            </summary>
-            <param name="serviceId"></param>
-            <param name="coachId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
-            <summary>
-            Get available time slots to provide a service with id <paramref name="serviceId"/> for Booking Controller
-            </summary>
-            <param name="serviceId"></param>
-            <param name="coachId"></param>
-            <param name="date"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
-            <summary>
-            Adds a booking for Booking Controller
-            </summary>
-            <param name="bookingDto"></param>
-            <param name="clientId"></param>
-            <returns></returns>
-        </member>
         <member name="T:PMFightAcademy.Client.Services.ClientsService">
             <summary>
             Service for the ClientsController
@@ -868,19 +802,17 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:PMFightAcademy.Client.Services.CoachesEFService">
+        <member name="T:PMFightAcademy.Client.Services.CoachesService">
             <summary>
             Service for getting coaches from database with Entity Framework.
             </summary>
         </member>
         <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
-        <member name="M:PMFightAcademy.Client.Services.CoachesEFService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
             <summary>
             Constructor with DI.
             </summary>
         </member>
         <member name="M:PMFightAcademy.Client.Services.CoachesService.GetCoaches(System.Int32,System.Int32,System.Threading.CancellationToken,System.String)">
-        <member name="M:PMFightAcademy.Client.Services.CoachesEFService.GetCoaches(System.Int32,System.Int32,System.String)">
             <inheritdoc/>
         </member>
         <member name="T:PMFightAcademy.Client.Services.IBookingService">
@@ -952,7 +884,6 @@
             empty list if there is no record for the booking history.
             </returns>
         </member>
-        <member name="T:PMFightAcademy.Client.Services.ICoachesService">
         <member name="T:PMFightAcademy.Client.Services.IClientsService">
             <summary>
             Interface for the Client Service 
@@ -972,7 +903,7 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
+        <member name="T:PMFightAcademy.Client.Services.ICoachesService">
             <summary>
             Coaches storage service abstraction.
             </summary>
@@ -984,12 +915,6 @@
             <param name="pageSize">Coaches count per page.</param>
             <param name="page">Current page.</param>
             <param name="token">Cancellation token for DB requests.</param>
-        <member name="M:PMFightAcademy.Client.Services.ICoachesStorageService.GetCoaches(System.Int32,System.Int32,System.String)">
-            <summary>
-            Gets coaches list with paggination.
-            </summary>
-            <param name="skipCount">How many coaches to skip.</param>
-            <param name="takeCount">How many coaches to take.</param>
             <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
             <returns>Returns list of found coaches or empty list if there is no coach.</returns>
         </member>
