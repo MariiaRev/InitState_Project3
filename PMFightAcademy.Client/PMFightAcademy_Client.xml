@@ -41,28 +41,6 @@
             <param name="password"></param>
             <returns></returns>
         </member>
-        <member name="T:PMFightAcademy.Client.Authorization.PasswordValidatorAttribute">
-            <summary>
-            Validator for password
-            </summary>
-            <remarks>
-            Password must have at least 8 chars
-            At least 1 upper char
-            and at least 1 number
-            </remarks> 
-        </member>
-        <member name="T:PMFightAcademy.Client.Authorization.PhoneValidatorAttribute">
-            <summary>
-            Validator for phone number
-            </summary>
-            <remarks>
-            Formats of phone number:
-            +38067 111 1111
-            067 111 1111
-            Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
-            </remarks>
-        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.BookingDto">
             <summary>
             Booking a service dto model.
@@ -231,6 +209,7 @@
             <remarks>
             Formats of phone number:
             +38067 111 1111
+            38067 111 1111
             067 111 1111
             Available country codes:
             039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
@@ -255,9 +234,7 @@
             <summary>
             Get available services for client booking.
             </summary>
-
             <param name="token"></param>
-
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
@@ -273,11 +250,8 @@
             <summary>
             Get available coaches which can provide service with id <paramref name="serviceId"/>.
             </summary>
-
-
-            <param name="serviceId"></param>Service id
+            <param name="serviceId">Service id</param>
             <param name="token"></param>
-
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
@@ -293,11 +267,9 @@
             <summary>
             Get available dates to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>.
             </summary>
-
-            <param name="serviceId"></param>Service id
-            <param name="coachId"></param>Coach id
+            <param name="serviceId">Service id</param>
+            <param name="coachId">Coach id</param>
             <param name="token"></param>
-
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
@@ -315,10 +287,9 @@
             Get available time slots to provide a service with id <paramref name="serviceId"/> 
             by coach with id <paramref name="coachId"/> as of the <paramref name="date"/>.
             </summary>
-
-            <param name="serviceId"></param>Service id
-            <param name="coachId"></param>Coach id
-            <param name="date"></param>Date
+            <param name="serviceId">Service id</param>
+            <param name="coachId">Coach id</param>
+            <param name="date">Date</param>
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
@@ -393,6 +364,7 @@
             Client controller.
             Formats of phone number:
             +38067 111 1111
+            38067 111 1111
             067 111 1111
             Available country codes:
             039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
@@ -413,14 +385,16 @@
             <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
             </returns>
             <remarks>
-            Returns OK with <c>string</c> message if client was successfully registered.
+            Returns OK with
+            <strong>json = { token: "jwt-token" }</strong>
+            if client was successfully registered.
             Returns BadRequest if <paramref name="model"/> data is invalid.
             Returns Conflict if login already exists.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
-            Loggs in a registered client.
+            Log in in a registered client.
             </summary>
             <param name="model">Contract for login action.</param>
             <param name="cancellationToken"></param>
@@ -429,7 +403,9 @@
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if login or password are invalid.
             </returns>
             <remarks>
-            Returns OK with <c>string</c> jwt-token if client was successfully logged in.
+            Returns OK with
+            <strong>json = { token: "jwt-token" }</strong>
+            if client was successfully logged in.
             Returns BadRequest if login or password are invalid.
             </remarks>
         </member>
@@ -816,6 +792,33 @@
             <param name="clientId"></param>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Client.Services.ClientsService">
+            <summary>
+            Service for the ClientsController
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Models.Client)">
+            <summary>
+            Registers a new client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+            <summary>
+            Log in in a registered client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Authenticate(System.String,System.Int32)">
+            <summary>
+            Private method for the creating of jwt-token
+            </summary>
+            <param name="userName"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Client.Services.CoachesEFService">
             <summary>
             Service for getting coaches from database with Entity Framework.
@@ -829,7 +832,6 @@
         <member name="M:PMFightAcademy.Client.Services.CoachesEFService.GetCoaches(System.Int32,System.Int32,System.String)">
             <inheritdoc/>
         </member>
-
         <member name="T:PMFightAcademy.Client.Services.IBookingService">
             <summary>
             Booking service abstraction.
@@ -873,7 +875,25 @@
             <param name="bookingDto">Data for booking.</param>
             <param name="clientId">Id of the client who books a service.</param>
         </member>
-
+        <member name="T:PMFightAcademy.Client.Services.IClientsService">
+            <summary>
+            Interface for the Client Service 
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Models.Client)">
+            <summary>
+            Registers a new client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+            <summary>
+            Log in in a registered client.
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Client.Services.ICoachesStorageService">
             <summary>
             Coaches storage service abstraction.
