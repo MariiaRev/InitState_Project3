@@ -29,6 +29,11 @@
             Client 
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ResultPrice">
+            <summary>
+            ResultPrice
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Contract.CoachContract">
             <summary>
             CoachContract
@@ -1527,7 +1532,6 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-
         <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
             <summary>
             Take all slots for coaches
@@ -1538,19 +1542,5 @@
             <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
-        <member name="T:PMFightAcademy.Admin.Validation.PhoneValidatorAttribute">
-            <summary>
-            Validator for phone number
-            </summary>
-            <remarks>
-            Formats of phone number:
-            +38067 111 1111
-            067 111 1111
-            Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
-            </remarks>
-        </member>
-
-
     </members>
 </doc>
