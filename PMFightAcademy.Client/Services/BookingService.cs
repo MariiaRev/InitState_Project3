@@ -8,6 +8,7 @@ using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Mappings;
 using PMFightAcademy.Client.Contract;
 using Microsoft.EntityFrameworkCore;
+using System.Threading;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -155,10 +156,10 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
-        public async Task<GetDataContract<HistoryDto>> GetActiveBookings(int pageSize, int page, int clientId)
+        public async Task<GetDataContract<HistoryDto>> GetActiveBookings(int pageSize, int page, int clientId, CancellationToken token)
         {
             var now = DateTime.Now;
-            var clientBookings = await GetClientBookingsAsync(clientId);
+            var clientBookings = await GetClientBookingsAsync(clientId, token);
 
             if (!clientBookings.Any())
             {
@@ -192,10 +193,10 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
-        public async Task<GetDataContract<HistoryDto>> GetBookingHistory(int pageSize, int page, int clientId)
+        public async Task<GetDataContract<HistoryDto>> GetBookingHistory(int pageSize, int page, int clientId, CancellationToken token)
         {
             var now = DateTime.Now;
-            var clientBookings = await GetClientBookingsAsync(clientId);
+            var clientBookings = await GetClientBookingsAsync(clientId, token);
 
             if (!clientBookings.Any())
             {
@@ -228,7 +229,7 @@ namespace PMFightAcademy.Client.Services
             };
         }
 
-        private async Task<List<Booking>> GetClientBookingsAsync(int clientId)
+        private async Task<List<Booking>> GetClientBookingsAsync(int clientId, CancellationToken token)
         {
             var bookings = _context.Bookings
                 .AsNoTracking()
@@ -236,7 +237,7 @@ namespace PMFightAcademy.Client.Services
                 .Include(booking => booking.Slot.Coach)
                 .Include(booking => booking.Service);
 
-            return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync();
+            return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync(token);
         }
     }
 }

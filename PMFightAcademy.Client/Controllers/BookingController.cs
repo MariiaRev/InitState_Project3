@@ -266,7 +266,7 @@ namespace PMFightAcademy.Client.Controllers
 
             var clientId = int.Parse(claim.Value);
 
-            var bookings = await _bookingService.GetActiveBookings(pageSize, page, clientId);
+            var bookings = await _bookingService.GetActiveBookings(pageSize, page, clientId, token);
 
             if (!bookings.Data.Any())
             {
@@ -308,7 +308,7 @@ namespace PMFightAcademy.Client.Controllers
 
             var clientId = int.Parse(claim.Value);
 
-            var bookings = await _bookingService.GetBookingHistory(pageSize, page, clientId);
+            var bookings = await _bookingService.GetBookingHistory(pageSize, page, clientId, token);
 
             if (!bookings.Data.Any())
             {
