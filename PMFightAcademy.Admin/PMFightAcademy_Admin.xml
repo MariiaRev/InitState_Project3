@@ -975,6 +975,11 @@
             
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Admin.Models.Slot.Expired">
+            <summary>
+            Expired slot
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Services.BookingService">
             <summary>
             Service for booking controller
