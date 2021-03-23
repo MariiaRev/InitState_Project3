@@ -195,7 +195,8 @@ namespace PMFightAcademy.Client.Services
                                      booking.Slot.Date,
                                      booking.Slot.StartTime,
                                      booking.Slot.Coach.FirstName,
-                                     booking.Slot.Coach.LastName
+                                     booking.Slot.Coach.LastName,
+                                     booking.Service.Price
                                  );
 
             var activeBookingsCount = (decimal)activeBookings.Count();
@@ -232,7 +233,8 @@ namespace PMFightAcademy.Client.Services
                                      booking.Slot.Date,
                                      booking.Slot.StartTime,
                                      booking.Slot.Coach.FirstName,
-                                     booking.Slot.Coach.LastName
+                                     booking.Slot.Coach.LastName,
+                                     booking.Service.Price
                                  );
 
             var activeBookingsCount = (decimal)activeBookings.Count();
