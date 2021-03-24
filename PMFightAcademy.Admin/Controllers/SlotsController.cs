@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -166,7 +167,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetSlotsForCoach([FromRoute] int coachId)
+        public async Task<IActionResult> GetSlotsForCoach([FromRoute,Range(1, int.MaxValue)] int coachId)
         {
             if(!_checkId.IsCorrectId(coachId))
             {
@@ -291,7 +292,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteSlots( int slotId,CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteSlots([Range(1, int.MaxValue)] int slotId,CancellationToken cancellationToken)
         {
 
             if (!_checkId.IsCorrectId(slotId))
@@ -326,7 +327,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetSlotsForCoachFromDateToDate(int coachId,string dateStart,string dateEnd)
+        public async Task<IActionResult> GetSlotsForCoachFromDateToDate([Range(1, int.MaxValue)] int coachId,string dateStart,string dateEnd)
         {
             if (!_checkId.IsCorrectId(coachId))
             {

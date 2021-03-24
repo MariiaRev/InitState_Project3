@@ -405,6 +405,7 @@
              </summary>
              <para>
             <param name="coachId"></param>
+             <param name = "cancellationToken"></param>
              </para>
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name

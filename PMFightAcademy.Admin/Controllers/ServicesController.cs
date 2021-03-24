@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -97,7 +98,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(Service), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetService(int serviceId)
+        public async Task<IActionResult> GetService([Range(1, int.MaxValue)] int serviceId)
         {
             if (!_checkId.IsCorrectId(serviceId))
             {
@@ -212,7 +213,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteService(int serviceId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteService([Range(1, int.MaxValue)] int serviceId, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(serviceId))
             {

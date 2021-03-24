@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -105,7 +107,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetBookedServiceForClient(int clientId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookedServiceForClient([Range(1, int.MaxValue)] int clientId, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(clientId))
             {
@@ -139,7 +141,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetBookedServiceForCoach(int coachId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookedServiceForCoach([Range(1, int.MaxValue)] int coachId, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(coachId))
             {
@@ -174,7 +176,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteBook( int bookingId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteBook( [Range(1,int.MaxValue)]int bookingId, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(bookingId))
             {
@@ -282,7 +284,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetBookedServiceForClientOnDate(int clientId, string dateStart, string dateEnd, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookedServiceForClientOnDate([Range(1, int.MaxValue)] int clientId, string dateStart, string dateEnd, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(clientId))
             {
@@ -319,7 +321,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetBookedServiceForCoachOnDate(int coachId,string dateStart,string dateEnd, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookedServiceForCoachOnDate([Range(1, int.MaxValue)] int coachId,string dateStart,string dateEnd, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(coachId))
             {

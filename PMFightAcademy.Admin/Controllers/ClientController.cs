@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -96,7 +97,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetClient(int id)
+        public async Task<IActionResult> GetClient([Range(1, int.MaxValue)] int id)
         {
 
             if (!_checkId.IsCorrectId(id))
@@ -131,7 +132,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType( (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AddClientDescription(int id , string description, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddClientDescription([Range(1, int.MaxValue)] int id , string description, CancellationToken cancellationToken)
         {
 
             if (!_checkId.IsCorrectId(id))

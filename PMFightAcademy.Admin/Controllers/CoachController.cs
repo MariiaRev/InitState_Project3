@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -108,7 +109,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(CoachContract), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetCoach (int coachId)
+        public async Task<IActionResult> GetCoach ([Range(1, int.MaxValue)] int coachId)
         {
             
             if (!_checkId.IsCorrectId(coachId))
@@ -198,6 +199,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </summary>
         /// <para>
         ///<param name="coachId"></param>
+        /// <param name = "cancellationToken"></param>
         /// </para>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
@@ -212,7 +214,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType( (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteCoach(int coachId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteCoach([Range(1, int.MaxValue)] int coachId, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(coachId))
             {
