@@ -1443,47 +1443,6 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService.GetIdForBooking">
-            <summary>
-            Id for booking
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService.GetIdForCoach">
-            <summary>
-            Id for coach
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService.GetIdForQualification">
-            <summary>
-            Id for qualifications
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService.GetIdForService">
-            <summary>
-            id for service
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService.GetIdForClient">
-            <summary>
-            Id for client
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService.GetIdForSlots">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceService">
             <summary>
             Service service
@@ -1642,49 +1601,6 @@
             Check Id 
             </summary>
             <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.ReturnNewId(System.Collections.Generic.ICollection{System.Int32})">
-            <summary>
-            RebaseId
-            </summary>
-            <param name="allId"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.GetIdForBooking">
-            <summary>
-            Create new ID
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.GetIdForCoach">
-            <summary>
-            Create new ID
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.GetIdForQualification">
-            <summary>
-            Create new ID
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.GetIdForService">
-            <summary>
-            Create new ID
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.GetIdForClient">
-            <summary>
-            Create new ID
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.GetIdForSlots">
-            <summary>
-            
-            </summary>
             <returns></returns>
         </member>
     </members>
