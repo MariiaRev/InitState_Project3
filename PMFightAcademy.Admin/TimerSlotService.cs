@@ -44,19 +44,30 @@ namespace PMFightAcademy.Admin
         {
             using var scope = _serviceProvider.CreateScope();
             await using var dbContext = scope.ServiceProvider.GetRequiredService<AdminContext>();
-            var slots = await dbContext.Slots.Where(x => x.Expired == false).ToListAsync();
-
-            foreach (var slot in slots)
+            var saving = true;
+            try
             {
-                var slotStart = slot.Date.Add(slot.StartTime);
-                if (slotStart < DateTime.Now)
+                var slots = await dbContext.Slots.Where(x => x.Expired == false).ToListAsync();
+
+                foreach (var slot in slots)
                 {
-                    slot.Expired = true;
-                    dbContext.Slots.Update(slot);
+                    var slotStart = slot.Date.Add(slot.StartTime);
+                    if (slotStart < DateTime.Now)
+                    {
+                        slot.Expired = true;
+                        dbContext.Slots.Update(slot);
+                    }
                 }
             }
-
-            await dbContext.SaveChangesAsync();
+            catch
+            {
+                saving = false;
+            }
+            finally
+            {
+                if (saving)
+                    await dbContext.SaveChangesAsync();
+            }
         }
     }
 #pragma warning restore 1591
