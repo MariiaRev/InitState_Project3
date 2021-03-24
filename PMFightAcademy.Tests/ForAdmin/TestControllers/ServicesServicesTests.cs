@@ -6,6 +6,7 @@ using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
 using System.Linq;
+using Microsoft.EntityFrameworkCore.InMemory;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
@@ -24,6 +25,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
 
             var options = new DbContextOptionsBuilder<AdminContext>()
+                
                 .Options;
 
 
@@ -78,6 +80,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
 
             var options = new DbContextOptionsBuilder<AdminContext>()
+                .UseInMemoryDatabase(databaseName: "stageDb")
                 .Options;
 
             var serviceToAdd = new Service() { Id = 2, Name = "TestService", Description = "top serv", Price = 5555 };
@@ -85,9 +88,6 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var serviceContextMock = new Mock<AdminContext>(options);
             serviceContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            serviceContextMock.SetupAdd(x => x.Services.Add(serviceToAdd));
-
-            
 
             IServiceService service = new ServiceService(serviceContextMock.Object);
 
