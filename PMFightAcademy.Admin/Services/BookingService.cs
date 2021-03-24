@@ -29,7 +29,7 @@ namespace PMFightAcademy.Admin.Services
         }
 
         /// <summary>
-        /// Take all slots
+        /// Take all bookings
         /// </summary>
         public async Task<IEnumerable<BookingContract>> TakeAllBooking()
         {
@@ -90,8 +90,11 @@ namespace PMFightAcademy.Admin.Services
                 return new List<BookingContract>();
             if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
                 return new List<BookingContract>();
-            var bookings = _dbContext.Bookings.Select(x=>x).Where(x => x.ClientId == clientId)
-                .Where(x => x.Slot.Date >= dateStart).Where(x => x.Slot.Date <= dateEnd);
+            var bookings = _dbContext.Bookings
+                .Select(x=>x)
+                .Where(x => x.ClientId == clientId)
+                .Where(x => x.Slot.Date >= dateStart)
+                .Where(x => x.Slot.Date <= dateEnd);
             return bookings.AsEnumerable().Select(BookingMapping.BookingMapFromModelTToContract); 
         }
 

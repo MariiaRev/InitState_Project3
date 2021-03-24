@@ -760,6 +760,11 @@
             
             </summary>
         </member>
+        <member name="P:PMFightAcademy.Client.Models.Slot.Expired">
+            <summary>
+            Expired slot
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Services.BookingService">
             <summary>
             Service for booking controller

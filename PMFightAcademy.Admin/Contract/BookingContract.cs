@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-
-namespace PMFightAcademy.Admin.Contract
+﻿namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto for create Workout

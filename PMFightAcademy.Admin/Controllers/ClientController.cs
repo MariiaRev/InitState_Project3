@@ -5,9 +5,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -64,7 +62,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return list of clients
         /// <see cref="HttpStatusCode.NotFound"/> if no any clients
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Client>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
@@ -91,7 +88,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <remarks>
         /// For get one client 
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
@@ -126,7 +122,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <remarks>
         /// for add description for client
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpPost("{id}")]
         [ProducesResponseType( (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
