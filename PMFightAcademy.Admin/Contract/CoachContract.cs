@@ -28,6 +28,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Date of birth 
         /// </summary>
+        [RegularExpression("^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")]
         public string DateBirth { get; set; }
         /// <summary>
         /// Description about coach

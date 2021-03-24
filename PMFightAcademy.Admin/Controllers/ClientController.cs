@@ -21,13 +21,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constructor of client controller 
         /// </summary>
-        public ClientController(IClientService clientService)
+        public ClientController(IClientService clientService,IWorkWithIdService checkId)
         {
             _clientService = clientService;
+            _checkId = checkId;
         }
 
         #region JS TILT
@@ -57,8 +59,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// return list of clients
         /// </summary>
-        /// <param name="pageSize">The count of coaches to return at one time.</param>
-        /// <param name="page">The current page number.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return list of clients
         /// <see cref="HttpStatusCode.NotFound"/> if no any clients
@@ -81,10 +81,11 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// return a client what admin need
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="id"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return a clients
-        /// <see cref="HttpStatusCode.NotFound"/> if no client with this Name
+        /// <see cref="HttpStatusCode.NotFound"/> if no client with this id
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// For get one client 
@@ -93,8 +94,15 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetClient(int id)
         {
+
+            if (!_checkId.IsCorrectId(id))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var client = await _clientService.TakeClient(id);
 
             if (client != null)

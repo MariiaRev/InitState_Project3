@@ -15,14 +15,17 @@ namespace PMFightAcademy.Admin.Services
     public class ServiceService :IServiceService
     {
         private readonly AdminContext _dbContext;
+        
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
+        /// <param name="newId"></param>
         public ServiceService(AdminContext dbContext)
         {
             _dbContext = dbContext;
+            
         }
 
         /// <summary>
@@ -50,6 +53,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="service"></param>
         public async Task AddService(Service service, CancellationToken cancellationToken)
         {
+            //service.Id = _newId.GetIdForService();
             try
             {
                await _dbContext.Services.AddAsync(service, cancellationToken);

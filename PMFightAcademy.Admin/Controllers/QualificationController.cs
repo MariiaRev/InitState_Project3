@@ -22,14 +22,17 @@ namespace PMFightAcademy.Admin.Controllers
     public class QualificationController : ControllerBase
     {
         private readonly IQualificationService _qualificationService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constuctor
         /// </summary>
         /// <param name="qualificationService"></param>
-        public QualificationController(IQualificationService qualificationService)
+        /// <param name="checkId"></param>
+        public QualificationController(IQualificationService qualificationService,IWorkWithIdService checkId)
         {
             _qualificationService = qualificationService;
+            _checkId = checkId;
         }
         /// <summary>
         /// get list  qualifications  for Coach
@@ -37,7 +40,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="coachId"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
+        /// </returns>
         /// <remarks>
         /// Return qualifications for coach
         /// </remarks>
@@ -45,8 +50,14 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId)
         {
+            if (!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var services = await _qualificationService.GetServicesForCoach(coachId);
             if (services.Any())
             {
@@ -61,7 +72,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="serviceId"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
+        /// </returns>
         /// <remarks>
         /// Return qualifications for services
         /// </remarks>
@@ -69,8 +82,14 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("service/{serviceId}")]
         [ProducesResponseType(typeof(IEnumerable<CoachContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId)
         {
+            if (!_checkId.IsCorrectId(serviceId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var coaches = await _qualificationService.GetCoachesForService(serviceId);
             if (coaches.Any())
             {
@@ -119,7 +138,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
+        /// </returns>
         /// <remarks>
         /// Use for delete Qualification
         /// Usable 2 time is Coach and Service screen
@@ -128,8 +149,14 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteQualification(int qualificationId, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(qualificationId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var deleted = await _qualificationService.DeleteQualification(qualificationId, cancellationToken);
 
             if (deleted)

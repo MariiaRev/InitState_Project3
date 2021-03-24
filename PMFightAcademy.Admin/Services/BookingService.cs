@@ -17,6 +17,7 @@ namespace PMFightAcademy.Admin.Services
     public class BookingService : IBookingService
     {
         private readonly AdminContext _dbContext;
+        
 
         /// <summary>
         /// Constructor
