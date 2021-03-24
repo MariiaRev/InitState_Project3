@@ -285,8 +285,6 @@
             <summary>
             return list of clients
             </summary>
-            <param name="pageSize">The count of coaches to return at one time.</param>
-            <param name="page">The current page number.</param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return list of clients
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no any clients
@@ -300,7 +298,7 @@
             <param name="id"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return a clients
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no client with this Name
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no client with this id
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
@@ -1097,7 +1095,7 @@
             Coach Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.CoachService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
             Constructor
             </summary>
@@ -1148,7 +1146,7 @@
             Service 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.QualificationService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
             Constructor
             </summary>
@@ -1448,7 +1446,7 @@
             Service service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
             Constructor
             </summary>
@@ -1499,7 +1497,7 @@
             Slot Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
             <summary>
             Constructor 
             </summary>

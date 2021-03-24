@@ -15,17 +15,17 @@ namespace PMFightAcademy.Admin.Services
     public class ServiceService :IServiceService
     {
         private readonly AdminContext _dbContext;
-        private readonly IWorkWithIdService _newId;
+        
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="newId"></param>
-        public ServiceService(AdminContext dbContext,IWorkWithIdService newId)
+        public ServiceService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            _newId = newId;
+            
         }
 
         /// <summary>

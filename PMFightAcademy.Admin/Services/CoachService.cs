@@ -18,17 +18,17 @@ namespace PMFightAcademy.Admin.Services
     public class CoachService : ICoachService
     {
         private readonly AdminContext _dbContext;
-        private readonly IWorkWithIdService _newId;
+        
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="newId"></param>
-        public CoachService(AdminContext dbContext,IWorkWithIdService newId)
+        public CoachService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            _newId = newId;
+           
         }
 
         /// <summary>

@@ -18,17 +18,17 @@ namespace PMFightAcademy.Admin.Services
     public class QualificationService : IQualificationService
     {
         private readonly AdminContext _dbContext;
-        private readonly IWorkWithIdService _newId;
+        
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="newId"></param>
-        public QualificationService(AdminContext dbContext,IWorkWithIdService newId)
+        public QualificationService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            _newId = newId;
+            
         }
 
         /// <summary>
