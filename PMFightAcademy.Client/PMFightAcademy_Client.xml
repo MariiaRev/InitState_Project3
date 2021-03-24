@@ -453,6 +453,11 @@
             Just information about service.
             </summary>
         </member>
+        <member name="T:PMFightAcademy.Client.Filters.ExceptionFilter">
+            <summary>
+            Middleware for Exception processing
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Mappings.BookingMapping">
             <summary>
             Mapping for Book
