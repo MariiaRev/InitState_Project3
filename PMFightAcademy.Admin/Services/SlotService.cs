@@ -63,7 +63,7 @@ namespace PMFightAcademy.Admin.Services
             {
                 var resultSlot = new Slot
                 {
-                    Id = _newId.GetIdForSlots(),
+                    //Id = _newId.GetIdForSlots(),
                     CoachId = slot.CoachId,
                     Duration = TimeSpan.FromHours(1),
                     Date = slot.Date,
