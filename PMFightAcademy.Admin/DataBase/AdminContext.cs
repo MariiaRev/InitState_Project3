@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Admin.DataBase
 {
-    public class AdminContext:DbContext
+    public class AdminContext : DbContext
     {
         public virtual DbSet<Client> Clients { get; set; }
         public virtual DbSet<Coach> Coaches { get; set; }
@@ -12,17 +12,15 @@ namespace PMFightAcademy.Admin.DataBase
         public virtual DbSet<Qualification> Qualifications { get; set; }
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<Slot> Slots { get; set; }
-        
-
-
-        public AdminContext(DbContextOptions<AdminContext> options) : base(options)
-        {
-
-        }
         public AdminContext()
         {
 
         }
+        public AdminContext(DbContextOptions<AdminContext> options) : base(options)
+        {
+
+        }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Client>().ToTable("Clients");
