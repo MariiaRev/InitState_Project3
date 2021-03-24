@@ -159,11 +159,15 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with coaches list if there is at least one available coach 
+        /// and with empty list if there is no available coach.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with coaches list if client is authorized and there is at least one available coach.
+        /// Returns OK if client is authorized 
+        /// with coaches list if there is at least one available coach 
+        /// and with empty list if there is no available coach.
         /// </remarks>
         [HttpGet("coaches/{serviceId}/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
