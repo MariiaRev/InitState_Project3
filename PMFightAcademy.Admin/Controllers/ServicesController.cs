@@ -86,7 +86,8 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="serviceId"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return service needed 
-        /// <see cref="HttpStatusCode.NotFound"/> if service not founded
+        /// <see cref="HttpStatusCode.NotFound"/>if service not founded
+        ///  <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks> Use to Get Service, return service if  all is fine
         /// NotFound if its is  not  registered
@@ -95,6 +96,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{serviceId}")]
         [ProducesResponseType(typeof(Service), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetService(int serviceId)
         {
             if (!_checkId.IsCorrectId(serviceId))
@@ -157,6 +159,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateService([FromBody] Service service, CancellationToken cancellationToken)
         {
             var update = await _serviceService.UpdateService(service, cancellationToken);
@@ -208,6 +211,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteService(int serviceId, CancellationToken cancellationToken)
         {
             if (!_checkId.IsCorrectId(serviceId))

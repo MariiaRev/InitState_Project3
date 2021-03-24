@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
@@ -38,7 +39,7 @@ namespace PMFightAcademy.Admin.Services
         
         /// <param name="allId"></param>
         /// <returns></returns>
-        private static int ReturnNewId(List<int> allId)
+        private static int ReturnNewId(ICollection<int> allId)
         {
             if(!allId.Any())
                 return 0;

@@ -181,6 +181,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for Client
@@ -196,6 +197,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for coach
@@ -210,7 +212,8 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect </returns>
             <remarks>
             Use for delete book 
             return ok if successes
@@ -242,6 +245,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for Client
@@ -259,6 +263,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for coach
@@ -296,6 +301,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return a clients
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no client with this Name
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             For get one client 
@@ -336,6 +342,7 @@
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
              <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
              </returns>
              <remarks>
              Use for get one coach , if successes must return a coach
@@ -351,7 +358,7 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
-            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if this coach is already registered 
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if this coach is already registered
             </returns>
             <remarks>
             Use for create coach, send a coach
@@ -369,7 +376,7 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if this coach is already registered 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if this coach is already registered
             </returns>
             <remarks>
             Use for update info about coach
@@ -388,6 +395,7 @@
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
              <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
              </returns>
              <remarks>
              Use for delete coach
@@ -413,7 +421,9 @@
             <param name="coachId"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Return qualifications for coach
             </remarks>
@@ -426,7 +436,9 @@
             <param name="serviceId"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Return qualifications for services
             </remarks>
@@ -455,7 +467,9 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Use for delete Qualification
             Usable 2 time is Coach and Service screen
@@ -491,7 +505,8 @@
             <param name="serviceId"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/>if service not founded
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks> Use to Get Service, return service if  all is fine
             NotFound if its is  not  registered
@@ -573,6 +588,7 @@
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
             <remarks>
             Return list of  slots for coach
             return if NotFound
@@ -585,6 +601,7 @@
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if date is incorrect
             <remarks>
             Return list of  slots for chosen date
             </remarks>
@@ -613,7 +630,9 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Use for delete slots
             </remarks>
@@ -624,7 +643,9 @@
             Show slots for coach
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Return list of  slots for coach in time range
             return not fount if its is empty
@@ -1623,7 +1644,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.ReturnNewId(System.Collections.Generic.List{System.Int32})">
+        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.ReturnNewId(System.Collections.Generic.ICollection{System.Int32})">
             <summary>
             RebaseId
             </summary>

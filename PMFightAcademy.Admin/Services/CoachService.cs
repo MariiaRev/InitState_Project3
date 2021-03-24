@@ -63,7 +63,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
-            coachContract.Id = _newId.GetIdForCoach();
+           // coachContract.Id = _newId.GetIdForCoach();
 
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try

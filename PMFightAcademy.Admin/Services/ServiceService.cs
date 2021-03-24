@@ -59,7 +59,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddService(Service service, CancellationToken cancellationToken)
         {
-            service.Id = _newId.GetIdForService();
+            //service.Id = _newId.GetIdForService();
             try
             {
                await _dbContext.Services.AddAsync(service, cancellationToken);

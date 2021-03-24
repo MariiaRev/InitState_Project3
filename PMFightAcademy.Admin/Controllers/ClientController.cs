@@ -87,6 +87,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return a clients
         /// <see cref="HttpStatusCode.NotFound"/> if no client with this Name
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// For get one client 
@@ -95,6 +96,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetClient(int id)
         {
 

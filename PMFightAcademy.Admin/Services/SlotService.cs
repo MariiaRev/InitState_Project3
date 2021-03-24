@@ -58,7 +58,7 @@ namespace PMFightAcademy.Admin.Services
             }
 
 
-            // List<Slot> slots = new List<Slot>();
+            List<Slot> slots = new List<Slot>();
             while (slot.StartTime <= slot.Duration)
             {
                 var resultSlot = new Slot
@@ -73,13 +73,14 @@ namespace PMFightAcademy.Admin.Services
                 slot.StartTime = slot.StartTime + resultSlot.Duration;
                 try
                 {
-                    //slots.Add(resultSlot);
-                    await _dbContext.AddAsync(resultSlot, cancellationToken);
+                    slots.Add(resultSlot);
+                    await _dbContext.AddRangeAsync(slots, cancellationToken);
                     await _dbContext.SaveChangesAsync(cancellationToken);
+                    //await _dbContext.AddAsync(resultSlot, cancellationToken);
+                    //await _dbContext.SaveChangesAsync(cancellationToken);
                 }
-                
-                //await _dbContext.AddRangeAsync(slots, cancellationToken);
-                //await _dbContext.SaveChangesAsync(cancellationToken);
+
+
 
                 catch
                 {
