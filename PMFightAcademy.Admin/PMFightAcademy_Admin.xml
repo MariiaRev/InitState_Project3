@@ -1021,11 +1021,6 @@
             Expired slot
             </summary>
         </member>
-        <member name="T:PMFightAcademy.Admin.TimerSlotService">
-            <summary>
-            Service for the updating outdated slots in db
-            </summary>
-        </member>
         <member name="T:PMFightAcademy.Admin.Services.BookingService">
             <summary>
             Service for booking controller
@@ -1598,6 +1593,11 @@
             </summary>
             <param name="id"></param>
             <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.TimerSlotService">
+            <summary>
+            Service for the updating outdated slots in db
+            </summary>
         </member>
     </members>
 </doc>
