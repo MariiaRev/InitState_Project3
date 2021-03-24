@@ -59,8 +59,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// return list of clients
         /// </summary>
-        /// <param name="pageSize">The count of coaches to return at one time.</param>
-        /// <param name="page">The current page number.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return list of clients
         /// <see cref="HttpStatusCode.NotFound"/> if no any clients
@@ -86,7 +84,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="id"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return a clients
-        /// <see cref="HttpStatusCode.NotFound"/> if no client with this Name
+        /// <see cref="HttpStatusCode.NotFound"/> if no client with this id
         /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
