@@ -5,9 +5,12 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace PMFightAcademy.Client.Filters
 {
-#pragma warning disable CS1591
+    /// <summary>
+    /// Middleware for Exception processing
+    /// </summary>
     public class ExceptionFilter : IAsyncExceptionFilter
     {
+#pragma warning disable CS1591
         public Task OnExceptionAsync(ExceptionContext context)
         {
             var json = JsonSerializer.Serialize(new
