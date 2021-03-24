@@ -636,6 +636,20 @@
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.UpdateSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+            <summary>
+            update slots
+            </summary>
+            <param name="createSlots"></param>
+            <param name="cancellationToken"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <remarks>
+            Use for update slots , send a slot with new fields
+            </remarks>
+            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
         <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete
@@ -1421,6 +1435,14 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.UpdateCoach(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+            <summary>
+            update
+            </summary>
+            <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService.TakeSlotsForCoach(System.Int32)">
             <summary>
             Take slots for coach
@@ -1559,6 +1581,14 @@
             <summary>
             Take all slots
             </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.UpdateCoach(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+            <summary>
+            update coach
+            </summary>
+            <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoach(System.Int32)">
             <summary>
