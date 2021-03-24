@@ -252,6 +252,26 @@
             Returns NotFound with <c>string</c> message if client is authorized and there is no available service.
             </remarks>
         </member>
+        <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetServicesForBookingWithPaggination(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Get available services for client booking with paggination.
+            </summary>
+            <param name="pageSize">Services count per ine page.</param>
+            <param name="page">The current page.</param>
+            <param name="token"></param>
+            <returns>
+            Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with services list if there is at least one available service 
+            or with empty list if there is no available service.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized 
+            with services list if there is at least one available service 
+            or with empty list if there is no available service.
+            </remarks>
+        </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetCoachesForBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get available coaches which can provide service with id <paramref name="serviceId"/>.
@@ -763,6 +783,9 @@
         <member name="M:PMFightAcademy.Client.Services.BookingService.GetServicesForBooking">
             <inheritdoc/>
         </member>
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetServicesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <inheritdoc/>
+        </member>
         <member name="M:PMFightAcademy.Client.Services.BookingService.GetCoachesForBooking(System.Int32)">
             <inheritdoc/>
         </member>
@@ -829,6 +852,12 @@
         <member name="M:PMFightAcademy.Client.Services.IBookingService.GetServicesForBooking">
             <summary>
             Get available services for client booking for Booking Controller.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetServicesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
+            <summary>
+            Get available services for client booking for Booking Controller with paggination.
             </summary>
             <returns></returns>
         </member>

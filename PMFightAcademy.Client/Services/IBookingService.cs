@@ -19,6 +19,12 @@ namespace PMFightAcademy.Client.Services
         Task<IEnumerable<Service>> GetServicesForBooking();
 
         /// <summary>
+        /// Get available services for client booking for Booking Controller with paggination.
+        /// </summary>
+        /// <returns></returns>
+        Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token);
+
+        /// <summary>
         /// Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
         /// </summary>
         /// <param name="serviceId">Id of the service.</param>

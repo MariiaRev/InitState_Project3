@@ -39,6 +39,23 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
+        public async Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token)
+        {
+            var services = await _context.Services?.ToListAsync(token);
+            var servicesCount = (decimal)(services?.Count ?? 0);
+
+            return new GetDataContract<Service>()
+            {
+                Data = services?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<Service>(),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(servicesCount / pageSize)
+                }
+            };
+        }
+
+        /// <inheritdoc/>
         public Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId)
         {
             var services = _context.Services?.ToArray();
