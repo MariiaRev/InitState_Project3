@@ -92,9 +92,9 @@ namespace PMFightAcademy.Admin.Services
         /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int clientId, string start, string end)
         {
-            if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
+            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<BookingContract>();
-            if (!DateTime.TryParseExact(end, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateEnd))
+            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
                 return new List<BookingContract>();
             var bookings = _dbContext.Bookings.Select(x=>x).Where(x => x.ClientId == clientId)
                 .Where(x => x.Slot.Date >= dateStart).Where(x => x.Slot.Date <= dateEnd);
@@ -110,9 +110,9 @@ namespace PMFightAcademy.Admin.Services
         /// <returns></returns>
         public async Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int coachId, string start, string end)
         {
-            if (!DateTime.TryParseExact(start, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
+            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<BookingContract>();
-            if (!DateTime.TryParseExact(end, "MM/dd/yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateEnd))
+            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
                 return new List<BookingContract>();
 
             var bookings = _dbContext.Bookings.Select(x => x).Where(x => x.Slot.CoachId == coachId)

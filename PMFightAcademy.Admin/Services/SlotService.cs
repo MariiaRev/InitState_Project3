@@ -260,7 +260,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date)
         {
-            if (!DateTime.TryParseExact(date, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
+            if (!DateTime.TryParseExact(date, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<SlotsReturnContract>();
 
             var slots = _dbContext.Slots.Where(x => x.Date == dateStart);
@@ -279,9 +279,9 @@ namespace PMFightAcademy.Admin.Services
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start, string end)
         {
             //var test = DateTime.ParseExact(start, "MM/dd/yyyy",CultureInfo.InvariantCulture);
-            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", CultureInfo.CurrentCulture ,DateTimeStyles.None, out var dateStart))
+            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<SlotsReturnContract>();
-            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateEnd))
+            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
                 return new List<SlotsReturnContract>();
 
             var slots = _dbContext.Slots.Select(x=>x).Where(x => x.CoachId == coachId).Where(x=>x.Date >= dateStart).Where(x=>x.Date<=dateEnd);
