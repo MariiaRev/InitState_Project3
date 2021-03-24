@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
@@ -110,6 +111,41 @@ namespace PMFightAcademy.Admin.Controllers
                 return Ok(client);
             }
             return NotFound("No client with that id");
+        }
+
+        /// <summary>
+        /// Add description to client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="description"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> if all is fine and return Ok()
+        /// <see cref="HttpStatusCode.NotFound"/> if no client with this id
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
+        /// </returns>
+        /// <remarks>
+        /// for add description for client
+        /// </remarks>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpPost("{id}")]
+        [ProducesResponseType( (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> AddClientDescription(int id , string description, CancellationToken cancellationToken)
+        {
+
+            if (!_checkId.IsCorrectId(id))
+            {
+                return BadRequest("incorrect Id");
+            }
+
+            var client = await _clientService.AddDescription(id,description, cancellationToken);
+
+            if (client)
+            {
+                return Ok();
+            }
+            return NotFound("Description not added, or client not found");
         }
 
     }

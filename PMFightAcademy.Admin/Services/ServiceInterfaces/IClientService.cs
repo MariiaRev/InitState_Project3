@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
@@ -22,5 +23,13 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="clientId"></param>
         /// <returns></returns>
         public  Task<Client> TakeClient(int clientId);
+
+        /// <summary>
+        /// Add Description 
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="desc"></param>
+        /// <returns></returns>
+        public  Task<bool> AddDescription(int clientId, string desc, CancellationToken cancellationToken);
     }
 }
