@@ -176,7 +176,11 @@ namespace PMFightAcademy.Client.Services
 
             if (!clientBookings.Any())
             {
-                return new GetDataContract<HistoryDto>();
+                return new GetDataContract<HistoryDto>()
+                {
+                    Data = await ReturnResult<HistoryDto>(),
+                    Paggination = new Paggination()
+                };
             }
 
             var activeBookings = from booking in clientBookings
@@ -214,7 +218,11 @@ namespace PMFightAcademy.Client.Services
 
             if (!clientBookings.Any())
             {
-                return new GetDataContract<HistoryDto>();
+                return new GetDataContract<HistoryDto>()
+                {
+                    Data = await ReturnResult<HistoryDto>(),
+                    Paggination = new Paggination()
+                };
             }
 
             var activeBookings = from booking in clientBookings

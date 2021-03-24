@@ -40,12 +40,10 @@ namespace PMFightAcademy.Client.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
         /// <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
-        /// <see cref="HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
         /// Returns OK with coaches list if client is authorized and there is at least one coach for the corresponding request.
-        /// Returns NotFound with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
         /// </remarks>
         [HttpGet("{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -59,18 +57,6 @@ namespace PMFightAcademy.Client.Controllers
 #pragma warning restore CS1573 
         {
             var coaches = await _coachesService.GetCoaches(pageSize, page, token, filter);
-
-            if (!coaches.Data.Any())
-            {
-                var message = $"There is no coach on page {page}";
-
-                if (filter != null)
-                {
-                    message += $" matched the filter '{filter}'";
-                }
-
-                return Ok($"{message}.");
-            }
 
             return Ok(coaches);
         }
