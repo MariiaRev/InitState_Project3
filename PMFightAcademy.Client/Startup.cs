@@ -33,7 +33,8 @@ namespace PMFightAcademy.Client
             services.AddHttpClient();
 
             // add services
-            services.AddTransient<ICoachesStorageService, CoachesEFService>();
+            services.AddTransient<ICoachesService, CoachesService>();
+            services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<IClientsService, ClientsService>();
 
             ////add authentication by jwt
@@ -61,13 +62,13 @@ namespace PMFightAcademy.Client
                     .Build();
             });
 
+            services.AddCors();
+
             services.AddControllers();
 
             services.AddDbContext<ClientContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
-
-            services.AddTransient<IBookingService, BookingService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -116,6 +117,10 @@ namespace PMFightAcademy.Client
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PMFightAcademy.Client v1"));
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseRouting();
 

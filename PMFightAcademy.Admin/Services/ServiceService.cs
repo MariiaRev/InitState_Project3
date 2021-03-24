@@ -31,8 +31,6 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Take All
         /// </summary>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<IEnumerable<Service>> TakeAllServices()
         {
             var services = _dbContext.Services;
@@ -43,8 +41,6 @@ namespace PMFightAcademy.Admin.Services
         /// Take
         /// </summary>
         /// <param name="serviceId"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<Service> TakeService(int serviceId)
         {
             var service = _dbContext.Services.FirstOrDefault(x => x.Id == serviceId);
@@ -55,8 +51,6 @@ namespace PMFightAcademy.Admin.Services
         /// add
         /// </summary>
         /// <param name="service"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task AddService(Service service, CancellationToken cancellationToken)
         {
             //service.Id = _newId.GetIdForService();
@@ -74,9 +68,8 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Delete
         /// </summary>
-        /// <param name="service"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
         public async Task<bool> DeleteService(int id, CancellationToken cancellationToken)
         {
             var service = _dbContext.Services.FirstOrDefault(x => x.Id == id);
@@ -101,8 +94,6 @@ namespace PMFightAcademy.Admin.Services
         /// Update
         /// </summary>
         /// <param name="service"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
         public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
             try
@@ -118,10 +109,6 @@ namespace PMFightAcademy.Admin.Services
             return true;
 
         }
-
-        
-
-
 
     }
 }

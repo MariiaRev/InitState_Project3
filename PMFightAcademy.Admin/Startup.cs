@@ -37,6 +37,8 @@ namespace PMFightAcademy.Admin
             });
             services.AddTransient<SlotService>();
 
+            services.AddCors();
+
             services.AddDbContext<AdminContext>(options =>
                 options.UseNpgsql(
                     Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
@@ -59,6 +61,10 @@ namespace PMFightAcademy.Admin
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PMFightAcademy.Admin v1"));
             }
+
+            app.UseCors(builder => builder.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
 
             app.UseRouting();
 
