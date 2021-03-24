@@ -238,6 +238,27 @@ namespace PMFightAcademy.Admin.Services
         }
 
         /// <summary>
+        /// update coach
+        /// </summary>
+        /// <param name="slotContract"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateCoach(SlotsCreateContract slotContract, CancellationToken cancellationToken)
+        {
+            var coach = SlotsMapping.SlotMapFromContractToModel(slotContract);
+            try
+            {
+                _dbContext.Update(coach);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Take all slots for coaches
         /// </summary>
         /// <param name="coachId"></param>

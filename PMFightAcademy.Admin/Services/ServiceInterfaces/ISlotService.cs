@@ -28,12 +28,20 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <returns></returns>
         public  Task<IEnumerable<SlotsReturnContract>> TakeAllSlots();
+
+        /// <summary>
+        /// update
+        /// </summary>
+        /// <param name="slotContract"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<bool> UpdateCoach(SlotsCreateContract slotContract, CancellationToken cancellationToken);
         /// <summary>
         /// Take slots for coach
         /// </summary>
         /// <param name="coachId"></param>
         /// <returns></returns>
-        public  Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId);
+        public Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId);
         /// <summary>
         /// Take all on date
         /// </summary>

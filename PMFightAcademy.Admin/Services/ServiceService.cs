@@ -25,11 +25,6 @@ namespace PMFightAcademy.Admin.Services
         public ServiceService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            
-        }
-        public ServiceService()
-        {
-
         }
 
         /// <summary>

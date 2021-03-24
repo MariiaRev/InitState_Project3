@@ -244,6 +244,36 @@ namespace PMFightAcademy.Admin.Controllers
         }
 
         /// <summary>
+        /// update slots
+        /// </summary>
+        /// <param name="createSlots"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> return service needed 
+        /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        /// <remarks>
+        /// Use for update slots , send a slot with new fields
+        /// </remarks>
+        /// <exception cref="NotImplementedException"></exception>
+        [HttpPost("update")]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+
+        public async Task<IActionResult> UpdateSlot([FromBody] SlotsCreateContract createSlots, CancellationToken cancellationToken)
+        {
+            try
+            {
+                await _slotService.AddSlot(createSlots, cancellationToken);
+            }
+            catch (ArgumentException e)
+            {
+                return NotFound(e.Message);
+            }
+
+            return Ok();
+        }
+
+        /// <summary>
         /// Delete
         /// </summary>
         /// <param name="slotId"></param>
@@ -311,7 +341,8 @@ namespace PMFightAcademy.Admin.Controllers
             }
 
             return NotFound("No slots for this coaches on this dates ");
-
         }
+        
+
     }
 }
