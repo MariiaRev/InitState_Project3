@@ -19,13 +19,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _bookingService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constructor for booking
         /// </summary>
-        public BookingController(IBookingService bookingService)
+        public BookingController(IBookingService bookingService,IWorkWithIdService checkId)
         {
             _bookingService = bookingService;
+            _checkId = checkId;
         }
 
         ///// <summary>
@@ -93,6 +95,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what is booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// Return list about booked info for Client
@@ -101,8 +104,14 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("client/{clientId}")]
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForClient(int clientId, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(clientId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var bookings = await _bookingService.TakeBookingOnClient(clientId);
             if (bookings.Any())
             {
@@ -111,7 +120,7 @@ namespace PMFightAcademy.Admin.Controllers
 
             return NotFound("No books for this client");
         }
-        
+
         /// <summary>
         /// Select booked services on coach
         /// </summary>
@@ -120,6 +129,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// Return list about booked info for coach
@@ -128,8 +138,14 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForCoach(int coachId, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var bookings = await _bookingService.TakeBookingForCoach(coachId);
 
             if (bookings.Any())
@@ -147,17 +163,24 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return if book is successful deleted
-        /// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
+        /// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect </returns>
         /// <remarks>
-        /// Use for delete book , using post method
+        /// Use for delete book 
         /// return ok if successes
         /// return Not found if not founded 
         /// </remarks>
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteBook( int bookingId, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(bookingId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var deleted = await _bookingService.RemoveBooking(bookingId, cancellationToken);
 
             if (deleted)
@@ -165,11 +188,11 @@ namespace PMFightAcademy.Admin.Controllers
                 return Ok();
             }
 
-            return NotFound("No Booking");
+            return NotFound("No Booking with such id");
         }
 
         /// <summary>
-        /// Update file
+        /// Update booking
         /// </summary>
         /// <param name="newBooking"></param>
         /// <param name="cancellationToken"></param>
@@ -183,6 +206,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateBook(BookingContract newBooking, CancellationToken cancellationToken)
         {
             var update = await _bookingService.UpdateBooking(newBooking, cancellationToken);
@@ -192,7 +216,7 @@ namespace PMFightAcademy.Admin.Controllers
                 return Ok();
             }
 
-            return NotFound("No Booking");
+            return NotFound("No Booking ");
         }
 
 
@@ -248,6 +272,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what is booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// Return list about booked info for Client
@@ -256,8 +281,14 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("client/{clientId}/{dateStart}/{dateEnd}")]
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForClientOnDate(int clientId, string dateStart, string dateEnd, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(clientId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var bookings = await _bookingService.TakeBookingForClientOnDate(clientId,dateStart,dateEnd);
             if (bookings.Any())
             {
@@ -277,6 +308,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// Return list about booked info for coach
@@ -286,8 +318,14 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForCoachOnDate(int coachId,string dateStart,string dateEnd, CancellationToken cancellationToken)
         {
+            if (!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var bookings = await _bookingService.TakeBookingForClientOnDate(coachId, dateStart, dateEnd);
 
             if (bookings.Any())

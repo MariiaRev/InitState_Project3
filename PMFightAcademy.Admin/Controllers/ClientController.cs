@@ -3,10 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -21,13 +20,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constructor of client controller 
         /// </summary>
-        public ClientController(IClientService clientService)
+        public ClientController(IClientService clientService,IWorkWithIdService checkId)
         {
             _clientService = clientService;
+            _checkId = checkId;
         }
 
         #region JS TILT
@@ -57,13 +58,10 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// return list of clients
         /// </summary>
-        /// <param name="pageSize">The count of coaches to return at one time.</param>
-        /// <param name="page">The current page number.</param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return list of clients
         /// <see cref="HttpStatusCode.NotFound"/> if no any clients
         /// </returns>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Client>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
@@ -81,20 +79,27 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// return a client what admin need
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="id"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return a clients
-        /// <see cref="HttpStatusCode.NotFound"/> if no client with this Name
+        /// <see cref="HttpStatusCode.NotFound"/> if no client with this id
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// For get one client 
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetClient(int id)
         {
+
+            if (!_checkId.IsCorrectId(id))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var client = await _clientService.TakeClient(id);
 
             if (client != null)
@@ -102,6 +107,40 @@ namespace PMFightAcademy.Admin.Controllers
                 return Ok(client);
             }
             return NotFound("No client with that id");
+        }
+
+        /// <summary>
+        /// Add description to client
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="description"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> if all is fine and return Ok()
+        /// <see cref="HttpStatusCode.NotFound"/> if no client with this id
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
+        /// </returns>
+        /// <remarks>
+        /// for add description for client
+        /// </remarks>
+        [HttpPost("{id}")]
+        [ProducesResponseType( (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> AddClientDescription(int id , string description, CancellationToken cancellationToken)
+        {
+
+            if (!_checkId.IsCorrectId(id))
+            {
+                return BadRequest("incorrect Id");
+            }
+
+            var client = await _clientService.AddDescription(id,description, cancellationToken);
+
+            if (client)
+            {
+                return Ok();
+            }
+            return NotFound("Description not added, or client not found");
         }
 
     }

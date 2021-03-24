@@ -1,9 +1,9 @@
 ﻿using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace PMFightAcademy.Admin.Services
@@ -41,6 +41,22 @@ namespace PMFightAcademy.Admin.Services
         {
             var client = _dbContext.Clients.FirstOrDefault(x => x.Id == clientId);
             return client;
+        }
+
+        /// <summary>
+        /// Add desc
+        /// </summary>
+        /// <param name="clientId"></param>
+        /// <param name="desc"></param>
+        /// <returns></returns>
+        public async Task<bool> AddDescription(int clientId, string desc, CancellationToken cancellationToken)
+        {
+            var client = _dbContext.Clients.FirstOrDefault(x => x.Id == clientId);
+            if (client == null) return false;
+            client.Description = desc;
+            await _dbContext.SaveChangesAsync(cancellationToken);
+            return true;
+
         }
     }
 }

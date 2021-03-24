@@ -16,6 +16,7 @@ namespace PMFightAcademy.Admin.Services
     public class CoachService : ICoachService
     {
         private readonly AdminContext _dbContext;
+        
 
         /// <summary>
         /// Constructor
@@ -24,6 +25,7 @@ namespace PMFightAcademy.Admin.Services
         public CoachService(AdminContext dbContext)
         {
             _dbContext = dbContext;
+           
         }
 
         /// <summary>
@@ -50,9 +52,13 @@ namespace PMFightAcademy.Admin.Services
         /// Add coach
         /// </summary>
         /// <param name="coachContract"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
+           // coachContract.Id = _newId.GetIdForCoach();
+
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try
             {
@@ -69,6 +75,9 @@ namespace PMFightAcademy.Admin.Services
         /// Delete 
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<bool> DeleteCoach(int id, CancellationToken cancellationToken)
         {
             var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == id);

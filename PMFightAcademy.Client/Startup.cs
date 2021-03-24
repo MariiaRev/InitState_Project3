@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Filters;
 using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client
@@ -64,7 +65,10 @@ namespace PMFightAcademy.Client
 
             services.AddCors();
 
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ExceptionFilter));
+            });
 
             services.AddDbContext<ClientContext>(options =>
                 options.UseNpgsql(

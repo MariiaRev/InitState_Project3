@@ -22,13 +22,15 @@ namespace PMFightAcademy.Admin.Controllers
     public class SlotsController : ControllerBase
     {
         private readonly ISlotService _slotService;
+        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Slots controller
         /// </summary>
-        public SlotsController(ISlotService slotService)
+        public SlotsController(ISlotService slotService , IWorkWithIdService checkId)
         {
             _slotService = slotService;
+            _checkId = checkId;
         }
 
         //#region Maded Pagination but not used by JS (TILT)
@@ -156,6 +158,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </summary>
         /// <returns><see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+         /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
         /// <remarks>
         /// Return list of  slots for coach
         /// return if NotFound
@@ -164,10 +167,15 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSlotsForCoach([FromRoute] int coachId)
         {
-            
-               var  slots = await _slotService.TakeSlotsForCoach(coachId);
+            if(!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
+            var  slots = await _slotService.TakeSlotsForCoach(coachId);
 
                if (slots.Any())
                {
@@ -183,6 +191,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </summary>
         /// <returns><see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        ///  <see cref="HttpStatusCode.BadRequest"/> if date is incorrect
         /// <remarks>
         /// Return list of  slots for chosen date
         /// </remarks>
@@ -190,10 +199,9 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("date/{date}")]
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSlotsForDates([FromRoute] string date)
         {
-            
-            
             
             var slots = await _slotService.TakeAllOnDate(date);
 
@@ -222,6 +230,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
+
         public async Task<IActionResult> CreateSlots([FromBody] SlotsCreateContract createSlots, CancellationToken cancellationToken)
         {
             try
@@ -243,7 +252,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return service needed 
-        /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        /// <see cref="HttpStatusCode.NotFound"/> if service not founded
+        ///  <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
+        /// </returns>
         /// <remarks>
         /// Use for delete slots
         /// </remarks>
@@ -251,8 +262,15 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteSlots( int slotId,CancellationToken cancellationToken)
         {
+
+            if (!_checkId.IsCorrectId(slotId))
+            {
+                return BadRequest("incorrect Id");
+            }
+
             var deleted = await _slotService.RemoveSlot(slotId, cancellationToken);
 
             if (deleted)
@@ -268,7 +286,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// Show slots for coach
         /// </summary>
         /// <returns><see cref="HttpStatusCode.OK"/> return service needed 
-        /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
+        /// <see cref="HttpStatusCode.NotFound"/> if service not founded
+        ///  <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
+        /// </returns>
         /// <remarks>
         /// Return list of  slots for coach in time range
         /// return not fount if its is empty
@@ -277,8 +297,13 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSlotsForCoachFromDateToDate(int coachId,string dateStart,string dateEnd)
         {
+            if (!_checkId.IsCorrectId(coachId))
+            {
+                return BadRequest("incorrect Id");
+            }
 
             var slots = await _slotService.TakeSlotsForCoachOnDates(coachId,dateStart,dateEnd);
 

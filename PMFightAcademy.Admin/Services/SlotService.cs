@@ -18,14 +18,17 @@ namespace PMFightAcademy.Admin.Services
     public class SlotService : ISlotService
     {
         private readonly AdminContext _dbContext;
+        
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="dbContext"></param>
+        /// <param name="newId"></param>
         public SlotService(AdminContext dbContext)
         {
             _dbContext = dbContext;
+            
         }
 
         /// <summary>
@@ -46,13 +49,20 @@ namespace PMFightAcademy.Admin.Services
             {
                 throw new ArgumentException();
             }
-            
+
+            if (_dbContext.Slots.Where(x => x.Date == slot.Date)
+                .Where(x => x.StartTime <= slot.Duration).Where(x=>x.CoachId == slot.CoachId).Any(x => x.StartTime >= slot.StartTime))
+            {
+                throw new ArgumentException("some slots created in this time range , for this coach");
+            }
+
 
             List<Slot> slots = new List<Slot>();
-            while (slot.StartTime<=slot.Duration)
+            while (slot.StartTime <= slot.Duration)
             {
                 var resultSlot = new Slot
                 {
+                    //Id = _newId.GetIdForSlots(),
                     CoachId = slot.CoachId,
                     Duration = TimeSpan.FromHours(1),
                     Date = slot.Date,
@@ -60,16 +70,21 @@ namespace PMFightAcademy.Admin.Services
 
                 };
                 slot.StartTime = slot.StartTime + resultSlot.Duration;
-                slots.Add(resultSlot);
-            }
-            try
-            {
-              await _dbContext.AddRangeAsync(slots, cancellationToken);
-              await _dbContext.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                throw new ArgumentException();
+                try
+                {
+                    slots.Add(resultSlot);
+                    await _dbContext.AddRangeAsync(slots, cancellationToken);
+                    await _dbContext.SaveChangesAsync(cancellationToken);
+                    //await _dbContext.AddAsync(resultSlot, cancellationToken);
+                    //await _dbContext.SaveChangesAsync(cancellationToken);
+                }
+
+
+
+                catch
+                {
+                    throw new ArgumentException();
+                }
             }
         }
 
@@ -237,7 +252,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="date"></param>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date)
         {
-            if (!DateTime.TryParseExact(date, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateStart))
+            if (!DateTime.TryParseExact(date, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<SlotsReturnContract>();
 
             var slots = _dbContext.Slots.Where(x => x.Date == dateStart);
@@ -254,9 +269,9 @@ namespace PMFightAcademy.Admin.Services
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start, string end)
         {
             //var test = DateTime.ParseExact(start, "MM/dd/yyyy",CultureInfo.InvariantCulture);
-            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", CultureInfo.CurrentCulture ,DateTimeStyles.None, out var dateStart))
+            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<SlotsReturnContract>();
-            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None, out var dateEnd))
+            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
                 return new List<SlotsReturnContract>();
 
             var slots = _dbContext.Slots.Select(x=>x).Where(x => x.CoachId == coachId).Where(x=>x.Date >= dateStart).Where(x=>x.Date<=dateEnd);

@@ -1,15 +1,14 @@
-﻿using PMFightAcademy.Client.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
+using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Mappings;
 using PMFightAcademy.Client.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.Mappings;
-using PMFightAcademy.Client.Contract;
-using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -57,8 +56,6 @@ namespace PMFightAcademy.Client.Services
                 .Where(x => x.ServiceId == serviceId)
                 .Select(x => x.CoachId).ToArray();
 
-            //todo: add logger 
-
             var listResult = new List<CoachDto>();
             foreach (var item in coachesId)
             {
@@ -86,7 +83,7 @@ namespace PMFightAcademy.Client.Services
         public Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId)
         {
             var qualifications = _context.Qualifications?.ToArray();
-            var slots = _context.Slots?.ToArray();
+            var slots = _context.Slots?.Where(x => x.Expired == false).ToArray();
             var bookings = _context.Bookings?.ToArray();
 
             if (qualifications == null || slots == null || bookings == null)
@@ -112,7 +109,7 @@ namespace PMFightAcademy.Client.Services
         public Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
         {
             var qualifications = _context.Qualifications?.ToArray();
-            var slots = _context.Slots?.ToArray();
+            var slots = _context.Slots?.Where(x => x.Expired == false).ToArray();
             var bookings = _context.Bookings?.ToArray();
 
             if (qualifications == null || slots == null || bookings == null)
@@ -136,7 +133,7 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public async Task<bool> AddBooking(BookingDto bookingDto, int clientId)
         {
-            var slots = _context.Slots?.ToArray();
+            var slots = _context.Slots?.Where(x => x.Expired == false).ToArray();
             var bookings = _context.Bookings?.ToArray();
             var services = _context.Services?.ToArray();
 
@@ -169,11 +166,6 @@ namespace PMFightAcademy.Client.Services
             return true;
         }
 
-        private static Task<IEnumerable<T>> ReturnResult<T>()
-        {
-            return Task.FromResult(new List<T>().AsEnumerable());
-        }
-
         /// <inheritdoc/>
         public async Task<GetDataContract<HistoryDto>> GetActiveBookings(int pageSize, int page, int clientId, CancellationToken token)
         {
@@ -182,7 +174,11 @@ namespace PMFightAcademy.Client.Services
 
             if (!clientBookings.Any())
             {
-                return new GetDataContract<HistoryDto>();
+                return new GetDataContract<HistoryDto>()
+                {
+                    Data = await ReturnResult<HistoryDto>(),
+                    Paggination = new Paggination()
+                };
             }
 
             var activeBookings = from booking in clientBookings
@@ -220,7 +216,11 @@ namespace PMFightAcademy.Client.Services
 
             if (!clientBookings.Any())
             {
-                return new GetDataContract<HistoryDto>();
+                return new GetDataContract<HistoryDto>()
+                {
+                    Data = await ReturnResult<HistoryDto>(),
+                    Paggination = new Paggination()
+                };
             }
 
             var activeBookings = from booking in clientBookings
@@ -259,6 +259,11 @@ namespace PMFightAcademy.Client.Services
                 .Include(booking => booking.Service);
 
             return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync(token);
+        }
+
+        private static Task<IEnumerable<T>> ReturnResult<T>()
+        {
+            return Task.FromResult(new List<T>().AsEnumerable());
         }
     }
 }

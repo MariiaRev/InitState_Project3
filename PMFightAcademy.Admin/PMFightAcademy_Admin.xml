@@ -155,7 +155,7 @@
             Booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
             <summary>
             Constructor for booking
             </summary>
@@ -181,6 +181,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for Client
@@ -196,6 +197,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for coach
@@ -210,16 +212,17 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect </returns>
             <remarks>
-            Use for delete book , using post method
+            Use for delete book 
             return ok if successes
             return Not found if not founded 
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.BookingController.UpdateBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
             <summary>
-            Update file
+            Update booking
             </summary>
             <param name="newBooking"></param>
             <param name="cancellationToken"></param>
@@ -242,6 +245,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for Client
@@ -259,6 +263,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for coach
@@ -271,7 +276,7 @@
             Client controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
             <summary>
             Constructor of client controller 
             </summary>
@@ -280,34 +285,46 @@
             <summary>
             return list of clients
             </summary>
-            <param name="pageSize">The count of coaches to return at one time.</param>
-            <param name="page">The current page number.</param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return list of clients
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no any clients
             </returns>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.ClientController.GetClient(System.Int32)">
             <summary>
             return a client what admin need
             </summary>
-            <param name="name"></param>
+            <param name="id"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return a clients
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no client with this Name
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no client with this id
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             For get one client 
             </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Controllers.ClientController.AddClientDescription(System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Add description to client
+            </summary>
+            <param name="id"></param>
+            <param name="description"></param>
+            <returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return Ok()
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no client with this id
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
+            </returns>
+            <remarks>
+            for add description for client
+            </remarks>
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.CoachController">
             <summary>
             Coach controller 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
             <summary>
             Constructor for controller
             </summary>
@@ -336,6 +353,7 @@
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
              <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
              </returns>
              <remarks>
              Use for get one coach , if successes must return a coach
@@ -351,7 +369,7 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
-            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if this coach is already registered 
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if this coach is already registered
             </returns>
             <remarks>
             Use for create coach, send a coach
@@ -369,7 +387,7 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if this coach is already registered 
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if this coach is already registered
             </returns>
             <remarks>
             Use for update info about coach
@@ -388,6 +406,7 @@
              <returns>
              <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
              <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches yet is empty
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
              </returns>
              <remarks>
              Use for delete coach
@@ -399,11 +418,12 @@
             Qualification controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
             <summary>
             Constuctor
             </summary>
             <param name="qualificationService"></param>
+            <param name="checkId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForCoach(System.Int32)">
             <summary>
@@ -412,7 +432,9 @@
             <param name="coachId"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Return qualifications for coach
             </remarks>
@@ -425,7 +447,9 @@
             <param name="serviceId"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Return qualifications for services
             </remarks>
@@ -454,7 +478,9 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Use for delete Qualification
             Usable 2 time is Coach and Service screen
@@ -466,7 +492,7 @@
             Service Controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
             <summary>
             Service Controller
             </summary>
@@ -479,7 +505,7 @@
             <see cref="F:System.Net.HttpStatusCode.OK"/> add a coach to coaches
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> return lit of services</returns>
             <remarks> Use to Get all service, return services if  all is fine
-            NotFound if its is already registered
+            NotFound if its is service not  registered
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
@@ -490,10 +516,11 @@
             <param name="serviceId"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/>if service not founded
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks> Use to Get Service, return service if  all is fine
-            NotFound if its is already registered
+            NotFound if its is  not  registered
             </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
@@ -514,7 +541,7 @@
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.UpdateService(PMFightAcademy.Admin.Models.Service,System.Threading.CancellationToken)">
             <summary>
-            Add services 
+            Update services 
             </summary>
             <param name="service"></param>
             <param name="cancellationToken"></param>
@@ -530,7 +557,7 @@
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.DeleteService(System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Add services 
+            Delete services 
             </summary>
             <param name="serviceId"></param>
             <param name="cancellationToken"></param>
@@ -541,7 +568,7 @@
             <remarks>
             Use to delete service
             Return ok if deleted and not found if BD have not this service
-            Conflict if its is already registered</remarks>
+            </remarks>
             <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.SlotsController">
@@ -549,7 +576,7 @@
             Slots controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService)">
+        <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.#ctor(PMFightAcademy.Admin.Services.ServiceInterfaces.ISlotService,PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService)">
             <summary>
             Slots controller
             </summary>
@@ -572,6 +599,7 @@
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
             <remarks>
             Return list of  slots for coach
             return if NotFound
@@ -584,6 +612,7 @@
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if date is incorrect
             <remarks>
             Return list of  slots for chosen date
             </remarks>
@@ -612,7 +641,9 @@
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Use for delete slots
             </remarks>
@@ -623,7 +654,9 @@
             Show slots for coach
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded</returns>
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
+             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
+            </returns>
             <remarks>
             Return list of  slots for coach in time range
             return not fount if its is empty
@@ -640,6 +673,11 @@
             Just information about service.
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Filters.ExceptionFilter">
+            <summary>
+            Middleware for Exception processing
+            </summary>
         </member>
         <member name="T:PMFightAcademy.Admin.Mapping.BookingMapping">
             <summary>
@@ -798,6 +836,11 @@
         <member name="P:PMFightAcademy.Admin.Models.Client.Name">
             <summary>
             User First Name
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Admin.Models.Client.Description">
+            <summary>
+            Description for admin
             </summary>
         </member>
         <member name="T:PMFightAcademy.Admin.Models.Coach">
@@ -993,7 +1036,7 @@
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeAllBooking">
             <summary>
-            Take all slots
+            Take all bookings
             </summary>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoach(System.Int32)">
@@ -1060,6 +1103,14 @@
             </summary>
             <param name="clientId"></param>
         </member>
+        <member name="M:PMFightAcademy.Admin.Services.ClientService.AddDescription(System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Add desc
+            </summary>
+            <param name="clientId"></param>
+            <param name="desc"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Admin.Services.CoachService">
             <summary>
             Coach Service
@@ -1087,6 +1138,8 @@
             Add coach
             </summary>
             <param name="coachContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
@@ -1094,6 +1147,9 @@
             Delete 
             </summary>
             <param name="id"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
@@ -1111,6 +1167,7 @@
             Constructor
             </summary>
             <param name="dbContext"></param>
+            <param name="newId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.QualificationService.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
             <summary>
@@ -1212,6 +1269,14 @@
             Take client
             </summary>
             <param name="clientId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService.AddDescription(System.Int32,System.String,System.Threading.CancellationToken)">
+            <summary>
+            Add Description 
+            </summary>
+            <param name="clientId"></param>
+            <param name="desc"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService">
@@ -1381,6 +1446,18 @@
             <param name="end"></param>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService">
+            <summary>
+            Work with Id
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IWorkWithIdService.IsCorrectId(System.Int32)">
+            <summary>
+            Correct id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceService">
             <summary>
             Service service
@@ -1391,6 +1468,7 @@
             Constructor
             </summary>
             <param name="dbContext"></param>
+            <param name="newId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeAllServices">
             <summary>
@@ -1432,6 +1510,7 @@
             Constructor 
             </summary>
             <param name="dbContext"></param>
+            <param name="newId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
             <summary>
@@ -1502,6 +1581,29 @@
             <param name="coachId">Coach id</param>
             <param name="start">Date start</param>
             <param name="end">Date to </param>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Services.WorkWithIdService">
+            <summary>
+            Work with ID
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+            <summary>
+            Work with ID
+            </summary>
+            <param name="dbContext"></param>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.WorkWithIdService.IsCorrectId(System.Int32)">
+            <summary>
+            Check Id 
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.TimerSlotService">
+            <summary>
+            Service for the updating outdated slots in db
+            </summary>
         </member>
     </members>
 </doc>
