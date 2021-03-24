@@ -4,7 +4,6 @@ using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
@@ -51,7 +50,6 @@ namespace PMFightAcademy.Client.Controllers
         [HttpGet("{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> Get(
             [FromRoute, Range(1, int.MaxValue)] int pageSize,
             [FromRoute, Range(1, int.MaxValue)] int page,
@@ -64,14 +62,14 @@ namespace PMFightAcademy.Client.Controllers
 
             if (!coaches.Data.Any())
             {
-                string message = $"There is no coach on page {page}";
+                var message = $"There is no coach on page {page}";
 
                 if (filter != null)
                 {
                     message += $" matched the filter '{filter}'";
                 }
 
-                return NotFound($"{message}.");
+                return Ok($"{message}.");
             }
 
             return Ok(coaches);

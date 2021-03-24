@@ -168,11 +168,6 @@ namespace PMFightAcademy.Client.Services
             return true;
         }
 
-        private static Task<IEnumerable<T>> ReturnResult<T>()
-        {
-            return Task.FromResult(new List<T>().AsEnumerable());
-        }
-
         /// <inheritdoc/>
         public async Task<GetDataContract<HistoryDto>> GetActiveBookings(int pageSize, int page, int clientId, CancellationToken token)
         {
@@ -258,6 +253,11 @@ namespace PMFightAcademy.Client.Services
                 .Include(booking => booking.Service);
 
             return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync(token);
+        }
+
+        private static Task<IEnumerable<T>> ReturnResult<T>()
+        {
+            return Task.FromResult(new List<T>().AsEnumerable());
         }
     }
 }
