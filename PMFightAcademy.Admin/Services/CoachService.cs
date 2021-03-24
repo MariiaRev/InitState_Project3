@@ -22,7 +22,6 @@ namespace PMFightAcademy.Admin.Services
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="newId"></param>
         public CoachService(AdminContext dbContext)
         {
             _dbContext = dbContext;
@@ -53,6 +52,8 @@ namespace PMFightAcademy.Admin.Services
         /// Add coach
         /// </summary>
         /// <param name="coachContract"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
@@ -74,6 +75,9 @@ namespace PMFightAcademy.Admin.Services
         /// Delete 
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
         public async Task<bool> DeleteCoach(int id, CancellationToken cancellationToken)
         {
             var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == id);

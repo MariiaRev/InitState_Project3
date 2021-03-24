@@ -42,7 +42,11 @@ namespace PMFightAcademy.Client.Services
 
             if (coachesCount == 0)
             {
-                return new GetDataContract<CoachDto>();
+                return new GetDataContract<CoachDto>()
+                {
+                    Data = new List<CoachDto>().AsEnumerable(),
+                    Paggination = new Paggination()
+                };
             }
 
             // skip and take coaches

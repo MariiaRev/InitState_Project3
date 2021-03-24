@@ -8,6 +8,7 @@ using System;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Filters;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
@@ -26,7 +27,11 @@ namespace PMFightAcademy.Admin
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(typeof(ExceptionFilter));
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PMFightAcademy.Admin", Version = "v1" });
