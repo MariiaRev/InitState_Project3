@@ -262,7 +262,7 @@ namespace PMFightAcademy.Client.Controllers
 
             var bookings = await _bookingService.GetActiveBookings(pageSize, page, clientId, token);
 
-            if (!bookings.Data.Any())
+            if (bookings.Data == null)
             {
                 return NotFound($"There is no active booking for this client on page {page}.");
             }
@@ -304,7 +304,7 @@ namespace PMFightAcademy.Client.Controllers
 
             var bookings = await _bookingService.GetBookingHistory(pageSize, page, clientId, token);
 
-            if (!bookings.Data.Any())
+            if (bookings.Data == null)
             {
                 return NotFound($"There is no booking history record for this client on page {page}.");
             }
