@@ -1119,7 +1119,6 @@
             Constructor
             </summary>
             <param name="dbContext"></param>
-            <param name="newId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeAllCoaches">
             <summary>
@@ -1137,6 +1136,10 @@
             Add coach
             </summary>
             <param name="coachContract"></param>
+
+            <param name="cancellationToken"></param>
+            <returns></returns>
+
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.DeleteCoach(System.Int32,System.Threading.CancellationToken)">
@@ -1144,6 +1147,11 @@
             Delete 
             </summary>
             <param name="id"></param>
+
+            <param name="cancellationToken"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.UpdateCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
