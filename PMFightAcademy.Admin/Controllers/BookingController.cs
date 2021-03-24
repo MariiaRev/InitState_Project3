@@ -190,7 +190,7 @@ namespace PMFightAcademy.Admin.Controllers
                 return Ok();
             }
 
-            return NotFound("No Booking with suck id");
+            return NotFound("No Booking with such id");
         }
 
         /// <summary>
