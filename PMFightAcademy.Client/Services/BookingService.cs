@@ -1,15 +1,15 @@
-﻿using PMFightAcademy.Client.DataBase;
+﻿using Microsoft.EntityFrameworkCore;
+using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
+using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Mappings;
 using PMFightAcademy.Client.Models;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Threading.Tasks;
-using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.Mappings;
-using PMFightAcademy.Client.Contract;
-using Microsoft.EntityFrameworkCore;
 using System.Threading;
+using System.Threading.Tasks;
+using static PMFightAcademy.Client.Mappings.CoachMapping;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -97,6 +97,35 @@ namespace PMFightAcademy.Client.Services
             }
 
             return Task.FromResult(listResult.AsEnumerable());
+        }
+
+        /// <inheritdoc/>
+        public async Task<GetDataContract<CoachDto>> GetCoachesForBooking(int serviceId, int pageSize, int page, CancellationToken token)
+        {
+            //todo: add logger 
+
+            var qualifications = await _context.Qualifications
+                .Where(q => q.ServiceId == serviceId)
+                .Include(x => x.Coach).ToListAsync(token);
+
+            var allQualifications = _context.Qualifications.Include(x => x.Service);
+
+            var coaches = qualifications.Select(q => CoachWithServicesToCoachDto(q.Coach, allQualifications
+                .Where(x => x.CoachId == q.CoachId)
+                .Select(x => x.Service.Name)
+                .ToList()));
+
+            var coachesCount = (decimal)(coaches?.Count() ?? 0);
+
+            return new GetDataContract<CoachDto>()
+            {
+                Data = coaches?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<CoachDto>(),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(coachesCount / pageSize)
+                }
+            };
         }
 
         /// <inheritdoc/>

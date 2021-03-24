@@ -8,14 +8,12 @@ using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Controllers
 {
@@ -93,8 +91,8 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Get available services for client booking with paggination.
         /// </summary>
-        /// <param name="pageSize">Services count per ine page.</param>
-        /// <param name="page">The current page.</param>
+        /// <param name="pageSize">Services count per one page.</param>
+        /// <param name="page">The current page number.</param>
         /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
@@ -111,7 +109,7 @@ namespace PMFightAcademy.Client.Controllers
         [HttpGet("services/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(GetDataContract<Service>), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetServicesForBookingWithPaggination(
+        public async Task<IActionResult> GetServicesForBooking(
             [FromRoute, Range(1, int.MaxValue)] int pageSize,
             [FromRoute, Range(1, int.MaxValue)] int page,
             CancellationToken token)
@@ -149,6 +147,35 @@ namespace PMFightAcademy.Client.Controllers
                 return Ok(result);
 
             return NotFound();
+        }
+
+        /// <summary>
+        /// Get available coaches which can provide service 
+        /// with id <paramref name="serviceId"/> with paggination.
+        /// </summary>
+        /// <param name="serviceId">Service id.</param>
+        /// <param name="pageSize">Coaches count per one page.</param>
+        /// <param name="page">The current page number.</param>
+        /// <param name="token"></param>
+        /// <returns>
+        /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// Returns <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
+        /// </returns>
+        /// <remarks>
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK with coaches list if client is authorized and there is at least one available coach.
+        /// </remarks>
+        [HttpGet("coaches/{serviceId}/{pageSize}/{page}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCoachesForBooking(
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
+            [FromRoute, Range(1,  int.MaxValue)] int pageSize,
+            [FromRoute, Range(1,  int.MaxValue)] int page,
+            CancellationToken token)
+        {
+            var result = await _bookingService.GetCoachesForBooking(serviceId, pageSize, page, token);
+            return Ok(result);
         }
 
         /// <summary>

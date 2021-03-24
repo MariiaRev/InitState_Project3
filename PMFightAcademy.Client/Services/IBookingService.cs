@@ -32,6 +32,16 @@ namespace PMFightAcademy.Client.Services
         Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId);
 
         /// <summary>
+        /// Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
+        /// </summary>
+        /// <param name="serviceId">Id of the service.</param>
+        /// <param name="pageSize">Coaches count per page.</param>
+        /// <param name="page">The current page number.</param>
+        /// <param name="token">Cancellation token.</param>
+        /// <returns>List of coaches of type <see cref="CoachDto"/></returns>
+        Task<GetDataContract<CoachDto>> GetCoachesForBooking(int serviceId, int pageSize, int page, CancellationToken token);
+
+        /// <summary>
         /// Get available dates in format "MM/dd/yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
         /// for Booking Controller
         /// </summary>
