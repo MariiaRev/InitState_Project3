@@ -56,8 +56,6 @@ namespace PMFightAcademy.Client.Services
                 .Where(x => x.ServiceId == serviceId)
                 .Select(x => x.CoachId).ToArray();
 
-            //todo: add logger 
-
             var listResult = new List<CoachDto>();
             foreach (var item in coachesId)
             {
