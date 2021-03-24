@@ -27,6 +27,10 @@ namespace PMFightAcademy.Admin.Services
             _dbContext = dbContext;
             
         }
+        public ServiceService()
+        {
+
+        }
 
         /// <summary>
         /// Take All
@@ -51,9 +55,10 @@ namespace PMFightAcademy.Admin.Services
         /// add
         /// </summary>
         /// <param name="service"></param>
-        public async Task AddService(Service service, CancellationToken cancellationToken)
+        public virtual async Task AddService(Service service, CancellationToken cancellationToken)
         {
             //service.Id = _newId.GetIdForService();
+            var some = service;
             try
             {
                await _dbContext.Services.AddAsync(service, cancellationToken);
