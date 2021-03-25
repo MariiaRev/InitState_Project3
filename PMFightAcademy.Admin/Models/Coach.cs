@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
+
 namespace PMFightAcademy.Admin.Models
 {
     /// <summary>
@@ -16,7 +17,6 @@ namespace PMFightAcademy.Admin.Models
         /// Personal Id , key
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public int Id { get; set; }
 
         /// <summary>
@@ -36,17 +36,18 @@ namespace PMFightAcademy.Admin.Models
         /// <summary>
         /// Date of birth 
         /// </summary>
+        [RegularExpression(Settings.DateRegularExpr)]
         public DateTime BirthDate { get; set; }
+
         /// <summary>
         /// Description about coach
         /// </summary>
-
         public string Description { get; set; }
 
         /// <summary>
         /// Coach phone
         /// </summary>
-        [Phone]
+        [RegularExpression(Settings.PhoneRegularExpr)]
         public string PhoneNumber { get; set; }
 
         /// <summary>

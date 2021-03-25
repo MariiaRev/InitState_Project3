@@ -1,6 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+
+
+
 
 namespace PMFightAcademy.Admin.Models
 {
@@ -28,7 +32,7 @@ namespace PMFightAcademy.Admin.Models
         /// 039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094.
         /// </remarks>
         [Required(ErrorMessage = "Incorrect phone number!")]
-        [RegularExpression(@"^(\+38|38)?0(39|50|63|66|67|68|91|92|93|94|95|96|97|98|99)\d{7}$")]
+        [RegularExpression(Settings.PhoneRegularExpr)]
         public string Login { get; set; }
 
         /// <summary>
