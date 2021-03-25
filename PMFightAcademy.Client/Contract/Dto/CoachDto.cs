@@ -11,23 +11,27 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// <summary>
         /// Coach id.
         /// </summary>
+        [Range(1, int.MaxValue)]
         public int Id { get; set; }
 
         /// <summary>
         /// Coach first name.
         /// </summary>
         [Required]
+        [MinLength(2)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Coach last name.
         /// </summary>
         [Required]
+        [MinLength(2)]
         public string LastName { get; set; }
 
         /// <summary>
         /// Coach age.
         /// </summary>
+        [Range(18, 90)]
         public int Age { get; set; }
 
         /// <summary>
@@ -38,7 +42,7 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// <summary>
         /// Coach phone number.
         /// </summary>
-        [Phone]
+        [RegularExpression(Settings.PhoneRegularExpr)]
         public string PhoneNumber { get; set; }
 
         /// <summary>

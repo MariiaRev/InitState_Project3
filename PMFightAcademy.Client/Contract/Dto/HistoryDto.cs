@@ -34,17 +34,20 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// First name of the coach that provided the service
         /// </summary>
         [Required]
+        [MinLength(2)]
         public string CoachFirstName { get; set; }
 
         /// <summary>
         /// Last name of the coach that provided the service
         /// </summary>
         [Required]
+        [MinLength(2)]
         public string CoachLastName { get; set; }
 
         /// <summary>
         /// Result booking price.
         /// </summary>
+        [Range(0, 100000)]
         public decimal Price { get; set; }
 
         /// <summary>
