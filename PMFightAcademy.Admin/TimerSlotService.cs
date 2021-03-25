@@ -28,7 +28,7 @@ namespace PMFightAcademy.Admin
             {
                 var tm = new TimerCallback(UpdateSlotsTable);
                 var timer = new Timer(tm, null, TimeSpan.FromSeconds(0), TimeSpan.FromHours(1));
-                while (true) { }
+                while (true) { new AutoResetEvent(false).WaitOne(TimeSpan.FromHours(1), true); }
                 timer.Dispose();
             }, CancellationToken.None);
 
