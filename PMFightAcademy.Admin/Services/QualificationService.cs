@@ -19,11 +19,12 @@ namespace PMFightAcademy.Admin.Services
         private readonly AdminContext _dbContext;
         
 
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="newId"></param>
+        /// <param name="workWithId"></param>
         public QualificationService(AdminContext dbContext)
         {
             _dbContext = dbContext;
@@ -61,7 +62,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddQualification(QualificationContract contract, CancellationToken cancellationToken)
         {
-            //contract.Id = _newId.GetIdForQualification();
+            
             try
             {
                 var qualification = QualificationMapping.QualificationMapFromContractToModel(contract);

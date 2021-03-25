@@ -3,6 +3,7 @@ using PMFightAcademy.Admin.Contract;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -21,17 +22,16 @@ namespace PMFightAcademy.Admin.Controllers
     public class QualificationController : ControllerBase
     {
         private readonly IQualificationService _qualificationService;
-        private readonly IWorkWithIdService _checkId;
+        
 
         /// <summary>
         /// Constuctor
         /// </summary>
         /// <param name="qualificationService"></param>
         /// <param name="checkId"></param>
-        public QualificationController(IQualificationService qualificationService,IWorkWithIdService checkId)
+        public QualificationController(IQualificationService qualificationService)
         {
             _qualificationService = qualificationService;
-            _checkId = checkId;
         }
         /// <summary>
         /// get list  qualifications  for Coach
@@ -50,12 +50,8 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId)
+        public async Task<IActionResult> GetQualificationForCoach([FromRoute ,Range(1, int.MaxValue)] int coachId)
         {
-            if (!_checkId.IsCorrectId(coachId))
-            {
-                return BadRequest("incorrect Id");
-            }
 
             var services = await _qualificationService.GetServicesForCoach(coachId);
             if (services.Any())
@@ -82,12 +78,8 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<CoachContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId)
+        public async Task<IActionResult> GetQualificationForService([FromRoute ,Range(1, int.MaxValue)] int serviceId)
         {
-            if (!_checkId.IsCorrectId(serviceId))
-            {
-                return BadRequest("incorrect Id");
-            }
 
             var coaches = await _qualificationService.GetCoachesForService(serviceId);
             if (coaches.Any())
@@ -149,12 +141,8 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteQualification(int qualificationId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteQualification([Range(1, int.MaxValue)] int qualificationId, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(qualificationId))
-            {
-                return BadRequest("incorrect Id");
-            }
 
             var deleted = await _qualificationService.DeleteQualification(qualificationId, cancellationToken);
 

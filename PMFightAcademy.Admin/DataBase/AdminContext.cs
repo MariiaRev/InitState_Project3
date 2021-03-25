@@ -1,23 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Admin.DataBase
 {
-    public class AdminContext:DbContext
+    public class AdminContext : DbContext
     {
-        public DbSet<Client> Clients { get; set; }
-        public DbSet<Coach> Coaches { get; set; }
-        public DbSet<Booking> Bookings { get; set; }
-        public DbSet<Qualification> Qualifications { get; set; }
-        public DbSet<Service> Services { get; set; }
-        public DbSet<Slot> Slots { get; set; }
-        
+        public virtual DbSet<Client> Clients { get; set; }
+        public virtual DbSet<Coach> Coaches { get; set; }
+        public virtual DbSet<Booking> Bookings { get; set; }
+        public virtual DbSet<Qualification> Qualifications { get; set; }
+        public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<Slot> Slots { get; set; }
+        public AdminContext()
+        {
 
-
+        }
         public AdminContext(DbContextOptions<AdminContext> options) : base(options)
         {
 
         }
+        
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Client>().ToTable("Clients");

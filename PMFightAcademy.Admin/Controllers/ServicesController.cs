@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -20,15 +21,13 @@ namespace PMFightAcademy.Admin.Controllers
     public class ServicesController : ControllerBase
     {
         private readonly IServiceService _serviceService;
-        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Service Controller
         /// </summary>
-        public ServicesController(IServiceService serviceService,IWorkWithIdService checkId)
+        public ServicesController(IServiceService serviceService)
         {
             _serviceService = serviceService;
-            _checkId = checkId;
         }
 
         #region JS TILT
@@ -95,12 +94,8 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(Service), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetService(int serviceId)
+        public async Task<IActionResult> GetService([Range(1, int.MaxValue)] int serviceId)
         {
-            if (!_checkId.IsCorrectId(serviceId))
-            {
-                return BadRequest("incorrect Id");
-            }
 
             var service = await _serviceService.TakeService(serviceId);
             if (service != null)
@@ -210,12 +205,8 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteService(int serviceId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteService([Range(1, int.MaxValue)] int serviceId, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(serviceId))
-            {
-                return BadRequest("incorrect Id");
-            }
 
             var deleted = await _serviceService.DeleteService(serviceId, cancellationToken);
 
