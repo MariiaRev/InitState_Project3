@@ -35,7 +35,6 @@ namespace PMFightAcademy.Admin
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
             });
-            services.AddTransient<SlotService>();
 
             services.AddCors();
 
