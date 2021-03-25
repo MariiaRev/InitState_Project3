@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Admin.Contract
 {
@@ -11,12 +11,12 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Id in db
         /// </summary>
-        [Range(1, int.MaxValue)]
+        [Range(1,Int32.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Slot id
         /// </summary>
-        
+
         public int SlotId { get; set; }
         /// <summary>
         /// Service id
@@ -31,8 +31,8 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// ResultPrice
         /// </summary>
-        public decimal ResultPrice { get; set;}
-        
+        public decimal ResultPrice { get; set; }
+
 
     }
 }
