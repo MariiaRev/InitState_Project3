@@ -28,7 +28,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// Constuctor
         /// </summary>
         /// <param name="qualificationService"></param>
-        /// <param name="checkId"></param>
         public QualificationController(IQualificationService qualificationService)
         {
             _qualificationService = qualificationService;
@@ -40,16 +39,13 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
-        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
         /// </returns>
         /// <remarks>
         /// Return qualifications for coach
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception> 
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetQualificationForCoach([FromRoute ,Range(1, int.MaxValue)] int coachId)
         {
 
@@ -68,16 +64,13 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
-        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
         /// </returns>
         /// <remarks>
         /// Return qualifications for services
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception> 
         [HttpGet("service/{serviceId}")]
         [ProducesResponseType(typeof(IEnumerable<CoachContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetQualificationForService([FromRoute ,Range(1, int.MaxValue)] int serviceId)
         {
 
@@ -95,19 +88,17 @@ namespace PMFightAcademy.Admin.Controllers
         /// Add qualification
         /// </summary>
         /// <param name="qualification"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        /// <see cref="HttpStatusCode.Conflict"/> if qualification is already added
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
         /// <remarks>
         /// Use for add Qualification
         /// Usable 2 time is Coach and Service screen
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception> 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> AddQualification(QualificationContract qualification, CancellationToken cancellationToken)
         {
             try
@@ -130,17 +121,14 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
-        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
         /// </returns>
         /// <remarks>
         /// Use for delete Qualification
         /// Usable 2 time is Coach and Service screen
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception> 
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteQualification([Range(1, int.MaxValue)] int qualificationId, CancellationToken cancellationToken)
         {
 

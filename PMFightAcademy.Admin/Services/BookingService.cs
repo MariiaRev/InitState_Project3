@@ -62,7 +62,9 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="bookingContract"></param>
         /// <param name="cancellationToken"></param>
-        public async Task<bool> UpdateBooking(BookingContract bookingContract, CancellationToken cancellationToken)
+        public async Task<bool> UpdateBooking(
+            BookingContract bookingContract, 
+            CancellationToken cancellationToken)
         {
             var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
             try
@@ -84,7 +86,10 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="clientId"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        public async Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int clientId, string start, string end)
+        public async Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(
+            int clientId, 
+            string start,
+            string end)
         {
             if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<BookingContract>();
@@ -104,7 +109,10 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachId"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
-        public async Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int coachId, string start, string end)
+        public async Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(
+            int coachId, 
+            string start, 
+            string end)
         {
             if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
                 return new List<BookingContract>();

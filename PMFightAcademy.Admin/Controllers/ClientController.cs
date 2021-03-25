@@ -82,7 +82,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return a clients
         /// <see cref="HttpStatusCode.NotFound"/> if no client with this id
-        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// For get one client 
@@ -90,7 +89,6 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetClient([Range(1, int.MaxValue)] int id)
         {
 
@@ -111,7 +109,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> if all is fine and return Ok()
         /// <see cref="HttpStatusCode.NotFound"/> if no client with this id
-        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// for add description for client
@@ -119,7 +116,6 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpPost("{id}")]
         [ProducesResponseType( (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddClientDescription([Range(1, int.MaxValue)] int id , string description, CancellationToken cancellationToken)
         {
             var client = await _clientService.AddDescription(id,description, cancellationToken);

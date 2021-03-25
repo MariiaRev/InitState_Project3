@@ -24,7 +24,6 @@ namespace PMFightAcademy.Admin.Services
         /// Constructor 
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="newId"></param>
         public SlotService(AdminContext dbContext)
         {
             _dbContext = dbContext;
@@ -44,6 +43,9 @@ namespace PMFightAcademy.Admin.Services
             try
             {
                 slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+
+                if (slot.StartTime > slot.Duration)
+                    throw new ArgumentException();
             }
             catch
             {
@@ -57,34 +59,31 @@ namespace PMFightAcademy.Admin.Services
             }
 
 
-            List<Slot> slots = new List<Slot>();
+            var slots = new List<Slot>();
             while (slot.StartTime <= slot.Duration)
             {
                 var resultSlot = new Slot
                 {
-                    //Id = _newId.GetIdForSlots(),
                     CoachId = slot.CoachId,
                     Duration = TimeSpan.FromHours(1),
                     Date = slot.Date,
                     StartTime = slot.StartTime,
 
                 };
+                slots.Add(resultSlot);
                 slot.StartTime = slot.StartTime + resultSlot.Duration;
-                try
-                {
-                    slots.Add(resultSlot);
-                    await _dbContext.AddRangeAsync(slots, cancellationToken);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-                    //await _dbContext.AddAsync(resultSlot, cancellationToken);
-                    //await _dbContext.SaveChangesAsync(cancellationToken);
-                }
+            }
 
-
-
-                catch
-                {
-                    throw new ArgumentException();
-                }
+            try
+            {
+                await _dbContext.AddRangeAsync(slots, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                //await _dbContext.AddAsync(resultSlot, cancellationToken);
+                //await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                throw new ArgumentException();
             }
         }
 
@@ -245,6 +244,10 @@ namespace PMFightAcademy.Admin.Services
         public async Task<bool> UpdateSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken)
         {
             var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+
+            if (slot.StartTime > slot.Duration)
+                return false;
+
             try
             {
                 _dbContext.Update(slot);
