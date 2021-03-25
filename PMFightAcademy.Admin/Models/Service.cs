@@ -15,7 +15,7 @@ namespace PMFightAcademy.Admin.Models
         /// Personal id , key
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        
+        [Range(0, int.MaxValue)]
         public int Id { get;  set; }
 
         /// <summary>

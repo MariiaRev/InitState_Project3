@@ -15,6 +15,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static Booking BookingMapFromContractToModel(BookingContract contract)
         {
+            if (contract == null)
+            {
+                return null;
+            }
             return new Booking()
             {
                 Id = contract.Id, 
@@ -32,6 +36,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static BookingContract BookingMapFromModelTToContract(Booking model)
         {
+            if (model == null)
+            {
+                return null;
+            }
             return new BookingContract()
             {
                 Id = model.Id,

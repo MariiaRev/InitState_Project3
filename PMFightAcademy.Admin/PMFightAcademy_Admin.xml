@@ -289,7 +289,6 @@
             <see cref="F:System.Net.HttpStatusCode.OK"/> if all is fine and return list of clients
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no any clients
             </returns>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.ClientController.GetClient(System.Int32)">
             <summary>
@@ -304,7 +303,6 @@
             <remarks>
             For get one client 
             </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.ClientController.AddClientDescription(System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
@@ -320,7 +318,6 @@
             <remarks>
             for add description for client
             </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.CoachController">
             <summary>
@@ -692,6 +689,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Admin.Filters.ExceptionFilter">
+            <summary>
+            Middleware for Exception processing
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Admin.Mapping.BookingMapping">
             <summary>
             Mapping for Book
@@ -1049,7 +1051,7 @@
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeAllBooking">
             <summary>
-            Take all slots
+            Take all bookings
             </summary>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoach(System.Int32)">
@@ -1600,11 +1602,6 @@
             <param name="coachId">Coach id</param>
             <param name="start">Date start</param>
             <param name="end">Date to </param>
-        </member>
-        <member name="T:PMFightAcademy.Admin.TimerSlotService">
-            <summary>
-            Service for the updating outdated slots in db
-            </summary>
         </member>
         <member name="T:PMFightAcademy.Admin.TimerSlotService">
             <summary>

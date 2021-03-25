@@ -14,6 +14,11 @@
     &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.ServicesServicesTests.FirstTest&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=68e23768_002D6fa9_002D457f_002D9a2e_002D74180b2f1de7/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Add_Incorrect_Value_Test" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.ServicesServicesTests.Add_Incorrect_Value_Test&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=fe297a13_002D00fb_002D4140_002Db126_002D2642692077af/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="FirstTest #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.ServicesServicesTests&lt;/TestId&gt;&#xD;
