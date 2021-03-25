@@ -7,7 +7,6 @@ using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
@@ -127,7 +126,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<CoachDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCoachesForBooking(
-            [FromRoute] int serviceId,
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
             CancellationToken token)
         {
             var result = await _bookingService.GetCoachesForBooking(serviceId);
@@ -160,8 +159,8 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCoachesForBooking(
             [FromRoute, Range(1, int.MaxValue)] int serviceId,
-            [FromRoute, Range(1,  int.MaxValue)] int pageSize,
-            [FromRoute, Range(1,  int.MaxValue)] int page,
+            [FromRoute, Range(1, int.MaxValue)] int pageSize,
+            [FromRoute, Range(1, int.MaxValue)] int page,
             CancellationToken token)
         {
             var result = await _bookingService.GetCoachesForBooking(serviceId, pageSize, page, token);
@@ -187,8 +186,8 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetDatesForBooking(
-            [FromRoute] int serviceId,
-            [FromRoute] int coachId,
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
+            [FromRoute, Range(1, int.MaxValue)] int coachId,
             CancellationToken token)
         {
             var result = await _bookingService.GetDatesForBooking(serviceId, coachId);
@@ -218,9 +217,9 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetTimeSlotsForBooking(
-            [FromRoute] int serviceId,
-            [FromRoute] int coachId,
-            [FromRoute] string date,
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
+            [FromRoute, Range(1, int.MaxValue)] int coachId,
+            [FromRoute, RegularExpression(@"^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")] string date,
             CancellationToken token)
         {
             var result = await _bookingService.GetTimeSlotsForBooking(serviceId, coachId, date);

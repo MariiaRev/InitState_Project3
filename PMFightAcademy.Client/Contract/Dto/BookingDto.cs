@@ -27,12 +27,14 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// Service id to be provided.
         /// </summary>
         [Required]
+        [Range(1, int.MaxValue)]
         public int ServiceId { get; set; }
 
         /// <summary>
         /// Coach id to provide the service.
         /// </summary>
         [Required]
+        [Range(1, int.MaxValue)]
         public int CoachId { get; set; }
     }
 }

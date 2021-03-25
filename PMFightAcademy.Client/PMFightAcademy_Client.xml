@@ -244,12 +244,10 @@
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
-            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available service.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
             Returns OK with services list if client is authorized and there is at least one available service.
-            Returns NotFound with <c>string</c> message if client is authorized and there is no available service.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetServicesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -281,12 +279,10 @@
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
-            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available coach.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
             Returns OK with coaches list if client is authorized and there is at least one available coach.
-            Returns NotFound with <c>string</c> message if client is authorized and there is no available coach.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetCoachesForBooking(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -300,11 +296,15 @@
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
-            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with coaches list if there is at least one available coach 
+            and with empty list if there is no available coach.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
-            Returns OK with coaches list if client is authorized and there is at least one available coach.
+            Returns OK if client is authorized 
+            with coaches list if there is at least one available coach 
+            and with empty list if there is no available coach.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetDatesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -317,13 +317,11 @@
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
-            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available date.
             </returns>
             <remarks>
             Dates will be returned in format "MM/dd/yyyy" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
             Returns OK with dates list if client is authorized and there is at least one available date.
-            Returns NotFound with <c>string</c> message if client is authorized and there is no available date.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
@@ -338,14 +336,12 @@
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
-            Returns <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no available time slot.
             </returns>
             <remarks>
             Date should be in format "MM/dd/yyyy" as a <c>string</c>.
             Time will be returned in format "HH:mm" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
             Returns OK with time slots list if client is authorized and there is at least one available time slot.
-            Returns NotFound with <c>string</c> message if client is authorized and there is no available time slot.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Threading.CancellationToken)">
@@ -377,12 +373,10 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no record in the active booking list.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
             Returns OK with active booking list if client is authorized and there is at least one record in the active booking list.
-            Returns NotFound with <c>string</c> message if client is authorized and there is no record in the active booking list.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetHistory(System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -395,12 +389,10 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no record in the history.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
             Returns OK with booking history if client is authorized and there is at least one record in the history.
-            Returns NotFound with <c>string</c> message if client is authorized and there is no record in the history.
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
@@ -473,12 +465,10 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
             Returns OK with coaches list if client is authorized and there is at least one coach for the corresponding request.
-            Returns NotFound with <c>string</c> message if client is authorized and there is no coach for the corresponding request.
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ValuesController">
