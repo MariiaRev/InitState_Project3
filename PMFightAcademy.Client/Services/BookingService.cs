@@ -145,7 +145,7 @@ namespace PMFightAcademy.Client.Services
             var result = slots
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
-                .Select(x => x.Date.ToString("MM/dd/yyyy"))
+                .Select(x => x.Date.ToString("MM.dd.yyyy"))
                 .Distinct()
                 .ToArray();
 
