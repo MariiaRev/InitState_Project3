@@ -46,7 +46,7 @@ namespace PMFightAcademy.Client.Models
         /// <summary>
         /// Coach phone number.
         /// </summary>
-        [Phone]
+        [RegularExpression(Settings.PhoneRegularExpr)]
         public string PhoneNumber { get; set; }
 
         /// <summary>

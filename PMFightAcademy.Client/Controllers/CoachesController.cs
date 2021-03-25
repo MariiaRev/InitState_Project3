@@ -5,7 +5,6 @@ using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
@@ -32,7 +31,7 @@ namespace PMFightAcademy.Client.Controllers
         }
 
         /// <summary>
-        /// Portioned return of coaches data.
+        /// Portioned return of coaches data. 
         /// </summary>
         /// <param name="pageSize">The count of coaches to return at one time.</param>
         /// <param name="page">The current page number.</param>

@@ -33,6 +33,7 @@ namespace PMFightAcademy.Client.Models
         /// Service price per hour.
         /// </summary>
         [Required]
+        [Range(0, 100000)]
         public decimal Price { get; set; }
 
         /// <summary>

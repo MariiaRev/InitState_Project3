@@ -109,31 +109,6 @@
             Could be empty if no service is assigned to this coach.
             </summary>
         </member>
-        <member name="T:PMFightAcademy.Client.Contract.Dto.DataForBookingDto">
-            <summary>
-            Data for booking dto model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.Services">
-            <summary>
-            Services available for a booking.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.Coaches">
-            <summary>
-            Coaches available for a booking.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.Dates">
-            <summary>
-            Dates available for a booking.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Contract.Dto.DataForBookingDto.TimeSlots">
-             <summary>
-            Time slots available for a booking.
-             </summary>
-        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.HistoryDto">
             <summary>
             History dto model.
@@ -505,7 +480,7 @@
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.CoachesController.Get(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
-            Portioned return of coaches data.
+            Portioned return of coaches data. 
             </summary>
             <param name="pageSize">The count of coaches to return at one time.</param>
             <param name="page">The current page number.</param>
@@ -559,7 +534,7 @@
             <param name="price"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Mappings.BookingMapping.CoachMapFromModelToContract(PMFightAcademy.Client.Models.Booking,System.String,System.String,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Mappings.BookingMapping.BookingMapFromModelToContract(PMFightAcademy.Client.Models.Booking,System.String,System.String,System.Int32)">
             <summary>
             From model to contract
             </summary>
@@ -1041,6 +1016,41 @@
             <param name="token">Cancellation token for DB requests.</param>
             <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
             <returns>Returns list of found coaches or empty list if there is no coach.</returns>
+        </member>
+        <member name="T:PMFightAcademy.Client.Settings">
+            <summary>
+            Class with constant settings.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Settings.DateRegularExpr">
+            <summary>
+            Regular expression for parsing a date.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Settings.DateFormat">
+            <summary>
+            Date format string.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Settings.TimeRegularExpr">
+            <summary>
+            Regular expression for parsing time.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Settings.TimeFormat">
+            <summary>
+            Time format string.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Settings.PhoneRegularExpr">
+            <summary>
+            Regular expression with constraints for a phone number.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Client.Settings.PasswordRegularExpr">
+            <summary>
+            Regular expression with constraints for a password.
+            </summary>
         </member>
     </members>
 </doc>

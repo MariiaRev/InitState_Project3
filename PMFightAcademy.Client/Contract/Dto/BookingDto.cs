@@ -12,7 +12,7 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// Should be in format "MM.dd.yyyy" but as a string.
         /// </summary>
         [Required]
-        [RegularExpression(@"^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")]
+        [RegularExpression(Settings.DateRegularExpr)]
         public string Date { get; set; }
 
         /// <summary>
@@ -20,7 +20,7 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// Should be in format "HH:mm" but as a string.
         /// </summary>
         [Required]
-        [RegularExpression(@"^([0-1][0-9]|2[0-3]):([0-5][0-9])$")]
+        [RegularExpression(Settings.TimeRegularExpr)]
         public string Time { get; set; }
 
         /// <summary>
