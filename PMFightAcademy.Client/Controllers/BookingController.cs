@@ -235,7 +235,7 @@ namespace PMFightAcademy.Client.Controllers
         public async Task<IActionResult> GetTimeSlotsForBooking(
             [FromRoute, Range(1, int.MaxValue)] int serviceId,
             [FromRoute, Range(1, int.MaxValue)] int coachId,
-            [FromRoute, RegularExpression(@"^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")] string date,
+            [FromRoute, RegularExpression(Settings.DateRegularExpr)] string date,
             CancellationToken token)
         {
             var result = await _bookingService.GetTimeSlotsForBooking(serviceId, coachId, date);
