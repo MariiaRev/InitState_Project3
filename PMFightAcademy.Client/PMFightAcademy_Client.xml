@@ -49,7 +49,7 @@
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Date">
             <summary>
             The date for the service to be provided.
-            Should be in format "MM/dd/yyyy" but as a string.
+            Should be in format "MM.dd.yyyy" but as a string.
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.BookingDto.Time">
@@ -147,7 +147,7 @@
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Date">
             <summary>
             Date of provided service.
-            Date is in format "MM/dd/yyyy".
+            Date is in format "MM.dd.yyyy".
             </summary>
         </member>
         <member name="P:PMFightAcademy.Client.Contract.Dto.HistoryDto.Time">
@@ -243,6 +243,15 @@
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with services list if there is at least one available service 
+            and with empty list if there is no available service.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns Ok if client is authorized 
+            with services list if there is at least one available service 
+            and with empty list if there is no available service.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
             </returns>
             <remarks>
@@ -274,10 +283,19 @@
             <summary>
             Get available coaches which can provide service with id <paramref name="serviceId"/>.
             </summary>
-            <param name="serviceId">Service id</param>
+            <param name="serviceId">Service id.</param>
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with coaches list if there is at least one available coach 
+            and with empty list if there is no available coach.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized 
+            with coaches list if there is at least one available coach 
+            and with empty list if there is no available coach.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
             </returns>
             <remarks>
@@ -296,11 +314,15 @@
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
-            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with coaches list if there is at least one available coach 
+            and with empty list if there is no available coach.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
-            Returns OK with coaches list if client is authorized and there is at least one available coach.
+            Returns OK if client is authorized 
+            with coaches list if there is at least one available coach 
+            and with empty list if there is no available coach.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetDatesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -312,11 +334,17 @@
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with dates list if there is at least one available date 
+            and with empty list if there is no available date.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
             </returns>
             <remarks>
-            Dates will be returned in format "MM/dd/yyyy" as a <c>string</c>.
+            Dates will be returned in format "MM.dd.yyyy" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized 
+            with dates list if there is at least one available date 
+            and with empty list if there is no available date.
             Returns OK with dates list if client is authorized and there is at least one available date.
             </remarks>
         </member>
@@ -331,12 +359,18 @@
             <param name="token"></param>
             <returns>
             Returns <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with time slots list if there is at least one available time slot 
+            and with empty list if there is no available time slot.
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
             </returns>
             <remarks>
-            Date should be in format "MM/dd/yyyy" as a <c>string</c>.
+            Date should be in format "MM.dd.yyyy" as a <c>string</c>.
             Time will be returned in format "HH:mm" as a <c>string</c>.
             Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized 
+            with time slots list if there is at least one available time slot 
+            and with empty list if there is no available time slot.
             Returns OK with time slots list if client is authorized and there is at least one available time slot.
             </remarks>
         </member>
@@ -348,14 +382,14 @@
             <param name="token"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized and a booking was successfully added.
+            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if client is authorized and booking time is not available anymore
              or booking model is invalid.
             </returns>
             <remarks>
             Returns Unauthorized if client is unauthorized.
-            Returns OK with <c>string</c> message if client is authorized and a booking was successfully added.
-            Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore
+            Returns OK if client is authorized and a booking was successfully added.
+            Returns BadRequest if client is authorized and booking time is not available anymore
              or booking model is invalid.
             </remarks>
         </member>
@@ -368,6 +402,15 @@
             <param name="token"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with active booking list if there is at least one record in the active booking list 
+            and with empty list if there is no record in the active booking list.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized 
+            with active booking list if there is at least one record in the active booking list 
+            and with empty list if there is no record in the active booking list.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
             </returns>
             <remarks>
@@ -384,6 +427,15 @@
             <param name="token"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with booking history if there is at least one record in the history 
+            and with empty list if there is no record in the history.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized 
+            with booking history if there is at least one record in the history 
+            and with empty list if there is no record in the history.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.
             </returns>
             <remarks>
@@ -458,8 +510,18 @@
             <param name="pageSize">The count of coaches to return at one time.</param>
             <param name="page">The current page number.</param>
             <param name="filter">Optional <c>string</c> filter parameter - searching by coach's first or last name.</param>
+            <param name="token"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.Unauthorized"/> if client is unauthorized.
+            <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
+            with coaches list if there is at least one coach for the corresponding request 
+            and with empty list if there is no coach for the corresponding request.
+            </returns>
+            <remarks>
+            Returns Unauthorized if client is unauthorized.
+            Returns OK if client is authorized 
+            with coaches list if there is at least one coach for the corresponding request 
+            and with empty list if there is no coach for the corresponding request.
             <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
             </returns>
             <remarks>
@@ -897,12 +959,12 @@
         </member>
         <member name="M:PMFightAcademy.Client.Services.IBookingService.GetDatesForBooking(System.Int32,System.Int32)">
             <summary>
-            Get available dates in format "MM/dd/yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
+            Get available dates in format "MM.dd.yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
             for Booking Controller
             </summary>
             <param name="serviceId">Id of the service.</param>
             <param name="coachId">Id of the coach.</param>
-            <returns>List of available dates each as a string in format "MM/dd/yyyy".</returns>
+            <returns>List of available dates each as a string in format "MM.dd.yyyy".</returns>
         </member>
         <member name="M:PMFightAcademy.Client.Services.IBookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
             <summary>
@@ -910,7 +972,7 @@
             </summary>
             <param name="serviceId">Id of the service.</param>
             <param name="coachId">Id of the coach.</param>
-            <param name="date">Selected date as a string in format "MM/dd/yyyy".</param>
+            <param name="date">Selected date as a string in format "MM.dd.yyyy".</param>
             <returns>List of available time slots in format "HH:mm".</returns>
         </member>
         <member name="M:PMFightAcademy.Client.Services.IBookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">

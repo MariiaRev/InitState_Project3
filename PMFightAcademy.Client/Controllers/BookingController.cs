@@ -7,7 +7,6 @@ using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
 using System.Security.Claims;
 using System.Threading;
@@ -64,11 +63,15 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with services list if there is at least one available service 
+        /// and with empty list if there is no available service.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with services list if client is authorized and there is at least one available service.
+        /// Returns Ok if client is authorized 
+        /// with services list if there is at least one available service 
+        /// and with empty list if there is no available service.
         /// </remarks>
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -113,21 +116,25 @@ namespace PMFightAcademy.Client.Controllers
         /// <summary>
         /// Get available coaches which can provide service with id <paramref name="serviceId"/>.
         /// </summary>
-        /// <param name="serviceId">Service id</param>
+        /// <param name="serviceId">Service id.</param>
         /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with coaches list if there is at least one available coach 
+        /// and with empty list if there is no available coach.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with coaches list if client is authorized and there is at least one available coach.
+        /// Returns OK if client is authorized 
+        /// with coaches list if there is at least one available coach 
+        /// and with empty list if there is no available coach.
         /// </remarks>
         [HttpGet("{serviceId}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<CoachDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCoachesForBooking(
-            [FromRoute] int serviceId,
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
             CancellationToken token)
         {
             var result = await _bookingService.GetCoachesForBooking(serviceId);
@@ -160,8 +167,8 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetCoachesForBooking(
             [FromRoute, Range(1, int.MaxValue)] int serviceId,
-            [FromRoute, Range(1,  int.MaxValue)] int pageSize,
-            [FromRoute, Range(1,  int.MaxValue)] int page,
+            [FromRoute, Range(1, int.MaxValue)] int pageSize,
+            [FromRoute, Range(1, int.MaxValue)] int page,
             CancellationToken token)
         {
             var result = await _bookingService.GetCoachesForBooking(serviceId, pageSize, page, token);
@@ -176,19 +183,23 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with dates list if there is at least one available date 
+        /// and with empty list if there is no available date.
         /// </returns>
         /// <remarks>
-        /// Dates will be returned in format "MM/dd/yyyy" as a <c>string</c>.
+        /// Dates will be returned in format "MM.dd.yyyy" as a <c>string</c>.
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with dates list if client is authorized and there is at least one available date.
+        /// Returns OK if client is authorized 
+        /// with dates list if there is at least one available date 
+        /// and with empty list if there is no available date.
         /// </remarks>
         [HttpGet("{serviceId}/{coachId}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetDatesForBooking(
-            [FromRoute] int serviceId,
-            [FromRoute] int coachId,
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
+            [FromRoute, Range(1, int.MaxValue)] int coachId,
             CancellationToken token)
         {
             var result = await _bookingService.GetDatesForBooking(serviceId, coachId);
@@ -206,21 +217,25 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="token"></param>
         /// <returns>
         /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// Returns <see cref="HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with time slots list if there is at least one available time slot 
+        /// and with empty list if there is no available time slot.
         /// </returns>
         /// <remarks>
-        /// Date should be in format "MM/dd/yyyy" as a <c>string</c>.
+        /// Date should be in format "MM.dd.yyyy" as a <c>string</c>.
         /// Time will be returned in format "HH:mm" as a <c>string</c>.
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with time slots list if client is authorized and there is at least one available time slot.
+        /// Returns OK if client is authorized 
+        /// with time slots list if there is at least one available time slot 
+        /// and with empty list if there is no available time slot.
         /// </remarks>
         [HttpGet("{serviceId}/{coachId}/{date}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         [ProducesResponseType(typeof(IEnumerable<string>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetTimeSlotsForBooking(
-            [FromRoute] int serviceId,
-            [FromRoute] int coachId,
-            [FromRoute] string date,
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
+            [FromRoute, Range(1, int.MaxValue)] int coachId,
+            [FromRoute, RegularExpression(@"^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")] string date,
             CancellationToken token)
         {
             var result = await _bookingService.GetTimeSlotsForBooking(serviceId, coachId, date);
@@ -235,14 +250,14 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> with <c>string</c> message if client is authorized and a booking was successfully added.
-        /// <see cref="HttpStatusCode.BadRequest"/> with <c>string</c> message if client is authorized and booking time is not available anymore
+        /// <see cref="HttpStatusCode.OK"/> if client is authorized and a booking was successfully added.
+        /// <see cref="HttpStatusCode.BadRequest"/> if client is authorized and booking time is not available anymore
         ///  or booking model is invalid.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with <c>string</c> message if client is authorized and a booking was successfully added.
-        /// Returns BadRequest with <c>string</c> message if client is authorized and booking time is not available anymore
+        /// Returns OK if client is authorized and a booking was successfully added.
+        /// Returns BadRequest if client is authorized and booking time is not available anymore
         ///  or booking model is invalid.
         /// </remarks>
         [HttpPost]
@@ -273,11 +288,15 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
+        /// <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with active booking list if there is at least one record in the active booking list 
+        /// and with empty list if there is no record in the active booking list.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with active booking list if client is authorized and there is at least one record in the active booking list.
+        /// Returns OK if client is authorized 
+        /// with active booking list if there is at least one record in the active booking list 
+        /// and with empty list if there is no record in the active booking list.
         /// </remarks>
         [HttpGet("active/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -307,11 +326,15 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.
+        /// <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with booking history if there is at least one record in the history 
+        /// and with empty list if there is no record in the history.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with booking history if client is authorized and there is at least one record in the history.
+        /// Returns OK if client is authorized 
+        /// with booking history if there is at least one record in the history 
+        /// and with empty list if there is no record in the history.
         /// </remarks>
         [HttpGet("history/{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
