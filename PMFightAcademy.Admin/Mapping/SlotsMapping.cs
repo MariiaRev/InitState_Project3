@@ -23,7 +23,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static Slot SlotMapFromContractToModel(SlotsCreateContract contract)
         {
-            
+            if (contract == null)
+            {
+                return null;
+            }
             return new Slot
             {
                 Id = contract.Id,
@@ -42,6 +45,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static SlotsReturnContract SlotMapFromModelToContract(Slot model)
         {
+            if (model == null)
+            {
+                return null;
+            }
             return new SlotsReturnContract
             {
                 Id = model.Id,

@@ -78,9 +78,6 @@ namespace PMFightAcademy.Admin.Services
                     //await _dbContext.AddAsync(resultSlot, cancellationToken);
                     //await _dbContext.SaveChangesAsync(cancellationToken);
                 }
-
-
-
                 catch
                 {
                     throw new ArgumentException();

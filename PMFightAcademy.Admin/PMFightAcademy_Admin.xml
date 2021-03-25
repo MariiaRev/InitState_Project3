@@ -1608,10 +1608,5 @@
             Service for the updating outdated slots in db
             </summary>
         </member>
-        <member name="T:PMFightAcademy.Admin.TimerSlotService">
-            <summary>
-            Service for the updating outdated slots in db
-            </summary>
-        </member>
     </members>
 </doc>

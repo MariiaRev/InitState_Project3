@@ -10,7 +10,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Personal Id , key
         /// </summary>
-        [Range(1, int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Coach first name
@@ -22,7 +22,7 @@ namespace PMFightAcademy.Admin.Contract
         /// Coach Last Name 
         /// </summary>
         [Required(AllowEmptyStrings = false)]
-        [StringLength(64, MinimumLength = 6)]
+        [StringLength(64, MinimumLength = 2)]
         public string LastName { get; set; }
 
         /// <summary>

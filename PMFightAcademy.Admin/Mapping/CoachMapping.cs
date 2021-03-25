@@ -17,6 +17,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static Coach CoachMapFromContractToModel(CoachContract contract)
         {
+            if (contract == null)
+            {
+                return null;
+            }
             return new Coach()
             {
                 Id=contract.Id,
@@ -35,6 +39,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static CoachContract CoachMapFromModelToContract(Coach model)
         {
+            if (model == null)
+            {
+                return null;
+            }
             return new CoachContract()
             {
                 Id = model.Id,

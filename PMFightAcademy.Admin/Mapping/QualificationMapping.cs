@@ -15,6 +15,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static Qualification QualificationMapFromContractToModel(QualificationContract contract)
         {
+            if (contract == null)
+            {
+                return null;
+            }
             return new Qualification
             {
                 Id = contract.Id,
@@ -29,6 +33,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns></returns>
         public static QualificationContract QualificationMapFromModelToContract(Qualification model)
         {
+            if (model == null)
+            {
+                return null;
+            }
             return new QualificationContract
             {
                 Id = model.Id,

@@ -7,7 +7,7 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class SlotsCreateContract
     {
-        [Range(1, int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Coach Id
