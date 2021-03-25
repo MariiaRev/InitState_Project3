@@ -9,7 +9,6 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Controllers

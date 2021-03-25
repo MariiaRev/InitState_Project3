@@ -1,21 +1,12 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
-using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Net;
-using System.Security.Claims;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Client.DataBase;
-using PMFightAcademy.Client.Services;
 
 namespace PMFightAcademy.Client.Controllers
 {
