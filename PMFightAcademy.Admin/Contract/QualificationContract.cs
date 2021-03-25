@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
@@ -5,7 +7,7 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class QualificationContract
     {
-        
+        [Range(1, int.MaxValue)] 
         public int Id { get; set; }
         /// <summary>
         /// Service

@@ -10,7 +10,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Personal Id , key
         /// </summary>
-        
+        [Range(1, int.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Coach first name

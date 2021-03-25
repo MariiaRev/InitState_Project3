@@ -81,6 +81,36 @@ namespace PMFightAcademy.Client.Controllers
         }
 
         /// <summary>
+        /// Get available services for client booking with paggination.
+        /// </summary>
+        /// <param name="pageSize">Services count per one page.</param>
+        /// <param name="page">The current page number.</param>
+        /// <param name="token"></param>
+        /// <returns>
+        /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with services list if there is at least one available service 
+        /// or with empty list if there is no available service.
+        /// </returns>
+        /// <remarks>
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized 
+        /// with services list if there is at least one available service 
+        /// or with empty list if there is no available service.
+        /// </remarks>
+        [HttpGet("services/{pageSize}/{page}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(GetDataContract<Service>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetServicesForBooking(
+            [FromRoute, Range(1, int.MaxValue)] int pageSize,
+            [FromRoute, Range(1, int.MaxValue)] int page,
+            CancellationToken token)
+        {
+            var result = await _bookingService.GetServicesForBooking(pageSize, page, token);
+            return Ok(result);
+        }
+
+        /// <summary>
         /// Get available coaches which can provide service with id <paramref name="serviceId"/>.
         /// </summary>
         /// <param name="serviceId">Service id</param>
@@ -102,6 +132,39 @@ namespace PMFightAcademy.Client.Controllers
         {
             var result = await _bookingService.GetCoachesForBooking(serviceId);
             
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// Get available coaches which can provide service 
+        /// with id <paramref name="serviceId"/> with paggination.
+        /// </summary>
+        /// <param name="serviceId">Service id.</param>
+        /// <param name="pageSize">Coaches count per one page.</param>
+        /// <param name="page">The current page number.</param>
+        /// <param name="token"></param>
+        /// <returns>
+        /// Returns <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
+        /// Returns <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with coaches list if there is at least one available coach 
+        /// and with empty list if there is no available coach.
+        /// </returns>
+        /// <remarks>
+        /// Returns Unauthorized if client is unauthorized.
+        /// Returns OK if client is authorized 
+        /// with coaches list if there is at least one available coach 
+        /// and with empty list if there is no available coach.
+        /// </remarks>
+        [HttpGet("coaches/{serviceId}/{pageSize}/{page}")]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        [ProducesResponseType(typeof(GetDataContract<CoachDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetCoachesForBooking(
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
+            [FromRoute, Range(1,  int.MaxValue)] int pageSize,
+            [FromRoute, Range(1,  int.MaxValue)] int page,
+            CancellationToken token)
+        {
+            var result = await _bookingService.GetCoachesForBooking(serviceId, pageSize, page, token);
             return Ok(result);
         }
 

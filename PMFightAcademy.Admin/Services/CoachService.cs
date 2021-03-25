@@ -18,14 +18,15 @@ namespace PMFightAcademy.Admin.Services
         private readonly AdminContext _dbContext;
         
 
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
+        /// <param name="workWithId"></param>
         public CoachService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-           
         }
 
         /// <summary>
@@ -57,7 +58,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
-           // coachContract.Id = _newId.GetIdForCoach();
+            
 
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try
@@ -106,6 +107,8 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachContract"></param>
         public async Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
+            
+
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try
             {

@@ -17,11 +17,13 @@ namespace PMFightAcademy.Admin.Services
         private readonly AdminContext _dbContext;
         
 
+
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="newId"></param>
+        /// <param name="workWithId"></param>
         public ServiceService(AdminContext dbContext)
         {
             _dbContext = dbContext;
@@ -51,9 +53,10 @@ namespace PMFightAcademy.Admin.Services
         /// add
         /// </summary>
         /// <param name="service"></param>
-        public async Task AddService(Service service, CancellationToken cancellationToken)
+        public virtual async Task AddService(Service service, CancellationToken cancellationToken)
         {
-            //service.Id = _newId.GetIdForService();
+            
+            var some = service;
             try
             {
                await _dbContext.Services.AddAsync(service, cancellationToken);
@@ -96,6 +99,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="service"></param>
         public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
+            
             try
             {
                 _dbContext.Update(service);

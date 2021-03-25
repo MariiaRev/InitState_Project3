@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static PMFightAcademy.Client.Mappings.CoachMapping;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -35,6 +36,23 @@ namespace PMFightAcademy.Client.Services
                 return ReturnResult<Service>();
 
             return Task.FromResult(result.AsEnumerable());
+        }
+
+        /// <inheritdoc/>
+        public async Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token)
+        {
+            var services = await _context.Services?.ToListAsync(token);
+            var servicesCount = (decimal)(services?.Count ?? 0);
+
+            return new GetDataContract<Service>()
+            {
+                Data = services?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<Service>(),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(servicesCount / pageSize)
+                }
+            };
         }
 
         /// <inheritdoc/>
@@ -77,6 +95,35 @@ namespace PMFightAcademy.Client.Services
             }
 
             return Task.FromResult(listResult.AsEnumerable());
+        }
+
+        /// <inheritdoc/>
+        public async Task<GetDataContract<CoachDto>> GetCoachesForBooking(int serviceId, int pageSize, int page, CancellationToken token)
+        {
+            //todo: add logger 
+
+            var qualifications = await _context.Qualifications
+                .Where(q => q.ServiceId == serviceId)
+                .Include(x => x.Coach).ToListAsync(token);
+
+            var allQualifications = _context.Qualifications.Include(x => x.Service);
+
+            var coaches = qualifications.Select(q => CoachWithServicesToCoachDto(q.Coach, allQualifications
+                .Where(x => x.CoachId == q.CoachId)
+                .Select(x => x.Service.Name)
+                .ToList()));
+
+            var coachesCount = (decimal)(coaches?.Count() ?? 0);
+
+            return new GetDataContract<CoachDto>()
+            {
+                Data = coaches?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<CoachDto>(),
+                Paggination = new Paggination()
+                {
+                    Page = page,
+                    TotalPages = (int)Math.Ceiling(coachesCount / pageSize)
+                }
+            };
         }
 
         /// <inheritdoc/>

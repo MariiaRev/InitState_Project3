@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
 using System.Threading;
@@ -21,15 +22,13 @@ namespace PMFightAcademy.Admin.Controllers
     {
         
         private readonly ICoachService _coachService;
-        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
        /// Constructor for controller
        /// </summary>
-       public CoachController(ICoachService coachService,IWorkWithIdService checkId)
+       public CoachController(ICoachService coachService)
         {
             _coachService = coachService;
-            _checkId = checkId;
         }
 
 
@@ -104,14 +103,9 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(CoachContract), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetCoach (int coachId)
+        public async Task<IActionResult> GetCoach ([Range(1, int.MaxValue)] int coachId)
         {
             
-            if (!_checkId.IsCorrectId(coachId))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var coach = await _coachService.TakeCoach(coachId);
 
             if (coach!= null)
@@ -194,6 +188,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </summary>
         /// <para>
         ///<param name="coachId"></param>
+        /// <param name = "cancellationToken"></param>
         /// </para>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
@@ -208,12 +203,9 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType( (int) HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int) HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteCoach(int coachId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteCoach([Range(1, int.MaxValue)] int coachId, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(coachId))
-            {
-                return BadRequest("incorrect Id");
-            }
+           
             var deleted = await _coachService.DeleteCoach(coachId, cancellationToken);
 
             if (deleted)
