@@ -11,7 +11,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Id in db
         /// </summary>
-        [Range(1,Int32.MaxValue)]
+        [Range(1,int.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Slot id

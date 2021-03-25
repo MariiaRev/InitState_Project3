@@ -22,7 +22,7 @@ namespace PMFightAcademy.Admin.Contract
         /// Coach Last Name 
         /// </summary>
         [Required(AllowEmptyStrings = false)]
-        [StringLength(64, MinimumLength = 6)]
+        [StringLength(64, MinimumLength = 2)]
         public string LastName { get; set; }
 
         /// <summary>
