@@ -9,7 +9,7 @@ namespace PMFightAcademy.Client.Contract.Dto
     {
         /// <summary>
         /// The date for the service to be provided.
-        /// Should be in format "MM/dd/yyyy" but as a string.
+        /// Should be in format "MM.dd.yyyy" but as a string.
         /// </summary>
         [Required]
         [RegularExpression(@"^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")]

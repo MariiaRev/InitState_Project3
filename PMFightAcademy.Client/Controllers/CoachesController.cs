@@ -37,13 +37,18 @@ namespace PMFightAcademy.Client.Controllers
         /// <param name="pageSize">The count of coaches to return at one time.</param>
         /// <param name="page">The current page number.</param>
         /// <param name="filter">Optional <c>string</c> filter parameter - searching by coach's first or last name.</param>
+        /// <param name="token"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.Unauthorized"/> if client is unauthorized.
-        /// <see cref="HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
+        /// <see cref="HttpStatusCode.OK"/> if client is authorized 
+        /// with coaches list if there is at least one coach for the corresponding request 
+        /// and with empty list if there is no coach for the corresponding request.
         /// </returns>
         /// <remarks>
         /// Returns Unauthorized if client is unauthorized.
-        /// Returns OK with coaches list if client is authorized and there is at least one coach for the corresponding request.
+        /// Returns OK if client is authorized 
+        /// with coaches list if there is at least one coach for the corresponding request 
+        /// and with empty list if there is no coach for the corresponding request.
         /// </remarks>
         [HttpGet("{pageSize}/{page}")]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
@@ -52,9 +57,7 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute, Range(1, int.MaxValue)] int pageSize,
             [FromRoute, Range(1, int.MaxValue)] int page,
             [FromQuery] string filter,
-#pragma warning disable CS1573
-            CancellationToken token)            // no need of token in matching param tag in the XML comment
-#pragma warning restore CS1573 
+            CancellationToken token)
         {
             var coaches = await _coachesService.GetCoaches(pageSize, page, token, filter);
 

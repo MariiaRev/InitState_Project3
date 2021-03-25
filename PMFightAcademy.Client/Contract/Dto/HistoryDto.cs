@@ -16,10 +16,9 @@ namespace PMFightAcademy.Client.Contract.Dto
 
         /// <summary>
         /// Date of provided service.
-        /// Date is in format "MM/dd/yyyy".
+        /// Date is in format "MM.dd.yyyy".
         /// </summary>
         [Required]
-        [RegularExpression(@"^(0[1-9])|1[0-2].([0-2][0-9]|3[0-1]).[0-9]{4}$")]
         [RegularExpression(@"^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")]
         public string Date { get; set; }
 
