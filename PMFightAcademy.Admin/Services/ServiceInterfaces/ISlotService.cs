@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PMFightAcademy.Admin.Contract;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
 
 namespace PMFightAcademy.Admin.Services.ServiceInterfaces
 {
@@ -15,18 +15,18 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <param name="slotContract"></param>
         /// <returns></returns>
-        public  Task AddSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken);
+        public Task AddSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken);
         /// <summary>
         /// Remove slots
         /// </summary>
         /// <param name="slotContract"></param>
         /// <returns></returns>
-        public  Task<bool> RemoveSlot(int id, CancellationToken cancellationToken);
+        public Task<bool> RemoveSlot(int id, CancellationToken cancellationToken);
         /// <summary>
         /// Take all slots
         /// </summary>
         /// <returns></returns>
-        public  Task<IEnumerable<SlotsReturnContract>> TakeAllSlots();
+        public Task<IEnumerable<SlotsReturnContract>> TakeAllSlots();
 
         /// <summary>
         /// update
@@ -46,7 +46,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
-        public  Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date);
+        public Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date);
 
         /// <summary>
         /// 

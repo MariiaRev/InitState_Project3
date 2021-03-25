@@ -16,7 +16,7 @@ namespace PMFightAcademy.Admin.Models
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [Range(0, int.MaxValue)]
-        public int Id { get;  set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Service Title 

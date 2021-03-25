@@ -1,8 +1,8 @@
-﻿using System;
-using PMFightAcademy.Admin.Contract;
+﻿using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,7 +17,7 @@ namespace PMFightAcademy.Admin.Services
     public class BookingService : IBookingService
     {
         private readonly AdminContext _dbContext;
-        
+
 
         /// <summary>
         /// Constructor
@@ -41,7 +41,7 @@ namespace PMFightAcademy.Admin.Services
         /// Take Booking for coach
         /// </summary>
         /// <param name="coachId"></param>
-        public async  Task<IEnumerable<BookingContract>> TakeBookingForCoach(int coachId)
+        public async Task<IEnumerable<BookingContract>> TakeBookingForCoach(int coachId)
         {
             var bookings = _dbContext.Bookings.Where(x => x.Slot.CoachId == coachId).ToArray();
             return bookings.Select(BookingMapping.BookingMapFromModelTToContract);
@@ -91,11 +91,11 @@ namespace PMFightAcademy.Admin.Services
             if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
                 return new List<BookingContract>();
             var bookings = _dbContext.Bookings
-                .Select(x=>x)
+                .Select(x => x)
                 .Where(x => x.ClientId == clientId)
                 .Where(x => x.Slot.Date >= dateStart)
                 .Where(x => x.Slot.Date <= dateEnd);
-            return bookings.AsEnumerable().Select(BookingMapping.BookingMapFromModelTToContract); 
+            return bookings.AsEnumerable().Select(BookingMapping.BookingMapFromModelTToContract);
         }
 
         /// <summary>
@@ -121,7 +121,7 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
-        public async  Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
+        public async Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
         {
             var booking = _dbContext.Bookings.FirstOrDefault(x => x.Id == id);
             if (booking == null)

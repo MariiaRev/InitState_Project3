@@ -17,8 +17,8 @@ namespace PMFightAcademy.Admin.Models
         /// Slot id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        
-        public int Id { get;  set; }
+
+        public int Id { get; set; }
 
         /// <summary>
         /// Date of slot.
@@ -41,9 +41,9 @@ namespace PMFightAcademy.Admin.Models
         /// <summary>
         /// Coach of slot.
         /// </summary>
-        [Required]                              
+        [Required]
         public int CoachId { get; set; }
-        
+
         /// <summary>
         /// 
         /// </summary>

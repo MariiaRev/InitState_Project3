@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PMFightAcademy.Admin.Models;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Services.ServiceInterfaces
 {
@@ -14,13 +14,13 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// Take all service
         /// </summary>
         /// <returns></returns>
-        public  Task<IEnumerable<Service>> TakeAllServices();
+        public Task<IEnumerable<Service>> TakeAllServices();
         /// <summary>
         /// Take service
         /// </summary>
         /// <param name="serviceId"></param>
         /// <returns></returns>
-        public  Task<Service> TakeService(int serviceId);
+        public Task<Service> TakeService(int serviceId);
 
         /// <summary>
         /// Add service
@@ -28,7 +28,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task AddService(Service service,CancellationToken cancellationToken);
+        public Task AddService(Service service, CancellationToken cancellationToken);
 
         /// <summary>
         /// Delete services
@@ -36,7 +36,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task<bool> DeleteService(int id, CancellationToken cancellationToken);
+        public Task<bool> DeleteService(int id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Update service
@@ -44,6 +44,6 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="service"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task<bool> UpdateService(Service service, CancellationToken cancellationToken);
+        public Task<bool> UpdateService(Service service, CancellationToken cancellationToken);
     }
 }

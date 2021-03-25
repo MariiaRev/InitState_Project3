@@ -14,7 +14,7 @@ namespace PMFightAcademy.Admin.Models
         /// Id , Key
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get;  set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// User login represented by his/her phone number.

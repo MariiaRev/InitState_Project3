@@ -21,9 +21,9 @@ namespace PMFightAcademy.Admin.Mapping
             }
             return new Booking()
             {
-                Id = contract.Id, 
-                SlotId = contract.SlotId, 
-                ServiceId = contract.ServiceId, 
+                Id = contract.Id,
+                SlotId = contract.SlotId,
+                ServiceId = contract.ServiceId,
                 ClientId = contract.ClientId,
                 ResultPrice = contract.ResultPrice
             };

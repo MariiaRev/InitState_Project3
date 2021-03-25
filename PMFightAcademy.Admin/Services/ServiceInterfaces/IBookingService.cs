@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PMFightAcademy.Admin.Contract;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
 
 namespace PMFightAcademy.Admin.Services.ServiceInterfaces
 {
@@ -16,21 +16,21 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<bool> RemoveBooking(int  id, CancellationToken cancellationToken);
-        
+        public Task<bool> RemoveBooking(int id, CancellationToken cancellationToken);
+
         /// <summary>
         /// Take all bookings
         /// </summary>
         /// <returns></returns>
         public Task<IEnumerable<BookingContract>> TakeAllBooking();
-        
+
         /// <summary>
         /// Take booking for coach
         /// </summary>
         /// <param name="coachId"></param>
         /// <returns></returns>
         public Task<IEnumerable<BookingContract>> TakeBookingForCoach(int coachId);
-        
+
         /// <summary>
         /// Take booking for client
         /// </summary>
@@ -53,7 +53,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int coachId,string start,string end);
+        public Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int coachId, string start, string end);
         /// <summary>
         /// 
         /// </summary>
@@ -61,6 +61,6 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int clientId,string start, string end);
+        public Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int clientId, string start, string end);
     }
 }

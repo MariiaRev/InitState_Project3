@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using PMFightAcademy.Admin.Contract;
+﻿using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
+using System;
+using System.Globalization;
 
 namespace PMFightAcademy.Admin.Mapping
 {
@@ -32,10 +32,10 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = contract.Id,
                 CoachId = contract.CoachId,
                 Date = DateTime.ParseExact(contract.DateStart, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),
-                Duration = TimeSpan.Parse(contract.TimeEnd,CultureInfo.CurrentCulture),
+                Duration = TimeSpan.Parse(contract.TimeEnd, CultureInfo.CurrentCulture),
                 StartTime = TimeSpan.Parse(contract.TimeStart, CultureInfo.CurrentCulture)
             };
-            
+
         }
 
         /// <summary>
@@ -57,7 +57,7 @@ namespace PMFightAcademy.Admin.Mapping
                 Duration = (new DateTime(1, 1, 1) + model.Duration).ToString("HH:mm"),
                 TimeStart = (new DateTime(1, 1, 1) + model.StartTime).ToString("HH:mm")
             };
-           
+
         }
     }
 }
