@@ -43,7 +43,6 @@ namespace PMFightAcademy.Admin
                 options.UseNpgsql(
                     Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
 
-            services.AddTransient<IWorkWithIdService,WorkWithIdService>();
             services.AddTransient<IBookingService,BookingService>();
             services.AddTransient<ICoachService,CoachService>();
             services.AddTransient<IServiceService,ServiceService>();

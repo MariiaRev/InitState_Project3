@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace PMFightAcademy.Admin.Contract
 {
@@ -10,6 +11,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Id in db
         /// </summary>
+        [Range(1, int.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Slot id

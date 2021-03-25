@@ -16,7 +16,7 @@ namespace PMFightAcademy.Admin.Services
     public class CoachService : ICoachService
     {
         private readonly AdminContext _dbContext;
-        private readonly IWorkWithIdService _workWithId;
+        
 
 
         /// <summary>
@@ -24,10 +24,9 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="dbContext"></param>
         /// <param name="workWithId"></param>
-        public CoachService(AdminContext dbContext,IWorkWithIdService workWithId)
+        public CoachService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            _workWithId = workWithId;
         }
 
         /// <summary>
@@ -59,10 +58,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
-            if (!_workWithId.IsCorrectId(coachContract.Id))
-            {
-                throw new ArgumentException("Incorrect id");
-            }
+            
 
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try
@@ -111,10 +107,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachContract"></param>
         public async Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
-            if(!_workWithId.IsCorrectId(coachContract.Id))
-            {
-                return false;
-            }
+            
 
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
             try

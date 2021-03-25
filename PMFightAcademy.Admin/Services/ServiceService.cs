@@ -15,7 +15,7 @@ namespace PMFightAcademy.Admin.Services
     public class ServiceService :IServiceService
     {
         private readonly AdminContext _dbContext;
-        private readonly IWorkWithIdService _workWithId;
+        
 
 
         /// <summary>
@@ -24,10 +24,10 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="dbContext"></param>
         /// <param name="newId"></param>
         /// <param name="workWithId"></param>
-        public ServiceService(AdminContext dbContext,IWorkWithIdService workWithId)
+        public ServiceService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            _workWithId = workWithId;
+            
         }
 
         /// <summary>
@@ -55,10 +55,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="service"></param>
         public virtual async Task AddService(Service service, CancellationToken cancellationToken)
         {
-            if (!_workWithId.IsCorrectId(service.Id))
-            {
-                throw new ArgumentException("Incorrect Id");
-            }
+            
             var some = service;
             try
             {
@@ -102,10 +99,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="service"></param>
         public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
-            if (!_workWithId.IsCorrectId(service.Id))
-            {
-                return false;
-            }
+            
             try
             {
                 _dbContext.Update(service);
