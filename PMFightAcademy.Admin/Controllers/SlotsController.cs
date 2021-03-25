@@ -264,7 +264,7 @@ namespace PMFightAcademy.Admin.Controllers
         {
             try
             {
-                await _slotService.AddSlot(createSlots, cancellationToken);
+                await _slotService.UpdateSlot(createSlots, cancellationToken);
             }
             catch (ArgumentException e)
             {
