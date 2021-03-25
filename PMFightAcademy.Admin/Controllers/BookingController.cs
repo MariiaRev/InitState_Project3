@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -79,12 +79,12 @@ namespace PMFightAcademy.Admin.Controllers
         public async Task<IActionResult> GetBookedServices()
         {
             var bookings = await _bookingService.TakeAllBooking();
-                if (bookings.Any())
-                {
-                    return Ok(bookings);
-                }
+            if (bookings.Any())
+            {
+                return Ok(bookings);
+            }
 
-                return NotFound("No elements");
+            return NotFound("No elements");
         }
 
         /// <summary>
@@ -164,9 +164,9 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteBook( [Range(1,int.MaxValue)]int bookingId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteBook([Range(1, int.MaxValue)] int bookingId, CancellationToken cancellationToken)
         {
-            
+
 
             var deleted = await _bookingService.RemoveBooking(bookingId, cancellationToken);
 
@@ -271,7 +271,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForClientOnDate([Range(1, int.MaxValue)] int clientId, string dateStart, string dateEnd, CancellationToken cancellationToken)
         {
-            var bookings = await _bookingService.TakeBookingForClientOnDate(clientId,dateStart,dateEnd);
+            var bookings = await _bookingService.TakeBookingForClientOnDate(clientId, dateStart, dateEnd);
 
             if (bookings.Any())
             {
@@ -302,7 +302,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetBookedServiceForCoachOnDate([Range(1, int.MaxValue)] int coachId,string dateStart,string dateEnd, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetBookedServiceForCoachOnDate([Range(1, int.MaxValue)] int coachId, string dateStart, string dateEnd, CancellationToken cancellationToken)
         {
             var bookings = await _bookingService.TakeBookingForClientOnDate(coachId, dateStart, dateEnd);
 

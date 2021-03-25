@@ -1,7 +1,7 @@
-﻿using System;
-using System.Globalization;
-using PMFightAcademy.Admin.Contract;
+﻿using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Models;
+using System;
+using System.Globalization;
 
 namespace PMFightAcademy.Admin.Mapping
 {
@@ -23,7 +23,7 @@ namespace PMFightAcademy.Admin.Mapping
             }
             return new Coach()
             {
-                Id=contract.Id,
+                Id = contract.Id,
                 FirstName = contract.FirstName,
                 LastName = contract.LastName,
                 BirthDate = DateTime.ParseExact(contract.DateBirth, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),

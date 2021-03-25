@@ -17,7 +17,7 @@ namespace PMFightAcademy.Admin.Services
     public class QualificationService : IQualificationService
     {
         private readonly AdminContext _dbContext;
-        
+
 
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace PMFightAcademy.Admin.Services
         public QualificationService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            
+
         }
 
         /// <summary>
@@ -62,14 +62,14 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddQualification(QualificationContract contract, CancellationToken cancellationToken)
         {
-            
+
             try
             {
                 var qualification = QualificationMapping.QualificationMapFromContractToModel(contract);
                 await _dbContext.AddAsync(qualification, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new ArgumentException("Something go wrong, dont created service or coach");
             }

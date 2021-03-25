@@ -6,7 +6,7 @@ namespace PMFightAcademy.Admin.Contract
     /// Contract for getting data with paggination.
     /// </summary>
     /// <typeparam name="T">The type of result data.</typeparam>
-    public class GetDataContract<T> where T: class
+    public class GetDataContract<T> where T : class
     {
         /// <summary>
         /// The array of <typeparamref name="T"/> elements.

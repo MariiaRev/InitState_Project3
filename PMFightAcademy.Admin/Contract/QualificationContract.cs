@@ -7,7 +7,7 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class QualificationContract
     {
-        [Range(0, int.MaxValue)] 
+        [Range(0, int.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Service

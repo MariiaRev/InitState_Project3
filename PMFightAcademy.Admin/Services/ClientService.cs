@@ -11,7 +11,7 @@ namespace PMFightAcademy.Admin.Services
     /// <summary>
     /// Client Service
     /// </summary>
-    public class ClientService: IClientService
+    public class ClientService : IClientService
     {
         private readonly AdminContext _dbContext;
 
@@ -32,7 +32,7 @@ namespace PMFightAcademy.Admin.Services
             return clients.AsEnumerable();
         }
 
-        
+
         /// <summary>
         /// 
         /// </summary>
