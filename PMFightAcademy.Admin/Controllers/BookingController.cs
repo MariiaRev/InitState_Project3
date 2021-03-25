@@ -272,6 +272,7 @@ namespace PMFightAcademy.Admin.Controllers
         public async Task<IActionResult> GetBookedServiceForClientOnDate([Range(1, int.MaxValue)] int clientId, string dateStart, string dateEnd, CancellationToken cancellationToken)
         {
             var bookings = await _bookingService.TakeBookingForClientOnDate(clientId,dateStart,dateEnd);
+
             if (bookings.Any())
             {
                 return Ok(bookings);

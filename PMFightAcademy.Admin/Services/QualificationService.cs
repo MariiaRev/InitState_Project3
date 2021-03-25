@@ -17,17 +17,18 @@ namespace PMFightAcademy.Admin.Services
     public class QualificationService : IQualificationService
     {
         private readonly AdminContext _dbContext;
-        
+        private readonly IWorkWithIdService _workWithId;
+
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="newId"></param>
-        public QualificationService(AdminContext dbContext)
+        /// <param name="workWithId"></param>
+        public QualificationService(AdminContext dbContext , IWorkWithIdService workWithId)
         {
             _dbContext = dbContext;
-            
+            _workWithId = workWithId;
         }
 
         /// <summary>
@@ -61,7 +62,10 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddQualification(QualificationContract contract, CancellationToken cancellationToken)
         {
-            //contract.Id = _newId.GetIdForQualification();
+            if (!_workWithId.IsCorrectId(contract.Id))
+            {
+                throw new ArgumentException("Incorrect id");
+            }
             try
             {
                 var qualification = QualificationMapping.QualificationMapFromContractToModel(contract);

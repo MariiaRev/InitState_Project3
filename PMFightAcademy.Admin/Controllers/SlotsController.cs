@@ -21,7 +21,6 @@ namespace PMFightAcademy.Admin.Controllers
     public class SlotsController : ControllerBase
     {
         private readonly ISlotService _slotService;
-        
 
         /// <summary>
         /// Slots controller
