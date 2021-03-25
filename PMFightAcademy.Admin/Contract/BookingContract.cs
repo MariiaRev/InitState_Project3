@@ -1,4 +1,7 @@
-﻿namespace PMFightAcademy.Admin.Contract
+﻿using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto for create Workout
@@ -8,11 +11,12 @@
         /// <summary>
         /// Id in db
         /// </summary>
+        [Range(1,Int32.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Slot id
         /// </summary>
-        
+
         public int SlotId { get; set; }
         /// <summary>
         /// Service id
@@ -27,8 +31,8 @@
         /// <summary>
         /// ResultPrice
         /// </summary>
-        public decimal ResultPrice { get; set;}
-        
+        public decimal ResultPrice { get; set; }
+
 
     }
 }
