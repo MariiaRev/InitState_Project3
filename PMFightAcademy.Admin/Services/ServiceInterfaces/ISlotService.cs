@@ -35,7 +35,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<bool> UpdateCoach(SlotsCreateContract slotContract, CancellationToken cancellationToken);
+        public Task<bool> UpdateSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken);
         /// <summary>
         /// Take slots for coach
         /// </summary>
