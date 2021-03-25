@@ -243,12 +243,12 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> UpdateCoach(SlotsCreateContract slotContract, CancellationToken cancellationToken)
+        public async Task<bool> UpdateSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken)
         {
-            var coach = SlotsMapping.SlotMapFromContractToModel(slotContract);
+            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
             try
             {
-                _dbContext.Update(coach);
+                _dbContext.Update(slot);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
