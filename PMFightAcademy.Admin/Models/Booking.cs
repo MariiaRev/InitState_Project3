@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -14,7 +15,6 @@ namespace PMFightAcademy.Admin.Models
         /// Personal key , id
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-
         public int Id { get; set; }
 
         /// <summary>
@@ -58,6 +58,7 @@ namespace PMFightAcademy.Admin.Models
         /// result price add of coach and service 
         /// </summary>
         [Required]
+        [Range(1,100000)]
         public decimal ResultPrice { get; set; }
     }
 }

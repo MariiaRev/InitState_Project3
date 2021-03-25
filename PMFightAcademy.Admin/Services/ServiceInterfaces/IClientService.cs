@@ -1,7 +1,7 @@
-﻿using PMFightAcademy.Admin.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Services.ServiceInterfaces
 {

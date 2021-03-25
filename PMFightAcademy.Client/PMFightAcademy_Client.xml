@@ -227,11 +227,6 @@
             Returns Ok if client is authorized 
             with services list if there is at least one available service 
             and with empty list if there is no available service.
-            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with services list if client is authorized and there is at least one available service.
-            </returns>
-            <remarks>
-            Returns Unauthorized if client is unauthorized.
-            Returns OK with services list if client is authorized and there is at least one available service.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetServicesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -271,11 +266,6 @@
             Returns OK if client is authorized 
             with coaches list if there is at least one available coach 
             and with empty list if there is no available coach.
-            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one available coach.
-            </returns>
-            <remarks>
-            Returns Unauthorized if client is unauthorized.
-            Returns OK with coaches list if client is authorized and there is at least one available coach.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetCoachesForBooking(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -312,7 +302,6 @@
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
             with dates list if there is at least one available date 
             and with empty list if there is no available date.
-            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with dates list if client is authorized and there is at least one available date.
             </returns>
             <remarks>
             Dates will be returned in format "MM.dd.yyyy" as a <c>string</c>.
@@ -320,7 +309,6 @@
             Returns OK if client is authorized 
             with dates list if there is at least one available date 
             and with empty list if there is no available date.
-            Returns OK with dates list if client is authorized and there is at least one available date.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
@@ -337,7 +325,6 @@
             Returns <see cref="F:System.Net.HttpStatusCode.OK"/> if client is authorized 
             with time slots list if there is at least one available time slot 
             and with empty list if there is no available time slot.
-            Returns <see cref="F:System.Net.HttpStatusCode.OK"/> with time slots list if client is authorized and there is at least one available time slot.
             </returns>
             <remarks>
             Date should be in format "MM.dd.yyyy" as a <c>string</c>.
@@ -346,7 +333,6 @@
             Returns OK if client is authorized 
             with time slots list if there is at least one available time slot 
             and with empty list if there is no available time slot.
-            Returns OK with time slots list if client is authorized and there is at least one available time slot.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Threading.CancellationToken)">
@@ -386,11 +372,6 @@
             Returns OK if client is authorized 
             with active booking list if there is at least one record in the active booking list 
             and with empty list if there is no record in the active booking list.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> with active booking list if client is authorized and there is at least one record in the active booking list.
-            </returns>
-            <remarks>
-            Returns Unauthorized if client is unauthorized.
-            Returns OK with active booking list if client is authorized and there is at least one record in the active booking list.
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetHistory(System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -411,11 +392,6 @@
             Returns OK if client is authorized 
             with booking history if there is at least one record in the history 
             and with empty list if there is no record in the history.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> with booking history if client is authorized and there is at least one record in the history.
-            </returns>
-            <remarks>
-            Returns Unauthorized if client is unauthorized.
-            Returns OK with booking history if client is authorized and there is at least one record in the history.
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ClientsController">
@@ -497,11 +473,6 @@
             Returns OK if client is authorized 
             with coaches list if there is at least one coach for the corresponding request 
             and with empty list if there is no coach for the corresponding request.
-            <see cref="F:System.Net.HttpStatusCode.OK"/> with coaches list if client is authorized and there is at least one coach for the corresponding request.
-            </returns>
-            <remarks>
-            Returns Unauthorized if client is unauthorized.
-            Returns OK with coaches list if client is authorized and there is at least one coach for the corresponding request.
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Client.Controllers.ValuesController">

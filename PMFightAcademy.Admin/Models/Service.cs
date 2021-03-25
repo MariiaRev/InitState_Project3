@@ -15,7 +15,6 @@ namespace PMFightAcademy.Admin.Models
         /// Personal id , key
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [Range(0, int.MaxValue)]
         public int Id { get; set; }
 
         /// <summary>
@@ -34,6 +33,7 @@ namespace PMFightAcademy.Admin.Models
         /// Workout price per hour 
         /// </summary>
         [Required]
+        [Range(1,100000)]
         public decimal Price { get; set; }
 
         /// <summary>

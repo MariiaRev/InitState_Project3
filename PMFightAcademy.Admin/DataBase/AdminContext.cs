@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.Models;
 
+
 namespace PMFightAcademy.Admin.DataBase
 {
     public class AdminContext : DbContext

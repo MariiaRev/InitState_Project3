@@ -31,6 +31,7 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// ResultPrice
         /// </summary>
+        [Range(0,100000)]
         public decimal ResultPrice { get; set; }
 
 
