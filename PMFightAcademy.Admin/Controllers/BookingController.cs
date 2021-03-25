@@ -21,15 +21,13 @@ namespace PMFightAcademy.Admin.Controllers
     public class BookingController : ControllerBase
     {
         private readonly IBookingService _bookingService;
-        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constructor for booking
         /// </summary>
-        public BookingController(IBookingService bookingService,IWorkWithIdService checkId)
+        public BookingController(IBookingService bookingService)
         {
             _bookingService = bookingService;
-            _checkId = checkId;
         }
 
         ///// <summary>
@@ -109,11 +107,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForClient([Range(1, int.MaxValue)] int clientId, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(clientId))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var bookings = await _bookingService.TakeBookingOnClient(clientId);
             if (bookings.Any())
             {
@@ -143,11 +136,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForCoach([Range(1, int.MaxValue)] int coachId, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(coachId))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var bookings = await _bookingService.TakeBookingForCoach(coachId);
 
             if (bookings.Any())
@@ -178,10 +166,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteBook( [Range(1,int.MaxValue)]int bookingId, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(bookingId))
-            {
-                return BadRequest("incorrect Id");
-            }
+            
 
             var deleted = await _bookingService.RemoveBooking(bookingId, cancellationToken);
 
@@ -286,11 +271,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForClientOnDate([Range(1, int.MaxValue)] int clientId, string dateStart, string dateEnd, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(clientId))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var bookings = await _bookingService.TakeBookingForClientOnDate(clientId,dateStart,dateEnd);
             if (bookings.Any())
             {
@@ -323,11 +303,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetBookedServiceForCoachOnDate([Range(1, int.MaxValue)] int coachId,string dateStart,string dateEnd, CancellationToken cancellationToken)
         {
-            if (!_checkId.IsCorrectId(coachId))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var bookings = await _bookingService.TakeBookingForClientOnDate(coachId, dateStart, dateEnd);
 
             if (bookings.Any())

@@ -21,15 +21,14 @@ namespace PMFightAcademy.Admin.Controllers
     public class SlotsController : ControllerBase
     {
         private readonly ISlotService _slotService;
-        private readonly IWorkWithIdService _checkId;
+        
 
         /// <summary>
         /// Slots controller
         /// </summary>
-        public SlotsController(ISlotService slotService , IWorkWithIdService checkId)
+        public SlotsController(ISlotService slotService )
         {
             _slotService = slotService;
-            _checkId = checkId;
         }
 
         //#region Maded Pagination but not used by JS (TILT)
@@ -169,10 +168,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSlotsForCoach([FromRoute,Range(1, int.MaxValue)] int coachId)
         {
-            if(!_checkId.IsCorrectId(coachId))
-            {
-                return BadRequest("incorrect Id");
-            }
 
             var  slots = await _slotService.TakeSlotsForCoach(coachId);
 
@@ -294,12 +289,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteSlots([Range(1, int.MaxValue)] int slotId,CancellationToken cancellationToken)
         {
-
-            if (!_checkId.IsCorrectId(slotId))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var deleted = await _slotService.RemoveSlot(slotId, cancellationToken);
 
             if (deleted)
@@ -329,10 +318,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSlotsForCoachFromDateToDate([Range(1, int.MaxValue)] int coachId,string dateStart,string dateEnd)
         {
-            if (!_checkId.IsCorrectId(coachId))
-            {
-                return BadRequest("incorrect Id");
-            }
 
             var slots = await _slotService.TakeSlotsForCoachOnDates(coachId,dateStart,dateEnd);
 

@@ -23,15 +23,13 @@ namespace PMFightAcademy.Admin.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientService _clientService;
-        private readonly IWorkWithIdService _checkId;
 
         /// <summary>
         /// Constructor of client controller 
         /// </summary>
-        public ClientController(IClientService clientService,IWorkWithIdService checkId)
+        public ClientController(IClientService clientService)
         {
             _clientService = clientService;
-            _checkId = checkId;
         }
 
         #region JS TILT
@@ -100,11 +98,6 @@ namespace PMFightAcademy.Admin.Controllers
         public async Task<IActionResult> GetClient([Range(1, int.MaxValue)] int id)
         {
 
-            if (!_checkId.IsCorrectId(id))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var client = await _clientService.TakeClient(id);
 
             if (client != null)
@@ -134,12 +127,6 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> AddClientDescription([Range(1, int.MaxValue)] int id , string description, CancellationToken cancellationToken)
         {
-
-            if (!_checkId.IsCorrectId(id))
-            {
-                return BadRequest("incorrect Id");
-            }
-
             var client = await _clientService.AddDescription(id,description, cancellationToken);
 
             if (client)
