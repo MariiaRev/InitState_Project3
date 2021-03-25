@@ -63,27 +63,5 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             Assert.Equal(actualService, serviceToAdd);
         }
 
-    
-        //[Fact]
-        //public async Task Delete_Incorrect_Value_Test()
-        //{
-        //    var serviceToAdd = new Service() { Id = 1, Name = "i", Description = "topServ", Price = 5555 };
-
-        //    var services = new List<Service>() { serviceToAdd };
-
-
-        //    var options = new DbContextOptionsBuilder<AdminContext>()
-        //        .Options;
-
-        //    var serviceContextMock = new Mock<AdminContext>(options);
-        //    serviceContextMock.Setup(x => x.Services).ReturnsDbSet(services);
-
-        //    IServiceService service = new ServiceService(serviceContextMock.Object);
-
-
-        //    var actualResult = await service.DeleteService(1, CancellationToken.None);
-
-        //     Assert.True(actualResult);
-        //}
     }
 }

@@ -50,6 +50,9 @@ namespace PMFightAcademy.Admin.Services
                 throw new ArgumentException();
             }
 
+            var timeEnd = slot.Duration;
+
+
             if (_dbContext.Slots.Where(x => x.Date == slot.Date)
                 .Where(x => x.StartTime <= slot.Duration).Where(x=>x.CoachId == slot.CoachId).Any(x => x.StartTime >= slot.StartTime))
             {
@@ -57,8 +60,10 @@ namespace PMFightAcademy.Admin.Services
             }
 
 
+
             List<Slot> slots = new List<Slot>();
-            while (slot.StartTime <= slot.Duration)
+
+            while (slot.StartTime <= timeEnd)
             {
                 var resultSlot = new Slot
                 {
