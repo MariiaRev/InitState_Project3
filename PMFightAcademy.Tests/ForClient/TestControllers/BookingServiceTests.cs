@@ -37,7 +37,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetServicesForBooking()).ToArray();
+            var result = (await _testedService.GetServicesForBooking(CancellationToken.None)).ToArray();
 
             Assert.Single(result);
             Assert.Equal(expectedService, result.First());
@@ -69,8 +69,10 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             Assert.Equal(1, result.Paggination.Page);
         }
 
-        [Fact]
-        public async Task GetServicesForBookingWithPagination_IncorrectPag()
+        [Theory]
+        [InlineData(3, 2)]
+        [InlineData(-3, -1)]
+        public async Task GetServicesForBookingWithPagination_Fail(int pageSize, int page)
         {
             Setup();
 
@@ -85,30 +87,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = await _testedService.GetServicesForBooking(3, 2, CancellationToken.None);
-
-            var listData = result.Data.ToArray();
-
-            Assert.Empty(listData);
-        }
-
-        [Fact]
-        public async Task GetServicesForBookingWithPagination_IncorrectPagLessThanZero()
-        {
-            Setup();
-
-            var services = new List<Service>()
-            {
-                new(){ Id = 1, Name = "FirstService", Description = "Description", Price = 5555 },
-                new(){ Id = 2, Name = "SecondService", Description = "Description ", Price = 6666 },
-                new(){ Id = 3, Name = "ThirdService", Description = "Description", Price = 7777}
-            };
-
-            _clientContextMock.Setup(x => x.Services).ReturnsDbSet(services);
-
-            _testedService = new BookingService(_clientContextMock.Object);
-
-            var result = await _testedService.GetServicesForBooking(-3, -1, CancellationToken.None);
+            var result = await _testedService.GetServicesForBooking(pageSize, page, CancellationToken.None);
 
             var listData = result.Data.ToArray();
 
@@ -130,7 +109,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetCoachesForBooking(1)).ToArray();
+            var result = (await _testedService.GetCoachesForBooking(1, CancellationToken.None)).ToArray();
 
             Assert.Single(result);
             Assert.Equal("Oleg", result.First().FirstName);
@@ -151,7 +130,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetCoachesForBooking(1)).ToArray();
+            var result = (await _testedService.GetCoachesForBooking(1, CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -171,7 +150,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetCoachesForBooking(1)).ToArray();
+            var result = (await _testedService.GetCoachesForBooking(1, CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -191,7 +170,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetCoachesForBooking(1)).ToArray();
+            var result = (await _testedService.GetCoachesForBooking(1, CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -286,7 +265,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetDatesForBooking(2, 3)).ToArray();
+            var result = (await _testedService.GetDatesForBooking(2, 3, CancellationToken.None)).ToArray();
 
             Assert.Single(result);
             Assert.Equal("06.16.2021", result.First());
@@ -319,7 +298,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetDatesForBooking(2, 3)).ToArray();
+            var result = (await _testedService.GetDatesForBooking(2, 3, CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -351,7 +330,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetDatesForBooking(2, 3)).ToArray();
+            var result = (await _testedService.GetDatesForBooking(2, 3, CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -383,7 +362,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetDatesForBooking(2, 3)).ToArray();
+            var result = (await _testedService.GetDatesForBooking(2, 3, CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -425,7 +404,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021")).ToArray();
+            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021", CancellationToken.None)).ToArray();
 
             Assert.Single(result);
             Assert.Equal("23:00", result.First());
@@ -468,7 +447,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021")).ToArray();
+            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021", CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -510,7 +489,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021")).ToArray();
+            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021", CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -552,7 +531,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
             _testedService = new BookingService(_clientContextMock.Object);
 
-            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021")).ToArray();
+            var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021", CancellationToken.None)).ToArray();
 
             Assert.Empty(result);
         }
@@ -604,7 +583,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 ServiceId = 3
             };
 
-            var result = await _testedService.AddBooking(dto, 1);
+            var result = await _testedService.AddBooking(dto, 1, CancellationToken.None);
 
             Assert.True(result);
         }
@@ -656,7 +635,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 ServiceId = 3
             };
 
-            var result = await _testedService.AddBooking(dto, 1);
+            var result = await _testedService.AddBooking(dto, 1, CancellationToken.None);
 
             Assert.False(result);
         }
@@ -708,7 +687,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 ServiceId = 3
             };
 
-            var result = await _testedService.AddBooking(dto, 1);
+            var result = await _testedService.AddBooking(dto, 1, CancellationToken.None);
 
             Assert.False(result);
         }
@@ -760,7 +739,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 ServiceId = 88
             };
 
-            var result = await _testedService.AddBooking(dto, 1);
+            var result = await _testedService.AddBooking(dto, 1, CancellationToken.None);
 
             Assert.False(result);
         }
@@ -812,7 +791,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 ServiceId = 3
             };
 
-            var result = await _testedService.AddBooking(dto, 1);
+            var result = await _testedService.AddBooking(dto, 1, CancellationToken.None);
 
             Assert.False(result);
         }
@@ -864,7 +843,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 ServiceId = 3
             };
 
-            var result = await _testedService.AddBooking(dto, 1);
+            var result = await _testedService.AddBooking(dto, 1, CancellationToken.None);
 
             Assert.False(result);
         }
