@@ -12,12 +12,6 @@ namespace PMFightAcademy.Admin.Mapping
     /// </summary>
     public static class SlotsMapping
     {
-        //private readonly AdminContext _dbContext;
-
-        //public SlotsMapping(AdminContext dbContext)
-        //{
-        //    _dbContext = dbContext;
-        //}
         /// <summary>
         /// from contract to model
         /// </summary>
