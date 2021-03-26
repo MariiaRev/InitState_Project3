@@ -2,7 +2,6 @@
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -32,27 +31,6 @@ namespace PMFightAcademy.Admin.Controllers
         }
 
 
-        ///// <Pages return coaches>
-        ///// Get list of Coaches
-        ///// </summary>
-        ///// <returns>
-        ///// <param name="pageSize">The count of coaches to return at one time.</param>
-        ///// <param name="page">The current page number.</param>
-        ///// <see cref="HttpStatusCode.OK"/> Get list of coaches
-        ///// <see cref="HttpStatusCode.NotFound"/> if no coaches yet is empty
-        ///// </returns>
-        ///// <remarks>
-        ///// Use for get all coach , if successes must return a list of coaches
-        ///// if not,  return Not Found
-        ///// </remarks>
-        ///// <exception cref="NotImplementedException"></exception>
-        //[HttpGet("{pageSize}/{page}")]
-        //[ProducesResponseType(typeof(GetDataContract<CoachContract>), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> GetCoaches([FromRoute] int pageSize, [FromRoute] int page)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         /// <summary>
         /// Get list of Coaches
@@ -133,16 +111,14 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CreateCoach([FromBody] CoachContract coach, CancellationToken cancellationToken)
         {
-            try
+            var coachAdd =  await _coachService.AddCoach(coach, cancellationToken);
+            
+            if (coachAdd)
             {
-                await _coachService.AddCoach(coach, cancellationToken);
-            }
-            catch (ArgumentException e)
-            {
-                return Conflict(e.Message);
+                return Ok();
             }
 
-            return Ok();
+            return Conflict();
         }
 
         /// <summary>

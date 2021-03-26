@@ -1023,14 +1023,6 @@
             <param name="start"></param>
             <param name="end"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
-            <summary>
-            Take coaches depends from date
-            </summary>
-            <param name="coachId"></param>
-            <param name="start"></param>
-            <param name="end"></param>
-        </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove booking
@@ -1195,15 +1187,6 @@
             <param name="end"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="clientId"></param>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService">
             <summary>
             Client Service
@@ -1260,7 +1243,7 @@
             <summary>
             Delete coach
             </summary>
-            <param name="coachContract"></param>
+            <param name="id"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
@@ -1432,6 +1415,7 @@
             add
             </summary>
             <param name="service"></param>
+            <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.DeleteService(System.Int32,System.Threading.CancellationToken)">
             <summary>

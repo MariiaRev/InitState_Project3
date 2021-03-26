@@ -54,13 +54,6 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="end"></param>
         /// <returns></returns>
         public Task<IEnumerable<BookingReturnContract>> TakeBookingForClientOnDate(int coachId, string start, string end);
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="clientId"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        /// <returns></returns>
-        public Task<IEnumerable<BookingReturnContract>> TakeBookingForCoachOnDate(int clientId, string start, string end);
+        //public Task<IEnumerable<BookingReturnContract>> TakeBookingForCoachOnDate(int clientId, string start, string end);
     }
 }

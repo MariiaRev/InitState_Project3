@@ -43,8 +43,9 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="coachId"></param>
         public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoach(int coachId)
         {
-            var bookings = _dbContext.Bookings.Where(x => x.Slot.CoachId == coachId).ToArray();
-            return bookings.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+            var bookings = _dbContext.Bookings.Where(x => x.Slot.CoachId == coachId)
+                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
+            return bookings;
         }
 
         /// <summary>
@@ -53,8 +54,9 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="clientId"></param>
         public async Task<IEnumerable<BookingReturnContract>> TakeBookingOnClient(int clientId)
         {
-            var bookings = _dbContext.Bookings.Where(x => x.ClientId == clientId);
-            return bookings.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x)); ;
+            var bookings = _dbContext.Bookings.Where(x => x.ClientId == clientId)
+                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
+            return bookings;
         }
 
         /// <summary>
@@ -103,26 +105,26 @@ namespace PMFightAcademy.Admin.Services
             return bookings.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
         }
 
-        /// <summary>
-        /// Take coaches depends from date
-        /// </summary>
-        /// <param name="coachId"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoachOnDate(
-            int coachId, 
-            string start, 
-            string end)
-        {
-            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
-                return new List<BookingReturnContract>();
-            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
-                return new List<BookingReturnContract>();
+        ///// <summary>
+        ///// Take coaches depends from date
+        ///// </summary>
+        ///// <param name="coachId"></param>
+        ///// <param name="start"></param>
+        ///// <param name="end"></param>
+        //public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoachOnDate(
+        //    int coachId, 
+        //    string start, 
+        //    string end)
+        //{
+        //    if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
+        //        return new List<BookingReturnContract>();
+        //    if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
+        //        return new List<BookingReturnContract>();
 
-            var bookings = _dbContext.Bookings.Select(x => x).Where(x => x.Slot.CoachId == coachId)
-                .Where(x => x.Slot.Date >= dateStart).Where(x => x.Slot.Date <= dateEnd);
-            return bookings.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
-        }
+        //    var bookings = _dbContext.Bookings.Select(x => x).Where(x => x.Slot.CoachId == coachId)
+        //        .Where(x => x.Slot.Date >= dateStart).Where(x => x.Slot.Date <= dateEnd);
+        //    return bookings.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+        //}
 
         /// <summary>
         /// Remove booking

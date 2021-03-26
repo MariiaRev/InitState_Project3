@@ -27,9 +27,9 @@ namespace PMFightAcademy.Admin.Mapping
             {
                 Id = contract.Id,
                 CoachId = contract.CoachId,
-                Date = DateTime.ParseExact(contract.DateStart, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),
-                Duration = TimeSpan.Parse(contract.TimeEnd, CultureInfo.CurrentCulture),
-                StartTime = TimeSpan.Parse(contract.TimeStart, CultureInfo.CurrentCulture)
+                Date = DateTime.ParseExact(contract.DateStart, Settings.DateFormat, null, DateTimeStyles.None),
+                Duration = TimeSpan.Parse(contract.TimeEnd, null),
+                StartTime = TimeSpan.Parse(contract.TimeStart, null)
             };
 
         }
@@ -49,9 +49,9 @@ namespace PMFightAcademy.Admin.Mapping
             {
                 Id = model.Id,
                 CoachId = model.CoachId,
-                DateStart = model.Date.ToString("MM.dd.yyyy"),
-                Duration = (new DateTime(1, 1, 1) + model.Duration).ToString("HH:mm"),
-                TimeStart = (new DateTime(1, 1, 1) + model.StartTime).ToString("HH:mm")
+                DateStart = model.Date.ToString(Settings.DateFormat),
+                Duration = (new DateTime(1, 1, 1) + model.Duration).ToString(Settings.TimeFormat),
+                TimeStart = (new DateTime(1, 1, 1) + model.StartTime).ToString(Settings.TimeFormat)
             };
 
         }
