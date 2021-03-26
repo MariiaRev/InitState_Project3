@@ -1,8 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using PMFightAcademy.Admin.Models;
-
-namespace PMFightAcademy.Admin.Contract
+﻿namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto for create Workout

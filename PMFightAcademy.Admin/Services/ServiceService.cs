@@ -15,15 +15,10 @@ namespace PMFightAcademy.Admin.Services
     public class ServiceService : IServiceService
     {
         private readonly AdminContext _dbContext;
-
-
-
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="newId"></param>
-        /// <param name="workWithId"></param>
         public ServiceService(AdminContext dbContext)
         {
             _dbContext = dbContext;
@@ -97,6 +92,7 @@ namespace PMFightAcademy.Admin.Services
         /// Update
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
 

@@ -24,7 +24,6 @@ namespace PMFightAcademy.Admin.Services
         /// Constructor 
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="newId"></param>
         public SlotService(AdminContext dbContext)
         {
             _dbContext = dbContext;
@@ -44,6 +43,9 @@ namespace PMFightAcademy.Admin.Services
             try
             {
                 slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+
+                if (slot.StartTime > slot.Duration)
+                    throw new ArgumentException();
             }
             catch
             {
@@ -59,15 +61,12 @@ namespace PMFightAcademy.Admin.Services
                 throw new ArgumentException("some slots created in this time range , for this coach");
             }
 
-
-
             List<Slot> slots = new List<Slot>();
 
             while (slot.StartTime <= timeEnd)
             {
                 var resultSlot = new Slot
                 {
-                    //Id = _newId.GetIdForSlots(),
                     CoachId = slot.CoachId,
                     Duration = TimeSpan.FromHours(1),
                     Date = slot.Date,
@@ -77,6 +76,7 @@ namespace PMFightAcademy.Admin.Services
                 slots.Add(resultSlot);
                 slot.StartTime = slot.StartTime + resultSlot.Duration;
             }
+
             try
             {
                 
@@ -250,6 +250,10 @@ namespace PMFightAcademy.Admin.Services
         public async Task<bool> UpdateSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken)
         {
             var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+
+            if (slot.StartTime > slot.Duration)
+                return false;
+
             try
             {
                 _dbContext.Update(slot);

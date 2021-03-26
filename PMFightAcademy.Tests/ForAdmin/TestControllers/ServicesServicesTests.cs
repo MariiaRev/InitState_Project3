@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using Moq.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Microsoft.EntityFrameworkCore.InMemory;
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Xunit;
