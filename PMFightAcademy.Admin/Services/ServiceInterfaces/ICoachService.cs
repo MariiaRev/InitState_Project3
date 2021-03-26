@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PMFightAcademy.Admin.Contract;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
 
 namespace PMFightAcademy.Admin.Services.ServiceInterfaces
 {
@@ -20,7 +20,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <param name="coachId"></param>
         /// <returns></returns>
-        public  Task<CoachContract> TakeCoach(int coachId);
+        public Task<CoachContract> TakeCoach(int coachId);
 
         /// <summary>
         /// create coach
@@ -28,7 +28,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="coachContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task AddCoach(CoachContract coachContract,CancellationToken cancellationToken);
+        public Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken);
 
         /// <summary>
         /// Delete coach
@@ -36,7 +36,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="coachContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task<bool> DeleteCoach(int id, CancellationToken cancellationToken);
+        public Task<bool> DeleteCoach(int id, CancellationToken cancellationToken);
 
         /// <summary>
         /// Update coach 
@@ -44,7 +44,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="coachContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public  Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken);
+        public Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken);
 
     }
 }

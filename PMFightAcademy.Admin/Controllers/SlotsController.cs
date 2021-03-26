@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,11 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using Swashbuckle.AspNetCore.Annotations;
-using PMFightAcademy.Admin.Services;
-using PMFightAcademy.Admin.Mapping;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -27,7 +25,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Slots controller
         /// </summary>
-        public SlotsController(ISlotService slotService )
+        public SlotsController(ISlotService slotService)
         {
             _slotService = slotService;
         }
@@ -61,7 +59,7 @@ namespace PMFightAcademy.Admin.Controllers
         //    {
         //        return NotFound(e.Message);
         //    }
-            
+
         //    return Ok(slots);
         //}
 
@@ -139,7 +137,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllSlots(CancellationToken cancellationToken)
         {
-            
+
             var slots = await _slotService.TakeAllSlots();
 
             if (slots.Any())
@@ -157,7 +155,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// </summary>
         /// <returns><see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.NotFound"/> if service not founded</returns>
-         /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
+        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect
         /// <remarks>
         /// Return list of  slots for coach
         /// return if NotFound
@@ -167,17 +165,17 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetSlotsForCoach([FromRoute,Range(1, int.MaxValue)] int coachId)
+        public async Task<IActionResult> GetSlotsForCoach([FromRoute, Range(1, int.MaxValue)] int coachId)
         {
 
-            var  slots = await _slotService.TakeSlotsForCoach(coachId);
+            var slots = await _slotService.TakeSlotsForCoach(coachId);
 
-               if (slots.Any())
-               {
-                   return Ok(slots);
-               }
+            if (slots.Any())
+            {
+                return Ok(slots);
+            }
 
-               return NotFound("No coaches with that id ");
+            return NotFound("No coaches with that id ");
 
         }
 
@@ -197,11 +195,11 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetSlotsForDates([FromRoute] string date)
         {
-            
+
             var slots = await _slotService.TakeAllOnDate(date);
 
-            if (slots.Any()) 
-            { 
+            if (slots.Any())
+            {
                 return Ok(slots);
             }
             return NotFound();
@@ -288,7 +286,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> DeleteSlots([Range(1, int.MaxValue)] int slotId,CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteSlots([Range(1, int.MaxValue)] int slotId, CancellationToken cancellationToken)
         {
             var deleted = await _slotService.RemoveSlot(slotId, cancellationToken);
 
@@ -317,10 +315,10 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetSlotsForCoachFromDateToDate([Range(1, int.MaxValue)] int coachId,string dateStart,string dateEnd)
+        public async Task<IActionResult> GetSlotsForCoachFromDateToDate([Range(1, int.MaxValue)] int coachId, string dateStart, string dateEnd)
         {
 
-            var slots = await _slotService.TakeSlotsForCoachOnDates(coachId,dateStart,dateEnd);
+            var slots = await _slotService.TakeSlotsForCoachOnDates(coachId, dateStart, dateEnd);
 
             if (slots.Any())
             {
@@ -329,7 +327,7 @@ namespace PMFightAcademy.Admin.Controllers
 
             return NotFound("No slots for this coaches on this dates ");
         }
-        
+
 
     }
 }

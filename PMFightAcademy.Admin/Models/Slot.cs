@@ -17,33 +17,35 @@ namespace PMFightAcademy.Admin.Models
         /// Slot id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        
-        public int Id { get;  set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// Date of slot.
         /// </summary>
         [Required]
+        [RegularExpression(Settings.DateRegularExpr)]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Slot start time.
         /// </summary>
         [Required]
+        [RegularExpression(Settings.TimeRegularExpr)]
         public TimeSpan StartTime { get; set; }
 
         /// <summary>
         /// TimeEnd of slot.
         /// </summary>
         [Required]
+        [RegularExpression(Settings.TimeRegularExpr)]
         public TimeSpan Duration { get; set; }
 
         /// <summary>
         /// Coach of slot.
         /// </summary>
-        [Required]                              
+        [Required]
         public int CoachId { get; set; }
-        
+
         /// <summary>
         /// 
         /// </summary>

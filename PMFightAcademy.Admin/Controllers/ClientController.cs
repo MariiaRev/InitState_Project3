@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,9 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -32,9 +32,9 @@ namespace PMFightAcademy.Admin.Controllers
 
         #region JS TILT
 
-        
 
-        
+
+
         ///// <summary>
         ///// return list of clients
         ///// </summary>
@@ -117,12 +117,12 @@ namespace PMFightAcademy.Admin.Controllers
         /// for add description for client
         /// </remarks>
         [HttpPost("{id}")]
-        [ProducesResponseType( (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> AddClientDescription([Range(1, int.MaxValue)] int id , string description, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddClientDescription([Range(1, int.MaxValue)] int id, string description, CancellationToken cancellationToken)
         {
-            var client = await _clientService.AddDescription(id,description, cancellationToken);
+            var client = await _clientService.AddDescription(id, description, cancellationToken);
 
             if (client)
             {

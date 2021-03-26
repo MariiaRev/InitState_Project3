@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System;
-using System.IO;
-using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Filters;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using System;
+using System.IO;
 
 namespace PMFightAcademy.Admin
 {
@@ -35,7 +35,7 @@ namespace PMFightAcademy.Admin
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PMFightAcademy.Admin", Version = "v1" });
-                
+
                 var filePath = Path.Combine(AppContext.BaseDirectory, "PMFightAcademy_Admin.xml");
                 c.IncludeXmlComments(filePath);
                 c.EnableAnnotations();
@@ -47,12 +47,12 @@ namespace PMFightAcademy.Admin
                 options.UseNpgsql(
                     Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
 
-            services.AddTransient<IBookingService,BookingService>();
-            services.AddTransient<ICoachService,CoachService>();
-            services.AddTransient<IServiceService,ServiceService>();
-            services.AddTransient<IClientService,ClientService>();
-            services.AddTransient<IQualificationService,QualificationService>();
-            services.AddTransient<ISlotService,SlotService>();
+            services.AddTransient<IBookingService, BookingService>();
+            services.AddTransient<ICoachService, CoachService>();
+            services.AddTransient<IServiceService, ServiceService>();
+            services.AddTransient<IClientService, ClientService>();
+            services.AddTransient<IQualificationService, QualificationService>();
+            services.AddTransient<ISlotService, SlotService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

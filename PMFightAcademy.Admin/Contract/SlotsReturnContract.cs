@@ -7,7 +7,7 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class SlotsReturnContract
     {
-        [Range(1, int.MaxValue)]
+        [Range(0, int.MaxValue)]
         public int Id { get; set; }
         /// <summary>
         /// Coach Id
@@ -17,18 +17,18 @@ namespace PMFightAcademy.Admin.Contract
         /// <summary>
         /// Date start
         /// </summary>
-        [RegularExpression("^(0[1-9]|1[0-2]).([0-2][0-9]|3[0-1]).[0-9]{4}$")]
+        [RegularExpression(Settings.DateRegularExpr)]
         public string DateStart { get; set; }
 
         /// <summary>
         /// Time start
         /// </summary>
-        [RegularExpression("^([0-1][0-9]|2[0-3]):([0-5][0-9])$")]
+        [RegularExpression(Settings.TimeRegularExpr)]
         public string TimeStart { get; set; }
         /// <summary>
         /// Time End
         /// </summary>
-        [RegularExpression("^([0-1][0-9]|2[0-3]):([0-5][0-9])$")]
+        [RegularExpression(Settings.TimeRegularExpr)]
         public string Duration { get; set; }
 
     }
