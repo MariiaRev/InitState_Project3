@@ -2,10 +2,10 @@
 using System.Threading.Tasks;
 using Moq;
 using Moq.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
-using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Xunit;
 
@@ -19,7 +19,6 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var expectedService = new Service() { Id = 1, Name = "TestService", Description = "top serv", Price = 5555 };
 
             var services = new List<Service>(){ expectedService };
-
 
             var options = new DbContextOptionsBuilder<AdminContext>()
                 .Options;

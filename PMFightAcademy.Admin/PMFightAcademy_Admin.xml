@@ -1452,6 +1452,7 @@
             Update
             </summary>
             <param name="service"></param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.SlotService">
             <summary>
