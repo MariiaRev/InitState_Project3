@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 
 namespace PMFightAcademy.Admin.Mapping
 {
@@ -11,7 +11,7 @@ namespace PMFightAcademy.Admin.Mapping
         /// <summary>
         /// From Contract to model
         /// </summary>
-        /// <param name="returnContractram>
+        /// <param name="returnContract"></param>
         /// <returns></returns>
         public static Booking BookingMapFromContractToModel(BookingReturnContract returnContract)
         {
@@ -35,7 +35,7 @@ namespace PMFightAcademy.Admin.Mapping
         /// <param name="slot"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static BookingReturnContract BookingMapFromModelTToContract(Slot slot ,Booking model)
+        public static BookingReturnContract BookingMapFromModelTToContract(Slot slot, Booking model)
         {
             if (model == null)
             {
@@ -46,7 +46,7 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = model.Id,
                 ClientId = model.ClientId,
                 ServiceId = model.ServiceId,
-                Slot =SlotsMapping.SlotMapFromModelToContract(slot),
+                Slot = SlotsMapping.SlotMapFromModelToContract(slot),
                 ResultPrice = model.ResultPrice
             };
         }

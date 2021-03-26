@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using PMFightAcademy.Admin.Contract;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Models;
 
 namespace PMFightAcademy.Admin.Services.ServiceInterfaces
 {
@@ -14,14 +14,14 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// Take all clients 
         /// </summary>
         /// <returns></returns>
-        public Task<IEnumerable<Client>> TakeAllClients();
+        public Task<IEnumerable<ClientContract>> TakeAllClients();
 
         /// <summary>
         /// Take client
         /// </summary>
         /// <param name="clientId"></param>
         /// <returns></returns>
-        public Task<Client> TakeClient(int clientId);
+        public Task<ClientContract> TakeClient(int clientId);
 
         /// <summary>
         /// Add Description 

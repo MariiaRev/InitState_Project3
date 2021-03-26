@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PMFightAcademy.Dal.DataBase;
 
 namespace PMFightAcademy.Client
 {
@@ -13,6 +15,7 @@ namespace PMFightAcademy.Client
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureServices(options => options.AddHostedService<MigrationsService>())
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();

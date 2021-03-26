@@ -65,14 +65,12 @@ namespace PMFightAcademy.Admin.Controllers
         /// Use for get all coach , if successes must return a list of coaches
         /// if not,  return Not Found
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<CoachContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
 
         public async Task<IActionResult> GetAllCoaches()
         {
-
             var coaches = await _coachService.TakeAllCoaches();
 
             if (coaches.Any())
@@ -92,17 +90,14 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches yet is empty
-        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// Use for get one coach , if successes must return a coach
         /// if not return Not Found
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{coachId}")]
         [ProducesResponseType(typeof(CoachContract), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetCoach([Range(1, int.MaxValue)] int coachId)
         {
 
@@ -133,11 +128,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// if it is already added
         /// if not,  return Not Found
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> CreateCoach([FromBody] CoachContract coach, CancellationToken cancellationToken)
         {
             try
@@ -166,11 +159,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// Send coach with id , and new fields what need to be updated
         /// if not, return Not Found
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateCoach([FromBody] CoachContract coach, CancellationToken cancellationToken)
         {
             var update = await _coachService.UpdateCoach(coach, cancellationToken);
@@ -193,19 +184,15 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches yet is empty
-        /// <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks>
         /// Use for delete coach
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteCoach([Range(1, int.MaxValue)] int coachId, CancellationToken cancellationToken)
         {
-
             var deleted = await _coachService.DeleteCoach(coachId, cancellationToken);
 
             if (deleted)
@@ -216,7 +203,5 @@ namespace PMFightAcademy.Admin.Controllers
             return NotFound("No coach");
 
         }
-
-
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PMFightAcademy.Dal;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Contract.Dto
@@ -34,19 +35,20 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// First name of the coach that provided the service
         /// </summary>
         [Required]
-        [MinLength(2)]
+        [StringLength(64, MinimumLength = 2)]
         public string CoachFirstName { get; set; }
 
         /// <summary>
         /// Last name of the coach that provided the service
         /// </summary>
         [Required]
-        [MinLength(2)]
+        [StringLength(64, MinimumLength = 2)]
         public string CoachLastName { get; set; }
 
         /// <summary>
         /// Result booking price.
         /// </summary>
+        [Required]
         [Range(0, 100000)]
         public decimal Price { get; set; }
 

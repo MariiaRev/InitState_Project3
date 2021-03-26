@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace PMFightAcademy.Client.Models
+namespace PMFightAcademy.Dal.Models
 {
     /// <summary>
     /// Coach qualification. 
@@ -14,7 +14,6 @@ namespace PMFightAcademy.Client.Models
         /// Qualification id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>

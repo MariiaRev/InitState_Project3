@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.DataBase;
 using PMFightAcademy.Client.Mappings;
-using PMFightAcademy.Client.Models;
+using PMFightAcademy.Dal;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,10 +18,10 @@ namespace PMFightAcademy.Client.Services
     /// </summary>
     public class BookingService : IBookingService
     {
-        private readonly ClientContext _context;
+        private readonly ApplicationContext _context;
 
 #pragma warning disable 1591
-        public BookingService(ClientContext context)
+        public BookingService(ApplicationContext context)
         {
             _context = context;
         }
@@ -41,9 +41,9 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public async Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token)
         {
-            var services = await _context.Services?.ToListAsync(token);
+            var services = await _context.Services.ToListAsync(token);
             var servicesCount = (decimal)(services?.Count ?? 0);
-
+            
             return new GetDataContract<Service>()
             {
                 Data = services?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<Service>(),

@@ -9,7 +9,9 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.Contract;
-using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Client.Contract.Dto;
+using static PMFightAcademy.Client.Mappings.ClientMapping;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -19,9 +21,9 @@ namespace PMFightAcademy.Client.Services
     public class ClientsService : IClientsService
     {
         private readonly ILogger<ClientsService> _logger;
-        private readonly ClientContext _context;
+        private readonly ApplicationContext _context;
 #pragma warning disable 1591
-        public ClientsService(ILogger<ClientsService> logger, ClientContext context)
+        public ClientsService(ILogger<ClientsService> logger, ApplicationContext context)
         {
             _logger = logger;
             _context = context;
@@ -31,10 +33,12 @@ namespace PMFightAcademy.Client.Services
         /// <summary>
         /// Registers a new client.
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="client"><see cref="ClientDto"/> client to register.</param>
         /// <returns></returns>
-        public Task<string> Register(Models.Client model)
+        public Task<string> Register(ClientDto client)
         {
+            var model = ClientDtoToClient(client);
+
             if (model.Login.StartsWith("38"))
                 model.Login = new string(model.Login.Skip(2).ToArray());
 
@@ -45,7 +49,7 @@ namespace PMFightAcademy.Client.Services
 
             if (user == null)
             {
-                user = new Models.Client
+                user = new Dal.Models.Client
                 {
                     Login = model.Login,
                     Password = model.Password.GenerateHash(),

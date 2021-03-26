@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using System;
 
-namespace PMFightAcademy.Admin.Migrations
+namespace PMFightAcademy.Dal.Migrations
 {
-    public partial class FirstMigration : Migration
+    public partial class InitialCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,9 +14,10 @@ namespace PMFightAcademy.Admin.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Login = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
-                    Password = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
-                    Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false)
+                    Login = table.Column<string>(type: "text", nullable: false),
+                    Password = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
+                    Description = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -64,7 +65,8 @@ namespace PMFightAcademy.Admin.Migrations
                     Date = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
                     StartTime = table.Column<TimeSpan>(type: "interval", nullable: false),
                     Duration = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    CoachId = table.Column<int>(type: "integer", nullable: false)
+                    CoachId = table.Column<int>(type: "integer", nullable: false),
+                    Expired = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,7 +152,7 @@ namespace PMFightAcademy.Admin.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_SlotId",
                 table: "Bookings",
-                column: "Slot");
+                column: "SlotId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Qualifications_CoachId",

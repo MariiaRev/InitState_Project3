@@ -2,31 +2,29 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 
-namespace PMFightAcademy.Admin.Migrations
+namespace PMFightAcademy.Dal.Migrations
 {
-    [DbContext(typeof(AdminContext))]
-    [Migration("20210323144350_SecondMiggration")]
-    partial class SecondMiggration
+    [DbContext(typeof(ApplicationContext))]
+    partial class ApplicationContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
+                .UseIdentityByDefaultColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 63)
-                .HasAnnotation("ProductVersion", "5.0.4")
-                .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                .HasAnnotation("ProductVersion", "5.0.2");
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Booking", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Booking", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<int>("ClientId")
                         .HasColumnType("integer");
@@ -37,7 +35,7 @@ namespace PMFightAcademy.Admin.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Slot")
+                    b.Property<int>("SlotId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -46,17 +44,20 @@ namespace PMFightAcademy.Admin.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.HasIndex("Slot");
+                    b.HasIndex("SlotId");
 
                     b.ToTable("Bookings");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Client", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Client", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
+
+                    b.Property<string>("Description")
+                        .HasColumnType("text");
 
                     b.Property<string>("Login")
                         .IsRequired()
@@ -69,20 +70,19 @@ namespace PMFightAcademy.Admin.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
                     b.ToTable("Clients");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Coach", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Coach", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("timestamp without time zone");
@@ -108,12 +108,12 @@ namespace PMFightAcademy.Admin.Migrations
                     b.ToTable("Coaches");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Qualification", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Qualification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<int>("CoachId")
                         .HasColumnType("integer");
@@ -130,12 +130,12 @@ namespace PMFightAcademy.Admin.Migrations
                     b.ToTable("Qualifications");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Service", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Service", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
@@ -153,12 +153,12 @@ namespace PMFightAcademy.Admin.Migrations
                     b.ToTable("Services");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Slot", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Slot", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+                        .UseIdentityByDefaultColumn();
 
                     b.Property<int>("CoachId")
                         .HasColumnType("integer");
@@ -182,23 +182,23 @@ namespace PMFightAcademy.Admin.Migrations
                     b.ToTable("Slots");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Booking", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Booking", b =>
                 {
-                    b.HasOne("PMFightAcademy.Admin.Models.Client", "Client")
+                    b.HasOne("PMFightAcademy.Dal.Models.Client", "Client")
                         .WithMany()
                         .HasForeignKey("ClientId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PMFightAcademy.Admin.Models.Service", "Service")
+                    b.HasOne("PMFightAcademy.Dal.Models.Service", "Service")
                         .WithMany("Bookings")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PMFightAcademy.Admin.Models.Slot", "Slot")
+                    b.HasOne("PMFightAcademy.Dal.Models.Slot", "Slot")
                         .WithMany("Bookings")
-                        .HasForeignKey("Slot")
+                        .HasForeignKey("SlotId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -209,15 +209,15 @@ namespace PMFightAcademy.Admin.Migrations
                     b.Navigation("Slot");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Qualification", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Qualification", b =>
                 {
-                    b.HasOne("PMFightAcademy.Admin.Models.Coach", "Coach")
+                    b.HasOne("PMFightAcademy.Dal.Models.Coach", "Coach")
                         .WithMany("Qualifications")
                         .HasForeignKey("CoachId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PMFightAcademy.Admin.Models.Service", "Service")
+                    b.HasOne("PMFightAcademy.Dal.Models.Service", "Service")
                         .WithMany("Qualifications")
                         .HasForeignKey("ServiceId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -228,9 +228,9 @@ namespace PMFightAcademy.Admin.Migrations
                     b.Navigation("Service");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Slot", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Slot", b =>
                 {
-                    b.HasOne("PMFightAcademy.Admin.Models.Coach", "Coach")
+                    b.HasOne("PMFightAcademy.Dal.Models.Coach", "Coach")
                         .WithMany("Slots")
                         .HasForeignKey("CoachId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -239,21 +239,21 @@ namespace PMFightAcademy.Admin.Migrations
                     b.Navigation("Coach");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Coach", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Coach", b =>
                 {
                     b.Navigation("Qualifications");
 
                     b.Navigation("Slots");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Service", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Service", b =>
                 {
                     b.Navigation("Bookings");
 
                     b.Navigation("Qualifications");
                 });
 
-            modelBuilder.Entity("PMFightAcademy.Admin.Models.Slot", b =>
+            modelBuilder.Entity("PMFightAcademy.Dal.Models.Slot", b =>
                 {
                     b.Navigation("Bookings");
                 });

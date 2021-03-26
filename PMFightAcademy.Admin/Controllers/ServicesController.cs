@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
@@ -62,7 +62,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <remarks> Use to Get all service, return services if  all is fine
         /// NotFound if its is service not  registered
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
@@ -74,8 +73,6 @@ namespace PMFightAcademy.Admin.Controllers
                 return Ok(services);
             }
             return NotFound("No services");
-
-
         }
         /// <summary>
         /// Get needed service 
@@ -84,16 +81,13 @@ namespace PMFightAcademy.Admin.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.NotFound"/>if service not founded
-        ///  <see cref="HttpStatusCode.BadRequest"/> if id is incorrect 
         /// </returns>
         /// <remarks> Use to Get Service, return service if  all is fine
         /// NotFound if its is  not  registered
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpGet("{serviceId}")]
         [ProducesResponseType(typeof(Service), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> GetService([Range(1, int.MaxValue)] int serviceId)
         {
 
@@ -117,7 +111,6 @@ namespace PMFightAcademy.Admin.Controllers
         /// <remarks>
         /// Use to create Service, return ok if all is fine
         /// Conflict if its is already registered</remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
@@ -148,11 +141,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// Use to update service, send service with the same id
         /// and new fields, and it will be update
         /// Conflict if its is already registered</remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpPost("update")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> UpdateService([FromBody] Service service, CancellationToken cancellationToken)
         {
             var update = await _serviceService.UpdateService(service, cancellationToken);
@@ -200,11 +191,9 @@ namespace PMFightAcademy.Admin.Controllers
         /// Use to delete service
         /// Return ok if deleted and not found if BD have not this service
         /// </remarks>
-        /// <exception cref="NotImplementedException"></exception>
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> DeleteService([Range(1, int.MaxValue)] int serviceId, CancellationToken cancellationToken)
         {
 

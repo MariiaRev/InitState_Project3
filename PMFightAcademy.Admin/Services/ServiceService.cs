@@ -1,5 +1,5 @@
-﻿using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
+﻿using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
 using System.Collections.Generic;
@@ -14,17 +14,12 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class ServiceService : IServiceService
     {
-        private readonly AdminContext _dbContext;
-
-
-
+        private readonly ApplicationContext _dbContext;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="newId"></param>
-        /// <param name="workWithId"></param>
-        public ServiceService(AdminContext dbContext)
+        public ServiceService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
 
@@ -97,6 +92,7 @@ namespace PMFightAcademy.Admin.Services
         /// Update
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
 

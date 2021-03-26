@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
@@ -15,16 +15,13 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class CoachService : ICoachService
     {
-        private readonly AdminContext _dbContext;
-
-
+        private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="workWithId"></param>
-        public CoachService(AdminContext dbContext)
+        public CoachService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }
@@ -58,9 +55,13 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
-
-
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
+
+            var age = (int)(DateTime.Now.Subtract(coach.BirthDate).TotalDays / 365.2425);
+
+            if (age < 18 || age > 90)
+                throw new ArgumentException("Age is not correct");
+
             try
             {
                 await _dbContext.Coaches.AddAsync(coach, cancellationToken);
@@ -105,11 +106,16 @@ namespace PMFightAcademy.Admin.Services
         /// Update
         /// </summary>
         /// <param name="coachContract"></param>
+        /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
-
-
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
+
+            var age = (int)(DateTime.Now.Subtract(coach.BirthDate).TotalDays / 365.2425);
+
+            if (age < 18 || age > 90)
+                return false;
+
             try
             {
                 _dbContext.Update(coach);
@@ -122,6 +128,5 @@ namespace PMFightAcademy.Admin.Services
             return true;
 
         }
-
     }
 }

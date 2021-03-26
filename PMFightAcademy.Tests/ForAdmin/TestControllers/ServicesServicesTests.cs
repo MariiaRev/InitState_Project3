@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using Moq.EntityFrameworkCore;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services;
-using System.Linq;
-using System.Runtime.InteropServices;
-using Microsoft.EntityFrameworkCore.InMemory;
-using System.Threading;
 using Microsoft.EntityFrameworkCore;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
+using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Xunit;
 
@@ -25,11 +20,10 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var services = new List<Service>(){ expectedService };
 
-
-            var options = new DbContextOptionsBuilder<AdminContext>()
+            var options = new DbContextOptionsBuilder<ApplicationContext>()
                 .Options;
 
-            var serviceContextMock = new Mock<AdminContext>(options);
+            var serviceContextMock = new Mock<ApplicationContext>(options);
             serviceContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
             IServiceService service = new ServiceService(serviceContextMock.Object);
@@ -38,18 +32,18 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             Assert.Equal(expectedService, actualService);
         }
+
         [Fact]
-        
         public async Task TakeSecondTest()
         {
             var serviceIn = new Service() { Id = 1, Name = "TestService", Description = "top serv", Price = 5555 };
 
             var services = new List<Service>(){ serviceIn };
 
-            var options = new DbContextOptionsBuilder<AdminContext>()
+            var options = new DbContextOptionsBuilder<ApplicationContext>()
                 .Options;
 
-            var serviceContextMock = new Mock<AdminContext>(options);
+            var serviceContextMock = new Mock<ApplicationContext>(options);
             serviceContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
             var serviceToAdd = new Service() { Id = 2, Name = "TestService", Description = "top serv", Price = 5555 };
@@ -62,6 +56,5 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             Assert.Equal(actualService, serviceToAdd);
         }
-
     }
 }

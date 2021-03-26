@@ -1,26 +1,24 @@
-﻿using System;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace PMFightAcademy.Admin.Models
+namespace PMFightAcademy.Dal.Models
 {
     /// <summary>
-    /// Booking WorkOut
+    /// Booking a service model.
     /// </summary>
     [Table("Bookings")]
     public class Booking
     {
         /// <summary>
-        /// Personal key , id
+        /// Booking id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
-        /// Slot of workout
+        /// Slot id for the booking.
         /// </summary>
-        ///////////////////////////[ForeignKey("Slot")]
         [Required]
         public int SlotId { get; set; }
 
@@ -31,7 +29,7 @@ namespace PMFightAcademy.Admin.Models
         public Slot Slot { get; set; }
 
         /// <summary>
-        /// Type of Workout(Service)
+        /// Service id for the booking.
         /// </summary>
         [Required]
         public int ServiceId { get; set; }
@@ -43,7 +41,7 @@ namespace PMFightAcademy.Admin.Models
         public Service Service { get; set; }
 
         /// <summary>
-        /// Client 
+        /// Client id  for the booking.
         /// </summary>
         [Required]
         public int ClientId { get; set; }
@@ -55,10 +53,10 @@ namespace PMFightAcademy.Admin.Models
         public Client Client { get; set; }
 
         /// <summary>
-        /// result price add of coach and service 
+        /// Result price of the booking.
         /// </summary>
         [Required]
-        [Range(1,100000)]
+        [Range(0, 100000)]
         public decimal ResultPrice { get; set; }
     }
 }
