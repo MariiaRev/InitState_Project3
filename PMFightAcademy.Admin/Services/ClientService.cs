@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +14,13 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class ClientService : IClientService
     {
-        private readonly AdminContext _dbContext;
+        private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public ClientService(AdminContext dbContext)
+        public ClientService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }

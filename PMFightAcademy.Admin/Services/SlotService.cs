@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Dal;
 using PMFightAcademy.Dal.Models;
@@ -18,16 +18,15 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class SlotService : ISlotService
     {
-        private readonly AdminContext _dbContext;
+        private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="dbContext"></param>
-        public SlotService(AdminContext dbContext)
+        public SlotService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
-
         }
 
         /// <summary>

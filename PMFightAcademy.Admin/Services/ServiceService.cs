@@ -1,4 +1,4 @@
-﻿using PMFightAcademy.Admin.DataBase;
+﻿using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
@@ -14,12 +14,12 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class ServiceService : IServiceService
     {
-        private readonly AdminContext _dbContext;
+        private readonly ApplicationContext _dbContext;
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public ServiceService(AdminContext dbContext)
+        public ServiceService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
 

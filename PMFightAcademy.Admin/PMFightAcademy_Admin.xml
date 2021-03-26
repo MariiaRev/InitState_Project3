@@ -764,7 +764,7 @@
             Service for booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
@@ -822,7 +822,7 @@
             Client Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ClientService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Services.ClientService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
@@ -853,7 +853,7 @@
             Coach Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.CoachService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
@@ -900,7 +900,7 @@
             Service 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.QualificationService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
@@ -1190,7 +1190,7 @@
             Service service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
@@ -1232,7 +1232,7 @@
             Slot Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(PMFightAcademy.Admin.DataBase.AdminContext)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor 
             </summary>

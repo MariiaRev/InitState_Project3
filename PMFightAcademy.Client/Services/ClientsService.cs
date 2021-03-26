@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
 using PMFightAcademy.Client.Contract;
-using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Client.Contract.Dto;
 using static PMFightAcademy.Client.Mappings.ClientMapping;
 
@@ -21,9 +21,9 @@ namespace PMFightAcademy.Client.Services
     public class ClientsService : IClientsService
     {
         private readonly ILogger<ClientsService> _logger;
-        private readonly ClientContext _context;
+        private readonly ApplicationContext _context;
 #pragma warning disable 1591
-        public ClientsService(ILogger<ClientsService> logger, ClientContext context)
+        public ClientsService(ILogger<ClientsService> logger, ApplicationContext context)
         {
             _logger = logger;
             _context = context;

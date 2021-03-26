@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Dal.Models;
 using System;
 using System.Collections.Generic;
@@ -17,12 +16,12 @@ namespace PMFightAcademy.Client.Services
     /// </summary>
     public class CoachesService : ICoachesService
     {
-        private readonly ClientContext _dbContext;
+        private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor with DI.
         /// </summary>
-        public CoachesService(ClientContext dbContext)
+        public CoachesService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }

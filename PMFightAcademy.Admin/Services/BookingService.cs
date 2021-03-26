@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
@@ -16,14 +16,14 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class BookingService : IBookingService
     {
-        private readonly AdminContext _dbContext;
+        private readonly ApplicationContext _dbContext;
 
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public BookingService(AdminContext dbContext)
+        public BookingService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }

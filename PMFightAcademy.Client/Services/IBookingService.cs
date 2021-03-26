@@ -1,5 +1,4 @@
-﻿using PMFightAcademy.Client.Contract;
-using PMFightAcademy.Client.Contract.Dto;
+﻿using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Dal.Models;
 using System.Collections.Generic;
 using System.Threading;

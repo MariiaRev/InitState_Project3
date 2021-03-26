@@ -1,8 +1,7 @@
-﻿using PMFightAcademy.Client.Contract;
-using PMFightAcademy.Client.Contract.Dto;
+﻿using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Dal.Models;
-using System.Threading.Tasks;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Services
 {

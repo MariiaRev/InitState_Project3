@@ -627,7 +627,7 @@
             Service for getting coaches from database with Entity Framework.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
+        <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor with DI.
             </summary>
