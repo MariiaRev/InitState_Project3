@@ -160,10 +160,11 @@
             Constructor for booking
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServices">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServices(System.Threading.CancellationToken)">
             <summary>
             Return all booked services
             </summary>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what can be booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
@@ -216,40 +217,18 @@
             return Not found if not founded 
             </remarks>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:PMFightAcademy.Admin.Controllers.BookingController.UpdateBook(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)" -->
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForClientOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.UpdateBook(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)">
             <summary>
-            Select booked services for client on  date space 
+            Update booking
             </summary>
-            <param name="clientId"></param>
-            <param name="dateEnd"></param>
+            <param name="newBookingReturn"></param>
             <param name="cancellationToken"></param>
-            <param name="dateStart"></param>
             <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
-            </returns>
+            <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful updated
+            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
             <remarks>
-            Return list about booked info for Client
-            not founded if no Client 
-            </remarks>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForCoachOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
-            <summary>
-            Select booked services for coach on   date space  
-            </summary>
-            <param name="coachId"></param>
-            <param name="dateEnd"></param>
-            <param name="cancellationToken"></param>
-            <param name="dateStart"></param>
-            <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
-            </returns>
-            <remarks>
-            Return list about booked info for coach
-            In time range
-            if not find will return not fount 
+            Send with the same Id new values
+            and they will be updated
             </remarks>
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.ClientController">
@@ -993,22 +972,24 @@
             </summary>
             <param name="dbContext"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeAllBooking">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeAllBooking(System.Threading.CancellationToken)">
             <summary>
             Take all bookings
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take Booking for coach
             </summary>
             <param name="coachId"></param>
+            /// <param name="token"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingOnClient(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingOnClient(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take booking for client
             </summary>
             <param name="clientId"></param>
+            <param name="token"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)">
             <summary>
@@ -1016,22 +997,6 @@
             </summary>
             <param name="bookingReturnContract"></param>
             <param name="cancellationToken"></param>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
-            <summary>
-            Take clients depends from date
-            </summary>
-            <param name="clientId"></param>
-            <param name="start"></param>
-            <param name="end"></param>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
-            <summary>
-            Take coaches depends from date
-            </summary>
-            <param name="coachId"></param>
-            <param name="start"></param>
-            <param name="end"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
@@ -1164,47 +1129,38 @@
             <summary>
             Remove Booking
             </summary>
-            <param name="slotContract"></param>
+            <param name="id"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeAllBooking">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeAllBooking(System.Threading.CancellationToken)">
             <summary>
             Take all bookings
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take booking for coach
             </summary>
             <param name="coachId"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingOnClient(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingOnClient(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take booking for client
             </summary>
             <param name="clientId"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)" -->
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)">
             <summary>
-            
+            Update books
             </summary>
-            <param name="coachId"></param>
-            <param name="start"></param>
-            <param name="end"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForCoachOnDate(System.Int32,System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="clientId"></param>
-            <param name="start"></param>
-            <param name="end"></param>
+            <param name="slotReturnContract"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IClientService">
