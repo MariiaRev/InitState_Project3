@@ -4,7 +4,7 @@ using Moq;
 using Moq.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Xunit;
@@ -32,8 +32,8 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             Assert.Equal(expectedService, actualService);
         }
+
         [Fact]
-        
         public async Task TakeSecondTest()
         {
             var serviceIn = new Service() { Id = 1, Name = "TestService", Description = "top serv", Price = 5555 };
@@ -56,6 +56,5 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             Assert.Equal(actualService, serviceToAdd);
         }
-
     }
 }

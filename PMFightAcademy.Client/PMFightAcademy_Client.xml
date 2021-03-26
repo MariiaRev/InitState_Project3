@@ -68,6 +68,38 @@
             Coach id to provide the service.
             </summary>
         </member>
+        <member name="T:PMFightAcademy.Client.Contract.Dto.ClientDto">
+            <summary>
+            Client dto model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.ClientDto.Login">
+            <summary>
+            User login represented by his/her phone number.
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.ClientDto.Password">
+            <summary>
+            User password.
+            </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.ClientDto.Name">
+            <summary>
+            User name.
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.CoachDto">
             <summary>
             Coach dto model.
@@ -161,22 +193,6 @@
             <param name="coachFirstName">First name of the coach who provided the service.</param>
             <param name="coachLastName">Last name of the coach who provided the service.</param>
             <param name="price">Booking price.</param>
-        </member>
-        <member name="T:PMFightAcademy.Client.Contract.GetDataContract`1">
-            <summary>
-            Contract for getting data with paggination.
-            </summary>
-            <typeparam name="T">The type of result data.</typeparam>
-        </member>
-        <member name="P:PMFightAcademy.Client.Contract.GetDataContract`1.Data">
-            <summary>
-            The array of <typeparamref name="T"/> elements.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Contract.GetDataContract`1.Paggination">
-            <summary>
-            Paggination state.
-            </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Contract.LoginContract">
             <summary>
@@ -408,7 +424,7 @@
             and at least 1 number
             </summary> 
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Contract.Dto.ClientDto,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
@@ -417,7 +433,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
-            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Dal.Models.Client.Login"/> already exists.
             </returns>
             <remarks>
             Returns OK with
@@ -505,7 +521,7 @@
             <param name="price"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Mappings.BookingMapping.BookingMapFromModelToContract(PMFightAcademy.Client.Models.Booking,System.String,System.String,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Mappings.BookingMapping.BookingMapFromModelToContract(PMFightAcademy.Dal.Models.Booking,System.String,System.String,System.Int32)">
             <summary>
             From model to contract
             </summary>
@@ -515,287 +531,37 @@
             <param name="coachId"></param>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Client.Mappings.ClientMapping">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Dal.Models.Client"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/>.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.ClientMapping.ClientDtoToClient(PMFightAcademy.Client.Contract.Dto.ClientDto)">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> model to the <see cref="T:PMFightAcademy.Dal.Models.Client"/> one.
+            </summary>
+            <param name="client"><see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> <paramref name="client"/> to convert.</param>
+            <returns>Converted <see cref="T:PMFightAcademy.Dal.Models.Client"/> client.</returns>
+        </member>
         <member name="T:PMFightAcademy.Client.Mappings.CoachMapping">
             <summary>
-            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/>.
+            Converts <see cref="T:PMFightAcademy.Dal.Models.Coach"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/>.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachToCoachDto(PMFightAcademy.Client.Models.Coach)">
+        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachToCoachDto(PMFightAcademy.Dal.Models.Coach)">
             <summary>
-            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
+            Converts <see cref="T:PMFightAcademy.Dal.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
             </summary>
-            <param name="coach"><paramref name="coach"/> to convert.</param>
+            <param name="coach"><see cref="T:PMFightAcademy.Dal.Models.Coach"/> coach to convert.</param>
             <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachWithServicesToCoachDto(PMFightAcademy.Client.Models.Coach,System.Collections.Generic.IEnumerable{System.String})">
+        <member name="M:PMFightAcademy.Client.Mappings.CoachMapping.CoachWithServicesToCoachDto(PMFightAcademy.Dal.Models.Coach,System.Collections.Generic.IEnumerable{System.String})">
             <summary>
-            Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
+            Converts <see cref="T:PMFightAcademy.Dal.Models.Coach"/> model to the <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> one.
             </summary>
-            <param name="coach"><paramref name="coach"/> to convert.</param>
+            <param name="coach"><see cref="T:PMFightAcademy.Dal.Models.Coach"/> coach to convert.</param>
             <param name="services">Services which can be provided by the coach.</param>
             <returns>Converted <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/> coach.</returns>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Booking">
-            <summary>
-            Booking a service model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.Id">
-            <summary>
-            Booking id.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.SlotId">
-            <summary>
-            Slot id for the booking.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.Slot">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.ServiceId">
-            <summary>
-            Service id for the booking.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.Service">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.ClientId">
-            <summary>
-            Client id  for the booking.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.Client">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Booking.ResultPrice">
-            <summary>
-            Result price of the booking.
-            </summary>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Client">
-            <summary>
-            Client model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Id">
-            <summary>
-            User id  
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Login">
-            <summary>
-            User login represented by his/her phone number.
-            </summary>
-            <remarks>
-            Formats of phone number:
-            +38067 111 1111
-            067 111 1111
-            Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
-            </remarks>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Password">
-            <summary>
-            User password.
-            </summary>
-            <remarks>
-            Password must have at least 8 chars
-            At least 1 upper char
-            and at least 1 number
-            </remarks> 
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Name">
-            <summary>
-            User name.
-            </summary>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Coach">
-            <summary>
-            Coach model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.Id">
-            <summary>
-            Coach id.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.FirstName">
-            <summary>
-            Coach first name.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.LastName">
-            <summary>
-            Coach last name.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.BirthDate">
-            <summary>
-            Coach date of birth.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.Description">
-            <summary>
-            Description about coach.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.PhoneNumber">
-            <summary>
-            Coach phone number.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.Slots">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Coach.Qualifications">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Paggination">
-            <summary>
-            Paggination model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Paggination.Page">
-            <summary>
-            Current page number.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Paggination.TotalPages">
-            <summary>
-            Total pages count.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Paggination.HasPreviousPage">
-            <summary>
-            Indicates if the current page has a previous one.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Paggination.HasNextPage">
-            <summary>
-            Indicates if the current page has a next one.
-            </summary>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Qualification">
-            <summary>
-            Coach qualification. 
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Qualification.Id">
-            <summary>
-            Qualification id.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Qualification.CoachId">
-            <summary>
-            Coach id.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Qualification.Coach">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Qualification.ServiceId">
-            <summary>
-            Service id.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Qualification.Service">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Service">
-            <summary>
-            Service model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Service.Id">
-            <summary>
-            Service id.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Service.Name">
-            <summary>
-            Service title.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Service.Description">
-            <summary>
-            Service description.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Service.Price">
-            <summary>
-            Service price per hour.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Service.Qualifications">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Service.Bookings">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Slot">
-            <summary>
-            Slot model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.Id">
-            <summary>
-            Slot id.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.Date">
-            <summary>
-            Date of slot.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.StartTime">
-            <summary>
-            Slot start time.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.Duration">
-            <summary>
-            Duration of slot.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.CoachId">
-            <summary>
-            Coach of slot.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.Coach">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.Bookings">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Slot.Expired">
-            <summary>
-            Expired slot
-            </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Services.BookingService">
             <summary>
@@ -834,11 +600,11 @@
             Service for the ClientsController
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto)">
             <summary>
             Registers a new client.
             </summary>
-            <param name="model"></param>
+            <param name="client"><see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> client to register.</param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
@@ -861,7 +627,7 @@
             Service for getting coaches from database with Entity Framework.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(PMFightAcademy.Client.DataBase.ClientContext)">
+        <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor with DI.
             </summary>
@@ -959,7 +725,7 @@
             Interface for the Client Service 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto)">
             <summary>
             Registers a new client.
             </summary>
@@ -987,41 +753,6 @@
             <param name="token">Cancellation token for DB requests.</param>
             <param name="filter">Optional filter for searching corresponding coaches (by first or last name).</param>
             <returns>Returns list of found coaches or empty list if there is no coach.</returns>
-        </member>
-        <member name="T:PMFightAcademy.Client.Settings">
-            <summary>
-            Class with constant settings.
-            </summary>
-        </member>
-        <member name="F:PMFightAcademy.Client.Settings.DateRegularExpr">
-            <summary>
-            Regular expression for parsing a date.
-            </summary>
-        </member>
-        <member name="F:PMFightAcademy.Client.Settings.DateFormat">
-            <summary>
-            Date format string.
-            </summary>
-        </member>
-        <member name="F:PMFightAcademy.Client.Settings.TimeRegularExpr">
-            <summary>
-            Regular expression for parsing time.
-            </summary>
-        </member>
-        <member name="F:PMFightAcademy.Client.Settings.TimeFormat">
-            <summary>
-            Time format string.
-            </summary>
-        </member>
-        <member name="F:PMFightAcademy.Client.Settings.PhoneRegularExpr">
-            <summary>
-            Regular expression with constraints for a phone number.
-            </summary>
-        </member>
-        <member name="F:PMFightAcademy.Client.Settings.PasswordRegularExpr">
-            <summary>
-            Regular expression with constraints for a password.
-            </summary>
         </member>
     </members>
 </doc>

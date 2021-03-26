@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Filters;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
@@ -43,9 +43,8 @@ namespace PMFightAcademy.Admin
 
             services.AddCors();
 
-            services.AddDbContext<AdminContext>(options =>
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("AdminContext")), ServiceLifetime.Transient);
 
             services.AddTransient<IBookingService, BookingService>();
             services.AddTransient<ICoachService, CoachService>();

@@ -23,4 +23,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.1.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\PMFightAcademy.Dal\PMFightAcademy.Dal.csproj" />
+  </ItemGroup>
+
 </Project>

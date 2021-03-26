@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.Models;
 using PMFightAcademy.Client.Services;
+using PMFightAcademy.Dal;
+using PMFightAcademy.Dal.Models;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
