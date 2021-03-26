@@ -18,14 +18,14 @@ namespace PMFightAcademy.Client.Contract.Dto
         /// Coach first name.
         /// </summary>
         [Required]
-        [MinLength(2)]
+        [StringLength(64, MinimumLength = 2)]
         public string FirstName { get; set; }
 
         /// <summary>
         /// Coach last name.
         /// </summary>
         [Required]
-        [MinLength(2)]
+        [StringLength(64, MinimumLength = 2)]
         public string LastName { get; set; }
 
         /// <summary>

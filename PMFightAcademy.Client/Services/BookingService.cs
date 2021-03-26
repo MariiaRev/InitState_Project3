@@ -3,7 +3,7 @@ using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.DataBase;
 using PMFightAcademy.Client.Mappings;
-using PMFightAcademy.Client.Models;
+using PMFightAcademy.Dal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -47,7 +47,7 @@ namespace PMFightAcademy.Client.Services
             return new GetDataContract<Service>()
             {
                 Data = services?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<Service>(),
-                Paggination = new Dal.Models.Paggination()
+                Paggination = new Paggination()
                 {
                     Page = page,
                     TotalPages = (int)Math.Ceiling(servicesCount / pageSize)
@@ -118,7 +118,7 @@ namespace PMFightAcademy.Client.Services
             return new GetDataContract<CoachDto>()
             {
                 Data = coaches?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<CoachDto>(),
-                Paggination = new Dal.Models.Paggination()
+                Paggination = new Paggination()
                 {
                     Page = page,
                     TotalPages = (int)Math.Ceiling(coachesCount / pageSize)
@@ -224,7 +224,7 @@ namespace PMFightAcademy.Client.Services
                 return new GetDataContract<HistoryDto>()
                 {
                     Data = await ReturnResult<HistoryDto>(),
-                    Paggination = new Dal.Models.Paggination()
+                    Paggination = new Paggination()
                     {
                         Page = page,
                         TotalPages = 0
@@ -251,7 +251,7 @@ namespace PMFightAcademy.Client.Services
             return new GetDataContract<HistoryDto>()
             {
                 Data = activeBookings.Skip((page - 1) * pageSize).Take(pageSize),
-                Paggination = new Dal.Models.Paggination()
+                Paggination = new Paggination()
                 {
                     Page = page,
                     TotalPages = (int)Math.Ceiling(activeBookingsCount / pageSize)
@@ -270,7 +270,7 @@ namespace PMFightAcademy.Client.Services
                 return new GetDataContract<HistoryDto>()
                 {
                     Data = await ReturnResult<HistoryDto>(),
-                    Paggination = new Dal.Models.Paggination()
+                    Paggination = new Paggination()
                     {
                         Page = page,
                         TotalPages = 0
@@ -297,7 +297,7 @@ namespace PMFightAcademy.Client.Services
             return new GetDataContract<HistoryDto>()
             {
                 Data = activeBookings.Skip((page - 1) * pageSize).Take(pageSize),
-                Paggination = new Dal.Models.Paggination()
+                Paggination = new Paggination()
                 {
                     Page = page,
                     TotalPages = (int)Math.Ceiling(activeBookingsCount / pageSize)
@@ -305,7 +305,7 @@ namespace PMFightAcademy.Client.Services
             };
         }
 
-        private async Task<List<Dal.Models.Booking>> GetClientBookingsAsync(int clientId, CancellationToken token)
+        private async Task<List<Booking>> GetClientBookingsAsync(int clientId, CancellationToken token)
         {
             var bookings = _context.Bookings
                 .AsNoTracking()

@@ -2,7 +2,7 @@
 using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.DataBase;
-using PMFightAcademy.Client.Models;
+using PMFightAcademy.Dal.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +45,7 @@ namespace PMFightAcademy.Client.Services
                 return new GetDataContract<CoachDto>()
                 {
                     Data = new List<CoachDto>().AsEnumerable(),
-                    Paggination = new Dal.Models.Paggination()
+                    Paggination = new Paggination()
                 };
             }
 
@@ -53,8 +53,8 @@ namespace PMFightAcademy.Client.Services
             var resultCoaches = filteredCoaches.Skip((page - 1) * pageSize).Take(pageSize);
 
             // get services
-            //IEnumerable<Dal.Models.Qualification> qualifications = _dbContext.Qualifications.Include(q => q.Service);
-            var qualifications = _dbContext.Qualifications.Include(q => q.Service);
+            IEnumerable<Qualification> qualifications = _dbContext.Qualifications.Include(q => q.Service);
+            //var qualifications = _dbContext.Qualifications.Include(q => q.Service);
 
             // combine result
             var result = resultCoaches.Select(coach => CoachWithServicesToCoachDto(coach,
@@ -64,7 +64,7 @@ namespace PMFightAcademy.Client.Services
             return new GetDataContract<CoachDto>()
             {
                 Data = result,
-                Paggination = new Dal.Models.Paggination()
+                Paggination = new Paggination()
                 {
                     Page = page,
                     TotalPages = (int)Math.Ceiling(coachesCount / pageSize)

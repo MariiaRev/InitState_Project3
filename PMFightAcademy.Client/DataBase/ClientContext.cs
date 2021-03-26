@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PMFightAcademy.Client.Models;
+using PMFightAcademy.Dal.Models;
 
 namespace PMFightAcademy.Client.DataBase
 {
@@ -7,9 +7,9 @@ namespace PMFightAcademy.Client.DataBase
     public class ClientContext :DbContext
     {
         public DbSet<Dal.Models.Client> Clients { get; set; }
-        public DbSet<Dal.Models.Coach> Coaches { get; set; }
-        public DbSet<Dal.Models.Booking> Bookings { get; set; }
-        public DbSet<Dal.Models.Qualification> Qualifications { get; set; }
+        public DbSet<Coach> Coaches { get; set; }
+        public DbSet<Booking> Bookings { get; set; }
+        public DbSet<Qualification> Qualifications { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Slot> Slots { get; set; }
 
