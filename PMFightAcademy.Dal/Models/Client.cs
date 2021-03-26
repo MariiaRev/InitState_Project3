@@ -47,5 +47,10 @@ namespace PMFightAcademy.Dal.Models
         [Required]
         [StringLength(64, MinimumLength = 2)]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Description for admin
+        /// </summary>
+        public string Description { get; set; }
     }
 }

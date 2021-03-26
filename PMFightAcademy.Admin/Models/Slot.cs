@@ -23,21 +23,18 @@ namespace PMFightAcademy.Admin.Models
         /// Date of slot.
         /// </summary>
         [Required]
-        [RegularExpression(Settings.DateRegularExpr)]
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Slot start time.
         /// </summary>
         [Required]
-        [RegularExpression(Settings.TimeRegularExpr)]
         public TimeSpan StartTime { get; set; }
 
         /// <summary>
         /// TimeEnd of slot.
         /// </summary>
         [Required]
-        [RegularExpression(Settings.TimeRegularExpr)]
         public TimeSpan Duration { get; set; }
 
         /// <summary>

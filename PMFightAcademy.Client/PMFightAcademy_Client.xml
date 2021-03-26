@@ -68,6 +68,38 @@
             Coach id to provide the service.
             </summary>
         </member>
+        <member name="T:PMFightAcademy.Client.Contract.Dto.ClientDto">
+            <summary>
+            Client dto model.
+            </summary>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.ClientDto.Login">
+            <summary>
+            User login represented by his/her phone number.
+            </summary>
+            <remarks>
+            Formats of phone number:
+            +38067 111 1111
+            067 111 1111
+            Available country codes:
+            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
+            </remarks>
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.ClientDto.Password">
+            <summary>
+            User password.
+            </summary>
+            <remarks>
+            Password must have at least 8 chars
+            At least 1 upper char
+            and at least 1 number
+            </remarks> 
+        </member>
+        <member name="P:PMFightAcademy.Client.Contract.Dto.ClientDto.Name">
+            <summary>
+            User name.
+            </summary>
+        </member>
         <member name="T:PMFightAcademy.Client.Contract.Dto.CoachDto">
             <summary>
             Coach dto model.
@@ -408,7 +440,7 @@
             and at least 1 number
             </summary> 
         </member>
-        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Models.Client,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Client.Controllers.ClientsController.Register(PMFightAcademy.Client.Contract.Dto.ClientDto,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
@@ -417,7 +449,7 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
-            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Client.Models.Client.Login"/> already exists.
+            <see cref="F:System.Net.HttpStatusCode.Conflict"/> if <see cref="P:PMFightAcademy.Dal.Models.Client.Login"/> already exists.
             </returns>
             <remarks>
             Returns OK with
@@ -515,6 +547,18 @@
             <param name="coachId"></param>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Client.Mappings.ClientMapping">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Dal.Models.Client"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/>.
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Client.Mappings.ClientMapping.ClientDtoToClient(PMFightAcademy.Client.Contract.Dto.ClientDto)">
+            <summary>
+            Converts <see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> model to the <see cref="T:PMFightAcademy.Dal.Models.Client"/> one.
+            </summary>
+            <param name="client"><see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> <paramref name="client"/> to convert.</param>
+            <returns>Converted <see cref="T:PMFightAcademy.Dal.Models.Client"/> client.</returns>
+        </member>
         <member name="T:PMFightAcademy.Client.Mappings.CoachMapping">
             <summary>
             Converts <see cref="T:PMFightAcademy.Client.Models.Coach"/> to <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/>.
@@ -578,43 +622,6 @@
         <member name="P:PMFightAcademy.Client.Models.Booking.ResultPrice">
             <summary>
             Result price of the booking.
-            </summary>
-        </member>
-        <member name="T:PMFightAcademy.Client.Models.Client">
-            <summary>
-            Client model.
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Id">
-            <summary>
-            User id  
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Login">
-            <summary>
-            User login represented by his/her phone number.
-            </summary>
-            <remarks>
-            Formats of phone number:
-            +38067 111 1111
-            067 111 1111
-            Available country codes:
-            039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
-            </remarks>
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Password">
-            <summary>
-            User password.
-            </summary>
-            <remarks>
-            Password must have at least 8 chars
-            At least 1 upper char
-            and at least 1 number
-            </remarks> 
-        </member>
-        <member name="P:PMFightAcademy.Client.Models.Client.Name">
-            <summary>
-            User name.
             </summary>
         </member>
         <member name="T:PMFightAcademy.Client.Models.Coach">
@@ -834,11 +841,11 @@
             Service for the ClientsController
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto)">
             <summary>
             Registers a new client.
             </summary>
-            <param name="model"></param>
+            <param name="client"><see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> client to register.</param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
@@ -959,7 +966,7 @@
             Interface for the Client Service 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto)">
             <summary>
             Registers a new client.
             </summary>

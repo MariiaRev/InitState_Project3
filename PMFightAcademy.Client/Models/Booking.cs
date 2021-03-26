@@ -50,12 +50,13 @@ namespace PMFightAcademy.Client.Models
         /// 
         /// </summary>
         [JsonIgnore]
-        public Client Client { get; set; }
+        public Dal.Models.Client Client { get; set; }
 
         /// <summary>
         /// Result price of the booking.
         /// </summary>
         [Required]
+        [Range(0, 100000)]
         public decimal ResultPrice { get; set; }
     }
 }

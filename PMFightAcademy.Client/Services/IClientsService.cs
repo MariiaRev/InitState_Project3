@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -13,7 +14,7 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        Task<string> Register(Models.Client model);
+        Task<string> Register(ClientDto model);
 
         /// <summary>
         /// Log in in a registered client.

@@ -1,22 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
-namespace PMFightAcademy.Client.Models
+namespace PMFightAcademy.Client.Contract.Dto
 {
     /// <summary>
-    /// Client model.
+    /// Client dto model.
     /// </summary>
-    [Table("Clients")]
-    public class Client
+    public class ClientDto
     {
-        /// <summary>
-        /// User id  
-        /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [JsonIgnore]
-        public int Id { get; set; }
-
         /// <summary>
         /// User login represented by his/her phone number.
         /// </summary>
@@ -27,7 +22,7 @@ namespace PMFightAcademy.Client.Models
         /// Available country codes:
         /// 039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094
         /// </remarks>
-        [Required(ErrorMessage = "Incorrect phone number!")]
+        [Required(ErrorMessage = "Login (phone) is required.")]
         [RegularExpression(Settings.PhoneRegularExpr)]
         public string Login { get; set; }
 
@@ -39,7 +34,7 @@ namespace PMFightAcademy.Client.Models
         /// At least 1 upper char
         /// and at least 1 number
         /// </remarks> 
-        [Required(ErrorMessage = "Password is required")]
+        [Required(ErrorMessage = "Password is required.")]
         [RegularExpression(Settings.PasswordRegularExpr)]
         public string Password { get; set; }
 
