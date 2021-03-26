@@ -45,7 +45,7 @@ namespace PMFightAcademy.Client.Services
                 return new GetDataContract<CoachDto>()
                 {
                     Data = new List<CoachDto>().AsEnumerable(),
-                    Paggination = new Paggination()
+                    Paggination = new Dal.Models.Paggination()
                 };
             }
 
@@ -63,7 +63,7 @@ namespace PMFightAcademy.Client.Services
             return new GetDataContract<CoachDto>()
             {
                 Data = result,
-                Paggination = new Paggination()
+                Paggination = new Dal.Models.Paggination()
                 {
                     Page = page,
                     TotalPages = (int)Math.Ceiling(coachesCount / pageSize)

@@ -1,4 +1,4 @@
-﻿using PMFightAcademy.Client.Models;
+﻿using PMFightAcademy.Dal.Models;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
