@@ -834,18 +834,20 @@
             Service for the ClientsController
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Models.Client,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
             <param name="model"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
             Log in in a registered client.
             </summary>
             <param name="model"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Client.Services.ClientsService.Authenticate(System.String,System.Int32)">
@@ -963,18 +965,20 @@
             Interface for the Client Service 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Models.Client)">
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Models.Client,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
             <param name="model"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
             Log in in a registered client.
             </summary>
             <param name="model"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Client.Services.ICoachesService">
