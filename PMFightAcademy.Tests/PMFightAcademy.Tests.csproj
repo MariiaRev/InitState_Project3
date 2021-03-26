@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PMFightAcademy.Admin\PMFightAcademy.Admin.csproj" />
+    <ProjectReference Include="..\PMFightAcademy.Client\PMFightAcademy.Client.csproj" />
   </ItemGroup>
 
 </Project>
