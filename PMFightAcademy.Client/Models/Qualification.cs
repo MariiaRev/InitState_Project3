@@ -27,7 +27,7 @@ namespace PMFightAcademy.Client.Models
         /// 
         /// </summary>
         [JsonIgnore]
-        public Coach Coach { get; set; }
+        public Dal.Models.Coach Coach { get; set; }
 
         /// <summary>
         /// Service id.
