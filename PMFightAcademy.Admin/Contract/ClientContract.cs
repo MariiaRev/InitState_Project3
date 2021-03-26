@@ -1,22 +1,16 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using PMFightAcademy.Dal;
+using System.ComponentModel.DataAnnotations;
 
-
-
-
-namespace PMFightAcademy.Admin.Models
+namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
-    /// Client Model
+    /// Client contract model.
     /// </summary>
-    [Table("Clients")]
-    public class Client
+    public class ClientContract
     {
         /// <summary>
-        /// Id , Key
+        /// Client id.
         /// </summary>
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
@@ -30,23 +24,9 @@ namespace PMFightAcademy.Admin.Models
         /// Available country codes:
         /// 039, 067, 068, 096, 097, 098, 050, 066, 095, 099, 063, 093, 091, 092, 094.
         /// </remarks>
-        [Required(ErrorMessage = "Incorrect phone number!")]
+        [Required()]
         [RegularExpression(Settings.PhoneRegularExpr)]
         public string Login { get; set; }
-
-        /// <summary>
-        /// User password.
-        /// </summary>
-        /// <remarks>
-        /// Password must have at least 8 chars
-        /// At least 1 upper char
-        /// and at least 1 number
-        /// </remarks> 
-        [JsonIgnore]
-        [Required(AllowEmptyStrings = false)]
-        [StringLength(64, MinimumLength = 8)]
-        public string Password { get; set; }
-
 
         /// <summary>
         /// User First Name

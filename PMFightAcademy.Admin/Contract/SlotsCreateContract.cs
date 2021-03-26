@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PMFightAcademy.Dal;
 
 namespace PMFightAcademy.Admin.Contract
 {

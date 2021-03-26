@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 
 namespace PMFightAcademy.Admin.Mapping
 {

@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
 using PMFightAcademy.Dal;

@@ -1,7 +1,7 @@
 ﻿using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
 using System.Collections.Generic;

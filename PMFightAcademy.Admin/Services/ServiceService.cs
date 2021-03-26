@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
 using System.Collections.Generic;

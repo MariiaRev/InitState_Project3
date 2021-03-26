@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using PMFightAcademy.Admin.Models;
-
+using PMFightAcademy.Dal.Models;
 
 namespace PMFightAcademy.Admin.DataBase
 {
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
     public class AdminContext : DbContext
     {
         public virtual DbSet<Client> Clients { get; set; }
@@ -30,7 +30,6 @@ namespace PMFightAcademy.Admin.DataBase
             modelBuilder.Entity<Service>().ToTable("Services");
             modelBuilder.Entity<Slot>().ToTable("Slots");
         }
-
-
+#pragma warning restore CS1591 // Missing XML comment for publicly visible type or member
     }
 }
