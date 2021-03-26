@@ -22,29 +22,29 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// Take all bookings
         /// </summary>
         /// <returns></returns>
-        public Task<IEnumerable<BookingContract>> TakeAllBooking();
+        public Task<IEnumerable<BookingReturnContract>> TakeAllBooking();
 
         /// <summary>
         /// Take booking for coach
         /// </summary>
         /// <param name="coachId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<BookingContract>> TakeBookingForCoach(int coachId);
+        public Task<IEnumerable<BookingReturnContract>> TakeBookingForCoach(int coachId);
 
         /// <summary>
         /// Take booking for client
         /// </summary>
         /// <param name="clientId"></param>
         /// <returns></returns>
-        public Task<IEnumerable<BookingContract>> TakeBookingOnClient(int clientId);
+        public Task<IEnumerable<BookingReturnContract>> TakeBookingOnClient(int clientId);
 
         /// <summary>
         /// Update books
         /// </summary>
-        /// <param name="slotContract"></param>
+        /// <param name="slotReturnContractram>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<bool> UpdateBooking(BookingContract slotContract, CancellationToken cancellationToken);
+        public Task<bool> UpdateBooking(BookingReturnContract slotReturnContract, CancellationToken cancellationToken);
 
         /// <summary>
         /// 
@@ -53,7 +53,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public Task<IEnumerable<BookingContract>> TakeBookingForClientOnDate(int coachId, string start, string end);
+        public Task<IEnumerable<BookingReturnContract>> TakeBookingForClientOnDate(int coachId, string start, string end);
         /// <summary>
         /// 
         /// </summary>
@@ -61,6 +61,6 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="start"></param>
         /// <param name="end"></param>
         /// <returns></returns>
-        public Task<IEnumerable<BookingContract>> TakeBookingForCoachOnDate(int clientId, string start, string end);
+        public Task<IEnumerable<BookingReturnContract>> TakeBookingForCoachOnDate(int clientId, string start, string end);
     }
 }

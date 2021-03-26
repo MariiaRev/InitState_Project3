@@ -74,19 +74,20 @@ namespace PMFightAcademy.Admin.Services
                     StartTime = slot.StartTime,
 
                 };
+                slots.Add(resultSlot);
                 slot.StartTime = slot.StartTime + resultSlot.Duration;
-                try
-                {
-                    slots.Add(resultSlot);
-                    await _dbContext.AddRangeAsync(slots, cancellationToken);
-                    await _dbContext.SaveChangesAsync(cancellationToken);
-                    //await _dbContext.AddAsync(resultSlot, cancellationToken);
-                    //await _dbContext.SaveChangesAsync(cancellationToken);
-                }
-                catch
-                {
-                    throw new ArgumentException();
-                }
+            }
+            try
+            {
+                
+                await _dbContext.AddRangeAsync(slots, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+                //await _dbContext.AddAsync(resultSlot, cancellationToken);
+                //await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                throw new ArgumentException();
             }
         }
 
@@ -232,11 +233,13 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
         {
+            //var slots = SlotsMapping.SlotMapFromModelToContractNewSlotsJS(_dbContext.Slots);
 
             var slots = _dbContext.Slots.Select(SlotsMapping.SlotMapFromModelToContract);
 
             return slots.AsEnumerable();
         }
+
 
         /// <summary>
         /// update coach

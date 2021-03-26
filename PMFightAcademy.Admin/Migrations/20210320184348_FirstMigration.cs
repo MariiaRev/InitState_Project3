@@ -150,7 +150,7 @@ namespace PMFightAcademy.Admin.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Bookings_SlotId",
                 table: "Bookings",
-                column: "SlotId");
+                column: "Slot");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Qualifications_CoachId",
