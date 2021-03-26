@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,9 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -25,7 +25,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Slots controller
         /// </summary>
-        public SlotsController(ISlotService slotService )
+        public SlotsController(ISlotService slotService)
         {
             _slotService = slotService;
         }
@@ -59,7 +59,7 @@ namespace PMFightAcademy.Admin.Controllers
         //    {
         //        return NotFound(e.Message);
         //    }
-            
+
         //    return Ok(slots);
         //}
 
@@ -136,7 +136,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllSlots(CancellationToken cancellationToken)
         {
-            
+
             var slots = await _slotService.TakeAllSlots();
 
             if (slots.Any())
@@ -161,16 +161,17 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(IEnumerable<SlotsCreateContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetSlotsForCoach([FromRoute,Range(1, int.MaxValue)] int coachId)
+        public async Task<IActionResult> GetSlotsForCoach([FromRoute, Range(1, int.MaxValue)] int coachId)
         {
-            var  slots = await _slotService.TakeSlotsForCoach(coachId);
 
-               if (slots.Any())
-               {
-                   return Ok(slots);
-               }
+            var slots = await _slotService.TakeSlotsForCoach(coachId);
 
-               return NotFound("No coaches with that id ");
+            if (slots.Any())
+            {
+                return Ok(slots);
+            }
+
+            return NotFound("No coaches with that id ");
         }
 
         /// <summary>
@@ -188,8 +189,8 @@ namespace PMFightAcademy.Admin.Controllers
         {
             var slots = await _slotService.TakeAllOnDate(date);
 
-            if (slots.Any()) 
-            { 
+            if (slots.Any())
+            {
                 return Ok(slots);
             }
             return NotFound();

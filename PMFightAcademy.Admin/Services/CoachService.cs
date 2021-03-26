@@ -16,7 +16,7 @@ namespace PMFightAcademy.Admin.Services
     public class CoachService : ICoachService
     {
         private readonly AdminContext _dbContext;
-        
+
 
 
         /// <summary>
@@ -90,11 +90,11 @@ namespace PMFightAcademy.Admin.Services
                 return false;
             }
             try
-            { 
-                _dbContext.Remove(coach); 
+            {
+                _dbContext.Remove(coach);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch 
+            catch
             {
                 return false;
             }

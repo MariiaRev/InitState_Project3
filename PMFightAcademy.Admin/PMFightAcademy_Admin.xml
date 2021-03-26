@@ -4,32 +4,32 @@
         <name>PMFightAcademy.Admin</name>
     </assembly>
     <members>
-        <member name="T:PMFightAcademy.Admin.Contract.BookingContract">
+        <member name="T:PMFightAcademy.Admin.Contract.BookingReturnContract">
             <summary>
-            Dto for create Workout
+            
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.Id">
+        <member name="P:PMFightAcademy.Admin.Contract.BookingReturnContract.Id">
             <summary>
             Id in db
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.SlotId">
+        <member name="P:PMFightAcademy.Admin.Contract.BookingReturnContract.Slot">
             <summary>
             Slot id
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ServiceId">
+        <member name="P:PMFightAcademy.Admin.Contract.BookingReturnContract.ServiceId">
             <summary>
             Service id
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ClientId">
+        <member name="P:PMFightAcademy.Admin.Contract.BookingReturnContract.ClientId">
             <summary>
             Client 
             </summary>
         </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingContract.ResultPrice">
+        <member name="P:PMFightAcademy.Admin.Contract.BookingReturnContract.ResultPrice">
             <summary>
             ResultPrice
             </summary>
@@ -168,8 +168,8 @@
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what can be booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
             <remarks>
-            Return all booked services 
-            if notFounded return NF
+            return list of slots what can be booked
+            or not founded slots
             </remarks>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForClient(System.Int32,System.Threading.CancellationToken)">
@@ -181,7 +181,6 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for Client
@@ -197,7 +196,6 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for coach
@@ -210,30 +208,15 @@
             </summary>
             <param name="bookingId"></param>
             <param name="cancellationToken"></param>
-            <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful deleted
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect </returns>
             <remarks>
             Use for delete book 
             return ok if successes
             return Not found if not founded 
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.BookingController.UpdateBook(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
-            <summary>
-            Update booking
-            </summary>
-            <param name="newBooking"></param>
-            <param name="cancellationToken"></param>
-            <returns>
-            <see cref="F:System.Net.HttpStatusCode.OK"/>return if book is successful updated
-            <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots</returns>
-            <remarks>
-            Send with the same Id new values
-            and they will be updated
-            </remarks>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:PMFightAcademy.Admin.Controllers.BookingController.UpdateBook(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)" -->
         <member name="M:PMFightAcademy.Admin.Controllers.BookingController.GetBookedServiceForClientOnDate(System.Int32,System.String,System.String,System.Threading.CancellationToken)">
             <summary>
             Select booked services for client on  date space 
@@ -245,7 +228,6 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what is booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for Client
@@ -263,7 +245,6 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/>return list of slots what booked
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> not founded slots
-            <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect 
             </returns>
             <remarks>
             Return list about booked info for coach
@@ -617,7 +598,6 @@
             <remarks>
             Use for update slots , send a slot with new fields
             </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.DeleteSlots(System.Int32,System.Threading.CancellationToken)">
             <summary>
@@ -628,12 +608,10 @@
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
-             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
             </returns>
             <remarks>
             Use for delete slots
             </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Controllers.SlotsController.GetSlotsForCoachFromDateToDate(System.Int32,System.String,System.String)">
             <summary>
@@ -641,13 +619,11 @@
             </summary>
             <returns><see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if service not founded
-             <see cref="F:System.Net.HttpStatusCode.BadRequest"/> if id is incorrect
             </returns>
             <remarks>
             Return list of  slots for coach in time range
             return not fount if its is empty
             </remarks>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="T:PMFightAcademy.Admin.Controllers.ValuesController">
             <summary>
@@ -670,17 +646,12 @@
             Mapping for Book
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromContractToModel(PMFightAcademy.Admin.Contract.BookingContract)">
+        <!-- Badly formed XML comment ignored for member "M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromContractToModel(PMFightAcademy.Admin.Contract.BookingReturnContract)" -->
+        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromModelTToContract(PMFightAcademy.Admin.Models.Slot,PMFightAcademy.Admin.Models.Booking)">
             <summary>
-            From Contract to model
+            From model to returnContract
             </summary>
-            <param name="contract"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromModelTToContract(PMFightAcademy.Admin.Models.Booking)">
-            <summary>
-            From model to contract
-            </summary>
+            <param name="slot"></param>
             <param name="model"></param>
             <returns></returns>
         </member>
@@ -739,6 +710,13 @@
             From model to Contract
             </summary>
             <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.SlotsMapping.SlotMapFromModelToContractNewSlotsJS(System.Collections.Generic.IEnumerable{PMFightAcademy.Admin.Models.Slot})">
+            <summary>
+            
+            </summary>
+            <param name="slots"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Models.Booking">
@@ -1037,11 +1015,11 @@
             </summary>
             <param name="clientId"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)">
             <summary>
             Update booking
             </summary>
-            <param name="bookingContract"></param>
+            <param name="bookingReturnContract"></param>
             <param name="cancellationToken"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
@@ -1214,14 +1192,7 @@
             <param name="clientId"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingContract,System.Threading.CancellationToken)">
-            <summary>
-            Update books
-            </summary>
-            <param name="slotContract"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-        </member>
+        <!-- Badly formed XML comment ignored for member "M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.UpdateBooking(PMFightAcademy.Admin.Contract.BookingReturnContract,System.Threading.CancellationToken)" -->
         <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IBookingService.TakeBookingForClientOnDate(System.Int32,System.String,System.String)">
             <summary>
             
@@ -1451,8 +1422,6 @@
             Constructor
             </summary>
             <param name="dbContext"></param>
-            <param name="newId"></param>
-            <param name="workWithId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeAllServices">
             <summary>
@@ -1494,7 +1463,6 @@
             Constructor 
             </summary>
             <param name="dbContext"></param>
-            <param name="newId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlot(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
             <summary>
@@ -1573,6 +1541,41 @@
             <param name="coachId">Coach id</param>
             <param name="start">Date start</param>
             <param name="end">Date to </param>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Settings">
+            <summary>
+            Class with constant settings.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Admin.Settings.DateRegularExpr">
+            <summary>
+            Regular expression for parsing a date.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Admin.Settings.DateFormat">
+            <summary>
+            Date format string.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Admin.Settings.TimeRegularExpr">
+            <summary>
+            Regular expression for parsing time.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Admin.Settings.TimeFormat">
+            <summary>
+            Time format string.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Admin.Settings.PhoneRegularExpr">
+            <summary>
+            Regular expression with constraints for a phone number.
+            </summary>
+        </member>
+        <member name="F:PMFightAcademy.Admin.Settings.PasswordRegularExpr">
+            <summary>
+            Regular expression with constraints for a password.
+            </summary>
         </member>
         <member name="T:PMFightAcademy.Admin.TimerSlotService">
             <summary>

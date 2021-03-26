@@ -1,14 +1,14 @@
-﻿using System;
+﻿using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Admin.Mapping;
+using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -18,7 +18,7 @@ namespace PMFightAcademy.Admin.Services
     public class SlotService : ISlotService
     {
         private readonly AdminContext _dbContext;
-        
+
 
         /// <summary>
         /// Constructor 
@@ -27,7 +27,7 @@ namespace PMFightAcademy.Admin.Services
         public SlotService(AdminContext dbContext)
         {
             _dbContext = dbContext;
-            
+
         }
 
         /// <summary>
@@ -52,15 +52,18 @@ namespace PMFightAcademy.Admin.Services
                 throw new ArgumentException();
             }
 
+            var timeEnd = slot.Duration;
+
+
             if (_dbContext.Slots.Where(x => x.Date == slot.Date)
-                .Where(x => x.StartTime <= slot.Duration).Where(x=>x.CoachId == slot.CoachId).Any(x => x.StartTime >= slot.StartTime))
+                .Where(x => x.StartTime <= slot.Duration).Where(x => x.CoachId == slot.CoachId).Any(x => x.StartTime >= slot.StartTime))
             {
                 throw new ArgumentException("some slots created in this time range , for this coach");
             }
 
+            List<Slot> slots = new List<Slot>();
 
-            var slots = new List<Slot>();
-            while (slot.StartTime <= slot.Duration)
+            while (slot.StartTime <= timeEnd)
             {
                 var resultSlot = new Slot
                 {
@@ -76,6 +79,7 @@ namespace PMFightAcademy.Admin.Services
 
             try
             {
+                
                 await _dbContext.AddRangeAsync(slots, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
                 //await _dbContext.AddAsync(resultSlot, cancellationToken);
@@ -138,7 +142,7 @@ namespace PMFightAcademy.Admin.Services
             var pagination = new Paggination()
             {
                 Page = page,
-                TotalPages = (int) Math.Ceiling((decimal) slots.Length / pageSize)
+                TotalPages = (int)Math.Ceiling((decimal)slots.Length / pageSize)
             };
             var data = new GetDataContract<SlotsReturnContract>()
             {
@@ -156,7 +160,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsReturnContract>> TakeSlotsForCoach(int coachId,int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeSlotsForCoach(int coachId, int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid pages");
@@ -192,14 +196,14 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="page"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task<GetDataContract<SlotsReturnContract>> TakeAllOnDate(DateTime date,int pageSize, int page)
+        public async Task<GetDataContract<SlotsReturnContract>> TakeAllOnDate(DateTime date, int pageSize, int page)
         {
             if (page < 1 || pageSize < 1)
                 throw new ArgumentException("Invalid changes");
 
             //var slots = _dbContext.Slots.AsParallel().Where(x => x.Date == date).ToArray();
 
-            var slots = _dbContext.Slots.Where(x=>x.Date == date).ToArray();
+            var slots = _dbContext.Slots.Where(x => x.Date == date).ToArray();
 
             if (slots.Length <= 0)
             {
@@ -229,11 +233,13 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
         {
-            
+            //var slots = SlotsMapping.SlotMapFromModelToContractNewSlotsJS(_dbContext.Slots);
+
             var slots = _dbContext.Slots.Select(SlotsMapping.SlotMapFromModelToContract);
-            
+
             return slots.AsEnumerable();
         }
+
 
         /// <summary>
         /// update coach
@@ -267,7 +273,7 @@ namespace PMFightAcademy.Admin.Services
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoach(int coachId)
         {
             var slots = _dbContext.Slots.Where(x => x.CoachId == coachId);
-            
+
             return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
         }
         /// <summary>
@@ -280,7 +286,7 @@ namespace PMFightAcademy.Admin.Services
                 return new List<SlotsReturnContract>();
 
             var slots = _dbContext.Slots.Where(x => x.Date == dateStart);
-            
+
             return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
         }
 
@@ -298,7 +304,7 @@ namespace PMFightAcademy.Admin.Services
             if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
                 return new List<SlotsReturnContract>();
 
-            var slots = _dbContext.Slots.Select(x=>x).Where(x => x.CoachId == coachId).Where(x=>x.Date >= dateStart).Where(x=>x.Date<=dateEnd);
+            var slots = _dbContext.Slots.Select(x => x).Where(x => x.CoachId == coachId).Where(x => x.Date >= dateStart).Where(x => x.Date <= dateEnd);
 
             return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
         }

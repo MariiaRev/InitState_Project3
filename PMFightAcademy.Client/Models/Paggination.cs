@@ -1,4 +1,6 @@
-﻿namespace PMFightAcademy.Client.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PMFightAcademy.Client.Models
 {
     /// <summary>
     /// Paggination model.
@@ -8,11 +10,13 @@
         /// <summary>
         /// Current page number.
         /// </summary>
+        [Range(1, int.MaxValue)]
         public int Page { get; set; }
 
         /// <summary>
         /// Total pages count.
         /// </summary>
+        [Range(1, int.MaxValue)]
         public int TotalPages { get; set; }
 
         /// <summary>

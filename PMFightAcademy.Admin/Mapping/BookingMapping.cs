@@ -11,33 +11,42 @@ namespace PMFightAcademy.Admin.Mapping
         /// <summary>
         /// From Contract to model
         /// </summary>
-        /// <param name="contract"></param>
+        /// <param name="returnContractram>
         /// <returns></returns>
-        public static Booking BookingMapFromContractToModel(BookingContract contract)
+        public static Booking BookingMapFromContractToModel(BookingReturnContract returnContract)
         {
+            if (returnContract == null)
+            {
+                return null;
+            }
             return new Booking()
             {
-                Id = contract.Id, 
-                SlotId = contract.SlotId, 
-                ServiceId = contract.ServiceId, 
-                ClientId = contract.ClientId,
-                ResultPrice = contract.ResultPrice
+                Id = returnContract.Id,
+                SlotId = returnContract.Slot.Id,
+                ServiceId = returnContract.ServiceId,
+                ClientId = returnContract.ClientId,
+                ResultPrice = returnContract.ResultPrice
             };
         }
 
         /// <summary>
-        /// From model to contract
+        /// From model to returnContract
         /// </summary>
+        /// <param name="slot"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static BookingContract BookingMapFromModelTToContract(Booking model)
+        public static BookingReturnContract BookingMapFromModelTToContract(Slot slot ,Booking model)
         {
-            return new BookingContract()
+            if (model == null)
+            {
+                return null;
+            }
+            return new BookingReturnContract()
             {
                 Id = model.Id,
                 ClientId = model.ClientId,
                 ServiceId = model.ServiceId,
-                SlotId = model.SlotId,
+                Slot =SlotsMapping.SlotMapFromModelToContract(slot),
                 ResultPrice = model.ResultPrice
             };
         }

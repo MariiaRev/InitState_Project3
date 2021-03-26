@@ -84,7 +84,7 @@ namespace PMFightAcademy.Client.Services
                     return ReturnResult<CoachDto>();
 
                 //Made CoachDto from coach
-                var coachDto = CoachMapping.CoachToCoachDto(coach);
+                var coachDto = CoachToCoachDto(coach);
 
                 //Save services for our coach 
                 coachDto.Services = qualifications
@@ -145,7 +145,7 @@ namespace PMFightAcademy.Client.Services
             var result = slots
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
-                .Select(x => x.Date.ToString("MM/dd/yyyy"))
+                .Select(x => x.Date.ToString(Settings.DateFormat))
                 .Distinct()
                 .ToArray();
 
@@ -170,8 +170,8 @@ namespace PMFightAcademy.Client.Services
             var result = slots
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
-                .Where(x => DateTime.Parse(date.Replace("%2F", ".")) == x.Date)
-                .Select(x => (new DateTime(1,1,1) + x.StartTime).ToString("HH:mm"))
+                .Where(x => DateTime.ParseExact(date, Settings.DateFormat, null) == x.Date)
+                .Select(x => (new DateTime(1,1,1) + x.StartTime).ToString(Settings.TimeFormat))
                 .ToArray();
 
             return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
@@ -191,7 +191,7 @@ namespace PMFightAcademy.Client.Services
             //Than check if slots are available and not booked.
             //Find find slot with our coach
             var yourSlot = slots
-                .Where(x => x.Date == DateTime.Parse(bookingDto.Date) && x.StartTime == TimeSpan.Parse(bookingDto.Time))
+                .Where(x => x.Date == DateTime.ParseExact(bookingDto.Date, Settings.DateFormat, null) && x.StartTime == TimeSpan.Parse(bookingDto.Time))
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
                 .FirstOrDefault(x => x.CoachId == bookingDto.CoachId);
 
@@ -225,6 +225,10 @@ namespace PMFightAcademy.Client.Services
                 {
                     Data = await ReturnResult<HistoryDto>(),
                     Paggination = new Paggination()
+                    {
+                        Page = page,
+                        TotalPages = 0
+                    }
                 };
             }
 
@@ -267,6 +271,10 @@ namespace PMFightAcademy.Client.Services
                 {
                     Data = await ReturnResult<HistoryDto>(),
                     Paggination = new Paggination()
+                    {
+                        Page = page,
+                        TotalPages = 0
+                    }
                 };
             }
 

@@ -41,7 +41,7 @@ namespace PMFightAcademy.Client.Models
         /// <summary>
         /// Coach of slot.
         /// </summary>
-        [Required]                              //coach is required for service and slot?
+        [Required]
         public int CoachId { get; set; }
 
         /// <summary>

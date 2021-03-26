@@ -34,7 +34,7 @@ namespace PMFightAcademy.Admin.Migrations
                     b.Property<int>("ServiceId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SlotId")
+                    b.Property<int>("Slot")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -43,7 +43,7 @@ namespace PMFightAcademy.Admin.Migrations
 
                     b.HasIndex("ServiceId");
 
-                    b.HasIndex("SlotId");
+                    b.HasIndex("Slot");
 
                     b.ToTable("Bookings");
                 });
@@ -198,7 +198,7 @@ namespace PMFightAcademy.Admin.Migrations
 
                     b.HasOne("PMFightAcademy.Admin.Models.Slot", "Slot")
                         .WithMany("Bookings")
-                        .HasForeignKey("SlotId")
+                        .HasForeignKey("Slot")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

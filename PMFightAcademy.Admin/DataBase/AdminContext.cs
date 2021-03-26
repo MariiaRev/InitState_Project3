@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PMFightAcademy.Admin.Models;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace PMFightAcademy.Admin.DataBase
 {
@@ -20,7 +20,7 @@ namespace PMFightAcademy.Admin.DataBase
         {
 
         }
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Client>().ToTable("Clients");

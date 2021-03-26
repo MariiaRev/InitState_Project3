@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
@@ -44,7 +43,7 @@ namespace PMFightAcademy.Admin.Controllers
         ///// if notFounded return NF
         ///// </remarks>
         //[HttpGet("{pageSize}/{page}")]
-        //[ProducesResponseType(typeof(GetDataContract<BookingContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(GetDataContract<BookingReturnContract>), (int)HttpStatusCode.OK)]
         //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         //public async Task<IActionResult> GetBookedServices([FromRoute] int pageSize,
         //    [FromRoute] int page,
@@ -73,17 +72,17 @@ namespace PMFightAcademy.Admin.Controllers
         /// or not founded slots
         /// </remarks>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServices()
         {
             var bookings = await _bookingService.TakeAllBooking();
-                if (bookings.Any())
-                {
-                    return Ok(bookings);
-                }
+            if (bookings.Any())
+            {
+                return Ok(bookings);
+            }
 
-                return NotFound("No elements");
+            return NotFound("No elements");
         }
 
         /// <summary>
@@ -100,7 +99,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// not founded if no Client 
         /// </remarks>
         [HttpGet("client/{clientId}")]
-        [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServiceForClient(
             [Range(1, int.MaxValue)] int clientId, 
@@ -129,7 +128,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// not founded if no coaches 
         /// </remarks>
         [HttpGet("coach/{coachId}")]
-        [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServiceForCoach(
             [Range(1, int.MaxValue)] int coachId, 
@@ -161,7 +160,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteBook(
-            [Range(1,int.MaxValue)]int bookingId, 
+            [Range(1, int.MaxValue)] int bookingId, 
             CancellationToken cancellationToken)
         {
             var deleted = await _bookingService.RemoveBooking(bookingId, cancellationToken);
@@ -177,7 +176,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Update booking
         /// </summary>
-        /// <param name="newBooking"></param>
+        /// <param name="newBookingReturnram>
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return if book is successful updated
@@ -190,10 +189,10 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> UpdateBook(
-            BookingContract newBooking, 
+            BookingReturnContract newBookingReturn,
             CancellationToken cancellationToken)
         {
-            var update = await _bookingService.UpdateBooking(newBooking, cancellationToken);
+            var update = await _bookingService.UpdateBooking(newBookingReturn, cancellationToken);
 
             if (update)
             {
@@ -219,7 +218,7 @@ namespace PMFightAcademy.Admin.Controllers
         //[HttpPost("book")]
         //[ProducesResponseType((int)HttpStatusCode.OK)]
         //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> BookService([FromBody]BookingContract train)
+        //public async Task<IActionResult> BookService([FromBody]BookingReturnContract train)
         //{
         //    throw  new NotImplementedException();
         //}
@@ -237,9 +236,9 @@ namespace PMFightAcademy.Admin.Controllers
         ///// </remarks>
         ///// <exception cref="NotImplementedException"></exception>
         //[HttpPost]
-        //[ProducesResponseType(typeof(List<BookingContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(List<BookingReturnContract>), (int)HttpStatusCode.OK)]
         //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> CompactBookService([FromBody] BookingContract train)
+        //public async Task<IActionResult> CompactBookService([FromBody] BookingReturnContract train)
         //{
         //    throw new NotImplementedException();
         //}
@@ -260,7 +259,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// not founded if no Client 
         /// </remarks>
         [HttpGet("client/{clientId}/{dateStart}/{dateEnd}")]
-        [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServiceForClientOnDate(
             [Range(1, int.MaxValue)] int clientId, 
@@ -268,7 +267,7 @@ namespace PMFightAcademy.Admin.Controllers
             string dateEnd, 
             CancellationToken cancellationToken)
         {
-            var bookings = await _bookingService.TakeBookingForClientOnDate(clientId,dateStart,dateEnd);
+            var bookings = await _bookingService.TakeBookingForClientOnDate(clientId, dateStart, dateEnd);
 
             if (bookings.Any())
             {
@@ -295,11 +294,11 @@ namespace PMFightAcademy.Admin.Controllers
         /// if not find will return not fount 
         /// </remarks>
         [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
-        [ProducesResponseType(typeof(IEnumerable<BookingContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetBookedServiceForCoachOnDate(
             [Range(1, int.MaxValue)] int coachId,
-            string dateStart,
+            string dateStart, 
             string dateEnd, 
             CancellationToken cancellationToken)
         {

@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -6,9 +9,6 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -95,7 +95,7 @@ namespace PMFightAcademy.Admin.Controllers
 
             var service = await _serviceService.TakeService(serviceId);
             if (service != null)
-            { 
+            {
                 return Ok(service);
             }
             return NotFound("No client with that ID");
@@ -114,13 +114,13 @@ namespace PMFightAcademy.Admin.Controllers
         /// Use to create Service, return ok if all is fine
         /// Conflict if its is already registered</remarks>
         [HttpPost]
-        [ProducesResponseType( (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
-        public async Task<IActionResult> CreateService([FromBody]Service service, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateService([FromBody] Service service, CancellationToken cancellationToken)
         {
             try
             {
-               await _serviceService.AddService(service, cancellationToken);
+                await _serviceService.AddService(service, cancellationToken);
             }
             catch (ArgumentException e)
             {
@@ -149,7 +149,7 @@ namespace PMFightAcademy.Admin.Controllers
         public async Task<IActionResult> UpdateService([FromBody] Service service, CancellationToken cancellationToken)
         {
             var update = await _serviceService.UpdateService(service, cancellationToken);
-            
+
             if (update)
             {
                 return Ok();

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System;
 using System.Collections.Generic;
@@ -8,8 +10,6 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -22,7 +22,7 @@ namespace PMFightAcademy.Admin.Controllers
     public class QualificationController : ControllerBase
     {
         private readonly IQualificationService _qualificationService;
-        
+
 
         /// <summary>
         /// Constuctor
@@ -46,7 +46,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetQualificationForCoach([FromRoute ,Range(1, int.MaxValue)] int coachId)
+        public async Task<IActionResult> GetQualificationForCoach([FromRoute, Range(1, int.MaxValue)] int coachId)
         {
 
             var services = await _qualificationService.GetServicesForCoach(coachId);
@@ -71,7 +71,7 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("service/{serviceId}")]
         [ProducesResponseType(typeof(IEnumerable<CoachContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetQualificationForService([FromRoute ,Range(1, int.MaxValue)] int serviceId)
+        public async Task<IActionResult> GetQualificationForService([FromRoute, Range(1, int.MaxValue)] int serviceId)
         {
 
             var coaches = await _qualificationService.GetCoachesForService(serviceId);
@@ -103,7 +103,7 @@ namespace PMFightAcademy.Admin.Controllers
         {
             try
             {
-               await _qualificationService.AddQualification(qualification, cancellationToken);
+                await _qualificationService.AddQualification(qualification, cancellationToken);
             }
             catch (ArgumentException e)
             {

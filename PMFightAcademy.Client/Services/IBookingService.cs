@@ -42,12 +42,12 @@ namespace PMFightAcademy.Client.Services
         Task<GetDataContract<CoachDto>> GetCoachesForBooking(int serviceId, int pageSize, int page, CancellationToken token);
 
         /// <summary>
-        /// Get available dates in format "MM/dd/yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
+        /// Get available dates in format "MM.dd.yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
         /// for Booking Controller
         /// </summary>
         /// <param name="serviceId">Id of the service.</param>
         /// <param name="coachId">Id of the coach.</param>
-        /// <returns>List of available dates each as a string in format "MM/dd/yyyy".</returns>
+        /// <returns>List of available dates each as a string in format "MM.dd.yyyy".</returns>
         Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId);
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         /// <param name="serviceId">Id of the service.</param>
         /// <param name="coachId">Id of the coach.</param>
-        /// <param name="date">Selected date as a string in format "MM/dd/yyyy".</param>
+        /// <param name="date">Selected date as a string in format "MM.dd.yyyy".</param>
         /// <returns>List of available time slots in format "HH:mm".</returns>
         Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date);
 
