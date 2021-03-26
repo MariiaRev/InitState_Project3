@@ -712,13 +712,6 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Mapping.SlotsMapping.SlotMapFromModelToContractNewSlotsJS(System.Collections.Generic.IEnumerable{PMFightAcademy.Admin.Models.Slot})">
-            <summary>
-            
-            </summary>
-            <param name="slots"></param>
-            <returns></returns>
-        </member>
         <member name="T:PMFightAcademy.Admin.Models.Booking">
             <summary>
             Booking WorkOut
@@ -1452,6 +1445,7 @@
             Update
             </summary>
             <param name="service"></param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.SlotService">
             <summary>
