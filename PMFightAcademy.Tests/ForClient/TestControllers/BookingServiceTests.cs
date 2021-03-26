@@ -549,7 +549,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             _clientContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
             _clientContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
             _clientContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
-            
+
             _testedService = new BookingService(_clientContextMock.Object);
 
             var result = (await _testedService.GetTimeSlotsForBooking(2, 3, "06.16.2021")).ToArray();
@@ -612,7 +612,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             };
             var slots = new List<Slot>()
             {
-                new() 
+                new()
                 { Id = 1,
                     CoachId = 3,
                     Date =new DateTime(2021, 6, 16),
@@ -655,7 +655,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         public async Task AddBooking_IncorrectSetup()
         {
             Setup();
-            
+
             var dto = new BookingDto()
             {
                 Date = "06.16.2021",
@@ -927,6 +927,61 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             var result = await _testedService.AddBooking(dto, 1);
 
             Assert.False(result);
+        }
+
+        [Fact]
+        public async Task GetActiveBookings()
+        {
+            Setup();
+
+            var firstSlot = new Slot()
+            {
+                Id = 1,
+                CoachId = 3,
+                Coach = new Coach()
+                {
+                    FirstName = "Maga",
+                    LastName = "Tigr"
+                },
+                Date = new DateTime(2021, 6, 16),
+                StartTime = new TimeSpan(23, 0, 0)
+            };
+            var secondSlot = new Slot()
+            {
+                Id = 2,
+                CoachId = 2,
+                Date = new DateTime(2021, 4, 20),
+                StartTime = new TimeSpan(18, 0, 0)
+            };
+
+            var slots = new List<Slot>() { firstSlot, secondSlot };
+            var bookings = new List<Booking>()
+            {
+                new() {
+                    Id = 1, 
+                    SlotId = 1,
+                    Slot = firstSlot,
+                    ClientId = 1, 
+                    Service = new Service() {Price = 5555}
+                },
+                new() { Id = 2, SlotId = 2, Slot = secondSlot, ClientId = 2}
+            };
+
+            _clientContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
+            _clientContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
+
+            _testedService = new BookingService(_clientContextMock.Object);
+
+            var result =
+                await _testedService.GetActiveBookings(1, 1, 1, CancellationToken.None);
+
+            var listData = result.Data.ToArray();
+
+            Assert.Single(listData);
+            Assert.Equal("Maga", listData.First().CoachFirstName);
+            Assert.Equal(1, result.Paggination.TotalPages);
+            Assert.Equal(1, result.Paggination.Page);
+
         }
     }
 }
