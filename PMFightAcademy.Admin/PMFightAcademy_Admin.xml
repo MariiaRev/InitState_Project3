@@ -397,11 +397,12 @@
             </summary>
             <param name="qualificationService"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             get list  qualifications  for Coach
             </summary>
             <param name="coachId"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
@@ -410,11 +411,12 @@
             Return qualifications for coach
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForService(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.QualificationController.GetQualificationForService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             get list of  qualifications for Service
             </summary>
             <param name="serviceId"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
             <see cref="F:System.Net.HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
@@ -1125,28 +1127,29 @@
             Constructor
             </summary>
             <param name="dbContext"></param>
-            <param name="workWithId"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.QualificationService.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Delete qualification
             </summary>
             <param name="id"></param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.QualificationService.AddQualification(PMFightAcademy.Admin.Contract.QualificationContract,System.Threading.CancellationToken)">
             <summary>
             Update
             </summary>
             <param name="contract"></param>
-            <exception cref="T:System.ArgumentException"></exception>
+            <param name="cancellationToken"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetCoachesForService(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetCoachesForService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get coaches
             </summary>
             <param name="serviceId"></param>
+            <param name="token"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetServicesForCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.GetServicesForCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get services
             </summary>
@@ -1281,7 +1284,7 @@
             <summary>
             Delete qualification
             </summary>
-            <param name="contract"></param>
+            <param name="id"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
@@ -1293,18 +1296,20 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.GetCoachesForService(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.GetCoachesForService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get coaches for service
             </summary>
             <param name="serviceId"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.GetServicesForCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IQualificationService.GetServicesForCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get services for coaches 
             </summary>
             <param name="coachId"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService">
