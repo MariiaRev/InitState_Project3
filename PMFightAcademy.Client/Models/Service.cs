@@ -40,7 +40,7 @@ namespace PMFightAcademy.Client.Models
         /// 
         /// </summary>
         [JsonIgnore]
-        public ICollection<Qualification> Qualifications { get; set; }
+        public ICollection<Dal.Models.Qualification> Qualifications { get; set; }
 
         /// <summary>
         /// 

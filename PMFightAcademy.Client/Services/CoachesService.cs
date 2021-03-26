@@ -53,7 +53,8 @@ namespace PMFightAcademy.Client.Services
             var resultCoaches = filteredCoaches.Skip((page - 1) * pageSize).Take(pageSize);
 
             // get services
-            IEnumerable<Qualification> qualifications = _dbContext.Qualifications.Include(q => q.Service);
+            //IEnumerable<Dal.Models.Qualification> qualifications = _dbContext.Qualifications.Include(q => q.Service);
+            var qualifications = _dbContext.Qualifications.Include(q => q.Service);
 
             // combine result
             var result = resultCoaches.Select(coach => CoachWithServicesToCoachDto(coach,
