@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
@@ -110,6 +111,7 @@ namespace PMFightAcademy.Client.Controllers
             CancellationToken token)
         {
             var result = await _bookingService.GetServicesForBooking(pageSize, page, token);
+            
             return Ok(result);
         }
 
