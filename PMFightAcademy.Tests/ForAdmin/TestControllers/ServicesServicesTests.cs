@@ -94,6 +94,27 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
         }
 
         [Theory]
+        [InlineData(6)]
+        [InlineData(12)]
+        [InlineData(66)]
+        [InlineData(5)]
+        public async Task Take_Coach_By_Incorrect_ID_Check(int id)
+        {
+            Setup();
+
+            var services = GenerateListOfServices();
+
+
+            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+
+            _testedService = new ServiceService(_adminContextMock.Object);
+
+            var result = (await _testedService.TakeService(id));
+
+            Assert.Null(result);
+        }
+
+        [Theory]
         [InlineData(1)]
         [InlineData(2)]
         [InlineData(3)]

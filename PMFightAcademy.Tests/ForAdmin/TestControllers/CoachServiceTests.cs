@@ -126,6 +126,29 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             Assert.Equal(expectedCoach.Id, result.Id);
             Assert.Equal(expectedCoach.Description, result.Description);
         }
+
+        [Theory]
+        [InlineData(6)]
+        [InlineData(12)]
+        [InlineData(66)]
+        [InlineData(5)]
+        public async Task Take_Coach_By_Incorrect_ID_Check(int id)
+        {
+            Setup();
+
+            var coaches = GenerateListOfCoches();
+
+            var coachesContract = GenerateListOfCoachesContract();
+
+            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+
+            _testedService = new CoachService(_adminContextMock.Object);
+
+            var result = (await _testedService.TakeCoach(id));
+            
+            Assert.Null(result);
+        }
+
         [Fact]
         public async Task Take_All_Coaches_Count_Successes()
         {

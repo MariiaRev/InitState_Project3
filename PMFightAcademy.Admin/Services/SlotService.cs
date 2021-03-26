@@ -4,11 +4,13 @@ using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -31,13 +33,44 @@ namespace PMFightAcademy.Admin.Services
         }
 
         /// <summary>
+        /// Add list of different slots
+        /// </summary>
+        /// <param name="slotsArray"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<bool> AddListOfSlots(IEnumerable<SlotsReturnContract> slotsArray, CancellationToken cancellationToken)
+        {
+            var slotsReturnContracts = slotsArray as SlotsReturnContract[] ?? slotsArray.ToArray();
+
+            if (!slotsReturnContracts.Any())
+            {
+                return false;
+            }
+
+            var slots =slotsReturnContracts.Select(SlotsMapping.SlotMapFromContractToModel);
+            try
+            {
+                await _dbContext.AddRangeAsync(slots, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch(Exception e)
+            {
+                return false;
+            }
+
+            return true;
+
+        }
+
+        /// <summary>
         /// Creation slots 
         /// </summary>
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task AddSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken)
+        public async Task AddSlotRange(SlotsCreateContract slotContract, CancellationToken cancellationToken)
         {
             var slot = new Slot();
             try
@@ -82,8 +115,7 @@ namespace PMFightAcademy.Admin.Services
                 
                 await _dbContext.AddRangeAsync(slots, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
-                //await _dbContext.AddAsync(resultSlot, cancellationToken);
-                //await _dbContext.SaveChangesAsync(cancellationToken);
+                
             }
             catch
             {
@@ -247,7 +279,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public async Task<bool> UpdateSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken)
+        public async Task<bool> UpdateSlot(SlotsReturnContract slotContract, CancellationToken cancellationToken)
         {
             var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
 
@@ -309,6 +341,30 @@ namespace PMFightAcademy.Admin.Services
             return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
         }
 
+        /// <summary>
+        /// Delete array of slots
+        /// </summary>
+        /// <param name="arrayId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<bool> RemoveSlotRange(IEnumerable<int> arrayId, CancellationToken cancellationToken)
+        {
+            var slots = arrayId.Select(id => _dbContext.Slots.FirstOrDefault(x => x.Id == id)).ToList();
+            if (!slots.Any())
+            {
+                return false;
+            }
+            try
+            {
+                _dbContext.Slots.RemoveRange(slots);
+                await _dbContext.SaveChangesAsync(CancellationToken.None);
+            }
+            catch
+            {
+                return false;
+            }
 
+            return true;
+        }
     }
 }

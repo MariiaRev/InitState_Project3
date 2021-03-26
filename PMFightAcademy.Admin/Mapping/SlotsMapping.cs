@@ -33,7 +33,27 @@ namespace PMFightAcademy.Admin.Mapping
             };
 
         }
+        /// <summary>
+        /// Return contract
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static Slot SlotMapFromContractToModel(SlotsReturnContract contract)
+        {
+            if (contract == null)
+            {
+                return null;
+            }
+            return new Slot
+            {
+                Id = contract.Id,
+                CoachId = contract.CoachId,
+                Date = DateTime.ParseExact(contract.DateStart, Settings.DateFormat, null, DateTimeStyles.None),
+                Duration = TimeSpan.Parse(contract.Duration, null),
+                StartTime = TimeSpan.Parse(contract.TimeStart, null)
+            };
 
+        }
         /// <summary>
         /// From model to Contract
         /// </summary>
@@ -55,6 +75,8 @@ namespace PMFightAcademy.Admin.Mapping
             };
 
         }
+
+
 
     }
 }
