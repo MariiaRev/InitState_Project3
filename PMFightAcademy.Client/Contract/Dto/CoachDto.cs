@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PMFightAcademy.Dal;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Contract.Dto
 {

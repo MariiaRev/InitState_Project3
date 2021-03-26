@@ -3,6 +3,7 @@ using PMFightAcademy.Client.Contract;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.DataBase;
 using PMFightAcademy.Client.Mappings;
+using PMFightAcademy.Dal;
 using PMFightAcademy.Dal.Models;
 using System;
 using System.Collections.Generic;

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PMFightAcademy.Dal;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace PMFightAcademy.Client.Contract.Dto
 {
