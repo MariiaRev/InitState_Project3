@@ -28,14 +28,14 @@ namespace PMFightAcademy.Client.Services
 #pragma warning restore 1591
 
         /// <inheritdoc/>
-        public Task<IEnumerable<Service>> GetServicesForBooking()
+        public async Task<IEnumerable<Service>> GetServicesForBooking(CancellationToken token)
         {
-            var result = _context.Services?.ToArray();
+            var result = await _context.Services?.ToArrayAsync(token);
 
             if (result == null || !result.Any())
                 return ReturnResult<Service>();
 
-            return Task.FromResult(result.AsEnumerable());
+            return result.AsEnumerable();
         }
 
         /// <inheritdoc/>
@@ -316,9 +316,9 @@ namespace PMFightAcademy.Client.Services
             return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync(token);
         }
 
-        private static Task<IEnumerable<T>> ReturnResult<T>()
+        private static IEnumerable<T> ReturnResult<T>()
         {
-            return Task.FromResult(new List<T>().AsEnumerable());
+            return new List<T>().AsEnumerable();
         }
     }
 }

@@ -16,10 +16,10 @@ namespace PMFightAcademy.Client.Services
         /// Get available services for client booking for Booking Controller.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Service>> GetServicesForBooking();
+        Task<IEnumerable<Service>> GetServicesForBooking(CancellationToken token);
 
         /// <summary>
-        /// Get available services for client booking for Booking Controller with paggination.
+        /// Get available services for client booking for Booking Controller with pagination.
         /// </summary>
         /// <returns></returns>
         Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token);

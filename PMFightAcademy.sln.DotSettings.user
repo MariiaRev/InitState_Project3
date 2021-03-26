@@ -5,6 +5,9 @@
     &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForClient.TestControllers.BookingServiceTests.GetDatesForBooking&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForClient.TestControllers.BookingServiceTests.AddBooking&lt;/TestId&gt;&#xD;
     &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForClient.TestControllers.BookingServiceTests.GetActiveBookings&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForClient.TestControllers.BookingServiceTests.GetActiveBookings_ExpiredSlots&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForClient.TestControllers.BookingServiceTests.GetActiveBookings_UnsuitableBooking&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForClient.TestControllers.BookingServiceTests.GetBookingHistoryBookings&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=621b897b_002D64aa_002D4362_002D90de_002Da22204b80dd8/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="GetDatesForBooking" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
