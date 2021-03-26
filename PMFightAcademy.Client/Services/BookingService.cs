@@ -305,7 +305,7 @@ namespace PMFightAcademy.Client.Services
             };
         }
 
-        private async Task<List<Booking>> GetClientBookingsAsync(int clientId, CancellationToken token)
+        private async Task<List<Dal.Models.Booking>> GetClientBookingsAsync(int clientId, CancellationToken token)
         {
             var bookings = _context.Bookings
                 .AsNoTracking()

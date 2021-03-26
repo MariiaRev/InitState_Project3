@@ -1,5 +1,5 @@
 ﻿using PMFightAcademy.Client.Contract.Dto;
-using PMFightAcademy.Client.Models;
+using PMFightAcademy.Dal.Models;
 
 namespace PMFightAcademy.Client.Mappings
 {

@@ -46,6 +46,6 @@ namespace PMFightAcademy.Client.Models
         /// 
         /// </summary>
         [JsonIgnore]
-        public ICollection<Booking> Bookings { get; set; }
+        public ICollection<Dal.Models.Booking> Bookings { get; set; }
     }
 }
