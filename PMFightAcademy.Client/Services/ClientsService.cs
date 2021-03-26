@@ -4,7 +4,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
@@ -32,8 +34,9 @@ namespace PMFightAcademy.Client.Services
         /// Registers a new client.
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        public Task<string> Register(Models.Client model)
+        public async Task<string> Register(Models.Client model, CancellationToken token)
         {
             if (model.Login.StartsWith("38"))
                 model.Login = new string(model.Login.Skip(2).ToArray());
@@ -41,7 +44,7 @@ namespace PMFightAcademy.Client.Services
             if (model.Login.StartsWith("+38"))
                 model.Login = new string(model.Login.Skip(3).ToArray());
 
-            var user = _context.Clients.FirstOrDefault(m => m.Login == model.Login);
+            var user = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
 
             if (user == null)
             {
@@ -52,25 +55,28 @@ namespace PMFightAcademy.Client.Services
                     Name = model.Name
                 };
 
-                _context.Clients.Add(user);
+                await _context.Clients.AddAsync(user, token);
 
-                _context.SaveChanges();
+                await _context.SaveChangesAsync(token);
 
-                user = _context.Clients.FirstOrDefault(m => m.Login == user.Login);
+                var regUser = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
+                if (regUser != null)
+                    user = regUser;
 
-                return Task.FromResult(Authenticate(user.Login, user.Id));
+                return Authenticate(user.Login, user.Id);
             }
 
             _logger.LogInformation($"{model.Login} is already exist");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
         /// <summary>
         /// Log in in a registered client.
         /// </summary>
         /// <param name="model"></param>
+        /// <param name="token"></param>
         /// <returns></returns>
-        public Task<string> Login(LoginContract model)
+        public async Task<string> Login(LoginContract model, CancellationToken token)
         {
             if (model.Login.StartsWith("38"))
                 model.Login = new string(model.Login.Skip(2).ToArray());
@@ -78,21 +84,21 @@ namespace PMFightAcademy.Client.Services
             if (model.Login.StartsWith("+38"))
                 model.Login = new string(model.Login.Skip(3).ToArray());
 
-            var user = _context.Clients.FirstOrDefault(m => m.Login == model.Login);
+            var user = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
 
             if (user == null)
             {
                 _logger.LogInformation("User not found");
-                return Task.FromResult(string.Empty);
+                return string.Empty;
             }
 
             if (model.Password.GenerateHash().Equals(user.Password))
             {
-                return Task.FromResult(Authenticate(user.Login, user.Id));
+                return Authenticate(user.Login, user.Id);
             }
 
             _logger.LogInformation($"{model.Login}:\tIncorrect login or password");
-            return Task.FromResult(string.Empty);
+            return string.Empty;
         }
 
         /// <summary>

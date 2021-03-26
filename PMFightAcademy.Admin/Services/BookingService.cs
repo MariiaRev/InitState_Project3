@@ -1,10 +1,9 @@
-﻿using PMFightAcademy.Admin.Contract;
+﻿using Microsoft.EntityFrameworkCore;
+using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -31,32 +30,38 @@ namespace PMFightAcademy.Admin.Services
         /// <summary>
         /// Take all bookings
         /// </summary>
-        public async Task<IEnumerable<BookingReturnContract>> TakeAllBooking()
+        public async Task<IEnumerable<BookingReturnContract>> TakeAllBooking(CancellationToken token)
         {
-            var bookings = _dbContext.Bookings.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
-            return bookings;
+            var bookings = await _dbContext.Bookings.ToListAsync(token);
+            var result = bookings.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+            return result;
         }
 
         /// <summary>
         /// Take Booking for coach
         /// </summary>
         /// <param name="coachId"></param>
-        public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoach(int coachId)
+        /// /// <param name="token"></param>
+        public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoach(int coachId, CancellationToken token)
         {
-            var bookings = _dbContext.Bookings.Where(x => x.Slot.CoachId == coachId)
-                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
-            return bookings;
+
+            var bookings = await _dbContext.Bookings.ToListAsync(token);
+            var result = bookings.Where(x => x.Slot.CoachId == coachId).ToArray();
+            return result.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+
         }
 
         /// <summary>
         /// Take booking for client
         /// </summary>
         /// <param name="clientId"></param>
-        public async Task<IEnumerable<BookingReturnContract>> TakeBookingOnClient(int clientId)
+        /// <param name="token"></param>
+        public async Task<IEnumerable<BookingReturnContract>> TakeBookingOnClient(int clientId, CancellationToken token)
         {
-            var bookings = _dbContext.Bookings.Where(x => x.ClientId == clientId)
-                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
-            return bookings;
+
+            var bookings = await _dbContext.Bookings.ToListAsync(token);
+            var result = bookings.Where(x => x.ClientId == clientId);
+            return result.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x)); ;
         }
 
         /// <summary>
@@ -82,29 +87,35 @@ namespace PMFightAcademy.Admin.Services
             return true;
         }
 
-        /// <summary>
-        /// Take clients depends from date
-        /// </summary>
-        /// <param name="clientId"></param>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        public async Task<IEnumerable<BookingReturnContract>> TakeBookingForClientOnDate(
-            int clientId,
-            string start, 
-            string end)
-        {
-            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
-                return new List<BookingReturnContract>();
-            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
-                return new List<BookingReturnContract>();
-            var bookings = _dbContext.Bookings
-                .Select(x => x)
-                .Where(x => x.ClientId == clientId)
-                .Where(x => x.Slot.Date >= dateStart)
-                .Where(x => x.Slot.Date <= dateEnd);
-            return bookings.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
-        }
+        ///// <summary>
+        ///// Take clients depends from date
+        ///// </summary>
+        ///// <param name="clientId"></param>
+        ///// <param name="start"></param>
+        ///// <param name="end"></param>
+        ///// <param name="token"></param>
+        //public async Task<IEnumerable<BookingReturnContract>> TakeBookingForClientOnDate(
+        //    int clientId,
+        //    string start, 
+        //    string end,
+        //    CancellationToken token)
+        //{
+        //    var bookings = await _dbContext.Bookings.ToListAsync(token);
 
+
+        //    if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
+        //        return new List<BookingReturnContract>();
+
+        //    if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
+        //        return new List<BookingReturnContract>();
+
+        //    var result = bookings
+        //        .Where(x => x.ClientId == clientId)
+        //        .Where(x => x.Slot.Date >= dateStart)
+        //        .Where(x => x.Slot.Date <= dateEnd);
+
+        //    return result.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+        //}
         ///// <summary>
         ///// Take coaches depends from date
         ///// </summary>
@@ -133,7 +144,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         public async Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
         {
-            var booking = _dbContext.Bookings.FirstOrDefault(x => x.Id == id);
+            var booking = await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (booking == null)
             {
                 return false;

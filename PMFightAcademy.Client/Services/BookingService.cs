@@ -6,6 +6,7 @@ using PMFightAcademy.Client.Mappings;
 using PMFightAcademy.Client.Models;
 using System;
 using System.Collections.Generic;
+using System.Formats.Asn1;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,14 +29,11 @@ namespace PMFightAcademy.Client.Services
 #pragma warning restore 1591
 
         /// <inheritdoc/>
-        public Task<IEnumerable<Service>> GetServicesForBooking()
+        public async Task<IEnumerable<Service>> GetServicesForBooking(CancellationToken token)
         {
-            var result = _context.Services?.ToArray();
+            var result = await _context.Services.ToArrayAsync(token);
 
-            if (result == null || !result.Any())
-                return ReturnResult<Service>();
-
-            return Task.FromResult(result.AsEnumerable());
+            return !result.Any() ? ReturnResult<Service>() : result.AsEnumerable();
         }
 
         /// <inheritdoc/>
@@ -43,7 +41,7 @@ namespace PMFightAcademy.Client.Services
         {
             var services = await _context.Services.ToListAsync(token);
             var servicesCount = (decimal)(services?.Count ?? 0);
-            
+
             return new GetDataContract<Service>()
             {
                 Data = services?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<Service>(),
@@ -56,14 +54,11 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
-        public Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId)
+        public async Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId, CancellationToken token)
         {
-            var services = _context.Services?.ToArray();
-            var qualifications = _context.Qualifications?.ToArray();
-            var coaches = _context.Coaches?.ToArray();
-
-            if (services == null || qualifications == null || coaches == null)
-                return ReturnResult<CoachDto>();
+            var services = await _context.Services.ToArrayAsync(token);
+            var qualifications = await _context.Qualifications.ToArrayAsync(token);
+            var coaches = await _context.Coaches.ToArrayAsync(token);
 
             //Check if service is real
             if (services.All(x => x.Id != serviceId))
@@ -94,7 +89,7 @@ namespace PMFightAcademy.Client.Services
                 listResult.Add(coachDto);
             }
 
-            return Task.FromResult(listResult.AsEnumerable());
+            return listResult.AsEnumerable();
         }
 
         /// <inheritdoc/>
@@ -127,14 +122,11 @@ namespace PMFightAcademy.Client.Services
         }
 
         /// <inheritdoc/>
-        public Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId)
+        public async Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId, CancellationToken token)
         {
-            var qualifications = _context.Qualifications?.ToArray();
-            var slots = _context.Slots?.Where(x => x.Expired == false).ToArray();
-            var bookings = _context.Bookings?.ToArray();
-
-            if (qualifications == null || slots == null || bookings == null)
-                return ReturnResult<string>();
+            var qualifications = await _context.Qualifications.ToArrayAsync(token);
+            var slots = await _context.Slots.Where(x => x.Expired == false).ToArrayAsync(token);
+            var bookings = await _context.Bookings.ToArrayAsync(token);
 
             //Check if the coach owns the services
             if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
@@ -149,18 +141,15 @@ namespace PMFightAcademy.Client.Services
                 .Distinct()
                 .ToArray();
 
-            return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
+            return result.Any() ? result.AsEnumerable() : ReturnResult<string>();
         }
 
         /// <inheritdoc/>
-        public Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date)
+        public async Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date, CancellationToken token)
         {
-            var qualifications = _context.Qualifications?.ToArray();
-            var slots = _context.Slots?.Where(x => x.Expired == false).ToArray();
-            var bookings = _context.Bookings?.ToArray();
-
-            if (qualifications == null || slots == null || bookings == null)
-                return ReturnResult<string>();
+            var qualifications = await _context.Qualifications.ToArrayAsync(token);
+            var slots = await _context.Slots.Where(x => x.Expired == false).ToArrayAsync(token);
+            var bookings = await _context.Bookings.ToArrayAsync(token);
 
             if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
                 return ReturnResult<string>();
@@ -171,21 +160,18 @@ namespace PMFightAcademy.Client.Services
                 .Where(x => x.CoachId == coachId)
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
                 .Where(x => DateTime.ParseExact(date, Settings.DateFormat, null) == x.Date)
-                .Select(x => (new DateTime(1,1,1) + x.StartTime).ToString(Settings.TimeFormat))
+                .Select(x => (new DateTime(1, 1, 1) + x.StartTime).ToString(Settings.TimeFormat))
                 .ToArray();
 
-            return result.Any() ? Task.FromResult(result.AsEnumerable()) : ReturnResult<string>();
+            return result.Any() ? result.AsEnumerable() : ReturnResult<string>();
         }
 
         /// <inheritdoc/>
-        public async Task<bool> AddBooking(BookingDto bookingDto, int clientId)
+        public async Task<bool> AddBooking(BookingDto bookingDto, int clientId, CancellationToken token)
         {
-            var slots = _context.Slots?.Where(x => x.Expired == false).ToArray();
-            var bookings = _context.Bookings?.ToArray();
-            var services = _context.Services?.ToArray();
-
-            if (slots == null || bookings == null || services == null || bookingDto == null)
-                return false;
+            var slots = await _context.Slots.Where(x => x.Expired == false).ToArrayAsync(token);
+            var bookings = await _context.Bookings.ToArrayAsync(token);
+            var services = await _context.Services.ToArrayAsync(token);
 
             //Check if slots with our date and start time exists.
             //Than check if slots are available and not booked.
@@ -208,8 +194,8 @@ namespace PMFightAcademy.Client.Services
             var booking = BookingMapping.BookingMapFromContractToModel(bookingDto, yourSlot.Id, clientId, price.Price);
 
             //Save new booking
-            await _context.Bookings.AddAsync(booking);
-            await _context.SaveChangesAsync();
+            await _context.Bookings.AddAsync(booking, token);
+            await _context.SaveChangesAsync(token);
             return true;
         }
 
@@ -223,7 +209,7 @@ namespace PMFightAcademy.Client.Services
             {
                 return new GetDataContract<HistoryDto>()
                 {
-                    Data = await ReturnResult<HistoryDto>(),
+                    Data = ReturnResult<HistoryDto>(),
                     Paggination = new Paggination()
                     {
                         Page = page,
@@ -232,21 +218,21 @@ namespace PMFightAcademy.Client.Services
                 };
             }
 
-            var activeBookings = from booking in clientBookings
-                                 let date = booking.Slot.Date + booking.Slot.StartTime
-                                 where date.Subtract(now).TotalMinutes >= 0
-                                 orderby date
-                                 select new HistoryDto
-                                 (
-                                     booking.Service.Name,
-                                     booking.Slot.Date,
-                                     booking.Slot.StartTime,
-                                     booking.Slot.Coach.FirstName,
-                                     booking.Slot.Coach.LastName,
-                                     booking.Service.Price
-                                 );
+            var activeBookings = (from booking in clientBookings
+                                  let date = booking.Slot.Date + booking.Slot.StartTime
+                                  where date.Subtract(now).TotalMinutes >= 0
+                                  orderby date
+                                  select new HistoryDto
+                                  (
+                                      booking.Service.Name,
+                                      booking.Slot.Date,
+                                      booking.Slot.StartTime,
+                                      booking.Slot.Coach.FirstName,
+                                      booking.Slot.Coach.LastName,
+                                      booking.Service.Price
+                                  )).ToList();
 
-            var activeBookingsCount = (decimal)activeBookings.Count();
+            var activeBookingsCount = (decimal)activeBookings.Count;
 
             return new GetDataContract<HistoryDto>()
             {
@@ -269,7 +255,7 @@ namespace PMFightAcademy.Client.Services
             {
                 return new GetDataContract<HistoryDto>()
                 {
-                    Data = await ReturnResult<HistoryDto>(),
+                    Data = ReturnResult<HistoryDto>(),
                     Paggination = new Paggination()
                     {
                         Page = page,
@@ -278,21 +264,21 @@ namespace PMFightAcademy.Client.Services
                 };
             }
 
-            var activeBookings = from booking in clientBookings
-                                 let date = booking.Slot.Date + booking.Slot.StartTime
-                                 where date.Subtract(now).TotalMinutes < 0
-                                 orderby date descending
-                                 select new HistoryDto
-                                 (
-                                     booking.Service.Name,
-                                     booking.Slot.Date,
-                                     booking.Slot.StartTime,
-                                     booking.Slot.Coach.FirstName,
-                                     booking.Slot.Coach.LastName,
-                                     booking.Service.Price
-                                 );
+            var activeBookings = (from booking in clientBookings
+                                  let date = booking.Slot.Date + booking.Slot.StartTime
+                                  where date.Subtract(now).TotalMinutes < 0
+                                  orderby date descending
+                                  select new HistoryDto
+                                  (
+                                      booking.Service.Name,
+                                      booking.Slot.Date,
+                                      booking.Slot.StartTime,
+                                      booking.Slot.Coach.FirstName,
+                                      booking.Slot.Coach.LastName,
+                                      booking.Service.Price
+                                  )).ToList();
 
-            var activeBookingsCount = (decimal)activeBookings.Count();
+            var activeBookingsCount = (decimal)activeBookings.Count;
 
             return new GetDataContract<HistoryDto>()
             {
@@ -316,9 +302,9 @@ namespace PMFightAcademy.Client.Services
             return await bookings.Where(booking => booking.ClientId == clientId).ToListAsync(token);
         }
 
-        private static Task<IEnumerable<T>> ReturnResult<T>()
+        private static IEnumerable<T> ReturnResult<T>()
         {
-            return Task.FromResult(new List<T>().AsEnumerable());
+            return new List<T>().AsEnumerable();
         }
     }
 }
