@@ -15,6 +15,10 @@ namespace PMFightAcademy.Admin.Mapping
         /// <returns>Converted <see cref="ClientContract"/> client.</returns>
         public static ClientContract ClientMapFromModelToContract(Client client)
         {
+            if (client == null)
+            {
+                return null;
+            }
             return new ClientContract()
             {
                 Id = client.Id,
