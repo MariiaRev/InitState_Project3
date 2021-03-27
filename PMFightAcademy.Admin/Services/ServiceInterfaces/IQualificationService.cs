@@ -41,5 +41,21 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<IEnumerable<Service>> GetServicesForCoach(int coachId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Get Qualifications for Coach
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<QualificationContract>> GetQualificationsForCoach(int coachId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Get Qualifications for service
+        /// </summary>
+        /// <param name="serviceId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<QualificationContract>> GetQualificationsForService(int serviceId, CancellationToken cancellationToken);
     }
 }

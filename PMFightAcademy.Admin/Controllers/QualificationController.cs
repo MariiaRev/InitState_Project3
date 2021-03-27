@@ -24,7 +24,7 @@ namespace PMFightAcademy.Admin.Controllers
 
 
         /// <summary>
-        /// Constuctor
+        /// Constructor
         /// </summary>
         /// <param name="qualificationService"></param>
         public QualificationController(IQualificationService qualificationService)
@@ -44,10 +44,68 @@ namespace PMFightAcademy.Admin.Controllers
         /// <remarks>
         /// Return qualifications for coach
         /// </remarks>
+        [HttpGet("coach/qualification/{coachId}")]
+        [ProducesResponseType(typeof(IEnumerable<QualificationContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetQualificationForCoach(
+            [FromRoute, Range(1, int.MaxValue)] int coachId,
+            CancellationToken cancellationToken)
+        {
+
+            var services =
+                await _qualificationService.GetQualificationsForCoach(coachId, cancellationToken);
+            if (services.Any())
+            {
+                return Ok(services);
+            }
+
+            return NotFound("No elements");
+        }
+
+        /// <summary>
+        /// get list  qualifications  for Service
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> return a coach with such name
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+        /// </returns>
+        /// <remarks>
+        /// Return qualifications for Service
+        /// </remarks>
+        [HttpGet("service/qualification/{serviceId}")]
+        [ProducesResponseType(typeof(IEnumerable<QualificationContract>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        public async Task<IActionResult> GetQualificationForService(
+            [FromRoute, Range(1, int.MaxValue)] int serviceId,
+            CancellationToken cancellationToken)
+        {
+            var services =
+                await _qualificationService.GetQualificationsForService(serviceId, cancellationToken);
+            if (services.Any())
+            {
+                return Ok(services);
+            }
+
+            return NotFound("No elements");
+        }
+
+        /// <summary>
+        /// get list  Service  for Coach
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns>
+        /// <see cref="HttpStatusCode.OK"/> return a coach with such name
+        /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
+        /// </returns>
+        /// <remarks>
+        /// Return qualifications for coach
+        /// </remarks>
         [HttpGet("coach/{coachId}")]
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetQualificationForCoach(
+        public async Task<IActionResult> GetServiceForCoach(
             [FromRoute, Range(1, int.MaxValue)] int coachId,
             CancellationToken cancellationToken)
         {
@@ -63,7 +121,7 @@ namespace PMFightAcademy.Admin.Controllers
         }
 
         /// <summary>
-        /// get list of  qualifications for Service
+        /// get list of  coach for Service
         /// </summary>
         /// <param name="serviceId"></param>
         /// <param name="cancellationToken"></param>
@@ -72,12 +130,12 @@ namespace PMFightAcademy.Admin.Controllers
         /// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet
         /// </returns>
         /// <remarks>
-        /// Return qualifications for services
+        /// Return coach for services
         /// </remarks>
         [HttpGet("service/{serviceId}")]
         [ProducesResponseType(typeof(IEnumerable<CoachContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetQualificationForService(
+        public async Task<IActionResult> GetCoachForService(
             [FromRoute, Range(1, int.MaxValue)] int serviceId,
             CancellationToken cancellationToken)
         {
@@ -90,7 +148,6 @@ namespace PMFightAcademy.Admin.Controllers
             }
 
             return NotFound("No elements");
-
         }
 
         /// <summary>
