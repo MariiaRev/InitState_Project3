@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
-using PMFightAcademy.Client.DataBase;
-using PMFightAcademy.Client.Models;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Client.Services;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +16,12 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 {
     public class BookingServiceTests
     {
-        private Mock<ClientContext> _clientContextMock;
+        private Mock<ApplicationContext> _clientContextMock;
         private IBookingService _testedService;
         private void Setup()
         {
-            var options = new DbContextOptionsBuilder<ClientContext>().Options;
-            _clientContextMock = new Mock<ClientContext>(options);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
+            _clientContextMock = new Mock<ApplicationContext>(options);
             _testedService = new BookingService(_clientContextMock.Object);
         }
 

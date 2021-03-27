@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
@@ -20,10 +20,10 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var services = new List<Service>(){ expectedService };
 
-            var options = new DbContextOptionsBuilder<AdminContext>()
+            var options = new DbContextOptionsBuilder<ApplicationContext>()
                 .Options;
 
-            var serviceContextMock = new Mock<AdminContext>(options);
+            var serviceContextMock = new Mock<ApplicationContext>(options);
             serviceContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
             IServiceService service = new ServiceService(serviceContextMock.Object);
@@ -40,10 +40,10 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var services = new List<Service>(){ serviceIn };
 
-            var options = new DbContextOptionsBuilder<AdminContext>()
+            var options = new DbContextOptionsBuilder<ApplicationContext>()
                 .Options;
 
-            var serviceContextMock = new Mock<AdminContext>(options);
+            var serviceContextMock = new Mock<ApplicationContext>(options);
             serviceContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
             var serviceToAdd = new Service() { Id = 2, Name = "TestService", Description = "top serv", Price = 5555 };
