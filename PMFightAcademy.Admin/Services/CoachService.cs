@@ -17,8 +17,6 @@ namespace PMFightAcademy.Admin.Services
     {
         private readonly AdminContext _dbContext;
 
-
-
         /// <summary>
         /// Constructor
         /// </summary>
@@ -55,14 +53,21 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public async Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
+        public async Task<bool> AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
+            var checkCoach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachContract.Id);
+
+            if (checkCoach!=null)
+            {
+                return false;
+            }
+
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
 
             var age = (int)(DateTime.Now.Subtract(coach.BirthDate).TotalDays / 365.2425);
 
             if (age < 18 || age > 90)
-                throw new ArgumentException("Age is not correct");
+                return false;
 
             try
             {
@@ -71,8 +76,10 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
-                throw new ArgumentException("Coach is already registered");
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
@@ -101,7 +108,6 @@ namespace PMFightAcademy.Admin.Services
 
             return true;
 
-
         }
 
         /// <summary>
@@ -111,6 +117,14 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
+
+            var checkCoach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachContract.Id);
+
+            if (checkCoach == null)
+            {
+                return false;
+            }
+
             var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
 
             var age = (int)(DateTime.Now.Subtract(coach.BirthDate).TotalDays / 365.2425);

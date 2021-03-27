@@ -44,9 +44,11 @@ namespace PMFightAcademy.Admin.Services
         /// /// <param name="token"></param>
         public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoach(int coachId, CancellationToken token)
         {
+
             var bookings = await _dbContext.Bookings.ToListAsync(token);
             var result = bookings.Where(x => x.Slot.CoachId == coachId).ToArray();
             return result.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+
         }
 
         /// <summary>
@@ -56,6 +58,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="token"></param>
         public async Task<IEnumerable<BookingReturnContract>> TakeBookingOnClient(int clientId, CancellationToken token)
         {
+
             var bookings = await _dbContext.Bookings.ToListAsync(token);
             var result = bookings.Where(x => x.ClientId == clientId);
             return result.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x)); ;
@@ -99,6 +102,7 @@ namespace PMFightAcademy.Admin.Services
         //{
         //    var bookings = await _dbContext.Bookings.ToListAsync(token);
 
+
         //    if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
         //        return new List<BookingReturnContract>();
 
@@ -112,7 +116,6 @@ namespace PMFightAcademy.Admin.Services
 
         //    return result.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
         //}
-
         ///// <summary>
         ///// Take coaches depends from date
         ///// </summary>

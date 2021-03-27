@@ -48,6 +48,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <returns></returns>
         public Task<bool> UpdateBooking(BookingReturnContract slotReturnContract, CancellationToken cancellationToken);
 
+
         ///// <summary>
         ///// 
         ///// </summary>

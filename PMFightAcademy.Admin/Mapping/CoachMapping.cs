@@ -26,7 +26,7 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = contract.Id,
                 FirstName = contract.FirstName,
                 LastName = contract.LastName,
-                BirthDate = DateTime.ParseExact(contract.DateBirth, "MM.dd.yyyy", CultureInfo.CurrentCulture, DateTimeStyles.None),
+                BirthDate = DateTime.ParseExact(contract.DateBirth, Settings.DateFormat, null, DateTimeStyles.None),
                 Description = contract.Description,
                 PhoneNumber = contract.PhoneNumber
             };
@@ -48,7 +48,7 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = model.Id,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                DateBirth = model.BirthDate.ToString("MM.dd.yyyy"),
+                DateBirth = model.BirthDate.ToString(Settings.DateFormat),
                 Description = model.Description,
                 PhoneNumber = model.PhoneNumber
             };
