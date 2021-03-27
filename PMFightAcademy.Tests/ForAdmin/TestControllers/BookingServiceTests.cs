@@ -1,15 +1,16 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Moq.EntityFrameworkCore;
-using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Dal.Models;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 namespace PMFightAcademy.Tests.ForAdmin.TestControllers
@@ -18,12 +19,13 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
     {
         private Mock<ApplicationContext> _applicationContextMock;
         private IBookingService _testedService;
+        private static readonly ILogger<BookingService> Logger = new Logger<BookingService>(new NullLoggerFactory()); 
 
         private void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
             _applicationContextMock = new Mock<ApplicationContext>(options);
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
         }
 
         [Fact]
@@ -35,7 +37,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.TakeAllBooking(CancellationToken.None);
 
@@ -51,7 +53,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.TakeBookingForCoach(1, CancellationToken.None);
 
@@ -67,7 +69,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.TakeBookingForCoach(1, CancellationToken.None);
 
@@ -87,7 +89,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.TakeBookingOnClient(1, CancellationToken.None);
 
@@ -107,7 +109,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.TakeBookingOnClient(3, CancellationToken.None);
 
@@ -127,7 +129,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var bookingDto = new BookingUpdateContract()
             {
@@ -155,7 +157,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.RemoveBooking(1, CancellationToken.None);
 
@@ -176,7 +178,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Bookings).ReturnsDbSet(bookings);
 
-            _testedService = new BookingService(_applicationContextMock.Object);
+            _testedService = new BookingService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.RemoveBooking(5, CancellationToken.None);
 

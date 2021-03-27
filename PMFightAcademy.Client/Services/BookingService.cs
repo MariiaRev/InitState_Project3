@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using static PMFightAcademy.Client.Mappings.CoachMapping;
 
 namespace PMFightAcademy.Client.Services
@@ -18,11 +19,13 @@ namespace PMFightAcademy.Client.Services
     /// </summary>
     public class BookingService : IBookingService
     {
+        private readonly ILogger<BookingService> _logger;
         private readonly ApplicationContext _context;
 
 #pragma warning disable 1591
-        public BookingService(ApplicationContext context)
+        public BookingService(ILogger<BookingService> logger, ApplicationContext context)
         {
+            _logger = logger;
             _context = context;
         }
 #pragma warning restore 1591
@@ -61,7 +64,10 @@ namespace PMFightAcademy.Client.Services
 
             //Check if service is real
             if (services.All(x => x.Id != serviceId))
+            {
+                _logger.LogInformation($"Services with id {serviceId} are not found");
                 return ReturnResult<CoachDto>();
+            }
 
             //Check if qualifications with our service Id exists 
             var coachesId = qualifications
@@ -75,7 +81,10 @@ namespace PMFightAcademy.Client.Services
                 var coach = coaches.FirstOrDefault(x => x.Id == item);
 
                 if (coach == null)
+                {
+                    _logger.LogInformation($"Coach with id {item} from qualifications is not found");
                     return ReturnResult<CoachDto>();
+                }
 
                 //Made CoachDto from coach
                 var coachDto = CoachToCoachDto(coach);
@@ -105,7 +114,7 @@ namespace PMFightAcademy.Client.Services
             var coaches = qualifications.Select(q => CoachWithServicesToCoachDto(q.Coach, allQualifications
                 .Where(x => x.CoachId == q.CoachId)
                 .Select(x => x.Service.Name)
-                .ToList()));
+                )).ToList();
 
             var coachesCount = (decimal)(coaches?.Count() ?? 0);
 
@@ -129,7 +138,10 @@ namespace PMFightAcademy.Client.Services
 
             //Check if the coach owns the services
             if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
+            {
+                _logger.LogInformation($"Qualifications with coach id is {coachId} and service id is {serviceId} are not found");
                 return ReturnResult<string>();
+            }
 
             //Find our coaches slots which is not already booked
             //and select only date 
@@ -151,7 +163,10 @@ namespace PMFightAcademy.Client.Services
             var bookings = await _context.Bookings.ToArrayAsync(token);
 
             if (!qualifications.Any(x => x.CoachId == coachId && x.ServiceId == serviceId))
+            {
+                _logger.LogInformation($"Qualifications with coach id is {coachId} and service id is {serviceId} are not found");
                 return ReturnResult<string>();
+            }
 
             //Check by slots by coach Id. Than check if slot is available and not booked.
             //And finally check if date in slot equals to your date.
@@ -181,13 +196,19 @@ namespace PMFightAcademy.Client.Services
                 .FirstOrDefault(x => x.CoachId == bookingDto.CoachId);
 
             if (yourSlot == null)
+            {
+                _logger.LogInformation($"Slot which client {clientId} want to book are not found or already booked");
                 return false;
+            }
 
             //Find price for our service
             var price = services.FirstOrDefault(x => x.Id == bookingDto.ServiceId);
 
             if (price == null)
+            {
+                _logger.LogInformation($"Service with id {bookingDto.ServiceId} are not found");
                 return false;
+            }
 
             //Convert bookingDto to Booking for db
             var booking = BookingMapping.BookingMapFromContractToModel(bookingDto, yourSlot.Id, clientId, price.Price);
@@ -206,8 +227,10 @@ namespace PMFightAcademy.Client.Services
 
             if (!clientBookings.Any())
             {
+                _logger.LogInformation($"Client {clientId} did not book any slots");
                 return new GetDataContract<HistoryDto>()
                 {
+
                     Data = ReturnResult<HistoryDto>(),
                     Paggination = new Paggination()
                     {
@@ -252,6 +275,7 @@ namespace PMFightAcademy.Client.Services
 
             if (!clientBookings.Any())
             {
+                _logger.LogInformation($"Client {clientId} did not book any slots");
                 return new GetDataContract<HistoryDto>()
                 {
                     Data = ReturnResult<HistoryDto>(),

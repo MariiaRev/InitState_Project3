@@ -84,7 +84,7 @@ namespace PMFightAcademy.Client.Controllers
         }
 
         /// <summary>
-        /// Get available services for client booking with paggination.
+        /// Get available services for client booking with pagination.
         /// </summary>
         /// <param name="pageSize">Services count per one page.</param>
         /// <param name="page">The current page number.</param>

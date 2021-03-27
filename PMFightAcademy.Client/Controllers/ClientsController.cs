@@ -28,13 +28,11 @@ namespace PMFightAcademy.Client.Controllers
     [SwaggerTag("This controller is for registration and login a client.")]
     public class ClientsController : ControllerBase
     {
-        private readonly ILogger<ClientsController> _logger;
         private readonly IClientsService _clientsService;
 
 #pragma warning disable 1591
-        public ClientsController(ILogger<ClientsController> logger, IClientsService clientsService)
+        public ClientsController(IClientsService clientsService)
         {
-            _logger = logger;
             _clientsService = clientsService;
         }
 #pragma warning restore 1591
@@ -64,10 +62,7 @@ namespace PMFightAcademy.Client.Controllers
         public async Task<IActionResult> Register([FromBody] ClientDto model, CancellationToken cancellationToken)
         {
             if (model == null)
-            {
-                _logger.LogInformation("RegModel is null");
                 return BadRequest();
-            }
 
             if (ModelState.IsValid)
             {
@@ -79,7 +74,6 @@ namespace PMFightAcademy.Client.Controllers
                 return Conflict();
             }
 
-            _logger.LogInformation("RegModel is not valid");
             return BadRequest();
 
         }
@@ -106,10 +100,7 @@ namespace PMFightAcademy.Client.Controllers
         public async Task<IActionResult> Login([FromBody] LoginContract model, CancellationToken cancellationToken)
         {
             if (model == null)
-            {
-                _logger.LogInformation("RegModel is null");
                 return BadRequest();
-            }
 
             if (ModelState.IsValid)
             {
@@ -121,7 +112,6 @@ namespace PMFightAcademy.Client.Controllers
                 return BadRequest();
             }
 
-            _logger.LogInformation("RegModel is not valid");
             return BadRequest();
         }
     }

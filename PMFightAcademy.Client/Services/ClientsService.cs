@@ -40,7 +40,6 @@ namespace PMFightAcademy.Client.Services
         /// <returns></returns>
         public async Task<string> Register(ClientDto model, CancellationToken token)
         {
-
             if (model.Login.StartsWith("38"))
                 model.Login = new string(model.Login.Skip(2).ToArray());
 
@@ -57,14 +56,14 @@ namespace PMFightAcademy.Client.Services
 
                 await _context.SaveChangesAsync(token);
 
-                var regUser = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
-                if (regUser != null)
-                    user = regUser;
+                _logger.LogInformation($"Client {model.Login} is added");
+
+                user = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
 
                 return Authenticate(user.Login, user.Id);
             }
 
-            _logger.LogInformation($"{model.Login} is already exist");
+            _logger.LogInformation($"Client {model.Login} is already exist");
             return string.Empty;
         }
 
@@ -86,7 +85,7 @@ namespace PMFightAcademy.Client.Services
 
             if (user == null)
             {
-                _logger.LogInformation("User not found");
+                _logger.LogInformation($"Client {model.Login} not found");
                 return string.Empty;
             }
 
