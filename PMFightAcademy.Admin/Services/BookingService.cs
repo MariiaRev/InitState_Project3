@@ -1,3 +1,4 @@
+using System;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System.Collections.Generic;
@@ -73,23 +74,25 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="bookingContract"></param>
         /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateBooking(
-            BookingReturnContract bookingContract, 
+            BookingUpdateContract bookingContract, 
             CancellationToken cancellationToken)
         {
+
             var checkNull = await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == bookingContract.Id, cancellationToken);
             if (checkNull == null)
             {
                 _logger.LogInformation($"Booking with id {bookingContract.Id} are not found");
                 return false;
             }
-            
-            var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
+
+            var booking = BookingMapping.BookingMapFromUpdateContractToModel(bookingContract, checkNull);
+
             try
             {
                 _dbContext.Update(booking);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch
+            catch( Exception e)
             {
                 _logger.LogInformation($"Booking with id {booking.Id} is not updated");
                 return false;

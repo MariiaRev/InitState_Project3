@@ -161,7 +161,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> UpdateBook(
-            BookingReturnContract newBookingReturn,
+            BookingUpdateContract newBookingReturn,
             CancellationToken cancellationToken)
         {
             var update = await _bookingService.UpdateBooking(newBookingReturn, cancellationToken);
