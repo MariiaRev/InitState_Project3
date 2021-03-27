@@ -35,10 +35,8 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<BookingReturnContract>> TakeAllBooking(CancellationToken token)
         {
-            var result = _dbContext.Bookings
-                .Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
-
-            return result;
+            var bookings =  _dbContext.Bookings.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+            return bookings;
         }
 
         /// <summary>
@@ -51,7 +49,7 @@ namespace PMFightAcademy.Admin.Services
             var bookings = _dbContext.Bookings
                 .Where(x => x.Slot.CoachId == coachId)
                 .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
-
+                
             return bookings;
         }
 
@@ -84,7 +82,7 @@ namespace PMFightAcademy.Admin.Services
                 _logger.LogInformation($"Booking with id {bookingContract.Id} are not found");
                 return false;
             }
-
+            
             var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
             try
             {

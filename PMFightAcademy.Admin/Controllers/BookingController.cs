@@ -30,37 +30,7 @@ namespace PMFightAcademy.Admin.Controllers
             _bookingService = bookingService;
         }
 
-        ///// <summary>
-        ///// Return all booked services
-        ///// </summary>
-        /////  <param name="pageSize">The count of books to return at one time.</param>
-        ///// <param name="page">The current page number.</param>
-        ///// <param name="cancellationToken"></param>
-        ///// <returns>
-        ///// <see cref="HttpStatusCode.OK"/>return list of slots what can be booked
-        ///// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
-        ///// <remarks>
-        ///// Return all booked services 
-        ///// if notFounded return NF
-        ///// </remarks>
-        //[HttpGet("{pageSize}/{page}")]
-        //[ProducesResponseType(typeof(GetDataContract<BookingReturnContract>), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> GetBookedServices([FromRoute] int pageSize,
-        //    [FromRoute] int page,
-        //    CancellationToken cancellationToken)
-        //{
-        //    try
-        //    {
-        //        var result = await _bookingService.GetBookedServices(pageSize, page);
-
-        //        return Ok(result);
-        //    }
-        //    catch (ArgumentException e)
-        //    {
-        //        return NotFound(e.Message);
-        //    }
-        //}
+        
 
         /// <summary>
         /// Return all booked services
@@ -203,6 +173,39 @@ namespace PMFightAcademy.Admin.Controllers
 
             return NotFound("No Booking ");
         }
+
+
+        ///// <summary>
+        ///// Return all booked services
+        ///// </summary>
+        /////  <param name="pageSize">The count of books to return at one time.</param>
+        ///// <param name="page">The current page number.</param>
+        ///// <param name="cancellationToken"></param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/>return list of slots what can be booked
+        ///// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
+        ///// <remarks>
+        ///// Return all booked services 
+        ///// if notFounded return NF
+        ///// </remarks>
+        //[HttpGet("{pageSize}/{page}")]
+        //[ProducesResponseType(typeof(GetDataContract<BookingReturnContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetBookedServices([FromRoute] int pageSize,
+        //    [FromRoute] int page,
+        //    CancellationToken cancellationToken)
+        //{
+        //    try
+        //    {
+        //        var result = await _bookingService.GetBookedServices(pageSize, page);
+
+        //        return Ok(result);
+        //    }
+        //    catch (ArgumentException e)
+        //    {
+        //        return NotFound(e.Message);
+        //    }
+        //}
 
         ///// <Not useble part for create book>
         ///// Get book services 

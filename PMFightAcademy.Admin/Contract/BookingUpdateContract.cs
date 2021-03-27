@@ -1,9 +1,11 @@
-﻿namespace PMFightAcademy.Admin.Contract
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace PMFightAcademy.Admin.Contract
 {
     /// <summary>
     /// Dto for create Workout
     /// </summary>
-    //public class BookingReturnContract
+    //public class BookingUpdateContract
     //{
     //    /// <summary>
     //    /// Id in db
@@ -28,7 +30,7 @@
     //    /// <summary>
     //    /// ResultPrice
     //    /// </summary>
-    //    [Range(0,100000)]
+    //    [Range(0, 100000)]
     //    public decimal ResultPrice { get; set; }
 
 
