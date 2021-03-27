@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using static PMFightAcademy.Client.Mappings.CoachMapping;
 
 namespace PMFightAcademy.Client.Services
@@ -16,13 +17,15 @@ namespace PMFightAcademy.Client.Services
     /// </summary>
     public class CoachesService : ICoachesService
     {
+        private readonly ILogger<CoachesService> _logger;
         private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor with DI.
         /// </summary>
-        public CoachesService(ApplicationContext dbContext)
+        public CoachesService(ILogger<CoachesService> logger, ApplicationContext dbContext)
         {
+            _logger = logger;
             _dbContext = dbContext;
         }
 
@@ -41,6 +44,7 @@ namespace PMFightAcademy.Client.Services
 
             if (coachesCount == 0)
             {
+                _logger.LogInformation($"Coaches with filter {filter} are not found");
                 return new GetDataContract<CoachDto>()
                 {
                     Data = new List<CoachDto>().AsEnumerable(),
