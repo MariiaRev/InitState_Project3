@@ -35,22 +35,18 @@ namespace PMFightAcademy.Admin.Mapping
         /// <param name="returnContract"></param>
         /// <param name="model"></param>
         /// <returns></returns>
-        //public static Booking BookingMapFromUpdateContractToModel(BookingUpdateContract returnContract, Booking model)
-        //{
-        //    if (returnContract == null)
-        //    {
-        //        return null;
-        //    }
-        //    return new Booking()
-        //    {
-        //        Id = returnContract.Id,
-        //        SlotId = returnContract.SlotId,
-        //        Slot = model.Slot,
-        //        ServiceId = returnContract.ServiceId,
-        //        ClientId = returnContract.ClientId,
-        //        ResultPrice = returnContract.ResultPrice
-        //    };
-        //}
+        public static Booking BookingMapFromUpdateContractToModel(BookingUpdateContract returnContract , Booking model)
+        {
+            if (returnContract == null)
+            {
+                return null;
+            }
+            model.ServiceId = returnContract.ServiceId;
+            model.ClientId = returnContract.ClientId;
+            model.ResultPrice = returnContract.ResultPrice;
+            return model;
+            
+        }
 
         /// <summary>
         /// From model to returnContract
@@ -74,20 +70,24 @@ namespace PMFightAcademy.Admin.Mapping
             };
         }
 
-        //public static BookingUpdateContract BookingMapFromModelTToUpdateContract(Booking model)
-        //{
-        //    if (model == null)
-        //    {
-        //        return null;
-        //    }
-        //    return new BookingUpdateContract()
-        //    {
-        //        Id = model.Id,
-        //        ClientId = model.ClientId,
-        //        ServiceId = model.ServiceId,
-        //        SlotId = model.SlotId,
-        //        ResultPrice = model.ResultPrice
-        //    };
-        //}
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static BookingUpdateContract BookingMapFromModelTToUpdateContract(Booking model)
+        {
+            if (model == null)
+            {
+                return null;
+            }
+            return new BookingUpdateContract()
+            {
+                Id = model.Id,
+                ClientId = model.ClientId,
+                ServiceId = model.ServiceId,
+                ResultPrice = model.ResultPrice
+            };
+        }
     }
 }
