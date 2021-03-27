@@ -34,36 +34,6 @@
             ResultPrice
             </summary>
         </member>
-        <member name="T:PMFightAcademy.Admin.Contract.BookingUpdateContract">
-            <summary>
-            Dto for create Workout
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingUpdateContract.Id">
-            <summary>
-            Id in db
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingUpdateContract.SlotId">
-            <summary>
-            Slot id
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingUpdateContract.ServiceId">
-            <summary>
-            Service id
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingUpdateContract.ClientId">
-            <summary>
-            Client 
-            </summary>
-        </member>
-        <member name="P:PMFightAcademy.Admin.Contract.BookingUpdateContract.ResultPrice">
-            <summary>
-            ResultPrice
-            </summary>
-        </member>
         <member name="T:PMFightAcademy.Admin.Contract.ClientContract">
             <summary>
             Client contract model.
@@ -711,14 +681,6 @@
             From Contract to model
             </summary>
             <param name="returnContract"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromUpdateContractToModel(PMFightAcademy.Admin.Contract.BookingUpdateContract,PMFightAcademy.Dal.Models.Booking)">
-            <summary>
-            update mapp
-            </summary>
-            <param name="returnContract"></param>
-            <param name="model"></param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Mapping.BookingMapping.BookingMapFromModelTToContract(PMFightAcademy.Dal.Models.Slot,PMFightAcademy.Dal.Models.Booking)">
