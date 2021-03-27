@@ -34,7 +34,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Migrations\" />
+    <ProjectReference Include="..\PMFightAcademy.Dal\PMFightAcademy.Dal.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,22 +3,22 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
 
 namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 {
     public class SlotServiceTest
     {
-        private Mock<AdminContext> _adminContextMock;
+        private Mock<ApplicationContext> _applicationContextMock;
         private ISlotService _testedService;
         private void Setup()
         {
-            var options = new DbContextOptionsBuilder<AdminContext>().Options;
-            _adminContextMock = new Mock<AdminContext>(options);
-            _testedService = new SlotService(_adminContextMock.Object);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
+            _applicationContextMock = new Mock<ApplicationContext>(options);
+            _testedService = new SlotService(_applicationContextMock.Object);
         }
 
         private static List<Slot> GenerateListOfSlots()

@@ -1,9 +1,8 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -17,15 +16,13 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class QualificationService : IQualificationService
     {
-        private readonly AdminContext _dbContext;
-
-
+        private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public QualificationService(AdminContext dbContext)
+        public QualificationService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
 
@@ -96,6 +93,7 @@ namespace PMFightAcademy.Admin.Services
         /// Get services
         /// </summary>
         /// <param name="coachId"></param>
+        /// <param name="token"></param>
         public async Task<IEnumerable<Service>> GetServicesForCoach(int coachId, CancellationToken token)
         {
             var qualifications = await _dbContext.Qualifications.ToListAsync(token);

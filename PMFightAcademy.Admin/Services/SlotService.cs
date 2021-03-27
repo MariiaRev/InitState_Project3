@@ -1,16 +1,15 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Mapping;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -19,17 +18,15 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class SlotService : ISlotService
     {
-        private readonly AdminContext _dbContext;
-
+        private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor 
         /// </summary>
         /// <param name="dbContext"></param>
-        public SlotService(AdminContext dbContext)
+        public SlotService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
-
         }
 
         /// <summary>
@@ -94,7 +91,7 @@ namespace PMFightAcademy.Admin.Services
                 throw new ArgumentException("some slots created in this time range , for this coach");
             }
 
-            List<Slot> slots = new List<Slot>();
+            var slots = new List<Slot>();
 
             while (slot.StartTime <= timeEnd)
             {
@@ -107,7 +104,7 @@ namespace PMFightAcademy.Admin.Services
 
                 };
                 slots.Add(resultSlot);
-                slot.StartTime = slot.StartTime + resultSlot.Duration;
+                slot.StartTime += resultSlot.Duration;
             }
 
             try
@@ -314,7 +311,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="date"></param>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllOnDate(string date)
         {
-            if (!DateTime.TryParseExact(date, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
+            if (!DateTime.TryParseExact(date, Settings.DateFormat, null, DateTimeStyles.None, out var dateStart))
                 return new List<SlotsReturnContract>();
 
             var slots = _dbContext.Slots.Where(x => x.Date == dateStart);
@@ -330,10 +327,10 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="end">Date to </param>
         public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start, string end)
         {
-            //var test = DateTime.ParseExact(start, "MM/dd/yyyy",CultureInfo.InvariantCulture);
-            if (!DateTime.TryParseExact(start, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateStart))
+            //var test = DateTime.ParseExact(start, Settings.DateFormat, CultureInfo.InvariantCulture);
+            if (!DateTime.TryParseExact(start, Settings.DateFormat, null, DateTimeStyles.None, out var dateStart))
                 return new List<SlotsReturnContract>();
-            if (!DateTime.TryParseExact(end, "MM.dd.yyyy", null, DateTimeStyles.None, out var dateEnd))
+            if (!DateTime.TryParseExact(end, Settings.DateFormat, null, DateTimeStyles.None, out var dateEnd))
                 return new List<SlotsReturnContract>();
 
             var slots = _dbContext.Slots.Select(x => x).Where(x => x.CoachId == coachId).Where(x => x.Date >= dateStart).Where(x => x.Date <= dateEnd);

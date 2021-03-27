@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PMFightAcademy.Client.Authorization;
-using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Client.Filters;
 using PMFightAcademy.Client.Services;
 
@@ -70,9 +70,8 @@ namespace PMFightAcademy.Client
                 options.Filters.Add(typeof(ExceptionFilter));
             });
 
-            services.AddDbContext<ClientContext>(options =>
-                options.UseNpgsql(
-                    Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
+            services.AddDbContext<ApplicationContext>(options =>
+                options.UseNpgsql(Configuration.GetConnectionString("ClientContext")), ServiceLifetime.Transient);
 
             services.AddSwaggerGen(c =>
             {

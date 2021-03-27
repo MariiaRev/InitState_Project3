@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
-using PMFightAcademy.Client.DataBase;
-using PMFightAcademy.Client.Models;
 using PMFightAcademy.Client.Services;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
 using Xunit;
 
 namespace PMFightAcademy.Tests.ForClient.TestControllers
@@ -15,13 +15,13 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
     public class CoachesServiceTests
     {
 
-        private Mock<ClientContext> _clientContextMock;
+        private Mock<ApplicationContext> _applicationContextMock;
         private ICoachesService _testedService;
         private void Setup()
         {
-            var options = new DbContextOptionsBuilder<ClientContext>().Options;
-            _clientContextMock = new Mock<ClientContext>(options);
-            _testedService = new CoachesService(_clientContextMock.Object);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
+            _applicationContextMock = new Mock<ApplicationContext>(options);
+            _testedService = new CoachesService(_applicationContextMock.Object);
         }
 
         [Fact]
@@ -40,10 +40,10 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             var expectedCoach = new Coach() { Id = 1, FirstName = "TestSlot", Description = "top serv", Qualifications = qualifications };
             var coaches = new List<Coach>() { expectedCoach };
 
-            _clientContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
-            _clientContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new CoachesService(_clientContextMock.Object);
+            _testedService = new CoachesService(_applicationContextMock.Object);
 
             var result = await _testedService.GetCoaches(1, 1, CancellationToken.None);
             var listData = result.Data.ToList();
@@ -67,10 +67,10 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             };
             var qualifications = new List<Qualification>() { qualification };
 
-            _clientContextMock.Setup(x => x.Coaches).ReturnsDbSet(new List<Coach>());
-            _clientContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(new List<Coach>());
+            _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new CoachesService(_clientContextMock.Object);
+            _testedService = new CoachesService(_applicationContextMock.Object);
 
             var result = await _testedService.GetCoaches(1, 1, CancellationToken.None);
             var listData = result.Data.ToList();

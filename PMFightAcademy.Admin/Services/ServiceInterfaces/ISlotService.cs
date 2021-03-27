@@ -1,5 +1,4 @@
-﻿using System;
-using PMFightAcademy.Admin.Contract;
+﻿using PMFightAcademy.Admin.Contract;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

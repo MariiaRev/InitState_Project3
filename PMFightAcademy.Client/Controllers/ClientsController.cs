@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
@@ -46,7 +47,7 @@ namespace PMFightAcademy.Client.Controllers
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> with <c>string</c> result message if client was successfully registered.
         /// <see cref="HttpStatusCode.BadRequest"/> if <paramref name="model"/> data is invalid.
-        /// <see cref="HttpStatusCode.Conflict"/> if <see cref="Models.Client.Login"/> already exists.
+        /// <see cref="HttpStatusCode.Conflict"/> if <see cref="Dal.Models.Client.Login"/> already exists.
         /// </returns>
         /// <remarks>
         /// Returns OK with
@@ -60,7 +61,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         [ProducesResponseType((int)HttpStatusCode.Conflict)]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] Models.Client model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register([FromBody] ClientDto model, CancellationToken cancellationToken)
         {
             if (model == null)
             {

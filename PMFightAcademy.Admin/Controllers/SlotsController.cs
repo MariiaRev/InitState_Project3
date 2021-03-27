@@ -2,7 +2,6 @@
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -238,7 +237,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> UpdateSlot(
-            [FromBody] SlotsCreateContract createSlots,
+            [FromBody] SlotsReturnContract createSlots,
             CancellationToken cancellationToken)
         {
             var update = await _slotService.UpdateSlot(createSlots, cancellationToken);

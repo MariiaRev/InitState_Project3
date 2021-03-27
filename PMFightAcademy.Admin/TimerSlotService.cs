@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using PMFightAcademy.Admin.DataBase;
+using PMFightAcademy.Dal.DataBase;
 using System;
 using System.Linq;
 using System.Threading;
@@ -43,7 +43,7 @@ namespace PMFightAcademy.Admin
         private async void UpdateSlotsTable(object obj)
         {
             using var scope = _serviceProvider.CreateScope();
-            await using var dbContext = scope.ServiceProvider.GetRequiredService<AdminContext>();
+            await using var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
             var saving = true;
             try
             {

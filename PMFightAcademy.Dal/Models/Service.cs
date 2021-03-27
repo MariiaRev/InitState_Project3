@@ -3,37 +3,37 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace PMFightAcademy.Admin.Models
+namespace PMFightAcademy.Dal.Models
 {
     /// <summary>
-    /// Service, workout 
+    /// Service model.
     /// </summary>
     [Table("Services")]
     public class Service
     {
         /// <summary>
-        /// Personal id , key
+        /// Service id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         /// <summary>
-        /// Service Title 
+        /// Service title.
         /// </summary>
         [Required(AllowEmptyStrings = false)]
         [StringLength(64, MinimumLength = 2)]
         public string Name { get; set; }
 
         /// <summary>
-        /// Description of Workout
+        /// Service description.
         /// </summary>
         public string Description { get; set; }
 
         /// <summary>
-        /// Workout price per hour 
+        /// Service price per hour.
         /// </summary>
         [Required]
-        [Range(1,100000)]
+        [Range(0, 100000)]
         public decimal Price { get; set; }
 
         /// <summary>

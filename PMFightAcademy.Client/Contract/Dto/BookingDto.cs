@@ -1,3 +1,4 @@
+using PMFightAcademy.Dal;
 using System.ComponentModel.DataAnnotations;
 
 namespace PMFightAcademy.Client.Contract.Dto

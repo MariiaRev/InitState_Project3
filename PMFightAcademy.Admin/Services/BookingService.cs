@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Dal.DataBase;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -15,14 +15,14 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class BookingService : IBookingService
     {
-        private readonly AdminContext _dbContext;
+        private readonly ApplicationContext _dbContext;
 
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public BookingService(AdminContext dbContext)
+        public BookingService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }

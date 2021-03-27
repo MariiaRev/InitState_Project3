@@ -1,42 +1,52 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Moq;
+using Moq.EntityFrameworkCore;
+using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Admin.Services;
+using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using PMFightAcademy.Dal.DataBase;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
-using Moq;
-using Moq.EntityFrameworkCore;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
-using PMFightAcademy.Admin.Services;
-using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Xunit;
 
 namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 {
     public class ClientServiceTest
     {
-        private Mock<AdminContext> _adminContextMock;
+        private Mock<ApplicationContext> _applicationContextMock;
         private IClientService _testedService;
         private void Setup()
         {
-            var options = new DbContextOptionsBuilder<AdminContext>().Options;
-            _adminContextMock = new Mock<AdminContext>(options);
-            _testedService = new ClientService(_adminContextMock.Object);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
+            _applicationContextMock = new Mock<ApplicationContext>(options);
+            _testedService = new ClientService(_applicationContextMock.Object);
         }
 
-        private static List<Admin.Models.Client> GenerateListOfClients()
+        private static List<ClientContract> GenerateListOfClientsContracts()
         {
-            return new List<Admin.Models.Client>()
+            return new List<ClientContract>()
             {
-                new Admin.Models.Client() {Id = 1, Description = "Client one ", Login= "+380145674584"},
-                new Admin.Models.Client() {Id = 2, Description = "Client two ", Login= "+380125670584"},
-                new Admin.Models.Client() {Id = 3, Description = "Client three ", Login= "+380146674580"},
-                new Admin.Models.Client() {Id = 4, Description = "Client four ", Login= "+380125674594"}
+                new () {Id = 1, Description = "Client one ", Login= "+380145674584"},
+                new () {Id = 2, Description = "Client two ", Login= "+380125670584"},
+                new () {Id = 3, Description = "Client three ", Login= "+380146674580"},
+                new () {Id = 4, Description = "Client four ", Login= "+380125674594"}
             };
 
         }
 
+        private static List<Dal.Models.Client> GenerateListOfClients()
+        {
+            return new List<Dal.Models.Client>()
+            {
+                new () {Id = 1, Description = "Client one ", Login= "+380145674584"},
+                new () {Id = 2, Description = "Client two ", Login= "+380125670584"},
+                new () {Id = 3, Description = "Client three ", Login= "+380146674580"},
+                new () {Id = 4, Description = "Client four ", Login= "+380125674594"}
+            };
+
+        }
         [Fact]
         public async Task Take_All_Clients()
         {
@@ -44,13 +54,15 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            _adminContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+            var clientsContact = GenerateListOfClientsContracts();
 
-            _testedService = new ClientService(_adminContextMock.Object);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+
+            _testedService = new ClientService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllClients()).ToList();
 
-            Assert.Equal(clients,result);
+            Assert.Equal(clientsContact, result);
         }
 
         [Fact]
@@ -60,13 +72,15 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            _adminContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+            var clientsContact = GenerateListOfClientsContracts();
 
-            _testedService = new ClientService(_adminContextMock.Object);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+
+            _testedService = new ClientService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllClients()).FirstOrDefault();
 
-            Assert.Equal(clients.FirstOrDefault(), result);
+            Assert.Equal(clientsContact.FirstOrDefault(), result);
         }
 
         [Fact]
@@ -76,9 +90,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            _adminContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_adminContextMock.Object);
+            _testedService = new ClientService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllClients()).Count() ;
 
@@ -96,13 +110,15 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            _adminContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+            var clientsContact = GenerateListOfClientsContracts();
 
-            _testedService = new ClientService(_adminContextMock.Object);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+
+            _testedService = new ClientService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeClient(id));
 
-            Assert.Equal(clients[id-1], result);
+            Assert.Equal(clientsContact[id-1], result);
         }
 
         [Theory]
@@ -116,9 +132,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            _adminContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_adminContextMock.Object);
+            _testedService = new ClientService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeClient(id));
 
@@ -136,9 +152,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            _adminContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_adminContextMock.Object);
+            _testedService = new ClientService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddDescription(id,"AnyDisc",CancellationToken.None));
 
@@ -156,9 +172,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            _adminContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_adminContextMock.Object);
+            _testedService = new ClientService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddDescription(id, "AnyDisc", CancellationToken.None));
 

@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Moq;
 using Moq.EntityFrameworkCore;
 using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
 using Xunit;
 
 namespace PMFightAcademy.Tests.ForAdmin.TestControllers
@@ -18,13 +18,13 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
     public class CoachServiceTests
     {
 
-        private Mock<AdminContext> _adminContextMock;
+        private Mock<ApplicationContext> _applicationContextMock;
         private ICoachService _testedService;
         private void Setup()
         {
-            var options = new DbContextOptionsBuilder<AdminContext>().Options;
-            _adminContextMock = new Mock<AdminContext>(options);
-            _testedService = new CoachService(_adminContextMock.Object);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
+            _applicationContextMock = new Mock<ApplicationContext>(options);
+            _testedService = new CoachService(_applicationContextMock.Object);
         }
 
         private static List<Coach> GenerateListOfCoches()
@@ -59,9 +59,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var coachesContract = GenerateListOfCoachesContract();
             
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllCoaches()).ToList();
 
@@ -83,9 +83,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var coachesContract = GenerateListOfCoachesContract();
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllCoaches()).ToList();
 
@@ -113,9 +113,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var expectedCoach = coachesContract[id - 1];
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeCoach(id));
 
@@ -140,9 +140,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var coachesContract = GenerateListOfCoachesContract();
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeCoach(id));
             
@@ -157,9 +157,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var coaches = GenerateListOfCoches();
 
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllCoaches()).ToList();
 
@@ -179,9 +179,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 Id = 0, PhoneNumber = "+380145674584"
             };
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach,CancellationToken.None));
 
@@ -210,9 +210,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 PhoneNumber = "+380145674584"
             };
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach, CancellationToken.None));
 
@@ -242,9 +242,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 PhoneNumber = "+380145674584"
             };
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach, CancellationToken.None));
 
@@ -273,9 +273,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 PhoneNumber = "+380145674584"
             };
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach, CancellationToken.None));
 
@@ -304,9 +304,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 PhoneNumber = "+380145674584"
             };
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.UpdateCoach(newCoach, CancellationToken.None));
 
@@ -336,9 +336,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 PhoneNumber = "+380145674584"
             };
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.UpdateCoach(newCoach, CancellationToken.None));
 
@@ -359,9 +359,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var coaches = GenerateListOfCoches();
 
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.DeleteCoach(id, CancellationToken.None));
 
@@ -381,9 +381,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var coaches = GenerateListOfCoches();
 
 
-            _adminContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
+            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_adminContextMock.Object);
+            _testedService = new CoachService(_applicationContextMock.Object);
 
             var result = (await _testedService.DeleteCoach(id, CancellationToken.None));
 

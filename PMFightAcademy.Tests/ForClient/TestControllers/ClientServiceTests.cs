@@ -1,31 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Moq.EntityFrameworkCore;
 using PMFightAcademy.Client.Contract;
-using PMFightAcademy.Client.DataBase;
+using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
+using PMFightAcademy.Dal.DataBase;
 using Xunit;
 
 namespace PMFightAcademy.Tests.ForClient.TestControllers
 {
     public class ClientServiceTests
     {
-        private Mock<ClientContext> _clientContextMock;
+        private Mock<ApplicationContext> _applicationContextMock;
         private IClientsService _testedService;
         private static readonly ILogger<ClientsService> Logger = new Logger<ClientsService>(new LoggerFactory());
         private void Setup()
         {
-            var options = new DbContextOptionsBuilder<ClientContext>().Options;
-            _clientContextMock = new Mock<ClientContext>(options);
-            _testedService = new ClientsService(Logger, _clientContextMock.Object);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
+            _applicationContextMock = new Mock<ApplicationContext>(options);
+            _testedService = new ClientsService(Logger, _applicationContextMock.Object);
         }
 
         [Theory]
@@ -37,11 +34,11 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         {
             Setup();
 
-            _clientContextMock.Setup(x => x.Clients).ReturnsDbSet(new List<Client.Models.Client>());
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(new List<Dal.Models.Client>());
 
-            _testedService = new ClientsService(Logger, _clientContextMock.Object);
+            _testedService = new ClientsService(Logger, _applicationContextMock.Object);
 
-            var model = new Client.Models.Client()
+            var model = new ClientDto()
             {
                 Login = phone,
                 Password = password,
@@ -61,7 +58,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         {
             Setup();
 
-            var listClients = new List<Client.Models.Client>()
+            var listClients = new List<Dal.Models.Client>()
             {
                 new()
                 {
@@ -69,11 +66,11 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 }
             };
 
-            _clientContextMock.Setup(x => x.Clients).ReturnsDbSet(listClients);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(listClients);
 
-            _testedService = new ClientsService(Logger, _clientContextMock.Object);
+            _testedService = new ClientsService(Logger, _applicationContextMock.Object);
 
-            var model = new Client.Models.Client()
+            var model = new ClientDto()
             {
                 Login = phone,
                 Password = password,
@@ -94,7 +91,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         {
             Setup();
 
-            var listClients = new List<Client.Models.Client>()
+            var listClients = new List<Dal.Models.Client>()
             {
                 new()
                 {
@@ -104,9 +101,9 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 }
             };
 
-            _clientContextMock.Setup(x => x.Clients).ReturnsDbSet(listClients);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(listClients);
 
-            _testedService = new ClientsService(Logger, _clientContextMock.Object);
+            _testedService = new ClientsService(Logger, _applicationContextMock.Object);
 
             var model = new LoginContract()
             {
@@ -127,7 +124,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         {
             Setup();
 
-            var listClients = new List<Client.Models.Client>()
+            var listClients = new List<Dal.Models.Client>()
             {
                 new()
                 {
@@ -137,9 +134,9 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 }
             };
 
-            _clientContextMock.Setup(x => x.Clients).ReturnsDbSet(listClients);
+            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(listClients);
 
-            _testedService = new ClientsService(Logger, _clientContextMock.Object);
+            _testedService = new ClientsService(Logger, _applicationContextMock.Object);
 
             var model = new LoginContract()
             {

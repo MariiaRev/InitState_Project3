@@ -12,11 +12,12 @@ namespace PMFightAcademy.Admin.Contract
         /// </summary>
         [Range(0, int.MaxValue)]
         public int Id { get; set; }
+
         /// <summary>
         /// Slot id
         /// </summary>
-
         public SlotsReturnContract Slot { get; set; }
+
         /// <summary>
         /// Service id
         /// </summary>

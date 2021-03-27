@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
@@ -72,8 +72,6 @@ namespace PMFightAcademy.Admin.Controllers
                 return Ok(services);
             }
             return NotFound("No services");
-
-
         }
         /// <summary>
         /// Get needed service 

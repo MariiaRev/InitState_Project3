@@ -1,4 +1,4 @@
-﻿namespace PMFightAcademy.Client
+﻿namespace PMFightAcademy.Dal
 {
     /// <summary>
     /// Class with constant settings.

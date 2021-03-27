@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using PMFightAcademy.Dal;
 
 namespace PMFightAcademy.Admin.Contract
 {
@@ -7,8 +8,12 @@ namespace PMFightAcademy.Admin.Contract
     /// </summary>
     public class SlotsReturnContract
     {
+        /// <summary>
+        /// Id.
+        /// </summary>
         [Range(0, int.MaxValue)]
         public int Id { get; set; }
+
         /// <summary>
         /// Coach Id
         /// </summary>
@@ -30,6 +35,5 @@ namespace PMFightAcademy.Admin.Contract
         /// </summary>
         [RegularExpression(Settings.TimeRegularExpr)]
         public string Duration { get; set; }
-
     }
 }

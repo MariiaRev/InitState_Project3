@@ -1,5 +1,6 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal;
+using PMFightAcademy.Dal.Models;
 using System;
 using System.Globalization;
 

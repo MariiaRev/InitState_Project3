@@ -1,9 +1,8 @@
 ﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal;
+using PMFightAcademy.Dal.Models;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 
 namespace PMFightAcademy.Admin.Mapping
 {
@@ -75,8 +74,5 @@ namespace PMFightAcademy.Admin.Mapping
             };
 
         }
-
-
-
     }
 }

@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Moq;
 using Moq.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
+using PMFightAcademy.Dal.DataBase;
+using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Xunit;
@@ -15,13 +15,13 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 {
     public class ServicesServicesTests
     {
-        private Mock<AdminContext> _adminContextMock;
+        private Mock<ApplicationContext> _applicationContextMock;
         private IServiceService _testedService;
         private void Setup()
         {
-            var options = new DbContextOptionsBuilder<AdminContext>().Options;
-            _adminContextMock = new Mock<AdminContext>(options);
-            _testedService = new ServiceService(_adminContextMock.Object);
+            var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
+            _applicationContextMock = new Mock<ApplicationContext>(options);
+            _testedService = new ServiceService(_applicationContextMock.Object);
         }
 
         private static List<Service> GenerateListOfServices()
@@ -44,9 +44,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var services = GenerateListOfServices();
             var expectedService = services.First();
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllServices()).ToList();
 
@@ -55,6 +55,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
         }
 
         [Fact]
+
         public async Task Take_All_Service_Check_Count()
         {
             Setup();
@@ -62,9 +63,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var services = GenerateListOfServices();
             var expectedCount = services.Count;
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllServices()).ToList();
 
@@ -83,9 +84,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var services = GenerateListOfServices();
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeService(id));
 
@@ -105,9 +106,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var services = GenerateListOfServices();
 
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.TakeService(id));
 
@@ -125,9 +126,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var services = GenerateListOfServices();
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.DeleteService(id,CancellationToken.None));
 
@@ -146,9 +147,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var services = GenerateListOfServices();
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.DeleteService(id, CancellationToken.None));
 
@@ -171,9 +172,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 Price = 1555
             };
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.UpdateService(newService, CancellationToken.None));
 
@@ -191,9 +192,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var services = GenerateListOfServices();
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.UpdateService(services[id-1], CancellationToken.None));
 
@@ -220,9 +221,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 Price = 1555
             };
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.UpdateService(newService, CancellationToken.None));
 
@@ -249,9 +250,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 Price = 1555
             };
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddService(newService, CancellationToken.None));
 
@@ -278,15 +279,14 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 Price = 1555
             };
 
-            _adminContextMock.Setup(x => x.Services).ReturnsDbSet(services);
+            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
 
-            _testedService = new ServiceService(_adminContextMock.Object);
+            _testedService = new ServiceService(_applicationContextMock.Object);
 
             var result = (await _testedService.AddService(newService, CancellationToken.None));
 
             Assert.True(result);
 
         }
-
     }
 }

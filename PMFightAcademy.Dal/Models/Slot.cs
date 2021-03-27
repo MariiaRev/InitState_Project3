@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace PMFightAcademy.Client.Models
+namespace PMFightAcademy.Dal.Models
 {
     /// <summary>
     /// Slot model.
@@ -17,7 +17,6 @@ namespace PMFightAcademy.Client.Models
         /// Slot id.
         /// </summary>
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        [JsonIgnore]
         public int Id { get; set; }
 
         /// <summary>
@@ -33,7 +32,7 @@ namespace PMFightAcademy.Client.Models
         public TimeSpan StartTime { get; set; }
 
         /// <summary>
-        /// Duration of slot.
+        /// TimeEnd of slot.
         /// </summary>
         [Required]
         public TimeSpan Duration { get; set; }

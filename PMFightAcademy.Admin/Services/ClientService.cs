@@ -1,10 +1,11 @@
-﻿using PMFightAcademy.Admin.DataBase;
-using PMFightAcademy.Admin.Models;
+﻿using PMFightAcademy.Admin.Contract;
+using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using static PMFightAcademy.Admin.Mapping.ClientMapping;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -13,34 +14,34 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class ClientService : IClientService
     {
-        private readonly AdminContext _dbContext;
+        private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        public ClientService(AdminContext dbContext)
+        public ClientService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
         }
+
         /// <summary>
         /// Take coaches
         /// </summary>
-        public async Task<IEnumerable<Client>> TakeAllClients()
+        public async Task<IEnumerable<ClientContract>> TakeAllClients()
         {
-            var clients = _dbContext.Clients;
+            var clients = _dbContext.Clients.Select(cl => ClientMapFromModelToContract(cl));
             return clients.AsEnumerable();
         }
-
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="clientId"></param>
-        public async Task<Client> TakeClient(int clientId)
+        public async Task<ClientContract> TakeClient(int clientId)
         {
             var client = _dbContext.Clients.FirstOrDefault(x => x.Id == clientId);
-            return client;
+            return ClientMapFromModelToContract(client);
         }
 
         /// <summary>
@@ -48,6 +49,7 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="desc"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public async Task<bool> AddDescription(int clientId, string desc, CancellationToken cancellationToken)
         {
@@ -56,7 +58,6 @@ namespace PMFightAcademy.Admin.Services
             client.Description = desc;
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;
-
         }
     }
 }

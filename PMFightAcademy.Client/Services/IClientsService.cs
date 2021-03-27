@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using PMFightAcademy.Client.Contract;
+using PMFightAcademy.Client.Contract.Dto;
 
 namespace PMFightAcademy.Client.Services
 {
@@ -15,7 +16,7 @@ namespace PMFightAcademy.Client.Services
         /// <param name="model"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        Task<string> Register(Models.Client model, CancellationToken token);
+        Task<string> Register(ClientDto model, CancellationToken token);
 
         /// <summary>
         /// Log in in a registered client.

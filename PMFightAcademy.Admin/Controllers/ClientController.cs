@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PMFightAcademy.Admin.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Collections.Generic;
@@ -8,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using PMFightAcademy.Admin.Contract;
 
 namespace PMFightAcademy.Admin.Controllers
 {
@@ -61,7 +61,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <see cref="HttpStatusCode.NotFound"/> if no any clients
         /// </returns>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<Client>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(IEnumerable<ClientContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetAllClients()
         {
@@ -86,7 +86,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// For get one client 
         /// </remarks>
         [HttpGet("{id}")]
-        [ProducesResponseType(typeof(Client), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(ClientContract), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> GetClient([Range(1, int.MaxValue)] int id)
         {
@@ -125,6 +125,5 @@ namespace PMFightAcademy.Admin.Controllers
             }
             return NotFound("Description not added, or client not found");
         }
-
     }
 }
