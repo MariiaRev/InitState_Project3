@@ -265,7 +265,6 @@ namespace PMFightAcademy.Admin.Services
             //var slots = SlotsMapping.SlotMapFromModelToContractNewSlotsJS(_dbContext.Slots);
 
             var slots = _dbContext.Slots.Select(SlotsMapping.SlotMapFromModelToContract);
-
             return slots.AsEnumerable();
         }
 
