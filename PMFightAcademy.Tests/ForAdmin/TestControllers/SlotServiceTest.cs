@@ -62,7 +62,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
-            _testedService = new SlotService(_applicationContextMock.Object);
+            _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
             
 
@@ -91,7 +91,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
-            _testedService = new SlotService(_applicationContextMock.Object);
+            _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
             var result = await _testedService.TakeAllSlots();
 
@@ -121,7 +121,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
-            _testedService = new SlotService(_applicationContextMock.Object);
+            _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
             var result = await _testedService.AddListOfSlots(slotsAdd,CancellationToken.None);
 
@@ -138,7 +138,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
-            _testedService = new SlotService(_applicationContextMock.Object);
+            _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
             var result = await _testedService.AddListOfSlots(EmptyList, CancellationToken.None);
 
@@ -155,7 +155,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
-            _testedService = new SlotService(_applicationContextMock.Object);
+            _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
             var result = await _testedService.RemoveSlotRange(EmptyList, CancellationToken.None);
 
@@ -175,7 +175,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
-            _testedService = new SlotService(_applicationContextMock.Object);
+            _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
             var result = await _testedService.RemoveSlotRange(ByOneList, CancellationToken.None);
 
@@ -196,7 +196,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
-            _testedService = new SlotService(_applicationContextMock.Object);
+            _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
             var result = await _testedService.RemoveSlot(id, CancellationToken.None);
 
