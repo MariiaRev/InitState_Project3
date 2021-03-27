@@ -21,7 +21,6 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         private ICoachesService _testedService;
         private static readonly ILogger<CoachesService> Logger = new Logger<CoachesService>(new NullLoggerFactory());
 
-
         private void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
