@@ -129,13 +129,13 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _testedService = new BookingService(_applicationContextMock.Object);
 
-            var bookingDto = new BookingUpdateContract()
-            {
-                Id = 1,
-                ClientId = 1,
-                ResultPrice = 500,
-                ServiceId = 1,
-            };
+            //var bookingDto = new BookingUpdateContract()
+            //{
+            //    Id = 1,
+            //    ClientId = 1,
+            //    ResultPrice = 500,
+            //    ServiceId = 1,
+            //};
 
             //var result = await _testedService.UpdateBooking(bookingDto, CancellationToken.None);
 
