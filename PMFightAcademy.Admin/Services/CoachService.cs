@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -15,14 +16,17 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class CoachService : ICoachService
     {
+        private readonly ILogger<CoachService> _logger;
         private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="logger"></param>
         /// <param name="dbContext"></param>
-        public CoachService(ApplicationContext dbContext)
+        public CoachService(ILogger<CoachService> logger, ApplicationContext dbContext)
         {
+            _logger = logger;
             _dbContext = dbContext;
         }
 
@@ -59,6 +63,7 @@ namespace PMFightAcademy.Admin.Services
 
             if (checkCoach!=null)
             {
+                _logger.LogInformation($"Coach with id {coachContract.Id} is not found");
                 return false;
             }
 
@@ -67,7 +72,10 @@ namespace PMFightAcademy.Admin.Services
             var age = (int)(DateTime.Now.Subtract(coach.BirthDate).TotalDays / 365.2425);
 
             if (age < 18 || age > 90)
+            {
+                _logger.LogInformation($"Coach with id {coachContract.Id} is not suitable for age : {age}");
                 return false;
+            }
 
             try
             {
@@ -76,6 +84,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Coach with id {coachContract.Id} is not added");
                 return false;
             }
 
@@ -94,6 +103,7 @@ namespace PMFightAcademy.Admin.Services
             var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == id);
             if (coach == null)
             {
+                _logger.LogInformation($"Coach with id {id} is not suitable for age");
                 return false;
             }
             try
@@ -103,6 +113,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Coach with id {id} is not removed");
                 return false;
             }
 
@@ -122,6 +133,7 @@ namespace PMFightAcademy.Admin.Services
 
             if (checkCoach == null)
             {
+                _logger.LogInformation($"Coach with id {coachContract.Id} is not found");
                 return false;
             }
 
@@ -130,7 +142,10 @@ namespace PMFightAcademy.Admin.Services
             var age = (int)(DateTime.Now.Subtract(coach.BirthDate).TotalDays / 365.2425);
 
             if (age < 18 || age > 90)
+            {
+                _logger.LogInformation($"Coach with id {coachContract.Id} is not suitable for age : {age}");
                 return false;
+            }
 
             try
             {
@@ -139,6 +154,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Coach with id {coachContract.Id} is not updated");
                 return false;
             }
             return true;

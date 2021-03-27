@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
 using static PMFightAcademy.Admin.Mapping.ClientMapping;
 
 namespace PMFightAcademy.Admin.Services
@@ -14,14 +15,17 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class ClientService : IClientService
     {
+        private readonly ILogger<ClientService> _logger;
         private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="logger"></param>
         /// <param name="dbContext"></param>
-        public ClientService(ApplicationContext dbContext)
+        public ClientService(ILogger<ClientService> logger, ApplicationContext dbContext)
         {
+            _logger = logger;
             _dbContext = dbContext;
         }
 
@@ -54,7 +58,12 @@ namespace PMFightAcademy.Admin.Services
         public async Task<bool> AddDescription(int clientId, string desc, CancellationToken cancellationToken)
         {
             var client = _dbContext.Clients.FirstOrDefault(x => x.Id == clientId);
-            if (client == null) return false;
+            if (client == null)
+            {
+                _logger.LogInformation($"Client with id {clientId} is not found");
+                return false;
+            }
+
             client.Description = desc;
             await _dbContext.SaveChangesAsync(cancellationToken);
             return true;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Dal.DataBase;
 
@@ -15,15 +16,17 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class BookingService : IBookingService
     {
+        private readonly ILogger<BookingService> _logger;
         private readonly ApplicationContext _dbContext;
-
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="logger"></param>
         /// <param name="dbContext"></param>
-        public BookingService(ApplicationContext dbContext)
+        public BookingService(ILogger<BookingService> logger, ApplicationContext dbContext)
         {
+            _logger = logger;
             _dbContext = dbContext;
         }
 
@@ -43,10 +46,11 @@ namespace PMFightAcademy.Admin.Services
         /// /// <param name="token"></param>
         public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoach(int coachId, CancellationToken token)
         {
-
-            var bookings = _dbContext.Bookings.Where(x=>x.Slot.CoachId==coachId).Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
+            var bookings = _dbContext.Bookings
+                .Where(x => x.Slot.CoachId == coachId)
+                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
+                
             return bookings;
-
         }
 
         /// <summary>
@@ -56,25 +60,29 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="token"></param>
         public async Task<IEnumerable<BookingReturnContract>> TakeBookingOnClient(int clientId, CancellationToken token)
         {
+            var bookings = _dbContext.Bookings
+                .Where(x => x.ClientId == clientId)
+                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
 
-            var bookings = _dbContext.Bookings.Where(x => x.ClientId==clientId).Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
             return bookings;
         }
 
         /// <summary>
         /// Update booking
         /// </summary>
-        /// <param name="bookingReturnContract"></param>
+        /// <param name="bookingContract"></param>
         /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateBooking(
             BookingReturnContract bookingContract, 
             CancellationToken cancellationToken)
         {
-            var checkNull =await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == bookingContract.Id, cancellationToken);
+            var checkNull = await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == bookingContract.Id, cancellationToken);
             if (checkNull == null)
             {
+                _logger.LogInformation($"Booking with id {bookingContract.Id} are not found");
                 return false;
             }
+            
             var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
             try
             {
@@ -83,6 +91,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Booking with id {booking.Id} is not found");
                 return false;
             }
 
@@ -149,6 +158,7 @@ namespace PMFightAcademy.Admin.Services
             var booking = await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (booking == null)
             {
+                _logger.LogInformation($"Booking with id {id} are not found");
                 return false;
             }
             try
@@ -158,6 +168,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Booking with id {booking.Id} is not updated");
                 return false;
             }
 

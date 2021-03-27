@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -16,16 +17,18 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class QualificationService : IQualificationService
     {
+        private readonly ILogger<QualificationService> _logger;
         private readonly ApplicationContext _dbContext;
 
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="logger"></param>
         /// <param name="dbContext"></param>
-        public QualificationService(ApplicationContext dbContext)
+        public QualificationService(ILogger<QualificationService> logger, ApplicationContext dbContext)
         {
+            _logger = logger;
             _dbContext = dbContext;
-
         }
 
         /// <summary>
@@ -38,6 +41,7 @@ namespace PMFightAcademy.Admin.Services
             var qualification = _dbContext.Qualifications.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (qualification == null)
             {
+                _logger.LogInformation($"Qualification with id {id} is not found");
                 return false;
             }
             try
@@ -47,6 +51,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Qualification with id {id} is not removed");
                 return false;
             }
 
@@ -69,6 +74,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Qualification with id {contract.Id} is not found");
                 return false;
             }
 
@@ -83,12 +89,12 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="token"></param>
         public async Task<IEnumerable<CoachContract>> GetCoachesForService(int serviceId, CancellationToken token)
         {
-            var qualifications = await _dbContext.Qualifications.ToListAsync(token);
 
-            var coaches = qualifications.Where(x => x.ServiceId == serviceId).Select(x => x.Coach);
-            var coachesContracts = coaches.AsEnumerable().Select(CoachMapping.CoachMapFromModelToContract);
+            var result = _dbContext.Qualifications
+                .Where(x => x.ServiceId == serviceId).Select(x => x.Coach).AsEnumerable()
+                .Select(CoachMapping.CoachMapFromModelToContract);
 
-            return coachesContracts;
+            return result;
         }
         /// <summary>
         /// Get services
@@ -97,7 +103,6 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="token"></param>
         public async Task<IEnumerable<Service>> GetServicesForCoach(int coachId, CancellationToken token)
         {
-            var qualifications = await _dbContext.Qualifications.ToListAsync(token);
             var services = _dbContext.Qualifications.Where(x => x.CoachId == coachId).Select(x => x.Service);
             return services.AsEnumerable();
         }
