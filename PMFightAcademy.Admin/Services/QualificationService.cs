@@ -74,7 +74,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
-                _logger.LogInformation($"Qualification with id {contract.Id} is not found");
+                _logger.LogInformation($"Qualification with id {contract.Id} is not added");
                 return false;
             }
 

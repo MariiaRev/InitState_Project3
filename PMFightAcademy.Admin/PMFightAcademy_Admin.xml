@@ -1275,15 +1275,6 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlotRange(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
-            <summary>
-            Creation slots 
-            </summary>
-            <param name="slotContract"></param>
-            <param name="cancellationToken"></param>
-            <returns></returns>
-            <exception cref="T:System.ArgumentException"></exception>
-        </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Remove slots 
@@ -1345,14 +1336,6 @@
             </summary>
             <param name="date"></param>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
-            <summary>
-            Take all slots for coaches
-            </summary>
-            <param name="coachId">Coach id</param>
-            <param name="start">Date start</param>
-            <param name="end">Date to </param>
-        </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlotRange(System.Collections.Generic.IEnumerable{System.Int32},System.Threading.CancellationToken)">
             <summary>
             Delete array of slots
@@ -1360,6 +1343,23 @@
             <param name="arrayId"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlotRange(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
+            <summary>
+            Creation slots 
+            </summary>
+            <param name="slotContract"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+            <exception cref="T:System.ArgumentException"></exception>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.TakeSlotsForCoachOnDates(System.Int32,System.String,System.String)">
+            <summary>
+            Take all slots for coaches
+            </summary>
+            <param name="coachId">Coach id</param>
+            <param name="start">Date start</param>
+            <param name="end">Date to </param>
         </member>
         <member name="T:PMFightAcademy.Admin.TimerSlotService">
             <summary>

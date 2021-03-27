@@ -66,69 +66,6 @@ namespace PMFightAcademy.Admin.Services
         }
 
         /// <summary>
-        /// Creation slots 
-        /// </summary>
-        /// <param name="slotContract"></param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
-        /// <exception cref="ArgumentException"></exception>
-        public async Task AddSlotRange(SlotsCreateContract slotContract, CancellationToken cancellationToken)
-        {
-            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
-
-            if (slot.StartTime > slot.Duration)
-            {
-                _logger.LogInformation($"Slot with id {slot.Id} has duration more than start time");
-                throw new ArgumentException();
-            }
-
-            var timeEnd = slot.Duration;
-
-
-            if (_dbContext.Slots.Where(x => x.Date == slot.Date)
-                .Where(x => x.StartTime <= slot.Duration).Where(x => x.CoachId == slot.CoachId).Any(x => x.StartTime >= slot.StartTime))
-            {
-                _logger.LogInformation($"Slots are already created in time range" +
-                                       $" {slot.Date.Add(slot.StartTime)} - {slot.Date.Add(slot.Duration)}," +
-                                       $" for coach with id {slot.CoachId}");
-
-                throw new ArgumentException("Some slots created in this time range, for this coach");
-            }
-
-            var slots = new List<Slot>();
-
-            while (slot.StartTime <= timeEnd)
-            {
-                var resultSlot = new Slot
-                {
-                    CoachId = slot.CoachId,
-                    Duration = TimeSpan.FromHours(1),
-                    Date = slot.Date,
-                    StartTime = slot.StartTime,
-
-                };
-                slots.Add(resultSlot);
-                slot.StartTime += resultSlot.Duration;
-            }
-
-            try
-            {
-
-                await _dbContext.AddRangeAsync(slots, cancellationToken);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-
-            }
-            catch
-            {
-                _logger.LogInformation($"Slots are not added in time range" +
-                                       $" {slot.Date.Add(slot.StartTime)} - {slot.Date.Add(slot.Duration)}," +
-                                       $" for coach with id {slot.CoachId}");
-                throw new ArgumentException();
-            }
-        }
-
-
-        /// <summary>
         /// Remove slots 
         /// </summary>
         /// <param name="id"></param>
@@ -333,32 +270,6 @@ namespace PMFightAcademy.Admin.Services
         }
 
         /// <summary>
-        /// Take all slots for coaches
-        /// </summary>
-        /// <param name="coachId">Coach id</param>
-        /// <param name="start">Date start</param>
-        /// <param name="end">Date to </param>
-        public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start, string end)
-        {
-            //var test = DateTime.ParseExact(start, Settings.DateFormat, CultureInfo.InvariantCulture);
-            if (!DateTime.TryParseExact(start, Settings.DateFormat, null, DateTimeStyles.None, out var dateStart))
-            {
-                _logger.LogInformation($"{start} is can not be parse as DateTime");
-                return new List<SlotsReturnContract>();
-            }
-
-            if (!DateTime.TryParseExact(end, Settings.DateFormat, null, DateTimeStyles.None, out var dateEnd))
-            {
-                _logger.LogInformation($"{end} is can not be parse as DateTime");
-                return new List<SlotsReturnContract>();
-            }
-
-            var slots = _dbContext.Slots.Select(x => x).Where(x => x.CoachId == coachId).Where(x => x.Date >= dateStart).Where(x => x.Date <= dateEnd);
-
-            return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
-        }
-
-        /// <summary>
         /// Delete array of slots
         /// </summary>
         /// <param name="arrayId"></param>
@@ -385,5 +296,94 @@ namespace PMFightAcademy.Admin.Services
 
             return true;
         }
+
+        #region MyRegion unusing methods
+        /// <summary>
+        /// Creation slots 
+        /// </summary>
+        /// <param name="slotContract"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public async Task AddSlotRange(SlotsCreateContract slotContract, CancellationToken cancellationToken)
+        {
+            var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
+
+            if (slot.StartTime > slot.Duration)
+            {
+                _logger.LogInformation($"Slot with id {slot.Id} has duration more than start time");
+                throw new ArgumentException();
+            }
+
+            var timeEnd = slot.Duration;
+
+
+            if (_dbContext.Slots.Where(x => x.Date == slot.Date)
+                .Where(x => x.StartTime <= slot.Duration).Where(x => x.CoachId == slot.CoachId).Any(x => x.StartTime >= slot.StartTime))
+            {
+                _logger.LogInformation($"Slots are already created in time range" +
+                                       $" {slot.Date.Add(slot.StartTime)} - {slot.Date.Add(slot.Duration)}," +
+                                       $" for coach with id {slot.CoachId}");
+
+                throw new ArgumentException("Some slots created in this time range, for this coach");
+            }
+
+            var slots = new List<Slot>();
+
+            while (slot.StartTime <= timeEnd)
+            {
+                var resultSlot = new Slot
+                {
+                    CoachId = slot.CoachId,
+                    Duration = TimeSpan.FromHours(1),
+                    Date = slot.Date,
+                    StartTime = slot.StartTime,
+
+                };
+                slots.Add(resultSlot);
+                slot.StartTime += resultSlot.Duration;
+            }
+
+            try
+            {
+
+                await _dbContext.AddRangeAsync(slots, cancellationToken);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+
+            }
+            catch
+            {
+                _logger.LogInformation($"Slots are not added in time range" +
+                                       $" {slot.Date.Add(slot.StartTime)} - {slot.Date.Add(slot.Duration)}," +
+                                       $" for coach with id {slot.CoachId}");
+                throw new ArgumentException();
+            }
+        }
+        /// <summary>
+        /// Take all slots for coaches
+        /// </summary>
+        /// <param name="coachId">Coach id</param>
+        /// <param name="start">Date start</param>
+        /// <param name="end">Date to </param>
+        public async Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start, string end)
+        {
+            //var test = DateTime.ParseExact(start, Settings.DateFormat, CultureInfo.InvariantCulture);
+            if (!DateTime.TryParseExact(start, Settings.DateFormat, null, DateTimeStyles.None, out var dateStart))
+            {
+                _logger.LogInformation($"{start} is can not be parse as DateTime");
+                return new List<SlotsReturnContract>();
+            }
+
+            if (!DateTime.TryParseExact(end, Settings.DateFormat, null, DateTimeStyles.None, out var dateEnd))
+            {
+                _logger.LogInformation($"{end} is can not be parse as DateTime");
+                return new List<SlotsReturnContract>();
+            }
+
+            var slots = _dbContext.Slots.Select(x => x).Where(x => x.CoachId == coachId).Where(x => x.Date >= dateStart).Where(x => x.Date <= dateEnd);
+
+            return slots.AsEnumerable().Select(SlotsMapping.SlotMapFromModelToContract);
+        }
+        #endregion
     }
 }

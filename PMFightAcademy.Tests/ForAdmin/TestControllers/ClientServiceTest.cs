@@ -137,7 +137,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var result = (await _testedService.TakeClient(id));
 
-            Assert.Equal(clientsContact[id-1].Description, result.Description);
+            Assert.Equal(clientsContact[id - 1].Description, result.Description);
             Assert.Equal(clientsContact[id - 1].Id, result.Id);
             Assert.Equal(clientsContact[id - 1].Name, result.Name);
             Assert.Equal(clientsContact[id - 1].Login, result.Login);

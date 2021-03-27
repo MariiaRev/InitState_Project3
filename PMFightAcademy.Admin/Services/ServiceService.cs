@@ -58,7 +58,7 @@ namespace PMFightAcademy.Admin.Services
             var addService = _dbContext.Services.FirstOrDefault(x => x.Id == service.Id);
             if (addService != null)
             {
-                _logger.LogInformation($"Service with id {service.Id} is already added");
+                _logger.LogInformation($"Service with id {service.Id} is already found");
                 return false;
             }
             try

@@ -91,7 +91,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
-                _logger.LogInformation($"Booking with id {booking.Id} is not found");
+                _logger.LogInformation($"Booking with id {booking.Id} is not updated");
                 return false;
             }
 
@@ -168,7 +168,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
-                _logger.LogInformation($"Booking with id {booking.Id} is not updated");
+                _logger.LogInformation($"Booking with id {booking.Id} is not removed");
                 return false;
             }
 
