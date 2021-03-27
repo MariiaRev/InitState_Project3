@@ -29,31 +29,6 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         [InlineData("+380671234567", "String88")]
         [InlineData("380671234567", "String88")]
         [InlineData("0671234567", "String88")]
-        [InlineData("0661234567", "String88")]
-        public async Task Register_Success(string phone, string password)
-        {
-            Setup();
-
-            _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(new List<Dal.Models.Client>());
-
-            _testedService = new ClientsService(Logger, _applicationContextMock.Object);
-
-            var model = new ClientDto()
-            {
-                Login = phone,
-                Password = password,
-                Name = "Maga"
-            };
-
-            var result = await _testedService.Register(model, CancellationToken.None);
-
-            Assert.NotEmpty(result);
-        }
-
-        [Theory]
-        [InlineData("+380671234567", "String88")]
-        [InlineData("380671234567", "String88")]
-        [InlineData("0671234567", "String88")]
         public async Task Register_Fail(string phone, string password)
         {
             Setup();

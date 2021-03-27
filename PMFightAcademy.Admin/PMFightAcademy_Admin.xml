@@ -772,10 +772,11 @@
             Service for booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.BookingService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
+        <member name="M:PMFightAcademy.Admin.Services.BookingService.#ctor(Microsoft.Extensions.Logging.ILogger{PMFightAcademy.Admin.Services.BookingService},PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
+            <param name="logger"></param>
             <param name="dbContext"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.TakeAllBooking(System.Threading.CancellationToken)">
@@ -801,7 +802,7 @@
             <summary>
             Update booking
             </summary>
-            <param name="bookingReturnContract"></param>
+            <param name="bookingContract"></param>
             <param name="cancellationToken"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.BookingService.RemoveBooking(System.Int32,System.Threading.CancellationToken)">
@@ -816,10 +817,11 @@
             Client Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ClientService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
+        <member name="M:PMFightAcademy.Admin.Services.ClientService.#ctor(Microsoft.Extensions.Logging.ILogger{PMFightAcademy.Admin.Services.ClientService},PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
+            <param name="logger"></param>
             <param name="dbContext"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ClientService.TakeAllClients">
@@ -847,10 +849,11 @@
             Coach Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.CoachService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.#ctor(Microsoft.Extensions.Logging.ILogger{PMFightAcademy.Admin.Services.CoachService},PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
+            <param name="logger"></param>
             <param name="dbContext"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeAllCoaches">
@@ -894,10 +897,11 @@
             Service 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.QualificationService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
+        <member name="M:PMFightAcademy.Admin.Services.QualificationService.#ctor(Microsoft.Extensions.Logging.ILogger{PMFightAcademy.Admin.Services.QualificationService},PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
+            <param name="logger"></param>
             <param name="dbContext"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.QualificationService.DeleteQualification(System.Int32,System.Threading.CancellationToken)">
@@ -1212,10 +1216,11 @@
             Service service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.#ctor(Microsoft.Extensions.Logging.ILogger{PMFightAcademy.Admin.Services.ServiceService},PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor
             </summary>
+            <param name="logger"></param>
             <param name="dbContext"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeAllServices">
@@ -1255,10 +1260,11 @@
             Slot Service
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
+        <member name="M:PMFightAcademy.Admin.Services.SlotService.#ctor(Microsoft.Extensions.Logging.ILogger{PMFightAcademy.Admin.Services.SlotService},PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor 
             </summary>
+            <param name="logger"></param>
             <param name="dbContext"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.AddListOfSlots(System.Collections.Generic.IEnumerable{PMFightAcademy.Admin.Contract.SlotsReturnContract},System.Threading.CancellationToken)">
@@ -1268,7 +1274,6 @@
             <param name="slotsArray"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
-            <exception cref="T:System.NotImplementedException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.AddSlotRange(PMFightAcademy.Admin.Contract.SlotsCreateContract,System.Threading.CancellationToken)">
             <summary>

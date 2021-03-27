@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Moq.EntityFrameworkCore;
 using PMFightAcademy.Admin.Contract;
@@ -17,12 +19,14 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
     {
         private Mock<ApplicationContext> _applicationContextMock;
         private IQualificationService _testedService;
+        private static readonly ILogger<QualificationService> Logger = new Logger<QualificationService>(new NullLoggerFactory());
+
 
         private void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
             _applicationContextMock = new Mock<ApplicationContext>(options);
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
         }
 
         [Fact]
@@ -35,7 +39,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.DeleteQualification(1, CancellationToken.None);
 
@@ -49,7 +53,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(new List<Qualification>());
 
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.DeleteQualification(1, CancellationToken.None);
 
@@ -66,7 +70,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.AddQualification(new QualificationContract(), CancellationToken.None);
 
@@ -83,7 +87,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.GetCoachesForService(1, CancellationToken.None);
 
@@ -100,7 +104,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.GetCoachesForService(2, CancellationToken.None);
 
@@ -117,7 +121,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.GetServicesForCoach(1, CancellationToken.None);
 
@@ -134,7 +138,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new QualificationService(_applicationContextMock.Object);
+            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.GetServicesForCoach(2, CancellationToken.None);
 

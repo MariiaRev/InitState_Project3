@@ -3,6 +3,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Moq.EntityFrameworkCore;
 using PMFightAcademy.Client.Services;
@@ -17,11 +19,13 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
         private Mock<ApplicationContext> _applicationContextMock;
         private ICoachesService _testedService;
+        private static readonly ILogger<CoachesService> Logger = new Logger<CoachesService>(new NullLoggerFactory());
+
         private void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
             _applicationContextMock = new Mock<ApplicationContext>(options);
-            _testedService = new CoachesService(_applicationContextMock.Object);
+            _testedService = new CoachesService(Logger, _applicationContextMock.Object);
         }
 
         [Fact]
@@ -43,7 +47,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new CoachesService(_applicationContextMock.Object);
+            _testedService = new CoachesService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.GetCoaches(1, 1, CancellationToken.None);
             var listData = result.Data.ToList();
@@ -70,7 +74,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(new List<Coach>());
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
 
-            _testedService = new CoachesService(_applicationContextMock.Object);
+            _testedService = new CoachesService(Logger, _applicationContextMock.Object);
 
             var result = await _testedService.GetCoaches(1, 1, CancellationToken.None);
             var listData = result.Data.ToList();

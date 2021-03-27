@@ -1,0 +1,21 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=114b0a7d_002De5ab_002D4975_002Da6aa_002D60f566f43de3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from ClientServiceTests.cs #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;231DC2D7-123C-4197-A3B2-2ABD1833293A/d:ForClient/d:TestControllers/f:ClientServiceTests.cs&lt;/ProjectFile&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=37308d16_002D433d_002D49e3_002Da9cf_002D8ed9ad07328d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Take_All_Clients" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.ClientServiceTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=3aea32a6_002D23b8_002D45d1_002Da94d_002Dda2c742ecfbe/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from ClientServiceTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;231DC2D7-123C-4197-A3B2-2ABD1833293A/d:ForClient/d:TestControllers/f:ClientServiceTests.cs&lt;/ProjectFile&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=61465b19_002D752f_002D4550_002D8959_002D3e01961c7379/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="BookingServiceTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.BookingServiceTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForClient.TestControllers.ClientServiceTests&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=dac5ca3a_002D64af_002D4349_002D8f38_002D8310f1ad7c0e/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="All tests from CoachServiceTests.cs" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;ProjectFile&gt;231DC2D7-123C-4197-A3B2-2ABD1833293A/d:ForAdmin/d:TestControllers/f:CoachServiceTests.cs&lt;/ProjectFile&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
