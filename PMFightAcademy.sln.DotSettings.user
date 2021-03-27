@@ -2,5 +2,7 @@
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=37308d16_002D433d_002D49e3_002Da9cf_002D8ed9ad07328d/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="Take_All_Clients" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
     &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.ClientServiceTest&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.BookingServiceTests.UpdateBooking&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::231DC2D7-123C-4197-A3B2-2ABD1833293A::net5.0::PMFightAcademy.Tests.ForAdmin.TestControllers.SlotServiceTest.Get_All_Slots_Successes&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

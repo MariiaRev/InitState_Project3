@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Moq;
+using Moq.EntityFrameworkCore;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Dal.Models;
+using Xunit;
 
 namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 {
@@ -21,7 +25,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             _testedService = new SlotService(_applicationContextMock.Object);
         }
 
-        private static List<Slot> GenerateListOfSlots()
+        private static IEnumerable<Slot> GenerateListOfSlots()
         {
             return new List<Slot>()
             {
@@ -31,7 +35,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
                 new Slot() {Id = 4,CoachId = 4,Date = new DateTime(2004,04,04),StartTime = new TimeSpan(0,13,0,0)},
             };
         }
-        private static List<SlotsReturnContract> GenerateListOfSlotsContract()
+        private static IEnumerable<SlotsReturnContract> GenerateListOfSlotsContract()
         {
             return new List<SlotsReturnContract>()
             {
@@ -43,6 +47,38 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             
         }
 
-        //Vlad ia ce vze zavtra dopyshy , a to duz spaty hochy)
+        [Fact]
+        public async Task Get_All_Slots_Successes()
+        {
+            Setup();
+            var slots = GenerateListOfSlots();
+
+            var slotsContract = GenerateListOfSlotsContract();
+
+            _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
+
+            _testedService = new SlotService(_applicationContextMock.Object);
+
+            
+
+            var result = await _testedService.TakeAllSlots();
+
+            var actual = result.ToList();
+            var i = 0;
+
+            
+            foreach (var expectedContract in slotsContract)
+            {
+                var dur = expectedContract.Duration;
+                Assert.Equal(expectedContract.Id, actual[i].Id);
+                Assert.Equal(expectedContract.CoachId, actual[i].CoachId);
+                Assert.Equal(expectedContract.Duration, actual[i].Duration);
+                Assert.Equal(expectedContract.TimeStart, actual[i].TimeStart);
+                Assert.Equal(expectedContract.DateStart, actual[i].DateStart);
+                i++;
+            }
+            
+
+        }
     }
 }

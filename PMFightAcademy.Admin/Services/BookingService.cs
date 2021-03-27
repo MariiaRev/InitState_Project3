@@ -1,3 +1,4 @@
+using System;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System.Collections.Generic;
@@ -67,21 +68,22 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="bookingReturnContract"></param>
         /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateBooking(
-            BookingReturnContract bookingContract, 
+            BookingUpdateContract bookingContract, 
             CancellationToken cancellationToken)
         {
+            //var newDb =_dbContext.Bookings.Include(x => x.Slot);
             var checkNull =await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == bookingContract.Id, cancellationToken);
             if (checkNull == null)
             {
                 return false;
             }
-            var booking = BookingMapping.BookingMapFromContractToModel(bookingContract);
+            var booking = BookingMapping.BookingMapFromUpdateContractToModel(bookingContract, checkNull);
             try
             {
                 _dbContext.Update(booking);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch
+            catch( Exception e)
             {
                 return false;
             }
