@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -14,15 +15,18 @@ namespace PMFightAcademy.Admin.Services
     /// </summary>
     public class ServiceService : IServiceService
     {
+        private readonly ILogger<ServiceService> _logger;
         private readonly ApplicationContext _dbContext;
+
         /// <summary>
         /// Constructor
         /// </summary>
+        /// <param name="logger"></param>
         /// <param name="dbContext"></param>
-        public ServiceService(ApplicationContext dbContext)
+        public ServiceService(ILogger<ServiceService> logger, ApplicationContext dbContext)
         {
+            _logger = logger;
             _dbContext = dbContext;
-
         }
 
         /// <summary>
@@ -54,6 +58,7 @@ namespace PMFightAcademy.Admin.Services
             var addService = _dbContext.Services.FirstOrDefault(x => x.Id == service.Id);
             if (addService != null)
             {
+                _logger.LogInformation($"Service with id {service.Id} is already added");
                 return false;
             }
             try
@@ -63,6 +68,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Service with id {service.Id} is not added");
                 return false;
             }
 
@@ -79,6 +85,7 @@ namespace PMFightAcademy.Admin.Services
             var service = _dbContext.Services.FirstOrDefault(x => x.Id == id);
             if (service == null)
             {
+                _logger.LogInformation($"Service with id {service.Id} is not found");
                 return false;
             }
             try
@@ -88,6 +95,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Service with id {service.Id} is not removed");
                 return false;
             }
 
@@ -105,6 +113,7 @@ namespace PMFightAcademy.Admin.Services
             var updateService = _dbContext.Services.FirstOrDefault(x=>x.Id == service.Id);
             if (updateService == null)
             {
+                _logger.LogInformation($"Service with id {service.Id} is not found");
                 return false;
             }
 
@@ -115,6 +124,7 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
+                _logger.LogInformation($"Service with id {service.Id} is not updated");
                 return false;
             }
 
