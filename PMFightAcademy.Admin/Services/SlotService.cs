@@ -54,7 +54,7 @@ namespace PMFightAcademy.Admin.Services
                 await _dbContext.AddRangeAsync(slots, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch(Exception e)
+            catch
             {
                 return false;
             }
