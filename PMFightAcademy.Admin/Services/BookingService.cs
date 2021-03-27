@@ -44,7 +44,6 @@ namespace PMFightAcademy.Admin.Services
         /// /// <param name="token"></param>
         public async Task<IEnumerable<BookingReturnContract>> TakeBookingForCoach(int coachId, CancellationToken token)
         {
-
             var bookings = await _dbContext.Bookings.ToListAsync(token);
             var result = bookings.Where(x => x.Slot.CoachId == coachId).ToArray();
             return result.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
