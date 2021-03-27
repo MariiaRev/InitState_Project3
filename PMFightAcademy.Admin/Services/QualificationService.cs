@@ -75,6 +75,7 @@ namespace PMFightAcademy.Admin.Services
             return true;
         }
 
+
         /// <summary>
         /// Get coaches
         /// </summary>
@@ -101,5 +102,30 @@ namespace PMFightAcademy.Admin.Services
             return services.AsEnumerable();
         }
 
+        /// <summary>
+        /// Qualifications for coach
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<QualificationContract>> GetQualificationsForCoach(int coachId, CancellationToken cancellationToken)
+        {
+            var qualifications = await _dbContext.Qualifications.Where(x => x.CoachId == coachId)
+                .ToListAsync(cancellationToken);
+            return qualifications.Select(QualificationMapping.QualificationMapFromModelToContract);
+        }
+
+        /// <summary>
+        /// Qualifications for Service
+        /// </summary>
+        /// <param name="serviceId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public async Task<IEnumerable<QualificationContract>> GetQualificationsForService(int serviceId, CancellationToken cancellationToken)
+        {
+            var qualifications = await _dbContext.Qualifications.Where(x => x.ServiceId == serviceId)
+                .ToListAsync(cancellationToken);
+            return qualifications.Select(QualificationMapping.QualificationMapFromModelToContract);
+        }
     }
 }
