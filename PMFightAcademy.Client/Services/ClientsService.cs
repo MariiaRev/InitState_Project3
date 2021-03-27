@@ -58,9 +58,7 @@ namespace PMFightAcademy.Client.Services
 
                 _logger.LogInformation($"Client {model.Login} is added");
 
-                var regUser = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
-                if (regUser != null)
-                    user = regUser;
+                user = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
 
                 return Authenticate(user.Login, user.Id);
             }

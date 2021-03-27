@@ -247,7 +247,7 @@
         </member>
         <member name="M:PMFightAcademy.Client.Controllers.BookingController.GetServicesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Get available services for client booking with paggination.
+            Get available services for client booking with pagination.
             </summary>
             <param name="pageSize">Services count per one page.</param>
             <param name="page">The current page number.</param>
@@ -629,7 +629,7 @@
             Service for getting coaches from database with Entity Framework.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(PMFightAcademy.Dal.DataBase.ApplicationContext)">
+        <member name="M:PMFightAcademy.Client.Services.CoachesService.#ctor(Microsoft.Extensions.Logging.ILogger{PMFightAcademy.Client.Services.CoachesService},PMFightAcademy.Dal.DataBase.ApplicationContext)">
             <summary>
             Constructor with DI.
             </summary>

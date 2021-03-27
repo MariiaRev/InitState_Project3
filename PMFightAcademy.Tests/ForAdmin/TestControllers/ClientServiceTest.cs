@@ -9,6 +9,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 
 namespace PMFightAcademy.Tests.ForAdmin.TestControllers
@@ -17,11 +19,13 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
     {
         private Mock<ApplicationContext> _applicationContextMock;
         private IClientService _testedService;
+        private static readonly ILogger<ClientService> Logger = new Logger<ClientService>(new NullLoggerFactory());
+
         private void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
             _applicationContextMock = new Mock<ApplicationContext>(options);
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
         }
 
         private static List<ClientContract> GenerateListOfClientsContracts()
@@ -58,7 +62,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllClients()).ToList();
             var i = 0;
@@ -86,7 +90,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllClients()).FirstOrDefault();
 
@@ -107,7 +111,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllClients()).Count() ;
 
@@ -129,7 +133,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeClient(id));
 
@@ -152,7 +156,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeClient(id));
 
@@ -172,7 +176,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.AddDescription(id,"AnyDisc",CancellationToken.None));
 
@@ -192,7 +196,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
 
-            _testedService = new ClientService(_applicationContextMock.Object);
+            _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.AddDescription(id, "AnyDisc", CancellationToken.None));
 

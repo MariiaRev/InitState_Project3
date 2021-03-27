@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Moq.EntityFrameworkCore;
 using PMFightAcademy.Admin.Contract;
@@ -20,11 +22,13 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
         private Mock<ApplicationContext> _applicationContextMock;
         private ICoachService _testedService;
+        private static readonly ILogger<CoachService> Logger = new Logger<CoachService>(new NullLoggerFactory());
+
         private void Setup()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>().Options;
             _applicationContextMock = new Mock<ApplicationContext>(options);
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
         }
 
         private static List<Coach> GenerateListOfCoches()
@@ -61,7 +65,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllCoaches()).ToList();
 
@@ -85,7 +89,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllCoaches()).ToList();
 
@@ -115,7 +119,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeCoach(id));
 
@@ -142,7 +146,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeCoach(id));
             
@@ -159,7 +163,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllCoaches()).ToList();
 
@@ -181,7 +185,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach,CancellationToken.None));
 
@@ -212,7 +216,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach, CancellationToken.None));
 
@@ -244,7 +248,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach, CancellationToken.None));
 
@@ -275,7 +279,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.AddCoach(newCoach, CancellationToken.None));
 
@@ -306,7 +310,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.UpdateCoach(newCoach, CancellationToken.None));
 
@@ -338,7 +342,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.UpdateCoach(newCoach, CancellationToken.None));
 
@@ -361,7 +365,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.DeleteCoach(id, CancellationToken.None));
 
@@ -383,7 +387,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
 
-            _testedService = new CoachService(_applicationContextMock.Object);
+            _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.DeleteCoach(id, CancellationToken.None));
 
