@@ -71,7 +71,7 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _clientsService.Register(model);
+                var result = await _clientsService.Register(model, cancellationToken);
 
                 if (!string.IsNullOrEmpty(result))
                     return Ok(result);
@@ -113,7 +113,7 @@ namespace PMFightAcademy.Client.Controllers
 
             if (ModelState.IsValid)
             {
-                var result = await _clientsService.Login(model);
+                var result = await _clientsService.Login(model, cancellationToken);
 
                 if (!string.IsNullOrEmpty(result))
                     return Ok(result);

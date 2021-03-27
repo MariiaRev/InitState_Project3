@@ -3,11 +3,11 @@ using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Admin.Mapping;
 using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -22,7 +22,6 @@ namespace PMFightAcademy.Admin.Services
         /// Constructor
         /// </summary>
         /// <param name="dbContext"></param>
-        /// <param name="workWithId"></param>
         public QualificationService(ApplicationContext dbContext)
         {
             _dbContext = dbContext;
@@ -33,9 +32,10 @@ namespace PMFightAcademy.Admin.Services
         /// Delete qualification
         /// </summary>
         /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
         public async Task<bool> DeleteQualification(int id, CancellationToken cancellationToken)
         {
-            var qualification = _dbContext.Qualifications.FirstOrDefault(x => x.Id == id);
+            var qualification = _dbContext.Qualifications.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (qualification == null)
             {
                 return false;
@@ -57,8 +57,8 @@ namespace PMFightAcademy.Admin.Services
         /// Update
         /// </summary>
         /// <param name="contract"></param>
-        /// <exception cref="ArgumentException"></exception>
-        public async Task AddQualification(QualificationContract contract, CancellationToken cancellationToken)
+        /// <param name="cancellationToken"></param>
+        public async Task<bool> AddQualification(QualificationContract contract, CancellationToken cancellationToken)
         {
 
             try
@@ -67,21 +67,24 @@ namespace PMFightAcademy.Admin.Services
                 await _dbContext.AddAsync(qualification, cancellationToken);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
-            catch (Exception ex)
+            catch
             {
-                throw new ArgumentException("Something go wrong, dont created service or coach");
+                return false;
             }
 
+            return true;
         }
 
         /// <summary>
         /// Get coaches
         /// </summary>
         /// <param name="serviceId"></param>
-        public async Task<IEnumerable<CoachContract>> GetCoachesForService(int serviceId)
+        /// <param name="token"></param>
+        public async Task<IEnumerable<CoachContract>> GetCoachesForService(int serviceId, CancellationToken token)
         {
+            var qualifications = await _dbContext.Qualifications.ToListAsync(token);
 
-            var coaches = _dbContext.Qualifications.Where(x => x.ServiceId == serviceId).Select(x => x.Coach);
+            var coaches = qualifications.Where(x => x.ServiceId == serviceId).Select(x => x.Coach);
             var coachesContracts = coaches.AsEnumerable().Select(CoachMapping.CoachMapFromModelToContract);
 
             return coachesContracts;
@@ -90,9 +93,10 @@ namespace PMFightAcademy.Admin.Services
         /// Get services
         /// </summary>
         /// <param name="coachId"></param>
-        public async Task<IEnumerable<Service>> GetServicesForCoach(int coachId)
+        /// <param name="token"></param>
+        public async Task<IEnumerable<Service>> GetServicesForCoach(int coachId, CancellationToken token)
         {
-
+            var qualifications = await _dbContext.Qualifications.ToListAsync(token);
             var services = _dbContext.Qualifications.Where(x => x.CoachId == coachId).Select(x => x.Service);
             return services.AsEnumerable();
         }

@@ -10,16 +10,13 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
     /// </summary>
     public interface ISlotService
     {
-        /// <summary>
-        /// Add slots
-        /// </summary>
-        /// <param name="slotContract"></param>
-        /// <returns></returns>
-        public Task AddSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken);
+
+        public Task<bool> AddListOfSlots(IEnumerable<SlotsReturnContract> slotsArray, CancellationToken cancellationToken);
+        
+        //public Task AddSlotRange(SlotsCreateContract slotContract, CancellationToken cancellationToken);
         /// <summary>
         /// Remove slots
         /// </summary>
-        /// <param name="slotContract"></param>
         /// <returns></returns>
         public Task<bool> RemoveSlot(int id, CancellationToken cancellationToken);
         /// <summary>
@@ -34,7 +31,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<bool> UpdateSlot(SlotsCreateContract slotContract, CancellationToken cancellationToken);
+        public Task<bool> UpdateSlot(SlotsReturnContract slotContract, CancellationToken cancellationToken);
         /// <summary>
         /// Take slots for coach
         /// </summary>
@@ -57,7 +54,13 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <returns></returns>
         public Task<IEnumerable<SlotsReturnContract>> TakeSlotsForCoachOnDates(int coachId, string start,
             string end);
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<bool> RemoveSlotRange(IEnumerable<int> arrayId, CancellationToken cancellationToken);
 
     }
 }

@@ -28,6 +28,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <param name="clientId"></param>
         /// <param name="desc"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<bool> AddDescription(int clientId, string desc, CancellationToken cancellationToken);
     }

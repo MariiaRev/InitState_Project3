@@ -568,25 +568,25 @@
             Service for booking controller
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.GetServicesForBooking">
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetServicesForBooking(System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
         <member name="M:PMFightAcademy.Client.Services.BookingService.GetServicesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.GetCoachesForBooking(System.Int32)">
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetCoachesForBooking(System.Int32,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
         <member name="M:PMFightAcademy.Client.Services.BookingService.GetCoachesForBooking(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.GetDatesForBooking(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetDatesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+        <member name="M:PMFightAcademy.Client.Services.BookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.BookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Services.BookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
         <member name="M:PMFightAcademy.Client.Services.BookingService.GetActiveBookings(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -600,18 +600,20 @@
             Service for the ClientsController
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto)">
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
-            <param name="client"><see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> client to register.</param>
+            <param name="model"><see cref="T:PMFightAcademy.Client.Contract.Dto.ClientDto"/> client to register.</param>
+            <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+        <member name="M:PMFightAcademy.Client.Services.ClientsService.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
             Log in in a registered client.
             </summary>
             <param name="model"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Client.Services.ClientsService.Authenticate(System.String,System.Int32)">
@@ -640,7 +642,7 @@
             Booking service abstraction.
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetServicesForBooking">
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetServicesForBooking(System.Threading.CancellationToken)">
             <summary>
             Get available services for client booking for Booking Controller.
             </summary>
@@ -648,15 +650,16 @@
         </member>
         <member name="M:PMFightAcademy.Client.Services.IBookingService.GetServicesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
-            Get available services for client booking for Booking Controller with paggination.
+            Get available services for client booking for Booking Controller with pagination.
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetCoachesForBooking(System.Int32)">
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetCoachesForBooking(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
             </summary>
             <param name="serviceId">Id of the service.</param>
+            <param name="token"></param>
             <returns>List of coaches of type <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/></returns>
         </member>
         <member name="M:PMFightAcademy.Client.Services.IBookingService.GetCoachesForBooking(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
@@ -669,30 +672,33 @@
             <param name="token">Cancellation token.</param>
             <returns>List of coaches of type <see cref="T:PMFightAcademy.Client.Contract.Dto.CoachDto"/></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetDatesForBooking(System.Int32,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetDatesForBooking(System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get available dates in format "MM.dd.yyyy" to provide a service with id <paramref name="serviceId"/> by coach with id <paramref name="coachId"/>
             for Booking Controller
             </summary>
             <param name="serviceId">Id of the service.</param>
             <param name="coachId">Id of the coach.</param>
+            <param name="token"></param>
             <returns>List of available dates each as a string in format "MM.dd.yyyy".</returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String)">
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.GetTimeSlotsForBooking(System.Int32,System.Int32,System.String,System.Threading.CancellationToken)">
             <summary>
             Get available time slots in format "HH:mm" to provide a service with id <paramref name="serviceId"/> for Booking Controller
             </summary>
             <param name="serviceId">Id of the service.</param>
             <param name="coachId">Id of the coach.</param>
             <param name="date">Selected date as a string in format "MM.dd.yyyy".</param>
+            <param name="token"></param>
             <returns>List of available time slots in format "HH:mm".</returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IBookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32)">
+        <member name="M:PMFightAcademy.Client.Services.IBookingService.AddBooking(PMFightAcademy.Client.Contract.Dto.BookingDto,System.Int32,System.Threading.CancellationToken)">
             <summary>
             Adds a booking for Booking Controller.
             </summary>
             <param name="bookingDto">Data for booking.</param>
             <param name="clientId">Id of the client who books a service.</param>
+            <param name="token"></param>
         </member>
         <member name="M:PMFightAcademy.Client.Services.IBookingService.GetActiveBookings(System.Int32,System.Int32,System.Int32,System.Threading.CancellationToken)">
             <summary>
@@ -725,18 +731,20 @@
             Interface for the Client Service 
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto)">
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Register(PMFightAcademy.Client.Contract.Dto.ClientDto,System.Threading.CancellationToken)">
             <summary>
             Registers a new client.
             </summary>
             <param name="model"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Client.Services.IClientsService.Login(PMFightAcademy.Client.Contract.LoginContract)">
+        <member name="M:PMFightAcademy.Client.Services.IClientsService.Login(PMFightAcademy.Client.Contract.LoginContract,System.Threading.CancellationToken)">
             <summary>
             Log in in a registered client.
             </summary>
             <param name="model"></param>
+            <param name="token"></param>
             <returns></returns>
         </member>
         <member name="T:PMFightAcademy.Client.Services.ICoachesService">

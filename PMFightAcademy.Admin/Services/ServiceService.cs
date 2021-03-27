@@ -1,11 +1,11 @@
 ﻿using PMFightAcademy.Dal.DataBase;
 using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -48,10 +48,14 @@ namespace PMFightAcademy.Admin.Services
         /// add
         /// </summary>
         /// <param name="service"></param>
-        public virtual async Task AddService(Service service, CancellationToken cancellationToken)
+        /// <exception cref="DbUpdateException"></exception>
+        public async Task<bool> AddService(Service service, CancellationToken cancellationToken)
         {
-
-            var some = service;
+            var addService = _dbContext.Services.FirstOrDefault(x => x.Id == service.Id);
+            if (addService != null)
+            {
+                return false;
+            }
             try
             {
                 await _dbContext.Services.AddAsync(service, cancellationToken);
@@ -59,8 +63,10 @@ namespace PMFightAcademy.Admin.Services
             }
             catch
             {
-                throw new ArgumentException();
+                return false;
             }
+
+            return true;
         }
 
         /// <summary>
@@ -95,6 +101,12 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
+            
+            var updateService = _dbContext.Services.FirstOrDefault(x=>x.Id == service.Id);
+            if (updateService == null)
+            {
+                return false;
+            }
 
             try
             {

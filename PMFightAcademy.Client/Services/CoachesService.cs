@@ -34,10 +34,10 @@ namespace PMFightAcademy.Client.Services
             // filter coaches
             var filteredCoaches = coaches.Where(c => filter == null ||
                                                      ContainsIgnoreCase(c.FirstName, filter) ||
-                                                     ContainsIgnoreCase(c.LastName, filter));
+                                                     ContainsIgnoreCase(c.LastName, filter)).ToList();
             
             // get total coaches count
-            var coachesCount = (decimal)filteredCoaches.Count();
+            var coachesCount = (decimal)filteredCoaches.Count;
 
             if (coachesCount == 0)
             {

@@ -28,12 +28,12 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="coachContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task AddCoach(CoachContract coachContract, CancellationToken cancellationToken);
+        public Task<bool> AddCoach(CoachContract coachContract, CancellationToken cancellationToken);
 
         /// <summary>
         /// Delete coach
         /// </summary>
-        /// <param name="coachContract"></param>
+        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<bool> DeleteCoach(int id, CancellationToken cancellationToken);
