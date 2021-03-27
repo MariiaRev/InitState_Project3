@@ -1,4 +1,5 @@
-﻿using PMFightAcademy.Client.Contract.Dto;
+﻿using PMFightAcademy.Client.Authorization;
+using PMFightAcademy.Client.Contract.Dto;
 
 namespace PMFightAcademy.Client.Mappings
 {
@@ -14,10 +15,10 @@ namespace PMFightAcademy.Client.Mappings
         /// <returns>Converted <see cref="Dal.Models.Client"/> client.</returns>
         public static Dal.Models.Client ClientDtoToClient(ClientDto client)
         {
-            return new Dal.Models.Client()
+            return new()
             {
                 Login = client.Login,
-                Password = client.Password,
+                Password = client.Password.GenerateHash(),
                 Name = client.Name
             };
         }

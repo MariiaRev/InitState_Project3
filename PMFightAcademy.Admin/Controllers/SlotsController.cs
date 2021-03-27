@@ -2,7 +2,6 @@
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -212,18 +211,14 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CreateSlots(
-            [FromBody] SlotsCreateContract createSlots,
+            IEnumerable<SlotsReturnContract> createSlots,
             CancellationToken cancellationToken)
         {
-            try
+            var added =   await _slotService.AddListOfSlots(createSlots, cancellationToken);
+            if (!added)
             {
-                await _slotService.AddSlot(createSlots, cancellationToken);
+                return Conflict();
             }
-            catch (ArgumentException e)
-            {
-                return Conflict(e.Message);
-            }
-
             return Ok();
         }
 
@@ -242,7 +237,7 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> UpdateSlot(
-            [FromBody] SlotsCreateContract createSlots,
+            [FromBody] SlotsReturnContract createSlots,
             CancellationToken cancellationToken)
         {
             var update = await _slotService.UpdateSlot(createSlots, cancellationToken);
@@ -271,10 +266,10 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
         public async Task<IActionResult> DeleteSlots(
-            [Range(1, int.MaxValue)] int slotId, 
+            IEnumerable<int> slotId, 
             CancellationToken cancellationToken)
         {
-            var deleted = await _slotService.RemoveSlot(slotId, cancellationToken);
+            var deleted = await _slotService.RemoveSlotRange(slotId, cancellationToken);
 
             if (deleted)
             {

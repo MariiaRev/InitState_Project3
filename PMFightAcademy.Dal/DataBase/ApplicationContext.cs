@@ -20,10 +20,5 @@ namespace PMFightAcademy.Dal.DataBase
         {
 
         }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseNpgsql("Host=db-postgresql-fra1-03704-prod-do-user-8904989-0.b.db.ondigitalocean.com;Port=25060;Database=stagedb;Username=stage;Password=ejsqm3u8zpngy50l;SslMode=Require;trustServerCertificate=true;ApplicationName=PMFA");
-        }
     }
 }

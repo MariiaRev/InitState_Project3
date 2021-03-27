@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Client.Contract.Dto;
 using PMFightAcademy.Client.Services;
@@ -79,7 +78,7 @@ namespace PMFightAcademy.Client.Controllers
         [ProducesResponseType(typeof(IEnumerable<Service>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> GetServicesForBooking(CancellationToken token)
         {
-            var result = await _bookingService.GetServicesForBooking();
+            var result = await _bookingService.GetServicesForBooking(token);
             
             return Ok(result);
         }
@@ -139,7 +138,7 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute, Range(1, int.MaxValue)] int serviceId,
             CancellationToken token)
         {
-            var result = await _bookingService.GetCoachesForBooking(serviceId);
+            var result = await _bookingService.GetCoachesForBooking(serviceId, token);
             
             return Ok(result);
         }
@@ -204,7 +203,7 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute, Range(1, int.MaxValue)] int coachId,
             CancellationToken token)
         {
-            var result = await _bookingService.GetDatesForBooking(serviceId, coachId);
+            var result = await _bookingService.GetDatesForBooking(serviceId, coachId, token);
             
             return Ok(result);
         }
@@ -240,7 +239,7 @@ namespace PMFightAcademy.Client.Controllers
             [FromRoute, RegularExpression(Settings.DateRegularExpr)] string date,
             CancellationToken token)
         {
-            var result = await _bookingService.GetTimeSlotsForBooking(serviceId, coachId, date);
+            var result = await _bookingService.GetTimeSlotsForBooking(serviceId, coachId, date, token);
             
             return Ok(result);
         }
@@ -275,7 +274,7 @@ namespace PMFightAcademy.Client.Controllers
                 return BadRequest();
             var clientId = int.Parse(claim.Value);
 
-            var result = await _bookingService.AddBooking(booking, clientId);
+            var result = await _bookingService.AddBooking(booking, clientId, token);
             if (result)
                 return Ok();
 

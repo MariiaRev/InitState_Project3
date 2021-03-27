@@ -27,7 +27,7 @@ namespace PMFightAcademy.Admin.Mapping
                 Id = contract.Id,
                 FirstName = contract.FirstName,
                 LastName = contract.LastName,
-                BirthDate = DateTime.ParseExact(contract.DateBirth, Settings.DateFormat, CultureInfo.CurrentCulture, DateTimeStyles.None),
+                BirthDate = DateTime.ParseExact(contract.DateBirth, Settings.DateFormat, null, DateTimeStyles.None),
                 Description = contract.Description,
                 PhoneNumber = contract.PhoneNumber
             };

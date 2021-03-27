@@ -14,7 +14,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <summary>
         /// Delete qualification
         /// </summary>
-        /// <param name="contract"></param>
+        /// <param name="id"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
         public Task<bool> DeleteQualification(int id, CancellationToken cancellationToken);
@@ -25,18 +25,37 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// <param name="contract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task AddQualification(QualificationContract contract, CancellationToken cancellationToken);
+        public Task<bool> AddQualification(QualificationContract contract, CancellationToken cancellationToken);
+
         /// <summary>
         /// Get coaches for service
         /// </summary>
         /// <param name="serviceId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<IEnumerable<CoachContract>> GetCoachesForService(int serviceId);
+        public Task<IEnumerable<CoachContract>> GetCoachesForService(int serviceId, CancellationToken cancellationToken);
         /// <summary>
         /// Get services for coaches 
         /// </summary>
         /// <param name="coachId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<IEnumerable<Service>> GetServicesForCoach(int coachId);
+        public Task<IEnumerable<Service>> GetServicesForCoach(int coachId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Get Qualifications for Coach
+        /// </summary>
+        /// <param name="coachId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<QualificationContract>> GetQualificationsForCoach(int coachId, CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Get Qualifications for service
+        /// </summary>
+        /// <param name="serviceId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
+        public Task<IEnumerable<QualificationContract>> GetQualificationsForService(int serviceId, CancellationToken cancellationToken);
     }
 }

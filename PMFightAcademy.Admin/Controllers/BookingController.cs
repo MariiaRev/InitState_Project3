@@ -64,6 +64,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Return all booked services
         /// </summary>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return list of slots what can be booked
         /// <see cref="HttpStatusCode.NotFound"/> not founded slots</returns>
@@ -74,9 +75,9 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetBookedServices()
+        public async Task<IActionResult> GetBookedServices(CancellationToken cancellationToken)
         {
-            var bookings = await _bookingService.TakeAllBooking();
+            var bookings = await _bookingService.TakeAllBooking(cancellationToken);
             if (bookings.Any())
             {
                 return Ok(bookings);
@@ -105,7 +106,7 @@ namespace PMFightAcademy.Admin.Controllers
             [Range(1, int.MaxValue)] int clientId, 
             CancellationToken cancellationToken)
         {
-            var bookings = await _bookingService.TakeBookingOnClient(clientId);
+            var bookings = await _bookingService.TakeBookingOnClient(clientId, cancellationToken);
             if (bookings.Any())
             {
                 return Ok(bookings);
@@ -134,7 +135,7 @@ namespace PMFightAcademy.Admin.Controllers
             [Range(1, int.MaxValue)] int coachId, 
             CancellationToken cancellationToken)
         {
-            var bookings = await _bookingService.TakeBookingForCoach(coachId);
+            var bookings = await _bookingService.TakeBookingForCoach(coachId, cancellationToken);
 
             if (bookings.Any())
             {
@@ -176,7 +177,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// Update booking
         /// </summary>
-        /// <param name="newBookingReturnram>
+        /// <param name="newBookingReturn"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/>return if book is successful updated
@@ -243,73 +244,75 @@ namespace PMFightAcademy.Admin.Controllers
         //    throw new NotImplementedException();
         //}
 
-        /// <summary>
-        /// Select booked services for client on  date space 
-        /// </summary>
-        /// <param name="clientId"></param>
-        /// <param name="dateEnd"></param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="dateStart"></param>
-        /// <returns>
-        /// <see cref="HttpStatusCode.OK"/>return list of slots what is booked
-        /// <see cref="HttpStatusCode.NotFound"/> not founded slots
-        /// </returns>
-        /// <remarks>
-        /// Return list about booked info for Client
-        /// not founded if no Client 
-        /// </remarks>
-        [HttpGet("client/{clientId}/{dateStart}/{dateEnd}")]
-        [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetBookedServiceForClientOnDate(
-            [Range(1, int.MaxValue)] int clientId, 
-            string dateStart, 
-            string dateEnd, 
-            CancellationToken cancellationToken)
-        {
-            var bookings = await _bookingService.TakeBookingForClientOnDate(clientId, dateStart, dateEnd);
+        ///// <summary>
+        ///// Select booked services for client on  date space 
+        ///// </summary>
+        ///// <param name="clientId"></param>
+        ///// <param name="dateEnd"></param>
+        ///// <param name="cancellationToken"></param>
+        ///// <param name="dateStart"></param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/>return list of slots what is booked
+        ///// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        ///// </returns>
+        ///// <remarks>
+        ///// Return list about booked info for Client
+        ///// not founded if no Client 
+        ///// </remarks>
+        //[HttpGet("client/{clientId}/{dateStart}/{dateEnd}")]
+        //[ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetBookedServiceForClientOnDate(
+        //    [Range(1, int.MaxValue)] int clientId, 
+        //    string dateStart, 
+        //    string dateEnd, 
+        //    CancellationToken cancellationToken)
+        //{
+        //    var bookings = 
+        //        await _bookingService.TakeBookingForClientOnDate(clientId, dateStart, dateEnd, cancellationToken);
 
-            if (bookings.Any())
-            {
-                return Ok(bookings);
-            }
+        //    if (bookings.Any())
+        //    {
+        //        return Ok(bookings);
+        //    }
 
-            return NotFound("No books for this client");
-        }
+        //    return NotFound("No books for this client");
+        //}
 
-        /// <summary>
-        /// Select booked services for coach on   date space  
-        /// </summary>
-        /// <param name="coachId"></param>
-        /// <param name="dateEnd"></param>
-        /// <param name="cancellationToken"></param>
-        /// <param name="dateStart"></param>
-        /// <returns>
-        /// <see cref="HttpStatusCode.OK"/>return list of slots what booked
-        /// <see cref="HttpStatusCode.NotFound"/> not founded slots
-        /// </returns>
-        /// <remarks>
-        /// Return list about booked info for coach
-        /// In time range
-        /// if not find will return not fount 
-        /// </remarks>
-        [HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
-        [ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
-        [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetBookedServiceForCoachOnDate(
-            [Range(1, int.MaxValue)] int coachId,
-            string dateStart, 
-            string dateEnd, 
-            CancellationToken cancellationToken)
-        {
-            var bookings = await _bookingService.TakeBookingForClientOnDate(coachId, dateStart, dateEnd);
+        ///// <summary>
+        ///// Select booked services for coach on   date space  
+        ///// </summary>
+        ///// <param name="coachId"></param>
+        ///// <param name="dateEnd"></param>
+        ///// <param name="cancellationToken"></param>
+        ///// <param name="dateStart"></param>
+        ///// <returns>
+        ///// <see cref="HttpStatusCode.OK"/>return list of slots what booked
+        ///// <see cref="HttpStatusCode.NotFound"/> not founded slots
+        ///// </returns>
+        ///// <remarks>
+        ///// Return list about booked info for coach
+        ///// In time range
+        ///// if not find will return not fount 
+        ///// </remarks>
+        //[HttpGet("coach/{coachId}/{dateStart}/{dateEnd}")]
+        //[ProducesResponseType(typeof(IEnumerable<BookingReturnContract>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
+        //public async Task<IActionResult> GetBookedServiceForCoachOnDate(
+        //    [Range(1, int.MaxValue)] int coachId,
+        //    string dateStart, 
+        //    string dateEnd, 
+        //    CancellationToken cancellationToken)
+        //{
+        //    var bookings = 
+        //        await _bookingService.TakeBookingForClientOnDate(coachId, dateStart, dateEnd, cancellationToken);
 
-            if (bookings.Any())
-            {
-                return Ok(bookings);
-            }
+        //    if (bookings.Any())
+        //    {
+        //        return Ok(bookings);
+        //    }
 
-            return NotFound("No books for this coach");
-        }
+        //    return NotFound("No books for this coach");
+        //}
     }
 }

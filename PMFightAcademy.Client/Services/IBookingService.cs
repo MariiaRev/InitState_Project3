@@ -15,10 +15,10 @@ namespace PMFightAcademy.Client.Services
         /// Get available services for client booking for Booking Controller.
         /// </summary>
         /// <returns></returns>
-        Task<IEnumerable<Service>> GetServicesForBooking();
+        Task<IEnumerable<Service>> GetServicesForBooking(CancellationToken token);
 
         /// <summary>
-        /// Get available services for client booking for Booking Controller with paggination.
+        /// Get available services for client booking for Booking Controller with pagination.
         /// </summary>
         /// <returns></returns>
         Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token);
@@ -27,8 +27,9 @@ namespace PMFightAcademy.Client.Services
         /// Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
         /// </summary>
         /// <param name="serviceId">Id of the service.</param>
+        /// <param name="token"></param>
         /// <returns>List of coaches of type <see cref="CoachDto"/></returns>
-        Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId);
+        Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId, CancellationToken token);
 
         /// <summary>
         /// Get available coaches which can provide service with id <paramref name="serviceId"/> for Booking Controller  
@@ -46,8 +47,9 @@ namespace PMFightAcademy.Client.Services
         /// </summary>
         /// <param name="serviceId">Id of the service.</param>
         /// <param name="coachId">Id of the coach.</param>
+        /// <param name="token"></param>
         /// <returns>List of available dates each as a string in format "MM.dd.yyyy".</returns>
-        Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId);
+        Task<IEnumerable<string>> GetDatesForBooking(int serviceId, int coachId, CancellationToken token);
 
         /// <summary>
         /// Get available time slots in format "HH:mm" to provide a service with id <paramref name="serviceId"/> for Booking Controller
@@ -55,15 +57,17 @@ namespace PMFightAcademy.Client.Services
         /// <param name="serviceId">Id of the service.</param>
         /// <param name="coachId">Id of the coach.</param>
         /// <param name="date">Selected date as a string in format "MM.dd.yyyy".</param>
+        /// <param name="token"></param>
         /// <returns>List of available time slots in format "HH:mm".</returns>
-        Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date);
+        Task<IEnumerable<string>> GetTimeSlotsForBooking(int serviceId, int coachId, string date, CancellationToken token);
 
         /// <summary>
         /// Adds a booking for Booking Controller.
         /// </summary>
         /// <param name="bookingDto">Data for booking.</param>
         /// <param name="clientId">Id of the client who books a service.</param>
-        Task<bool> AddBooking(BookingDto bookingDto, int clientId);
+        /// <param name="token"></param>
+        Task<bool> AddBooking(BookingDto bookingDto, int clientId, CancellationToken token);
 
         /// <summary>
         /// Gets active bookings of services.

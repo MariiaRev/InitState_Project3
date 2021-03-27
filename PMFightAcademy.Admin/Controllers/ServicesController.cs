@@ -2,7 +2,6 @@
 using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using Swashbuckle.AspNetCore.Annotations;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -116,16 +115,14 @@ namespace PMFightAcademy.Admin.Controllers
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.Conflict)]
         public async Task<IActionResult> CreateService([FromBody] Service service, CancellationToken cancellationToken)
         {
-            try
+            var serviceAdd = await _serviceService.AddService(service, cancellationToken);
+
+            if (serviceAdd)
             {
-                await _serviceService.AddService(service, cancellationToken);
-            }
-            catch (ArgumentException e)
-            {
-                return Conflict(e.Message);
+                return Ok();
             }
 
-            return Ok();
+            return Conflict();
         }
 
         /// <summary>
