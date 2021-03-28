@@ -34,8 +34,11 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<Service>> TakeAllServices()
         {
-            var services = _dbContext.Services;
-            return services.AsEnumerable();
+            var services = _dbContext.Services
+                .AsEnumerable()
+                .OrderBy(x => x.Name);
+
+            return services;
         }
 
         /// <summary>

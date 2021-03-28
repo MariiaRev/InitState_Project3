@@ -34,7 +34,10 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<ClientContract>> TakeAllClients()
         {
-            var clients = _dbContext.Clients.Select(cl => ClientMapFromModelToContract(cl));
+            var clients = _dbContext.Clients
+                .Select(cl => ClientMapFromModelToContract(cl))
+                .OrderBy(x => x.Name);
+
             return clients.AsEnumerable();
         }
 
