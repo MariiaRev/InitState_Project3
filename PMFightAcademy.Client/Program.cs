@@ -19,12 +19,9 @@ namespace PMFightAcademy.Client
                 .ConfigureServices(options => options.AddHostedService<MigrationsService>())
                 .ConfigureAppConfiguration((hostingContext, config) =>
                 {
-                    config.Sources.Clear();
-
                     var env = hostingContext.HostingEnvironment;
 
-                    config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-                          .AddJsonFile($"appsettings.{env.EnvironmentName}.json",
+                    config.AddJsonFile($"appsettings.{env.EnvironmentName}.json",
                                          optional: true, reloadOnChange: true);
 
                     config.AddEnvironmentVariables();
