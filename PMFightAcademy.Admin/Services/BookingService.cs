@@ -36,7 +36,11 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<BookingReturnContract>> TakeAllBooking(CancellationToken token)
         {
-            var bookings =  _dbContext.Bookings.Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
+            var bookings = _dbContext.Bookings
+                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x))
+                .AsEnumerable()
+                .OrderBy(x => x.Slot?.CoachId).ThenBy(x => x.Slot?.DateStart).ThenBy(x => x.Slot?.TimeStart);
+           
             return bookings;
         }
 
