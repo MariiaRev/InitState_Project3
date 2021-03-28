@@ -33,7 +33,9 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public async Task<IEnumerable<Service>> GetServicesForBooking(CancellationToken token)
         {
-            var result = await _context.Services.ToArrayAsync(token);
+            var result = await _context.Services
+                .OrderBy(service => service.Name)
+                .ToArrayAsync(token);
 
             return !result.Any() ? ReturnResult<Service>() : result.AsEnumerable();
         }
@@ -41,12 +43,15 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public async Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token)
         {
-            var services = await _context.Services.ToListAsync(token);
-            var servicesCount = (decimal)(services?.Count ?? 0);
+            var services = await _context.Services
+                .OrderBy(service => service.Name)
+                .ToListAsync(token);
+
+            var servicesCount = (decimal)(services.Count);
 
             return new GetDataContract<Service>()
             {
-                Data = services?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<Service>(),
+                Data = services.Skip((page - 1) * pageSize).Take(pageSize),
                 Paggination = new Paggination()
                 {
                     Page = page,
@@ -57,47 +62,26 @@ namespace PMFightAcademy.Client.Services
 
         /// <inheritdoc/>
         public async Task<IEnumerable<CoachDto>> GetCoachesForBooking(int serviceId, CancellationToken token)
-        {
-            var services = await _context.Services.ToArrayAsync(token);
-            var qualifications = await _context.Qualifications.ToArrayAsync(token);
-            var coaches = await _context.Coaches.ToArrayAsync(token);
+        {            
+            var qualifications = await _context.Qualifications
+                .Include(x => x.Coach)
+                .Include(x => x.Service)
+                .Where(q => q.ServiceId == serviceId)
+                .ToListAsync(token);
 
-            //Check if service is real
-            if (services.All(x => x.Id != serviceId))
-            {
-                _logger.LogInformation($"Services with id {serviceId} are not found");
-                return ReturnResult<CoachDto>();
-            }
+            var allQualifications = _context.Qualifications.Include(x => x.Service);
 
-            //Check if qualifications with our service Id exists 
-            var coachesId = qualifications
-                .Where(x => x.ServiceId == serviceId)
-                .Select(x => x.CoachId).ToArray();
+            var coaches = qualifications.Select(q => 
+                CoachWithServicesToCoachDto(q.Coach, qualifications
+                    .Where(x => x.CoachId == q.CoachId)
+                    .Select(x => x.Service.Name)
+                    .ToList()
+                    .OrderBy(x => x)
+                ))
+                .OrderBy(coach => coach.LastName).ThenBy(coach => coach.FirstName)
+                .ToList() ?? new List<CoachDto>();
 
-            var listResult = new List<CoachDto>();
-            foreach (var item in coachesId)
-            {
-                //Check if coach is real
-                var coach = coaches.FirstOrDefault(x => x.Id == item);
-
-                if (coach == null)
-                {
-                    _logger.LogInformation($"Coach with id {item} from qualifications is not found");
-                    return ReturnResult<CoachDto>();
-                }
-
-                //Made CoachDto from coach
-                var coachDto = CoachToCoachDto(coach);
-
-                //Save services for our coach 
-                coachDto.Services = qualifications
-                    .Where(x => x.CoachId == coach.Id)
-                    .Select(x => x.Service.Name);
-
-                listResult.Add(coachDto);
-            }
-
-            return listResult.AsEnumerable();
+            return coaches;
         }
 
         /// <inheritdoc/>
@@ -116,14 +100,16 @@ namespace PMFightAcademy.Client.Services
                 allQualifications
                     .Where(x => x.CoachId == q.CoachId)
                     .Select(x => x.Service.Name)
+                    .OrderBy(x => x)
                     .ToList()                       // is necessary here!
-                ));
+                ))
+                .OrderBy(coach => coach.LastName).ThenBy(coach => coach.FirstName);
 
-            var coachesCount = (decimal)(coaches?.Count() ?? 0);
+            var coachesCount = (decimal)(coaches.Count());
 
             return new GetDataContract<CoachDto>()
             {
-                Data = coaches?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<CoachDto>(),
+                Data = coaches.Skip((page - 1) * pageSize).Take(pageSize),
                 Paggination = new Paggination()
                 {
                     Page = page,
@@ -153,6 +139,7 @@ namespace PMFightAcademy.Client.Services
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
                 .Select(x => x.Date.ToString(Settings.DateFormat))
                 .Distinct()
+                .OrderBy(x => x)
                 .ToArray();
 
             return result.Any() ? result.AsEnumerable() : ReturnResult<string>();
@@ -178,6 +165,8 @@ namespace PMFightAcademy.Client.Services
                 .Where(x => bookings.All(y => y.SlotId != x.Id))
                 .Where(x => DateTime.ParseExact(date, Settings.DateFormat, null) == x.Date)
                 .Select(x => (new DateTime(1, 1, 1) + x.StartTime).ToString(Settings.TimeFormat))
+                .Distinct()
+                .OrderBy(x => x)
                 .ToArray();
 
             return result.Any() ? result.AsEnumerable() : ReturnResult<string>();

@@ -57,11 +57,12 @@ namespace PMFightAcademy.Client.Services
 
             // get services
             IEnumerable<Qualification> qualifications = _dbContext.Qualifications.Include(q => q.Service);
-            //var qualifications = _dbContext.Qualifications.Include(q => q.Service);
 
             // combine result
-            var result = resultCoaches.Select(coach => CoachWithServicesToCoachDto(coach,
-                    qualifications.Where(q => q.CoachId == coach.Id).Select(q => q.Service.Name)));
+            var result = resultCoaches
+                .Select(coach => CoachWithServicesToCoachDto(coach,
+                    qualifications.Where(q => q.CoachId == coach.Id).Select(q => q.Service.Name)))
+                .OrderBy(coach => coach.LastName).ThenBy(coach => coach.FirstName);
 
             // return intricate data object
             return new GetDataContract<CoachDto>()

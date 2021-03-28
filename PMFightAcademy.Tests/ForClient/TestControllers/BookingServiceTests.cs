@@ -106,8 +106,8 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             Setup();
 
             var services = new List<Service>() { new() { Id = 1, Name = "TestService", Description = "Description", Price = 5555 } };
-            var qualifications = new List<Qualification>() { new() { Id = 1, CoachId = 1, ServiceId = 1 } };
             var coaches = new List<Coach>() { new() { Id = 1, FirstName = "Oleg" } };
+            var qualifications = new List<Qualification>() { new() { Id = 1, CoachId = 1, ServiceId = 1, Service = services.First(), Coach = coaches.First() } };
 
             _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
@@ -126,9 +126,19 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
         {
             Setup();
 
-            var services = new List<Service>() { new() { Id = 2, Name = "TestService", Description = "Description", Price = 5555 } };
-            var qualifications = new List<Qualification>() { new() { Id = 1, CoachId = 1, ServiceId = 1 } };
-            var coaches = new List<Coach>() { new() { Id = 1, FirstName = "Oleg" } };
+            var searchCoach = new Coach() { Id = 1, FirstName = "Oleg" };
+            var searchService = new Service() { Id = 2, Name = "TestService", Description = "Description", Price = 5555 };
+            var services = new List<Service>() { searchService };
+
+            var qualifications = new List<Qualification>() {
+                new() { Id = 1, CoachId = 1, ServiceId = 2, Coach = searchCoach, Service = searchService}
+            };
+
+            var coaches = new List<Coach>()
+            {
+                searchCoach,
+                new() { Id = 2, FirstName = "Artem" }
+            };
 
             _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
@@ -149,26 +159,6 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             var services = new List<Service>() { new() { Id = 1, Name = "TestService", Description = "Description", Price = 5555 } };
             var qualifications = new List<Qualification>() { new() { Id = 1, CoachId = 1, ServiceId = 2 } };
             var coaches = new List<Coach>() { new() { Id = 1, FirstName = "Oleg" } };
-
-            _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
-            _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
-            _applicationContextMock.Setup(x => x.Coaches).ReturnsDbSet(coaches);
-
-            _testedService = new BookingService(Logger, _applicationContextMock.Object);
-
-            var result = (await _testedService.GetCoachesForBooking(1, CancellationToken.None)).ToArray();
-
-            Assert.Empty(result);
-        }
-
-        [Fact]
-        public async Task GetCoachesForBooking_UnsuitableCoach()
-        {
-            Setup();
-
-            var services = new List<Service>() { new() { Id = 1, Name = "TestService", Description = "Description", Price = 5555 } };
-            var qualifications = new List<Qualification>() { new() { Id = 1, CoachId = 1, ServiceId = 1 } };
-            var coaches = new List<Coach>() { new() { Id = 2, FirstName = "Oleg" } };
 
             _applicationContextMock.Setup(x => x.Services).ReturnsDbSet(services);
             _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
