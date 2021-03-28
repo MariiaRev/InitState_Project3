@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace PMFightAcademy.Admin.Services
@@ -71,6 +72,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="slotContract"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
+        /// <remarks>Method was created for first idea to add slots from time to time , but we change the idea of add method</remarks>
         /// <exception cref="ArgumentException"></exception>
         public async Task AddSlotRange(SlotsCreateContract slotContract, CancellationToken cancellationToken)
         {
@@ -135,7 +137,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         public async Task<bool> RemoveSlot(int id, CancellationToken cancellationToken)
         {
-            var slot = _dbContext.Slots.FirstOrDefault(x => x.Id == id);
+            var slot =await _dbContext.Slots.FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
             if (slot == null)
             {
                 _logger.LogInformation($"Slot with id {id} is not found");
@@ -155,7 +157,7 @@ namespace PMFightAcademy.Admin.Services
             return true;
         }
 
-        #region Maded Pagination but not used by JS (TILT)
+        #region Maded Pagination but not used by JS
         /// <summary>
         /// Take all slots 
         /// </summary>
@@ -271,8 +273,6 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<SlotsReturnContract>> TakeAllSlots()
         {
-            //var slots = SlotsMapping.SlotMapFromModelToContractNewSlotsJS(_dbContext.Slots);
-
             var slots = _dbContext.Slots.Select(SlotsMapping.SlotMapFromModelToContract);
             return slots.AsEnumerable();
         }
@@ -288,12 +288,13 @@ namespace PMFightAcademy.Admin.Services
         {
             var slot = SlotsMapping.SlotMapFromContractToModel(slotContract);
 
-            if (slot.StartTime > slot.Duration)
+            var updateSlot = await _dbContext.Slots.FirstOrDefaultAsync(x => x.Id == slotContract.Id, cancellationToken);
+
+            if (updateSlot == null)
             {
-                _logger.LogInformation($"Slot with id {slot.Id} has duration more than start time");
+                _logger.LogInformation($"No slot with {slot.Id} Id");
                 return false;
             }
-
             try
             {
                 _dbContext.Update(slot);
@@ -365,8 +366,13 @@ namespace PMFightAcademy.Admin.Services
         /// <returns></returns>
         public async Task<bool> RemoveSlotRange(IEnumerable<int> arrayId, CancellationToken cancellationToken)
         {
-            var slots = arrayId.Select(id => _dbContext.Slots.FirstOrDefault(x => x.Id == id)).ToList();
+            var  slots = arrayId.Select( id =>  _dbContext.Slots.FirstOrDefault(x => x.Id == id)).ToList();
             if (!slots.Any())
+            {
+                _logger.LogInformation($"Empty array");
+                return false;
+            }
+            if (slots[0]==null)
             {
                 _logger.LogInformation($"Slots with id from {arrayId.Min()} to {arrayId.Max()} are not found");
                 return false;
