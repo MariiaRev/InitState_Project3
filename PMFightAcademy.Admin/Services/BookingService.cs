@@ -53,7 +53,9 @@ namespace PMFightAcademy.Admin.Services
         {
             var bookings = _dbContext.Bookings
                 .Where(x => x.Slot.CoachId == coachId)
-                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x));
+                .Select(x => BookingMapping.BookingMapFromModelTToContract(x.Slot, x))
+                .AsEnumerable()
+                .OrderBy(x => x.Slot?.DateStart).ThenBy(x => x.Slot?.TimeStart);
                 
             return bookings;
         }
