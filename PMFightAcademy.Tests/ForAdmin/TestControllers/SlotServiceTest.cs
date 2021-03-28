@@ -192,15 +192,71 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             Setup();
             var slots = GenerateListOfSlots();
 
-            //var ByOneList = new List<int>() { id };
+            var ByOneList = new List<int>() {id};
 
             _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
 
             _testedService = new SlotService(Logger,_applicationContextMock.Object);
 
-            var result = await _testedService.RemoveSlot(id, CancellationToken.None);
+            var result = await _testedService.RemoveSlotRange(ByOneList, CancellationToken.None);
 
             Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData(6)]
+        [InlineData(8)]
+        [InlineData(9)]
+        [InlineData(7)]
+        public async Task Slots_Update_Failed(int id)
+        {
+            Setup();
+            var slots = GenerateListOfSlots();
+
+            var firstSlot = new SlotsReturnContract()
+            {
+                Id = id,
+                CoachId = 5,
+                DateStart = "02.20.2001",
+                Duration = "10:00",
+                TimeStart = "11:00"
+            };
+
+            _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
+
+            _testedService = new SlotService(Logger, _applicationContextMock.Object);
+
+            var result = await _testedService.UpdateSlot( firstSlot , CancellationToken.None);
+
+            Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData(1)]
+        [InlineData(2)]
+        [InlineData(3)]
+        [InlineData(4)]
+        public async Task Slots_Update_Successes(int id)
+        {
+            Setup();
+            var slots = GenerateListOfSlots();
+
+            var firstSlot = new SlotsReturnContract()
+            {
+                Id = id,
+                CoachId = 5,
+                DateStart = "02.20.2001",
+                Duration = "10:00",
+                TimeStart = "11:00"
+            };
+
+            _applicationContextMock.Setup(x => x.Slots).ReturnsDbSet(slots);
+
+            _testedService = new SlotService(Logger, _applicationContextMock.Object);
+
+            var result = await _testedService.UpdateSlot(firstSlot, CancellationToken.None);
+
+            Assert.True(result);
         }
     }
 }

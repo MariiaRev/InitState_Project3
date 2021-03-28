@@ -1279,6 +1279,7 @@
             add
             </summary>
             <param name="service"></param>
+            <param name="cancellationToken"></param>
             <exception cref="T:Microsoft.EntityFrameworkCore.DbUpdateException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.DeleteService(System.Int32,System.Threading.CancellationToken)">
@@ -1322,6 +1323,7 @@
             <param name="slotContract"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
+            <remarks>Method was created for first idea to add slots from time to time , but we change the idea of add method</remarks>
             <exception cref="T:System.ArgumentException"></exception>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.SlotService.RemoveSlot(System.Int32,System.Threading.CancellationToken)">

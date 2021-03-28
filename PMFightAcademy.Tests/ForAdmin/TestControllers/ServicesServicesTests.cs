@@ -146,7 +146,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
         [InlineData(7)]
         [InlineData(8)]
         [InlineData(9)]
-        public async Task DeleteService_Failed(int id)
+        public async Task Delete_Service_Failed(int id)
         {
             Setup();
 
@@ -279,7 +279,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             var newService = new Service()
             {
                 Id = id,
-                Name = "TestService",
+                Name = $"TestService{id}",
                 Description = "More Tested Service",
                 Price = 1555
             };
