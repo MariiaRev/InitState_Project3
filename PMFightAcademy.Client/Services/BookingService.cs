@@ -105,16 +105,19 @@ namespace PMFightAcademy.Client.Services
         {
             //todo: add logger 
 
-            var qualifications = await _context.Qualifications
+            var qualifications = await _context.Qualifications                
+                .Include(x => x.Coach)
                 .Where(q => q.ServiceId == serviceId)
-                .Include(x => x.Coach).ToListAsync(token);
+                .ToListAsync(token);
 
             var allQualifications = _context.Qualifications.Include(x => x.Service);
 
-            var coaches = qualifications.Select(q => CoachWithServicesToCoachDto(q.Coach, allQualifications
-                .Where(x => x.CoachId == q.CoachId)
-                .Select(x => x.Service.Name)
-                )).ToList();
+            var coaches = qualifications.Select(q => CoachWithServicesToCoachDto(q.Coach, 
+                allQualifications
+                    .Where(x => x.CoachId == q.CoachId)
+                    .Select(x => x.Service.Name)
+                    .ToList()                       // is necessary here!
+                ));
 
             var coachesCount = (decimal)(coaches?.Count() ?? 0);
 
