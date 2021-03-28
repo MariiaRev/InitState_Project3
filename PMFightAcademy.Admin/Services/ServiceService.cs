@@ -52,13 +52,21 @@ namespace PMFightAcademy.Admin.Services
         /// add
         /// </summary>
         /// <param name="service"></param>
+        /// <param name="cancellationToken"></param>
         /// <exception cref="DbUpdateException"></exception>
         public async Task<bool> AddService(Service service, CancellationToken cancellationToken)
         {
-            var addService = _dbContext.Services.FirstOrDefault(x => x.Id == service.Id);
+            var addService = await _dbContext.Services.FirstOrDefaultAsync(x => x.Id == service.Id,cancellationToken);
             if (addService != null)
             {
                 _logger.LogInformation($"Service with id {service.Id} is already added");
+                return false;
+            }
+
+            addService = await _dbContext.Services.FirstOrDefaultAsync(x => x.Name == service.Name, cancellationToken);
+            if (addService != null)
+            {
+                _logger.LogInformation($"Service with name {service.Name} is already added");
                 return false;
             }
             try
@@ -85,7 +93,7 @@ namespace PMFightAcademy.Admin.Services
             var service = _dbContext.Services.FirstOrDefault(x => x.Id == id);
             if (service == null)
             {
-                _logger.LogInformation($"Service with id {service.Id} is not found");
+                _logger.LogInformation($"Service with id {id} is not found");
                 return false;
             }
             try
