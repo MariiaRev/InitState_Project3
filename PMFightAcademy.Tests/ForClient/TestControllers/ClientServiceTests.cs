@@ -27,8 +27,6 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
         [Theory]
         [InlineData("+380671234567", "String88")]
-        [InlineData("380671234567", "String88")]
-        [InlineData("0671234567", "String88")]
         public async Task Register_Fail(string phone, string password)
         {
             Setup();
@@ -37,7 +35,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
             {
                 new()
                 {
-                    Login = "0671234567"
+                    Login = "+380671234567"
                 }
             };
 
@@ -60,8 +58,6 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
         [Theory]
         [InlineData("+380671234567", "String88")]
-        [InlineData("380671234567", "String88")]
-        [InlineData("0671234567", "String88")]
         public async Task Login_Success(string phone, string password)
         {
             Setup();
@@ -71,7 +67,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 new()
                 {
                     Id = 0,
-                    Login = "0671234567",
+                    Login = "+380671234567",
                     Password = "Ouxp11wblXlj4V33Gr/Xi2+S6GJ1C3p1luDmPWJkh2Q="
                 }
             };
@@ -93,8 +89,6 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
 
         [Theory]
         [InlineData("+380671234567", "String888")]
-        [InlineData("380691234567", "String888")]
-        [InlineData("0691234567", "String88")]
         public async Task Login_Fail(string phone, string password)
         {
             Setup();
@@ -104,7 +98,7 @@ namespace PMFightAcademy.Tests.ForClient.TestControllers
                 new()
                 {
                     Id = 0,
-                    Login = "0671234567",
+                    Login = "+380671234567",
                     Password = "Ouxp11wblXlj4V33Gr/Xi2+S6GJ1C3p1luDmPWJkh2Q="
                 }
             };
