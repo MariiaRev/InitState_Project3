@@ -40,12 +40,6 @@ namespace PMFightAcademy.Client.Services
         /// <returns></returns>
         public async Task<string> Register(ClientDto model, CancellationToken token)
         {
-            if (model.Login.StartsWith("38"))
-                model.Login = new string(model.Login.Skip(2).ToArray());
-
-            if (model.Login.StartsWith("+38"))
-                model.Login = new string(model.Login.Skip(3).ToArray());
-
             var user = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
 
             if (user == null)
@@ -75,12 +69,6 @@ namespace PMFightAcademy.Client.Services
         /// <returns></returns>
         public async Task<string> Login(LoginContract model, CancellationToken token)
         {
-            if (model.Login.StartsWith("38"))
-                model.Login = new string(model.Login.Skip(2).ToArray());
-
-            if (model.Login.StartsWith("+38"))
-                model.Login = new string(model.Login.Skip(3).ToArray());
-
             var user = await _context.Clients.FirstOrDefaultAsync(m => m.Login == model.Login, token);
 
             if (user == null)
