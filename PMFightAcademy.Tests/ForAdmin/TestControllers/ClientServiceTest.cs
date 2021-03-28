@@ -58,25 +58,12 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             var clients = GenerateListOfClients();
 
-            var clientsContact = GenerateListOfClientsContracts();
-
             _applicationContextMock.Setup(x => x.Clients).ReturnsDbSet(clients);
-
             _testedService = new ClientService(Logger, _applicationContextMock.Object);
 
             var result = (await _testedService.TakeAllClients()).ToList();
-            var i = 0;
-            foreach (var expected in clientsContact)
-            {
-                
-                Assert.Equal(expected.Description, result[i].Description);
-                Assert.Equal(expected.Id, result[i].Id);
-                Assert.Equal(expected.Name, result[i].Name);
-                Assert.Equal(expected.Login, result[i].Login);
-                i++;
 
-            }
-            
+            Assert.Equal(result.Count, clients.Count);
         }
 
         [Fact]
