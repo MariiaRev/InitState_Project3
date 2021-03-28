@@ -33,7 +33,9 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public async Task<IEnumerable<Service>> GetServicesForBooking(CancellationToken token)
         {
-            var result = await _context.Services.ToArrayAsync(token);
+            var result = await _context.Services
+                .OrderBy(service => service.Name)
+                .ToArrayAsync(token);
 
             return !result.Any() ? ReturnResult<Service>() : result.AsEnumerable();
         }
@@ -41,12 +43,15 @@ namespace PMFightAcademy.Client.Services
         /// <inheritdoc/>
         public async Task<GetDataContract<Service>> GetServicesForBooking(int pageSize, int page, CancellationToken token)
         {
-            var services = await _context.Services.ToListAsync(token);
-            var servicesCount = (decimal)(services?.Count ?? 0);
+            var services = await _context.Services
+                .OrderBy(service => service.Name)
+                .ToListAsync(token);
+
+            var servicesCount = (decimal)(services.Count);
 
             return new GetDataContract<Service>()
             {
-                Data = services?.Skip((page - 1) * pageSize).Take(pageSize) ?? new List<Service>(),
+                Data = services.Skip((page - 1) * pageSize).Take(pageSize),
                 Paggination = new Paggination()
                 {
                     Page = page,
