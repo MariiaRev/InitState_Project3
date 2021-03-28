@@ -65,18 +65,17 @@ namespace PMFightAcademy.Client.Services
         {            
             var qualifications = await _context.Qualifications
                 .Include(x => x.Coach)
-                .Include(x => x.Service)
                 .Where(q => q.ServiceId == serviceId)
                 .ToListAsync(token);
 
             var allQualifications = _context.Qualifications.Include(x => x.Service);
 
             var coaches = qualifications.Select(q => 
-                CoachWithServicesToCoachDto(q.Coach, qualifications
+                CoachWithServicesToCoachDto(q.Coach, allQualifications
                     .Where(x => x.CoachId == q.CoachId)
                     .Select(x => x.Service.Name)
-                    .ToList()
                     .OrderBy(x => x)
+                    .ToList()                       // is necessary here!
                 ))
                 .OrderBy(coach => coach.LastName).ThenBy(coach => coach.FirstName)
                 .ToList() ?? new List<CoachDto>();
