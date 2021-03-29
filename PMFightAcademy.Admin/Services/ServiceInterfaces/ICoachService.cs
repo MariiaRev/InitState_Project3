@@ -15,12 +15,14 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <returns></returns>
         public Task<IEnumerable<CoachContract>> TakeAllCoaches();
+
         /// <summary>
         /// Take coach
         /// </summary>
         /// <param name="coachId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<CoachContract> TakeCoach(int coachId);
+        public Task<CoachContract> TakeCoach(int coachId,CancellationToken cancellationToken);
 
         /// <summary>
         /// create coach

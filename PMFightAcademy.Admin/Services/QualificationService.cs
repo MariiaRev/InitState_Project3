@@ -38,7 +38,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         public async Task<bool> DeleteQualification(int id, CancellationToken cancellationToken)
         {
-            var qualification = _dbContext.Qualifications.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            var qualification =await _dbContext.Qualifications.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
             if (qualification == null)
             {
                 _logger.LogInformation($"Qualification with id {id} is not found");
