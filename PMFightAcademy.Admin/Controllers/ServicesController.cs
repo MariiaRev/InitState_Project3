@@ -87,10 +87,10 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{serviceId}")]
         [ProducesResponseType(typeof(Service), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetService([Range(1, int.MaxValue)] int serviceId)
+        public async Task<IActionResult> GetService([Range(1, int.MaxValue)] int serviceId, CancellationToken cancellationToken)
         {
 
-            var service = await _serviceService.TakeService(serviceId);
+            var service = await _serviceService.TakeService(serviceId, cancellationToken);
             if (service != null)
             {
                 return Ok(service);
