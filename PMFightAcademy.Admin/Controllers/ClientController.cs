@@ -29,29 +29,6 @@ namespace PMFightAcademy.Admin.Controllers
             _clientService = clientService;
         }
 
-        #region JS TILT
-
-
-
-
-        ///// <summary>
-        ///// return list of clients
-        ///// </summary>
-        ///// <param name="pageSize">The count of coaches to return at one time.</param>
-        ///// <param name="page">The current page number.</param>
-        ///// <returns>
-        ///// <see cref="HttpStatusCode.OK"/> if all is fine and return list of clients
-        ///// <see cref="HttpStatusCode.NotFound"/> if no any clients
-        ///// </returns>
-        ///// <exception cref="NotImplementedException"></exception>
-        //[HttpGet("{pageSize}/{page}")]
-        //[ProducesResponseType(typeof(GetDataContract<Client>), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> GetAllClients([FromRoute] int pageSize, [FromRoute] int page)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        #endregion
 
         /// <summary>
         /// return list of clients

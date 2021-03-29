@@ -68,9 +68,20 @@ namespace PMFightAcademy.Admin.Services
         {
             var checkQualification = await _dbContext.Qualifications.FirstOrDefaultAsync(x =>
                 x.CoachId == contract.CoachId && x.ServiceId == contract.ServiceId,cancellationToken);
+            
             if (checkQualification != null)
             {
                 _logger.LogInformation($"Qualification with {contract.CoachId} and {contract.ServiceId}  is found");
+                return false;
+            }
+            var tryGetCoach =
+                await _dbContext.Coaches.FirstOrDefaultAsync(x => x.Id == contract.CoachId, cancellationToken);
+            var tryGetService =
+                await _dbContext.Services.FirstOrDefaultAsync(x => x.Id == contract.ServiceId, cancellationToken);
+
+            if (tryGetService == null || tryGetCoach == null)
+            {
+                _logger.LogInformation($"No Coach with  {contract.CoachId} or Service with {contract.ServiceId} id");
                 return false;
             }
             try

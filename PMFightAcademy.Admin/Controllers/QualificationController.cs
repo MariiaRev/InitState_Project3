@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System;
+using Microsoft.AspNetCore.Mvc;
 using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
@@ -204,43 +205,5 @@ namespace PMFightAcademy.Admin.Controllers
 
             return NotFound("No Qualification");
         }
-        #region JS 
-        ///// <summary>
-        ///// get list  qualifications  for Coach
-        ///// </summary>
-        ///// <param name="coachId"></param>
-        ///// <returns>
-        ///// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        ///// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
-        ///// <remarks>
-        ///// Return qualifications for coach
-        ///// </remarks>
-        ///// <exception cref="NotImplementedException"></exception> 
-        //[HttpGet("coach/{coachId}/{pageSize}/{page}")]
-        //[ProducesResponseType(typeof(GetDataContract<QualificationContract>),(int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> GetQualificationForCoach([FromRoute] int coachId, [FromRoute] int pageSize, [FromRoute] int page)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        ///// <summary>
-        ///// get list of  qualifications for Service
-        ///// </summary>
-        ///// <param name="serviceId"></param>
-        ///// <returns>
-        ///// <see cref="HttpStatusCode.OK"/> return a coach with such name
-        ///// <see cref="HttpStatusCode.NotFound"/> if no coaches or service  is empty yet  </returns>
-        ///// <remarks>
-        ///// Return qualifications for services
-        ///// </remarks>
-        ///// <exception cref="NotImplementedException"></exception> 
-        //[HttpGet("service/{serviceId}/{pageSize}/{page}")]
-        //[ProducesResponseType(typeof(GetDataContract<QualificationContract>), (int)HttpStatusCode.OK)]
-        //[ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        //public async Task<IActionResult> GetQualificationForService([FromRoute] int serviceId, [FromRoute] int pageSize, [FromRoute] int page)
-        //{
-        //    throw new NotImplementedException();
-        //}
-        #endregion
     }
 }
