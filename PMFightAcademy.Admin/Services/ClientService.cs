@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using static PMFightAcademy.Admin.Mapping.ClientMapping;
+using Microsoft.EntityFrameworkCore;
 
 namespace PMFightAcademy.Admin.Services
 {
@@ -36,9 +37,10 @@ namespace PMFightAcademy.Admin.Services
         {
             var clients = _dbContext.Clients
                 .Select(cl => ClientMapFromModelToContract(cl))
+                .AsEnumerable()
                 .OrderBy(x => x.Name);
 
-            return clients.AsEnumerable();
+            return clients;
         }
 
         /// <summary>
