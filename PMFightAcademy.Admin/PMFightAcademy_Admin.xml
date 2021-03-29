@@ -441,6 +441,7 @@
             <summary>
             get list  qualifications  for Service
             </summary>
+            <param name="serviceId"></param>
             <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return a coach with such name
@@ -533,6 +534,7 @@
             Get needed service 
             </summary>
             <param name="serviceId"></param>
+            <param name="cancellationToken"></param>
             <returns>
             <see cref="F:System.Net.HttpStatusCode.OK"/> return service needed 
             <see cref="F:System.Net.HttpStatusCode.NotFound"/>if service not founded

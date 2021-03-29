@@ -65,6 +65,7 @@ namespace PMFightAcademy.Admin.Controllers
         /// <summary>
         /// get list  qualifications  for Service
         /// </summary>
+        /// <param name="serviceId"></param>
         /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return a coach with such name
