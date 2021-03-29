@@ -1,11 +1,11 @@
-﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Dal.DataBase;
+﻿using Microsoft.Extensions.Logging;
+using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using PMFightAcademy.Dal.DataBase;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using static PMFightAcademy.Admin.Mapping.ClientMapping;
 
 namespace PMFightAcademy.Admin.Services
@@ -36,9 +36,10 @@ namespace PMFightAcademy.Admin.Services
         {
             var clients = _dbContext.Clients
                 .Select(cl => ClientMapFromModelToContract(cl))
+                .AsEnumerable()
                 .OrderBy(x => x.Name);
 
-            return clients.AsEnumerable();
+            return clients;
         }
 
         /// <summary>
