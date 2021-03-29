@@ -60,22 +60,6 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
             Assert.False(result);
         }
 
-        [Fact]
-        public async Task AddQualification()
-        {
-            Setup();
-
-            var expectedQual = new Qualification() { Id = 1, CoachId = 1, ServiceId = 1 };
-            var qualifications = new List<Qualification>() { expectedQual };
-
-            _applicationContextMock.Setup(x => x.Qualifications).ReturnsDbSet(qualifications);
-
-            _testedService = new QualificationService(Logger, _applicationContextMock.Object);
-
-            var result = await _testedService.AddQualification(new QualificationContract(), CancellationToken.None);
-
-           Assert.True(result);
-        }
 
         [Fact]
         public async Task GetCoachesForService_Success()
