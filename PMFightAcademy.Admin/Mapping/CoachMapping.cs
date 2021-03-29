@@ -2,6 +2,7 @@
 using PMFightAcademy.Dal;
 using PMFightAcademy.Dal.Models;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace PMFightAcademy.Admin.Mapping
@@ -53,6 +54,27 @@ namespace PMFightAcademy.Admin.Mapping
                 Description = model.Description,
                 PhoneNumber = model.PhoneNumber
             };
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static Coach CoachMapFromContractToModel(CoachContract contract,Coach model)
+        {
+            if (contract == null)
+            {
+                return null;
+            }
+
+            model.FirstName = contract.FirstName;
+            model.LastName = contract.LastName;
+            model.Description = contract.Description;
+            model.BirthDate = DateTime.ParseExact(contract.DateBirth, Settings.DateFormat, null, DateTimeStyles.None);
+            model.PhoneNumber = contract.PhoneNumber;
+            return model;
         }
 
     }

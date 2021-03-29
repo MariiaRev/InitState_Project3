@@ -762,6 +762,14 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.CoachMapping.CoachMapFromContractToModel(PMFightAcademy.Admin.Contract.CoachContract,PMFightAcademy.Dal.Models.Coach)">
+            <summary>
+            
+            </summary>
+            <param name="contract"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Admin.Mapping.QualificationMapping">
             <summary>
             QualificationMapping
@@ -778,6 +786,19 @@
             <summary>
             From model to contract
             </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.ServiceMapping">
+            <summary>
+            Service mapping
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.ServiceMapping.ServiceMapFromModelToModel(PMFightAcademy.Dal.Models.Service,PMFightAcademy.Dal.Models.Service)">
+            <summary>
+            From contract to model
+            </summary>
+            <param name="contract"></param>
             <param name="model"></param>
             <returns></returns>
         </member>
