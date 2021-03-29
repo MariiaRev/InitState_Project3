@@ -109,6 +109,33 @@ namespace PMFightAcademy.Admin.Services
             return true;
         }
 
+        /// <summary>
+        /// Remove booking
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="cancellationToken"></param>
+        public async Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
+        {
+            var booking = await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            if (booking == null)
+            {
+                _logger.LogInformation($"Booking with id {id} are not found");
+                return false;
+            }
+            try
+            {
+                _dbContext.Remove(booking);
+                await _dbContext.SaveChangesAsync(cancellationToken);
+            }
+            catch
+            {
+                _logger.LogInformation($"Booking with id {booking.Id} is not updated");
+                return false;
+            }
+
+            return true;
+        }
+
         ///// <summary>
         ///// Take clients depends from date
         ///// </summary>
@@ -158,32 +185,5 @@ namespace PMFightAcademy.Admin.Services
         //        .Where(x => x.Slot.Date >= dateStart).Where(x => x.Slot.Date <= dateEnd);
         //    return bookings.AsEnumerable().Select(x=>BookingMapping.BookingMapFromModelTToContract(x.Slot,x));
         //}
-
-        /// <summary>
-        /// Remove booking
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="cancellationToken"></param>
-        public async Task<bool> RemoveBooking(int id, CancellationToken cancellationToken)
-        {
-            var booking = await _dbContext.Bookings.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
-            if (booking == null)
-            {
-                _logger.LogInformation($"Booking with id {id} are not found");
-                return false;
-            }
-            try
-            {
-                _dbContext.Remove(booking);
-                await _dbContext.SaveChangesAsync(cancellationToken);
-            }
-            catch
-            {
-                _logger.LogInformation($"Booking with id {booking.Id} is not updated");
-                return false;
-            }
-
-            return true;
-        }
     }
 }
