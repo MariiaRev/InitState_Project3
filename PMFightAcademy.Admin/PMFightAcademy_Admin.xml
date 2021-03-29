@@ -1075,6 +1075,7 @@
             Take coach
             </summary>
             <param name="coachId"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
