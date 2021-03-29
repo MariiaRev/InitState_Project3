@@ -73,10 +73,12 @@ namespace PMFightAcademy.Admin.Controllers
             }
             return NotFound("No services");
         }
+
         /// <summary>
         /// Get needed service 
         /// </summary>
         /// <param name="serviceId"></param>
+        /// <param name="cancellationToken"></param>
         /// <returns>
         /// <see cref="HttpStatusCode.OK"/> return service needed 
         /// <see cref="HttpStatusCode.NotFound"/>if service not founded
