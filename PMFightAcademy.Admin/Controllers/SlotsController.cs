@@ -55,7 +55,6 @@ namespace PMFightAcademy.Admin.Controllers
 
             return NotFound();
 
-
         }
 
         /// <summary>
