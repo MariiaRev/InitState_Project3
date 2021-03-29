@@ -762,6 +762,14 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.CoachMapping.CoachMapFromContractToModel(PMFightAcademy.Admin.Contract.CoachContract,PMFightAcademy.Dal.Models.Coach)">
+            <summary>
+            
+            </summary>
+            <param name="contract"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Admin.Mapping.QualificationMapping">
             <summary>
             QualificationMapping
@@ -1075,6 +1083,7 @@
             Take coach
             </summary>
             <param name="coachId"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
