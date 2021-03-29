@@ -5,6 +5,7 @@ using PMFightAcademy.Dal.Models;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.Xml;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -65,7 +66,13 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         public async Task<bool> AddQualification(QualificationContract contract, CancellationToken cancellationToken)
         {
-
+            var checkQualification = await _dbContext.Qualifications.FirstOrDefaultAsync(x =>
+                x.CoachId == contract.CoachId && x.ServiceId == contract.ServiceId,cancellationToken);
+            if (checkQualification != null)
+            {
+                _logger.LogInformation($"Qualification with {contract.CoachId} and {contract.ServiceId}  is found");
+                return false;
+            }
             try
             {
                 var qualification = QualificationMapping.QualificationMapFromContractToModel(contract);

@@ -29,7 +29,7 @@ namespace PMFightAcademy.Admin.Controllers
             _serviceService = serviceService;
         }
 
-        #region JS TILT
+        #region UnusedRegion
 
         ///// <summary>
         ///// Get all services 
