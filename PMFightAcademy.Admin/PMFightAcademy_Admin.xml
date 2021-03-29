@@ -789,6 +789,19 @@
             <param name="model"></param>
             <returns></returns>
         </member>
+        <member name="T:PMFightAcademy.Admin.Mapping.ServiceMapping">
+            <summary>
+            Service mapping
+            </summary>
+        </member>
+        <member name="M:PMFightAcademy.Admin.Mapping.ServiceMapping.ServiceMapFromModelToModel(PMFightAcademy.Dal.Models.Service,PMFightAcademy.Dal.Models.Service)">
+            <summary>
+            From contract to model
+            </summary>
+            <param name="contract"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
         <member name="T:PMFightAcademy.Admin.Mapping.SlotsMapping">
             <summary>
             Slots mapping 

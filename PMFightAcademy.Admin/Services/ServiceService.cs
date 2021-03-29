@@ -129,9 +129,10 @@ namespace PMFightAcademy.Admin.Services
                 return false;
             }
 
+            var newService = Mapping.ServiceMapping.ServiceMapFromModelToModel(service, updateService);
             try
             {
-                _dbContext.Update(service);
+                _dbContext.Update(newService);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
