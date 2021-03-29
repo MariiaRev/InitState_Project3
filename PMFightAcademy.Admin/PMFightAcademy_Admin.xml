@@ -347,7 +347,7 @@
             if not,  return Not Found
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.CoachController.GetCoach(System.Int32,System.Threading.CancellationToken)">
              <summary>
              Return chosen coach
              </summary>
@@ -528,7 +528,7 @@
             NotFound if its is service not  registered
             </remarks>
         </member>
-        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.GetService(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Controllers.ServicesController.GetService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Get needed service 
             </summary>
@@ -901,11 +901,12 @@
             Take coaches
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.CoachService.TakeCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take Coach
             </summary>s
             <param name="coachId"></param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.CoachService.AddCoach(PMFightAcademy.Admin.Contract.CoachContract,System.Threading.CancellationToken)">
             <summary>
@@ -1069,7 +1070,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.TakeCoach(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.ICoachService.TakeCoach(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take coach
             </summary>
@@ -1164,11 +1165,12 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.TakeService(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.TakeService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take service
             </summary>
             <param name="serviceId"></param>
+            <param name="cancellationToken"></param>
             <returns></returns>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceInterfaces.IServiceService.AddService(PMFightAcademy.Dal.Models.Service,System.Threading.CancellationToken)">
@@ -1268,11 +1270,12 @@
             Take All
             </summary>
         </member>
-        <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeService(System.Int32)">
+        <member name="M:PMFightAcademy.Admin.Services.ServiceService.TakeService(System.Int32,System.Threading.CancellationToken)">
             <summary>
             Take
             </summary>
             <param name="serviceId"></param>
+            <param name="cancellationToken"></param>
         </member>
         <member name="M:PMFightAcademy.Admin.Services.ServiceService.AddService(PMFightAcademy.Dal.Models.Service,System.Threading.CancellationToken)">
             <summary>

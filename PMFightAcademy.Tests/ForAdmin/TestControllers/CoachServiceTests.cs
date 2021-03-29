@@ -121,7 +121,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
-            var result = (await _testedService.TakeCoach(id));
+            var result = (await _testedService.TakeCoach(id, CancellationToken.None));
 
             Assert.Equal(expectedCoach.DateBirth, result.DateBirth);
             Assert.Equal(expectedCoach.FirstName, result.FirstName);
@@ -148,7 +148,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _testedService = new CoachService(Logger, _applicationContextMock.Object);
 
-            var result = (await _testedService.TakeCoach(id));
+            var result = (await _testedService.TakeCoach(id, CancellationToken.None));
             
             Assert.Null(result);
         }

@@ -76,10 +76,10 @@ namespace PMFightAcademy.Admin.Controllers
         [HttpGet("{coachId}")]
         [ProducesResponseType(typeof(CoachContract), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(string), (int)HttpStatusCode.NotFound)]
-        public async Task<IActionResult> GetCoach([Range(1, int.MaxValue)] int coachId)
+        public async Task<IActionResult> GetCoach([Range(1, int.MaxValue)] int coachId,CancellationToken cancellationToken)
         {
 
-            var coach = await _coachService.TakeCoach(coachId);
+            var coach = await _coachService.TakeCoach(coachId, cancellationToken);
 
             if (coach != null)
             {

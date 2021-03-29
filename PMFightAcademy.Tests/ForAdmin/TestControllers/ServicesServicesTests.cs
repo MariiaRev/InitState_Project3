@@ -93,7 +93,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _testedService = new ServiceService(Logger, _applicationContextMock.Object);
 
-            var result = (await _testedService.TakeService(id));
+            var result = (await _testedService.TakeService(id,CancellationToken.None));
 
             Assert.Equal(services[id-1], result);
 
@@ -115,7 +115,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _testedService = new ServiceService(Logger, _applicationContextMock.Object);
 
-            var result = (await _testedService.TakeService(id));
+            var result = (await _testedService.TakeService(id, CancellationToken.None));
 
             Assert.Null(result);
         }
