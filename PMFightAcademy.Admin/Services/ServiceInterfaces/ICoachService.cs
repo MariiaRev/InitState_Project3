@@ -20,7 +20,7 @@ namespace PMFightAcademy.Admin.Services.ServiceInterfaces
         /// </summary>
         /// <param name="coachId"></param>
         /// <returns></returns>
-        public Task<CoachContract> TakeCoach(int coachId);
+        public Task<CoachContract> TakeCoach(int coachId,CancellationToken cancellationToken);
 
         /// <summary>
         /// create coach

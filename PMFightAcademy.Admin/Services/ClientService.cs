@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using static PMFightAcademy.Admin.Mapping.ClientMapping;
 
@@ -57,7 +58,7 @@ namespace PMFightAcademy.Admin.Services
         /// <returns></returns>
         public async Task<bool> AddDescription(int clientId, string desc, CancellationToken cancellationToken)
         {
-            var client = _dbContext.Clients.FirstOrDefault(x => x.Id == clientId);
+            var client = await _dbContext.Clients.FirstOrDefaultAsync(x => x.Id == clientId,cancellationToken);
             if (client == null)
             {
                 _logger.LogInformation($"Client with id {clientId} is not found");
