@@ -1,6 +1,7 @@
-﻿using PMFightAcademy.Admin.Contract;
-using PMFightAcademy.Dal.DataBase;
+﻿using Microsoft.Extensions.Logging;
+using PMFightAcademy.Admin.Contract;
 using PMFightAcademy.Admin.Services.ServiceInterfaces;
+using PMFightAcademy.Dal.DataBase;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -35,8 +36,12 @@ namespace PMFightAcademy.Admin.Services
         /// </summary>
         public async Task<IEnumerable<ClientContract>> TakeAllClients()
         {
-            var clients = _dbContext.Clients.Select(cl => ClientMapFromModelToContract(cl));
-            return clients.AsEnumerable();
+            var clients = _dbContext.Clients
+                .Select(cl => ClientMapFromModelToContract(cl))
+                .AsEnumerable()
+                .OrderBy(x => x.Name);
+
+            return clients;
         }
 
         /// <summary>

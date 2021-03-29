@@ -28,7 +28,7 @@
         /// <summary>
         /// Regular expression with constraints for a phone number.
         /// </summary>
-        public const string PhoneRegularExpr = @"^(\+38|38)?0(39|50|63|66|67|68|91|92|93|94|95|96|97|98|99)\d{7}$";
+        public const string PhoneRegularExpr = @"^\+380(39|50|63|66|67|68|91|92|93|94|95|96|97|98|99)\d{7}$";
 
         /// <summary>
         /// Regular expression with constraints for a password.
