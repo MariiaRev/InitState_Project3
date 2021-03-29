@@ -139,9 +139,11 @@ namespace PMFightAcademy.Admin.Services
                 return false;
             }
 
-            var coach = CoachMapping.CoachMapFromContractToModel(coachContract);
+            var coach = CoachMapping.CoachMapFromContractToModel(coachContract,checkCoach);
 
             var age = (int)(DateTime.Now.Subtract(coach.BirthDate).TotalDays / 365.2425);
+
+
 
             if (age < 18 || age > 90)
             {
@@ -151,7 +153,7 @@ namespace PMFightAcademy.Admin.Services
 
             try
             {
-                _dbContext.Update(coach);
+                _dbContext.Coaches.Update(coach);
                 await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch

@@ -47,7 +47,7 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
         }
 
         [Fact]
-        public async Task DeleteQualification_Fail()
+        public async Task DeleteQualification_failed()
         {
             Setup();
 
@@ -55,9 +55,9 @@ namespace PMFightAcademy.Tests.ForAdmin.TestControllers
 
             _testedService = new QualificationService(Logger, _applicationContextMock.Object);
 
-            var result = await _testedService.DeleteQualification(1, CancellationToken.None);
+            var result = await _testedService.DeleteQualification(9, CancellationToken.None);
 
-            Assert.True(result);
+            Assert.False(result);
         }
 
         [Fact]
