@@ -374,17 +374,17 @@ namespace PMFightAcademy.Admin.Services
             }
             if (slots[0]==null)
             {
-                _logger.LogInformation($"Slots with id from {arrayId.Min()} to {arrayId.Max()} are not found");
+                _logger.LogInformation($"Some slots in this range not found");
                 return false;
             }
             try
             {
                 _dbContext.Slots.RemoveRange(slots);
-                await _dbContext.SaveChangesAsync(CancellationToken.None);
+                await _dbContext.SaveChangesAsync(cancellationToken);
             }
             catch
             {
-                _logger.LogInformation($"Slots with id from {arrayId.Min()} to {arrayId.Max()} are not removed");
+                _logger.LogInformation($"Slots are not removed");
                 return false;
             }
 

@@ -45,9 +45,10 @@ namespace PMFightAcademy.Admin.Services
         /// Take
         /// </summary>
         /// <param name="serviceId"></param>
-        public async Task<Service> TakeService(int serviceId)
+        /// <param name="cancellationToken"></param>
+        public async Task<Service> TakeService(int serviceId,CancellationToken cancellationToken)
         {
-            var service = _dbContext.Services.FirstOrDefault(x => x.Id == serviceId);
+            var service = await _dbContext.Services.FirstOrDefaultAsync(x => x.Id == serviceId, cancellationToken);
             return service;
         }
 
@@ -93,7 +94,7 @@ namespace PMFightAcademy.Admin.Services
         /// <param name="cancellationToken"></param>
         public async Task<bool> DeleteService(int id, CancellationToken cancellationToken)
         {
-            var service = _dbContext.Services.FirstOrDefault(x => x.Id == id);
+            var service =await _dbContext.Services.FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
             if (service == null)
             {
                 _logger.LogInformation($"Service with id {id} is not found");
@@ -121,7 +122,7 @@ namespace PMFightAcademy.Admin.Services
         public async Task<bool> UpdateService(Service service, CancellationToken cancellationToken)
         {
             
-            var updateService = _dbContext.Services.FirstOrDefault(x=>x.Id == service.Id);
+            var updateService = await _dbContext.Services.FirstOrDefaultAsync(x=>x.Id == service.Id,cancellationToken);
             if (updateService == null)
             {
                 _logger.LogInformation($"Service with id {service.Id} is not found");

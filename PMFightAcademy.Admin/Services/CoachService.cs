@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
 namespace PMFightAcademy.Admin.Services
@@ -44,9 +45,10 @@ namespace PMFightAcademy.Admin.Services
         /// Take Coach
         /// </summary>s
         /// <param name="coachId"></param>
-        public async Task<CoachContract> TakeCoach(int coachId)
+        /// <param name="cancellationToken"></param>
+        public async Task<CoachContract> TakeCoach(int coachId,CancellationToken cancellationToken)
         {
-            var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachId);
+            var coach = await _dbContext.Coaches.FirstOrDefaultAsync(x => x.Id == coachId, cancellationToken);
             return CoachMapping.CoachMapFromModelToContract(coach);
         }
 
@@ -59,7 +61,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<bool> AddCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
-            var checkCoach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachContract.Id);
+            var checkCoach = await _dbContext.Coaches.FirstOrDefaultAsync(x => x.Id == coachContract.Id,cancellationToken);
 
             if (checkCoach!=null)
             {
@@ -100,7 +102,7 @@ namespace PMFightAcademy.Admin.Services
         /// <exception cref="ArgumentException"></exception>
         public async Task<bool> DeleteCoach(int id, CancellationToken cancellationToken)
         {
-            var coach = _dbContext.Coaches.FirstOrDefault(x => x.Id == id);
+            var coach = await _dbContext.Coaches.FirstOrDefaultAsync(x => x.Id == id,cancellationToken);
             if (coach == null)
             {
                 _logger.LogInformation($"Coach with id {id} is not suitable for age");
@@ -129,7 +131,7 @@ namespace PMFightAcademy.Admin.Services
         public async Task<bool> UpdateCoach(CoachContract coachContract, CancellationToken cancellationToken)
         {
 
-            var checkCoach = _dbContext.Coaches.FirstOrDefault(x => x.Id == coachContract.Id);
+            var checkCoach = await _dbContext.Coaches.FirstOrDefaultAsync(x => x.Id == coachContract.Id,cancellationToken);
 
             if (checkCoach == null)
             {
